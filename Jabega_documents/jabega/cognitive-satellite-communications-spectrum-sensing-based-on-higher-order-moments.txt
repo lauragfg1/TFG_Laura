@@ -1,0 +1,95 @@
+cognitive satellite communications spectrum sensing based on higher order moments
+
+francesco benedetto, ieee senior member, gaetano giunta, ieee senior member, and luca pallotta, ieee senior member
+
+spectrum sensing method for cognitive satellite communications for detecting priary user signals. first, the useful signal power is estimated from the noisy received signal by combining the secondnd fourthrder moments of data under investigation. second, the possible presence of the signal of interest is stated by exploiting the aforementioned useful power as the decision variable. computer simulations, substantiated by theoretical results, are carried out to evaluate the performance of the method in comparison with recently published techniques. the results evidence the efficiency of the presented technique for cognitive satellite communications.
+
+index terms—cognitive satellite communications, spectrum sensing, hypothesis testing, higher order moments, cyclostationry, noise uncertainty.
+
+satellite communications have experienced an exponential growth in recent years. multiple satellites are used for commuication, and satellite terrestrial collaborative links are gaining more and more importance . the current satellite specrum allocation is fixed and, as the increasing of both users' demand and the number of communication satellites, spectrum resource is becoming progressively scarce . cognitive raio (cr) has emerged as a promising technique in wireless communications, by allowing secondary users (su) to opporunistically access the available spectrum resources without affecting the primary user (pu) networks . recently, it has been noted that the cr technology can be well used also in satellite communication systems . as a key process for cr, spectrum sensing aims at identifying the vacant (i.e. unused) frequency channels, thus being the solution for the so called spectrum scarcity problem. in satellite systems, the scenario of frequency sharing is represented by the coexistence between geostationary (geo) and non geostationary (ngeo) satellite networks. in particular, the ngeo system (i.e. the su) should not incur harmful interference to the geo system (i.e. the pu) according to the policy of the radio regulations . the itu database provides the position of the geo satellite but there is still uncertainty about its status (i.e. whether the geo is present or absent). hence, efficient spectrum sensing approaches are needed for discriminating between the presence or absence of the geo signal. as for cognitive satellite communications, reference proposes a dynamic
+
+are with the signal processing laboratory, university of roma tre, via vito volterra 62, 00146 rome, italy (eaetano.giunta@uniroma3.it, mails: luca.pallotta@uniroma3.it). spectrum access (dsa) decision framework, while the paper in proposes a space segment design based on a spectrumensing based cooperative scenario. reference proposes the concept of weighted cooperative spectrum sensing, which can better cope with the interference to the geo caused by the ngeo satellite. more recently, the authors in utilize hypothesis testing and maximum a posteriori to detect ngeo satellite signals which impact geo systems. in addition, they compare the performances of their method to the ones of the conventional spectrum sensing approach. it is well known that this conventional approach is represented by the energy detector (ed) . however, the ed drastically reduces its efficiency at low signal to noise ratio (snr) regimes and in presence of noise uncertainty as happens in operative cr satelite scenarios . recently, higher order moments (hom) based spectrum sensing techniques have been proposed to overcome the weaknesses of the ed under noise uncertainty and, at the same time, without dramatically increasing the computational complexity of the system . moreover, many other conventional spectrum sensing algorithms are based on cyclostationary approaches for signal detection , .
+
+in this letter, we propose the first (to the best of auhors' knowledge) hom based spectrum sensing method for cognitive satellite communications, allowing fast and reliable detection of the geo (pu) signal. the rationale of our method is to exploit the intrinsic cyclostationary property of the involved signals as well as the secondnd fourth order moments of the received (geo plus gaussian noise) signal to properly estimate the power of (only) the useful signal, i.e., the one associated with the pu. first, the geo signal power is estimated as a linear combination of the secondnd fourth order moment of the received samples, and then it is used as the decision variable to discriminate between the presence or absence of the radio spectral transmission opportunity (i.e. the vacant frequency channel). the theoretical results, substantiated by computer simulations, show that our method can offer better performance than the method in and the conventional ed in the presence of noise uncertainty, with a negligible increase of the computational complexity.
+
+the paper is organized as follows. in section ii the geo satellite detection problem is formulated and the proposed method is described together its counterparts. in section iii the performance of the proposed algorithm are assessed for scenarios of practical interest. finally, section iv concludes the paper and give suggestions for possible future works.
+
+notation: we use boldface lower case for vectors a. more )∗ are the real part, modulus and complex
+
+over, conjugate of the argument, respectively. the symbol ,
+
+k · k )† is the transpose denotes the euclidean norm, whereas ( · conjugate operator. the acronym i.i.d. means independent and identical distributed. e[ ] stands for statistical expectation · whereas the letter j = √ 1 indicates the imaginary unit. we cn(0, σ2) if x is, respectively, write x ∼ a real or complex zero mean white gaussian random variable u(0, 2π) means that x obeys with variance σ2. finally, x the uniform distribution within the interval [0, 2π].
+
+this section is aimed at formalizing the problem of specrum sensing in satellite systems when the geo satellite is disturbed by the transmissions of the ngeo that perform sensing to reveal its presence. the ngeo satellite senses the environment during the downlink and uplink phases. since these two phases differ only in the values of the involved parameters, in the rest of this paper we focus only on the downlink stage. this latter scenario is pictorially described in figure 1, where it is highlighted that both the geo and ngeo satellites transmit their data toward the corresponding earth station. moreover, the sensing ngeo earth station captures the signals transmitted by the geo satellite together with the one sent by the ngeo, and transfers the former to the ngeo earth station that directly communicates with its satellite.
+
+figure 1. pictorial representation of the considered satellite scenario.
+
+in this letter, we consider the same model introduced in , which assumes that the geo satellite can transmit with one of l possible power levels pgsl > . . . > pgs1 > 0 or not. moreover, it is worth to underline that, in the satellite commuication context, it can be hypothesized that the satellite uses a fixed power level in the transmission period . then, it is also assumed that the sensing station points toward the geo satellite and that is in its mainbeam (otherwise it is sufficient to apply a scaling factor to the received power to account for beampattern shape losses). consequently, indicating with the xgsk the k th signal received at the sensing ngeo earth station, the problem under investigation, i.e. discriminating between the absence (null hypothesis) versus the presence 2
+
+(alternative hypothesis) of a geo satellite operating with a power level pgsl, l = 1, . . . , l, can be formalized as follows:
+
+(cid:26) where nk ∼ ∼ u(0, 2π) is the channel propagating phase that is not relevant to the considered sensing problem which is essentially based cn(0, 1) is the k th on the energy exploitation, and sgsk ∼ transmitted symbol of the geo satellite. moreover, the term hgs is a scaling factor that can be derived from the following link budget equation : (1)
+
+cn(0, σ2) is the additive noise contribution, φ
+
+gc,max is the maximum gain of the sensing ngeo station receiving antenna;
+
+gpu(θa) is the gain of the pu (i.e., the geo satellite) in the direction θa;
+
+108 m/s is the speed of light; • c = 3 • f is the satellite operating frequency; • dc,1 is the range from the geo satellite to the sensing ×
+
+ag is the gaseous absorption factor; • ac is the cloud or fog absorption factor; as to the attenuation factors, ag and ac, the equations that
+
+rule them are given, respectively, by , :
+
+where ag and ac are directly obtained in db values. in addition, the quantities involved in the previous equations are
+
+aw: specific attenuation due to dry air; • ao: specific attenuation due to water vapor; • kl: specific attenuation coefficient for clouds; • m : liquid water density in the cloud or fog. now, after all these premises it can be claimed that xgsk is also a circularly symmetric gaussian random variable, n) under h g l hypothesis and viz. xgsk ∼ n) under h0. differently from , in this xgsk ∼ letter, we reasonably assume that the sensing ngeo earth station is detecting the signal from the geo satellite versus noise only, and then it transmits this information to the ngeo satellite. if the geo system is not operating, the ngeo satellite can opportunistically access in that licensed band with its full power; conversely, if the geo system is in operative mode, the ngeo satellite cannot occupy that band. to take a decision about the presence or absence of the geo satellite signal in the band under test, problem (1) can be recast in a more compact matrix form, i.e., cn(0, hgspgsl + σ2
+
+n(0, σ2i) is the k dimensional column vector where n accounting for noise contributions, whereas s is the k ∼ (3) dimensional column vector comprising the k samples of the useful signal, viz. s = hgsejφ[sgs1, . . . , sgsk ]t . pgsl more precisely, following the leads of , the idea is to exploit the secondnd fourth order moments to properly estimate the power of the transmitted geo signal. the aplication of such a method to the satellite communications context represents the main novel contribution of this letter. once the signal power is estimated, it can be exploited as decision statistic to indicate the presence of the useful signal for the data under test. therefore, the second order moment of the received signal can be formally defined as
+
+where ps is the useful signal power. note that, the last equality in (4) directly follows from the uncorrelation between the useful signal and the noise component, i.e.:
+
+now, an estimate of the second order moment, say ˆυ, can be obtained as follows
+
+similarly, the fourth order moment ψ can be defined as
+
+(7) i (cid:1) since s and n are independent and hence uncorrelated (inependently from their statistical distributions), and having assumed that the real and imaginary components of noise and signal are orthogonal, that reflects into the following relationhips e n†s = 0, e = 0. now, introducing the kurtosis of signal and noise, viz. ξs and (cid:3) ξn, defined as the ratio between their fourth order and the squared second order moments
+
+and assuming ξs = 1 (signal with constant envelop if sampled at symbol times) and ξn = 2 (complex variable) , (7) can be recast as as before, a possible estimator for the fourth order moment
+
+finally, exploiting both (6) and (9), the decision variable for the hypothesis testing (3) is given by the estimates of the squared signal power, namely
+
+xk=1 and the corresponding test is k
+
+with η a suitable detection threshold. it is now worth to note that the testing variable ξ is asymptotically gaussian (i.e., ) since the first term is the square of a zero mean k asymptotically gaussian variable and the second is the sum of random variables that is again an asymptotically gaussian variable for the khintchine's strong law of large numbers . from the above observations, it could be derived that ξ is again asymptotically gaussian distributed with mean equal to zero or p 2 s under h0 and h1 hypothesis, respectively. this leads to conclude that the performance in terms of detection probability pd could be approximately computed, for large k, from a theoretical point of view. more precisely, the threshold is directly devised under h0 hypothesis by fixing the desired false alarm probability pf a, namely +
+
+with erfc−1( ) the inverse of complementary error function. · analogously, once the threshold η is obtained, the theoretical pd, derived under h1 hypothesis, is given by p
+
+in this subsection two alternative algorithms available in the
+
+open literature for geo satellite detection are presented:
+
+1) energy detector (ed) ; 2) spectrum sensing and recognition (ssr) method .
+
+the ed is the simplest and widely used method for specrum sensing purposes. the considered decision statistic is the energy contained in the received signal which is in turn obtained from its acquired samples as described in (6).
+
+the second method, the ssr, is derived in specifically for the satellite context and uses a decision statistic obtained by a gaussian mixture model, i.e.,
+
+zbk t ak exp (a
+
+as already said, in the following analyses we consider the situation in which the interfering ngeo satellite transmits only when the geo counterpart is not transmitting, therefore, we focus on the noise only scenario.
+
+this section is aimed at analyzing the performance of the proposed algorithm, labeled in the following with fom (fourth order based method), for spectrum sensing in satellite communication systems. the analyses are conducted utilizing as performance metric the pd which is estimated resorting to standard monte carlo simulations with 104 independent trials. moreover, the detection threshold has been theoretically set, exploiting (12), so as to ensure pf a = 10−2, using the rule of performs 100/pf a independent runs. the considered simulation settings assume the parameter values synthetically described in table i. moreover, with reference to the downlink scenario described in , the geo satellite is assumed to possibly transmit with a power chosen in a preassigned set [6, 12, 20] dbw, with composed of three levels, viz., pgs ∈ a corresponding a priori probability equal to pr(pgs1) = 0.3, pr(pgs2) = 0.2, pr(pgs3) = 0.1, whereas it does not transmit with a priori probability pr(pgs0) = 0.4.
+
+figure 2 shows pd values as a function of the snr for a specific transmit power level and different number of samples. precisely, it is assumed pgs = 20 db, whereas subplots assume k = 100 and k = 1000 samples, respectively. first of all, it is worth to underline that, in the figure, fom denotes the proosed test numerically evaluated with standard monte carlo simulations, whereas fom th indicates the one obtained with the theoretical expressions given in (12) and (13). since, they almost share the same performance, in the subsequent study cases, we concentrate on the former. in addition, from the inspection of the curves, as expected, both ed and fom are capable to reach better and better pd values as the number of available samples increases. conversely, the ssr tends to maintain almost the same detection capabilities. however, it is necessary to stress here the fact that the ed assumes the perfect knowledge of noise variance. of course, this represent a strong limitation for its practical implementation leading to severe performance losses due to the mismatch with the actual value. therefore, in the next analysis, the ed that assumes the perfect knowledge of the noise power level is referred to as ideal ed and used as performance benchmark, whereas with ed it is indicated its realistic version.
+
+ed fom fom th ssr 1
+
+figure 2. pd versus snr for pgs = 20 db. subplots refer to a) k = 100 and b) k = 1000 samples. thresholds are set to ensure nominal pf a = 10−2.
+
+the next analyses concentrate on evaluating the detection capabilities of the considered detectors in the situation in which the actual disturbance variance, say σ2 a, varies within a n/ρ, ρσ2 σ2 specific interval, namely we assume σ2 , with n ρ > 1 a parameter associated with the size of the uncertainty . it is important to recall that, given a specific value of noise uncertainty ρ, there is a minimum snr (called snr wall) under which the pu cannot be reliably detected. the results of these additional tests are reported in figure 3 where, again, pd is represented versus the snr for a transmit power pgs = 20 db and k = 1000 number of independent samples. as to the parameter ρ, three different simulation settings are studied, viz. ρ = 1, 3, 6 db, respectively. the curves highlight the robustness of the proposed algorithm with respect to the variability of the disturbance variance, in fact, the fom is capable of ensuring the best performance for the case of ρ = 3 and ρ = 6, where the ed shows several performance degradations. u
+
+to conclude the study of the proposed detector for satellite spectrum sensing, we consider the mean detection time (mdt) required for declaring a true detection of the geo signal. in particular, the mdt is defined as the time or, equivalently the number of samples, needed on average to declare a correct detection, and is formally defined as
+
+where tp is the penalty time, namely the time that is needed by the system to recover from a wrong decision. accordingly, in figure 4 we report the mdt gain of fom over ed and ssr, assuming the same k, pf a, and tp values in the scenario of figure 3(b). from a visual inspection of the curves, it is evident that the proposed method can achieve a faster detection of the geo satellite than its available counterparts. as a matter of fact the mdt gain of our method with respect to ed and 4

@@ -1,0 +1,291 @@
+optimization of satellite constellation deployment strategy considering uncertain areas of interest
+
+please cite this article as: h.w. lee, p.c. jakob, k. ho, s. shimizu, s. yoshikawa, optimization of satellite constellation deployment strategy considering uncertain areas of interest, acta astronautica (2018), doi: 10.1016/j.actaastro.2018.03.054.
+
+this is a pdf file of an unedited manuscript that has been accepted for publication. as a service to our customers we are providing this early version of the manuscript. the manuscript will undergo copyediting, typesetting, and review of the resulting proof before it is published in its final form. please note that during the production process errors may be discovered which could affect the content, and all legal disclaimers that apply to the journal pertain.
+
+recently, many plans have been proposed to provide global broadband services with hundreds and even thousands of satellites in non geostationary orbit (ngso) beyond the conventional satellite services. oneweb has proposed to set up a constellation with 720 satellites in low earth orbit (leo) and aims to provide a low latency broadband access as early as 2019. moreover, spacex and boeing have filed a frequency licensing with the federal communications commission (fcc) for their planned telecommunication services with 4,425 and 2,956 satellites, respectively. in the traditional approach, system engineers aim to deploy mega constellations to provide a global coverage and meet a predicted demand. however, this strategy requires having tremendous financial resources and can reveal risky, as the conceptualization and the development of satellite constellation system usually extend for a long period of time, increasing the likelihood for the market and the business to undergo changes. as seen in the cases of iridium and globalstar, which each filed for bankruptcy in 1999 and 2002, respectively, deploying for the full operational capability configuration for a global coverage within a relatively short period of
+
+research assistant, department of aerospace engineering, university of illinois at urbana champaign, il 61820 † research assistant, department of aerospace engineering, university of illinois at urbana champaign, il 61820 ‡ assistant professor, department of aerospace engineering, university of illinois at urbana champaign, il 61820 § advanced technology r&d center, mitsubishi electric corporation, japan ** advanced technology r&d center, mitsubishi electric corporation, japan hang woon lee,* pauline c. jakob,† koki ho‡, time could lead to economic failure. a flexible approach of staged deployment of telecommunication satellite constellation has been proposed by de weck et al.;1 however, this study aimed to achieve a global coverage which may result in inefficiencies caused by potentially unprofitable service to the areas where demand is highly uncertain.
+
+this paper aims to propose a more cost effective staged deployment strategy for telecommunication satellite constellation by considering the uncertainties in the evolution of the areas of interest. starting from a particular area of interest with a constant high demand, the system can be further upgraded with the introduction of new stages of satellites to cover new areas of interest as more information about the demand becomes available; thus, the system adapts to the evolution of the spatial demand. the initial stage is designed with consideration of adaptability to the future areas of interest that are uncertain by the time of the first stage design. this strategy is expected to provide flexibility to the system against the uncertain evolution of the areas of interest.
+
+many past studies have been conducted on the topic of systematic patterns of satellites. classical ngso constellation types include polar constellations and walker delta patterns, which are designed based on the relative positions of the satellites in the earth centered inertial frame (eci). 2 mortari et al. introduced the concept of flower constellations which constrain all the satellites to be on the same 3d trajectory in the earth centered earth fixed frame (ecef).3 recent studies have explored the possibility of flower constellations for multiple applications, including telecommunications for global and regional coverage.
+
+uncertainties in demand have been a driving factor for new types of constellation design. de weck et al. proposed a concept of "architecture paths" to the final configuration, in which the system is deployed with an initial configuration with low capacity and gradually expands as the uncertainties in the demand are resolved.1 this approach considers a staged deployment with built in flexibility to adapt the system to the demand evolution. however, de weck et al. considered a global coverage for all stages, including the initial stage providing a uniform low capability. this does not appear to be the most profitable deployment strategy considering the non uniform and uncertain demand over the globe; some areas may be highly concentrated with a constantly high demand, whereas others may have a low or largely uncertain demand. a more profitable strategy would be to launch each stage of the constellation to provide service over different areas, starting from the regions with a high and least uncertain demand.
+
+another relevant concept was proposed by paek regarding the reconfigurable satellite constellation between the global and local modes to consider different areas of interest for earth observation.4 this concept can provide a flexible constellation for different areas of interest. however, the reconfigurability of satellite constellation highly relies on the maneuvering capability of if multiple reconfigurations are required over the lifecycle.5
+
+chan et al. tackled the idea of a hybrid constellation design, using multiple layers and mixed circular elliptical orbits, to make up for the asymmetry lying in the demand. starting from a backbone leo constellation, the system further adapts to growing demand areas by adding elliptical constellations.6 nonetheless, the optimization of the backbone constellation has not been addressed to integrate into the overall hybrid model. in response to the above background, this paper proposes an integrated framework to perform an optimization of a staged deployment strategy without reconfiguration (see figure 1). the satellites are assumed to be fixed at their initial orbit and cannot be reconfigured when the new stage of the constellation is introduced. the framework accounts for the uncertainties lying in the areas of interest and optimizes the expected lifecycle cost over multiple possible scenarios of evolution of areas of interest. the resulting optimization can provide a flexible design of the telecommunication constellation deployment strategy under the uncertainties in the areas of interest. the expected form of the system is an asymmetric multi layered constellation.
+
+the optimization problem considered in this framework optimizes the constellation staged deployment strategy considering all possible demand scenarios. the objective function is to minimize the expected lifecycle cost over all possible scenarios considering the manufacturing and the launch cost of the system. the design vector comprises of design variables of all stagecenario combinations to concurrently optimize the system under the demand uncertainty. the scenarios are defined based on possible evolutions of areas of interest derived from the stochastic demand variation. the areas of interest are the local areas above which continuous full coverage is required. each stage satellites form a specific constellation and guarantee a continuous coverage over the specified area of interest of the same stage. more areas of interest can be added over time as the demand in those areas grows; however, we do not know the exact evolution of areas of interest because the demand variation over time is uncertain and thus assumed to be a stochastic process. the aim is to find the constellation design that is flexible enough to effectively respond to all possible demand scenarios.
+
+the system framework integrates a demand model along with constellation coverage computation and propulsion modules to account for an uncertain expansion in the areas of interest. the interactions between the different modules are described in figure 2. the demand model is established to geographically segment the broadband market based on a stochastic forecast of demand and outputs the most desired service area of interest in the form of lowesolution grids. the constellation module designs the architecture of the system in the form of a multi layered flower constellation. the first stage configuration is arranged to provide a high flexibility to face underlying uncertainties in the subsequent stages. the second stage takes advantage of satellites in the first stage configuration, and new satellites to launch serve as a complement of the first stage satellites to provide continuous coverage over the second area of interest. the nth stage finally relies on satellites launched from stages 1 to n to design the nth launch system architecture. for this paper, a two stage non reconfigurable satellite constellation deployment problem is explored as a simplified version of the multi stage limited reconfigurable problem. finally, the propulsion module determines the necessary ∆v to perform the mission given a specific system's configuration. it further serves to determine the related cost adjoining the deployment of the constellation.
+
+for the purpose of this paper, the main focus is put on achieving continuous coverage over areas of interest and other mission driven factors are neglected. although the communication performances (e.g. capacity, data rate, etc.) are typically coupled with orbital and constellation configuration, this paper does not consider communication performance as an objective function.
+
+the demand model, as illustrated in figure 3, is composed of both the static (spatial) and dynamic (temporal) modeling of the demand. the static modeling is responsible for the figure 2. system framework with corresponding work environment identification of the areas of interest with high demand at the time of the first stage deployment. in addition to the static modeling of demand, the dynamic modeling stochastically forecasts the demand of these regions via geometric brownian motion (gbm). the demand model then performs the monte carlo simulation to generate the probability distribution of different scenario outcomes.
+
+the static demand model, identified in the left gridded box in figure 3, takes gridded geospatial economic data that are processed to provide insights into the demand distribution of broadband market by the time of the first stage deployment. to generate the demand distribution, the gridded world population and gross domestic product adjusted for purchase power parity (30" by 30" and 1˚ by 1˚ in latitude by longitude resolution, respectively) are reduced to 10˚ by0˚ low resolution and combined to construct the static demand model.7,8,9 these open licensed data are obtained from socioeconomic data and applications center (sedac). the lowesolution static demand model, shown in figure 4, provides a rational estimation of the main regions of high demand to national and sub continental levels.
+
+the demand distribution model estimates the demand within the latitude range of 70˚s 70˚n and the longitude range of 180˚w 180˚e; the retrieved purchase power parity data were 70˚ latitude and thus were omitted. the demand distribution map shown in unavailable beyond figure 4 is normalized and therefore the summation of all demand grids (in a total of 504 grids) is one.9
+
+for this paper, japan (four main islands hokkaido, honshu, shikoku, and kyushu, but excluding other smaller and distant islands) is selected as the first stage's area of interest. this selection does not only provide a case study for a business starting in a small area and expanding it to larger areas but also reflects a reasonable real life example starting from one of the constantly high demand regions in the world. (1) there are three other regions of high demand, contiguous united states (conus), european union (here we will simply refer to it as europe as the boundary of european union covers most of the european continent excluding european russia), and india, are identified as suitable considerations for the subsequent stages. at the time of the first stage deployment, these three regions share approximately 43% of the total market demand distribution. moreover, the selection of these three regions provides a few interesting features from a geographical perspective. the centroids of conus and japan share about the same latitude of 37˚n. europe has its centroid location farthest from japan and is positioned at a higher latitude than japan. meanwhile, india is the closest to japan and located more closely to the equator.
+
+figure 5 illustrates a possible combination of scenarios based on the output from the static demand model. there are six scenarios in total, from scenario 1 to 6, in five stages. the uncertainties lie between the first and the third stage; beyond the third stage, the rest of areas of interest become certain. thus, the staged deployment problem identified in this paper consists of the uncertainties in the early phase (first two stages) and the certainties in the later phase (last three stages). this paper focuses only on the uncertainty phase and introduces a stochastic optimization methodology by considering the first two stages. the two stage problem provides a simpler but yet full representation of the optimization methodology.
+
+the computational scalability of this model depends on two major factors—the number of areas of interest and the number of stages. the number of scenarios grows as the factorial of the number of regions. for example, given the current assumption of three uncertain areas of interest, there exist total six scenarios possible as depicted in figure 5. the number of stages is equal to the total number of areas of interest plus the last global stage. however, the number of stages can be arbitrarily chosen as it depends on the user definition of stage (e.g. one may choose not to provide a global coverage at the last stage).
+
+the dynamic model, in the right gridded box in figure 3, takes the initial demand in each of area of interest, which is quantitated by the static model, and uses the discrete time geometric brownian motion to forecast the demand by the time of second stage deployment, which is set to 5th year in this paper. the gbm is commonly used to model stock price as illustrated by eq. (2). in this paper, the stock price is replaced with the demand: s is the demand for communication services, µ is the expected return, σ is the volatility, ε is the random variable, and is the discrete time step, which is set to one month. the volatility parameter scales the uncertainty in the market, whereas the random variable models the unpredictable events occurring in the market following the normal distribution.
+
+the gbm parameters for stochastic demands of each area of interest can be determined based on the world bank data on telephony such as internet usage including mobile cellular subscriptions, individuals using the internet, fixed broadband subscriptions, and fixed telephone subscriptions.* in our analysis, these parameters are defined as follows: the data for conus (µ=0.08, σ=0.4 per annum) is based on de weck et al's setting.1 europe ranks the highest in all world bank data indices and thus identified as a low volatile market with the low expected return for the new service due to the existing infrastructure for communications (µ=0.04, σ=0.2 per annum). however, india shows the lowest usage of voice communications and internet and has a growing potential; meaning that high return is expected once the service is established, but highly volatile as the demand for communication service is highly uncertain compared to conus and europe (µ=0.10, σ=0.6 per annum).
+
+each scenario, designated as a (japan conus), b (japan europe), and c (japan india), has a probability of being selected based on the monte carlo simulation of the stochastic process via geometric brownian motion. in order to grant the probability to each scenario, the monte carlo analysis of 10,000 simulations is conducted, resulting in the demand shares within the confined market. the result of the simulations indicates that scenario a, b, and c have scenario selection probabilities of 31%, 40%, and 29%, respectively.
+
+this paper considers a flower constellation configuration for each stage scenario combination, thus the overall outcome of the optimization would form a multi layered flower constellation. the effectiveness of the flower constellation has been demonstrated for both global and regional services thanks to its capability to construct a common repeating ground track.3
+
+satellites following the same (closed) trajectory with respect to a rotating frame. for this paper, ecef frame is considered. the three conditions to construct the flower constellation are as follows:3,10,11
+
+http://data.worldbank.org/indicator/it.cel.sets.p2?view=map&year_high_desc=false. accessed 1 may 2017 constellation coverage computation module
+
+the flower constellation is defined as a set of
+
+(2π) is the number of revolutions in a given period and
+
+where completed by the earth during the same period. (2)
+
+, and the right ascension of ascending node
+
+is the number of sidereal days
+
+(cid:23)# in this paper, we assume to utilize only the circular orbits, thus the eccentricity and the argument of perigee are set to zero. moreover, the semi major axis and the inclination are assumed to be identical within each stage. these assumptions ensure that each stage satisfies condition 2 of the original flower constellation theory.
+
+the ground track of a satellite is defined as its path (or the projection of its orbit) on the surface of the earth. repeating ground track (rgt) orbits, or also known as compatible (or resonant) orbits in the original flower constellation theory, offer a special pattern in the orbit design that will allow the ground track to repeat exactly periodically. this type of orbit is particularly of interest to revisit a target area on earth on a regular basis and has shown to provide better coverage performance with a fewer number of satellites than non repeating ground tracks orbits for regional coverage.12 considering the ecef frame, an rgt orbit is achieved when the nodal period of the satellite (
+
+where perturbed mean motion, the non spherical nature of the earth, each term in eq. (5) can be derived as follows: the rgt period ratio, τ, defined as a ratio of ):4
+
+, can be deduced from the elements of the
+
+is the perturbations caused by
+
+is the standard is the zonal harmonic km3/s2 ,
+
+12 ) @. , the semi major axis, a, of an rgt orbit can be derived using the newton raphson method presented by bruccoleri. 13 by (cid:23)", (cid:23)#, a substituting eqs. (6) (12) into eq. (5), we can define the following function.
+
+in the newton raphson method, an initial guess for calculating the rgt orbit's semi major perturbation, and the semi major axis, a, is then computed
+
+p(7u) p′(7u) for each stage scenario, there are four independent variables that dictate the shape and the location of the common ground track of the constellation. these variables are the repeating ground track period ratio, τ, inclination, i, raan, ω, and mean anomaly, m, of a seed satellite. this seed satellite is considered as the first satellite of the constellation, and all other satellites in the constellation inherit the period ratio and the inclination from the seed ( satellite, but hold independent [ ] pairs that are determined by the eq. (3) given a first (cid:30) (cid:8) 2, … , (cid:23)(cid:24)(cid:25)(cid:26)) ].11 satellite condition of [
+
+, must be defined in addition to the four orbital variables introduced above. the coverage computation module is constructed to compute the minimum number of satellites required to provide a continuous coverage over the entire area of interest (100% coverage) given a set of seed satellite's orbital elements. the coverage computation module implements a while loop based iterative method for this computation—starting from one satellite, the coverage computation module increments the number of satellites by one and computes the overall percentage coverage over the target. the iterative method halts as soon as 100% coverage is achieved and outputs the minimum number of satellites required for that given set of seed satellite orbital elements. there is no maximum number of satellites set for the iterative method and the only case where the coverage computation module throws an infeasible result is when the seed satellite has no access with at least one target point, meaning adding more satellites on the same ground track as the seed satellite ground track will not make the target accessible.
+
+is assumed to be 1, meaning that the rgt will repeat every sidereal day if all other perturbations than are ignored. this assumption was made because of the computational efficiency for simulation; the constellation coverage computation only needs to propagate all the satellites for one sidereal day to simulate the whole lifecycle. moreover, coefficient describing the earth's oblateness (
+
+axis is taken neglecting the iteratively until desired tolerance is achieved:
+
+in order to construct the constellation, the number of satellites, , and is the radius of earth
+
+(14b) captures a fair amount of altitude diversity when it is compared with real life ngso systems. for example, oneweb proposed an altitude of 1,200 km for their satellite constellation; (cid:23)# (cid:8) 1 this approximately corresponds to . o3b's constellation is currently operating at an altitude of 8,000 km and this also approximately corresponds to
+
+an efficient computation of the coverage over the areas of interest usually requires the areas to be transformed into a set of gridded target points with a particular latitude/longitude resolution. the more the number of target points, the more the accuracy of the coverage estimation, but the longer the computation time. in order to achieve sufficient fidelity in coverage computation with
+
+reasonable computation time, the areas of interest are gridded out with target points in a 4˚ by 4˚ resolution. this has resulted in a total of 75 target points—japan, conus, europe, and india each having 2, 41, 20, and 12, target points, respectively. figure 6 shows the areas of interest and the target points used in the simulation. when all the target points within the area of interest are continuously covered by the satellites, then the whole area of interest is considered to be continuously covered. the results from this approximation methods are validated against the higher fidelity results from the systems tool kit (stk) by agi, inc.; the difference in the average percentage coverage between the developed coverage computation module and the stk coverage definition tool is within 1%.
+
+in the process of the coverage computation, the accesses between the satellites and the target points are computed in a discretized simulation period with a time step of 60 seconds. for every time step, the position of the satellite is calculated in eci coordinates (x, y, z) based on the orbital ). the module then determines the elements and is converted into geodetic coordinates ( local elevation angle of the satellite as viewed from the target point; if the satellite is above the minimum elevation angle, the satellite is in an 'access' with the target point at that certain time step. when there are more than one target points in an area of interest, we need all the target z, [, \ points to be in an access with one or more satellites for its coverage. the coverage computation module computes access profile for every satellite target point combination and constructs an integrated access profile per area of interest.
+
+as the above methods compute the minimum number of satellites to cover an area of interest of the current stage, we also need to consider the evolution of areas of interest by computing the minimum number of additional satellites required to continuously cover the areas of interest of the subsequent stages. thus, for each possible evolution scenario, when a new area of interest is added in the second stage, the module calculates current stage satellites' coverage contribution to the new areas of interest. when there is a gap in coverage from the prior stage, the subsequent stage takes advantage of previous stage's access profile and places additional satellite(s) to fill up the gap.
+
+the propulsion module is mainly responsible for the satellite design by estimating the satellite dry mass based on a constructed scalable parametric model and the required propellant mass based on the ∆v budget analysis. the scalable data driven parametric model, derived via fitting a second order power function to the retrieved data points from springmann and de weck, 14 takes a (see eq. (15)). single input of satellite altitude, h, and then outputs the satellite dry mass, although the model poses a limitation in estimating the satellite dry mass by being solely dependent on the altitude, which in reality depends on many other system parameters such as payload power, antenna size, etc., the parametric model is sufficient to provide a general trend in the satellite dry mass as a function of altitude.
+
+the ∆v budget estimation is based on the following orbital concept of operations. all system satellites are assumed to be launched from cape canaveral, florida, usa and separated from the launch vehicle at a circular parking orbit altitude of 185 km and inclination of 28.5˚. to insert the satellite into the desired orbit, an upper stage apogee kick motor (akm) is used and jettisoned after the insertion. the orbital insertion maneuvers by the akm includes multiple hohmann transfer burns and a single impulse burn for an inclination change to finalize the destined orbit. please note that the following hohmann transfer ∆v budget calculations are generalized to both circular and elliptical orbits.
+
+(18) 7b2 once the akm delivers the satellites to the intended operation orbit, the satellites consume their onboard propellant for decommissioning only. the stationkeeping due to atmospheric drag is essentially ignored as the altitude of interest primarily lies in the medium earth orbit (meo); this is also constrained by a minimum perigee altitude in the optimization setting. the decommissioning of the satellites can happen in two different strategies—a controlled de orbiting of the satellites to earth via a series of multiple hohmann transfers or a transfer to a circular disposal orbit of radius being 1.1 times higher than the apogee of the operation orbit for collision avoidance with other space systems. the selection of the appropriate decommission strategy is primarily dependent on the altitude of the satellite operational orbit. for satellites above 1,500 km of altitude, the satellites are encouraged to be placed in a higher disposal orbit, while the satellites under 1,500 km are assumed to de orbit to avoid potentially hazardous interference with other satellites in leo band.15
+
+where, the hohmann transfer orbits to the disposal orbit and for deorbiting, respectively, and the altitude of the disposal orbit.
+
+based on the concept of operations described above, the ∆v budget for the satellite and the akm are derived in eq. (22) and eq. (18), respectively. thus, the required propellant masses for the satellite and the akm are further computed using the rocket equation as shown in eq. (23) and eq. (24).
+
+the satellites are assumed to utilize the hydrazine monopropellant specification based on value of 220 s, which results in km/s. similarly, for the akm, the specific impulse is the semi major axis of the desired orbit, and
+
+iridium satellite propulsion system with a specific impulse ( an exhaust velocity is the altitude of the parking orbit,
+
+is the perigee altitude of the desired orbit.
+
+are the semi major axes of is and
+
+(cid:131)(cid:24)d) value is set to 320 s, which corresponds to the usage of a bipropellant motor. this results in
+
+several baseline assumptions are included as part of the problem definition for this paper and
+
+one of the main system parameters that dictates the performance (both constellationnd communicationise) and the number of satellites is the minimum elevation angle. the minimum elevation angle is defined as a minimum elevation angle for a user or a ground station (anywhere around the globe) to detect the satellite, which depends on the antenna hardware and the link budget.16 for this paper, the minimum elevation angle is considered as an independent system parameter. a minimum elevation angle of 10˚ is considered as a baseline case and is selected based on current communication constellations (iridium, globalstar, o3b, etc.).
+
+a two stage constellation deployment strategy is investigated; the first stage deployment's time set to be the 0th year and the second stage deployment's time is assumed to be the 5th year. the concept of the risk adjusted discount rate is applied to illustrate the potential return on funds expected from delaying the launch of subsequent stages and to account for the uncertainties.17 it , a discount rate, allows to calculate the present value of expenditures,
+
+finally, a summary of the framework is outlined in table 2, including the description of its core and customizable elements. the framework is built around the core concept of the noneconfigurable staged deployment strategy and the stochastic optimization of scenarios due to uncertainties in demand. note that while flower constellation does provide a great computational efficiency in the framework, the flower constellation is not a core element, but rather a customizable element of the framework. any user of the framework may choose to utilize their own constellation module with other types of constellations. moreover, the propulsion module and the objective function used for the optimization are also customizable elements. these elements are modular and thus can be easily replaced by other models. (cid:132)h,(cid:25)(cid:28)6 (cid:8) (cid:131)(cid:24)d(cid:133) (cid:8) 3.13	 system framework assumptions and summary
+
+table 1. baseline satellite and constellation design parameters
+
+, for a given sum,
+
+(25) the validation of the framework is thus focused on presenting the value of the noneconfigurable staged deployment strategy while considering uncertainties in the area of interest for the subsequent stage against the single stage constellation with no consideration of uncertainties.
+
+the formulated satellite constellation deployment problem is a mixed integer nonlinear problem. the design vector comprises total sixteen design variables, among which four clusters of four variables are designated to each stage scenario. for each cluster, there are three continuous and one integer variables. the altitude range of interest lies in the ngso and the inclination range considers both prograde and retrograde orbits. because all stage scenario design variables are concurrently being optimized, the optimization result reflects the best flexible first stage deployment strategy considering all stage scenario combinations. an overview of those decision variables can be found in table 3 and table 4 along with their valid range of values, while eq. (26) depicts the overall design vector structure. customizable elements
+
+deg this paper considers two major possibilities regarding the satellite design. the first case, termed as the unique satellite design case, reflects when a company is willing to design and operate unique satellites for each stage scenario. this allows companies to utilize different types of satellites for each stage scenario. on the other hand, the second case, the same satellite design case, exemplifies when a company is willing to design and operate the same kind of satellites for all stage scenarios.
+
+where is the is the probability of scenario i, based on the market demand model and associated cost function for scenario i. because of the difference in the approach to the satellite dry mass, there are two scenario cost functions associated with each satellite design case. table 4. chromosome repartition of variables per stage scenario
+
+the optimization consists of minimizing the expected lifecycle cost:
+
+the scenario cost function for the unique satellite design case,
+
+where satellite dry mass for stage k of scenario i, variables
+
+is the is the required propellant
+
+(cid:27)(cid:7)(cid:5)],(cid:28)r } to account for two aspects of the constellation budget: the manufacturing cost of the satellites , which consists of a price per satellite dry mass kilogram and the launch cost of the ), which refers to a price per kilogram to launch. all scenario
+
+the optimization problem is subject to the following constraints which are derived based on
+
+conceptual assumptions and high level requirements made for the problem definition.
+
+1. the purpose of the constellation is telecommunications; therefore, a maximum latency is set according to the international telecommunication union (itu) recommendation for the mouth to ear delay for high quality speech. travel time is the only delay source
+
+https://spaceflightnow.com/2016/07/13/iridium satellites rolling off assembly line in arizona/. accessed 15 april 2017 † https://engineering.tamu.edu/media/4257847/estimating the cost of space systems_2014a.pdf. accessed 1 february 2018 where in this case, the satellite design, stage scenario combinations as shown in the eq. (29b).
+
+table 5. probability and cost coefficients of objective function
+
+satellites and the akm's ( (56(cid:25)u|{) probabilities and cost coefficients are summarized in table 5. 5g(cid:25)|uf_ , is:
+
+values out of all
+
+5g(cid:25)|uf_, 56(cid:25)u|{ considered here, and thus a margin of 20 ms is applied to the itu recommendation to account for any other potential delay factors that are not considered in this paper. the value for maximum light (
+
+≤ 130	ms 2. a minimum perigee altitude of 500 km is set to avoid a significant amount of
+
+note, although not listed here, another implicit constraint is the continuous (100%) coverage over the designated target points over the area of interest as introduced in the constellation coverage computation module.
+
+the tradespace of the formulated problem with sixteen design variables is vast and thus is computationally challenging to be explored by a discrete full factorial search. therefore, a single objective genetic algorithm (ga), a heuristic evolutionary algorithm, is used to perform the optimization of the satellite constellation deployment problem. the ga settings used can be found in table 6. note that, in general, ga is not guaranteed to reach the optimal solution, and the optimization performance is sensitive to its randomly generated initial population and settings. however, ga has been shown to provide an effective performance for a general mixednteger nonlinear problem formulation and thus found to be suitable for this problem. for the optimization simulations in this paper, no initial population nor initial range were provided to ga.
+
+there are several limitations exist in the introduced framework. the constellation coverage computation module only considers perturbation and ignores others such as radiation, third body, and atmospheric drag perturbations. because the satellite lifetime is set to 15 years in this paper, the access profile repeatability assumed in this paper may not be consistent with the actual coverage performance under various perturbations. optimization algorithm selection and settings to 130 ms. 18 c the speed of is
+
+1e 3 the satellite design based on the parametric model and the ∆v budget analysis depends on a few assumptions to simplify the problem. the satellite dry mass does not provide a high fidelity modeling of a wide spectrum of satellites as it actually depends on many other disciplines such as communications. it is important to note that in reality, different methodologies and philosophies are adopted for each specific mission. the absence of the satellite maneuverability for stationkeeping would also affect the actual satellite modeling. the absence of the akm structure mass would also affect the cost of the launch.
+
+the fundamental issue of the framework lies in the objective function. the objective function is only formulated to minimize the expected lifecycle cost but not the expected profit earned by the constellation system. the only communication aspects considered in this framework are the continuous coverage and the maximum latency constraint. however, in order to fully examine the framework under the assumption of satellite constellation for communications, one would need to additionally consider the capacity, link budget, and routing, etc. as figures of merit. these additional considerations would drive the number of satellites and the orbit altitude differently and thus would reveal a hidden solution space in the trade study.
+
+the framework proposed in this paper is applied to the particular case of a two stage problem with uncertainties lying in the second stage area of interest. three different scenarios are contemplated, all starting with japan as the first stage area of interest and having conus (scenario a), europe (scenario b) and india (scenario c) as a possible region of interest for the second stage. each scenario probability is given accordingly by the demand model. a set of seed , is referenced to the epoch 15 feb 2017 satellite's initial raan and mean anomaly, 12:00:00.000 (greenwich hour angle of 325.69˚). note that all costs are adjusted to us$ in fiscal year 2010.
+
+the optimized constellation's coverage performance is validated via comparing with the actual coverage performance from the systems tool kit (stk) from agi, inc. the stk's coverage definition and access tools provide high fidelity and high precision coverage calculations. the comparison shows that the coverage percentage of the optimized solution is within 1% difference from the stk's j2 propagator simulation when the coverage definition is set to 1 degree latitude/longitude resolution. thus, the comparison validates the result of the optimization.
+
+the best individual reached by the ga for the staged deployment optimization with the unique satellite design case has an expected lifecycle cost of us$ 1,420.09 m. its optimized design vector and the cost breakdown is shown in table 7. results of the genetic algorithm optimization
+
+1,420.09 figure 7. 3d and ground track views of the optimized constellation (unique satellite design
+
+the first stage constellation consists of six satellites at an altitude of 8,034.2 km with an inclination of 40.61˚. this first stage alone provides conus (a), europe (b) and india (c) with 99.72%, 97.42%, and 96.60% average percentage coverage, respectively. regarding the second stage, all scenarios require one additional satellite to fill up the coverage gap left by the first stage. for each second stage scenario, conus (a) has an altitude of 5,128.7 km with an inclination of 28.86˚, europe (b) has an altitude of 6,383.4 km with an inclination of 74.70˚, and india (c) has an altitude of 5,128.7 km with an inclination of 27.89˚. the optimized two stage constellation forms an asymmetric multi layered constellation.
+
+a visualization of this two stage configuration can be found in figure 7—white orbits refer to first stage constellation, a red orbit refers to second stage scenario a, a green orbit refers to second stage scenario b, and a blue orbit refers to second stage scenario c.
+
+table 7. solutions for design variables for ga staged deployment optimization and cost
+
+breakdown per stage scenario (unique satellite design case)
+
+cost breakdown value
+
+manufacturing cost us$ 1,019.86 m
+
+us$ 66.94 m the cost for deploying the first stage is us$ 1,295.20 m of which its majority of the cost, us$ 1,019.86 m (78.7%), is dedicated to the manufacturing of six 1,888.6 kg class satellites. on average, the cost of deploying the second stage is us$ 120.74 m, which is significantly less than the cost of the first stage. the expensive cost of the first stage can be interpreted as a cost for the flexibility of uncertain scenarios.
+
+a two stage optimization with the same satellite design case is conducted by enforcing the same satellite design condition as defined by the eq. (28b). the expected cost for the staged deployment configuration with the same satellite design for all stage scenarios is us$ 1,607.95 m. the following are the list of intermediate variable vectors, us$ 95.26 m
+
+, for each stage scenario.
+
+km kg (cid:140) (cid:138) kg (cid:140) (cid:138) kg (cid:140) (cid:138) (cid:140) (cid:138) (cid:138) (cid:140) km kg (cid:140) (cid:138) kg (cid:140) (cid:138) kg (cid:140) (cid:138) (cid:140) (cid:138) (cid:140) (cid:138) [km] [kg] [kg] [kg] [ ] in figure 8, the white orbits refer to first stage constellation and the green orbits refer to the second stage scenario b constellation. the optimized two stage constellation consists of five satellites for the first stage and five satellites for the second stage scenario b. while the first stage alone provides 100% continuous coverage over conus (a) and india (c), the first stage only provides 73.62% average coverage over europe (b). thus, the optimized constellation does not require to launch any new satellite for both second stage scenario a and scenario c.
+
+us$ 0 m the variables that do not participate in the objective function is marked inapplicable with tilde (~). this is due to the number of satellites ( (cid:23)(cid:24)(cid:25)(cid:26)
+
+as shown in the intermediate variable vectors, these two stages share identical 2,104.4 kglass satellite design, which is constrained by the first stage system. although these two stage satellites share nearly identical altitude, their difference in the inclination leads to a large difference in the akm propellant mass.
+
+comparison between unique satellite design case and same satellite design case
+
+the major difference between the unique satellite design case and the same satellite design case is in the first stage altitude and inclination. since the same satellite design constrains the satellite design between the stages, the optimizer prefers to have fewer stages. unlike the unique case, the same satellite design case result has its first stage altitude (10,352.0 km) located higher than that of the unique case, 8,034.2 km. because of the high altitude, the first stage satellites have a bigger coverage area per satellite, which then allows a continuous coverage over both conus and india so that we do not need to launch the second stage for those scenarios. however, the chosen low inclination 7.16˚ (as opposed to the unique case 40.61˚) leaves much more coverage gap over europe than the unique case due to unreachable access in the high latitude target points. consequently, the second stage scenario b constellation consists of five satellites inclined at 44.09˚. the cost for implementing the scenario b greatly exceeds the expected cost of the system by us$ 464.92 m; the optimization solver decided to invest on scenario a and c, but in turn, placed a heavier cost burden on the scenario b.
+
+two comparisons are performed for the optimization results: a comparison with a global coverage constellation and a comparison with an all in single stage constellation. table 9 summarizes the results. the intermediate variables are shown as follows:
+
+expected cost (us$ m) in order to evaluate the flexibility provided by the core element of the framework, the noneconfigurable staged deployment strategy, a comparison is made between the staged deployed constellation result and the optimal global coverage constellation, using the same metrics and constraints. an optimal global coverage constellation is found based on an optimization simulation with only considering a single area of interest, a globe. although the constellation is optimized to provide a global continuous coverage, it can be an option for a company that is willing to provide a service to only a selected number of regions on account of the global coverage inclusivity as shown in figure 5. thus, it can be fairly compared with the other results presented in this paper. for the coverage estimation, the globe is gridded out with 302 target points in a 12˚ by 12˚ resolution.
+
+the global coverage constellation found by the ga optimization is composed of total seven 2,372.7 kg class satellites distributed in seven orbit planes at an altitude of 13,889.9 km with an inclination of 43.79˚. the design vector and the cost for this global coverage constellation are:
+
+note that one interesting tradeoff in this result is between the inclination and the altitude for global coverage. to achieve the global coverage, the constellation must be highly inclined in order to reach the target points located in north and south poles. however, this leads to massive fuel mass for the system because of the required inclination change by the akm's. the higher the altitude, the larger the coverage area per satellite—this allows satellites to reach high latitude target points at a lower inclination than the satellites at a lower altitude. given this tradeoff, the optimization decided to place all satellites at the highest altitude possible given the valid range of period ratio, which is 1,420.09
+
+from this result, a significant reduction of us$ 577.83 m (28.9%) and us$ 389.97 m (19.5%) in the expected lifecycle cost is observed when using the flexible multi stage constellation for the unique and same satellite design cases, respectively. the reason behind these reductions is due to the consideration of the uncertainties in the areas of interest and the deployment of a satellite constellation dedicated to those areas rather than providing a global coverage.
+
+for this comparison study, an optimization is set to design a single stage constellation covering all four areas of interest (japan conus europe india). the all in single stage (aiss) configuration is a fairer comparison to the optimal staged deployment configuration than the global coverage constellation because of its unnecessity in global coverage consideration given our original problem formulation of providing regional services. the result consists of nine 1,704.2 kg class satellites at an altitude of 6,380.2 km with an inclination of 44.48˚.
+
+a cost driven comparison of the staged deployment strategy with this all in single stage constellation is shown in table 9. the all in single stage satellites are placed at higher inclination figure 9. 3d and 2d views of the global coverage constellation
+
+comparison study ii: all in single stage constellation
+
+figure 10. 3d and 2d views of the all in single stage constellation than the first stage satellites of the optimal staged deployment constellation (both unique and same satellite design cases) to reach the high latitude target points of europe. although the staged deployment constellation's scenario b for the same satellite design case costs more than the all ) in the second in single stage constellation, a high probability of europe not being selected ( stage greatly decreases the expected cost of the two stage constellation. thus, a reduction of us$ 353.85 m (19.9%) and us$ 166.02 m (9.3%) of the expected lifecycle cost is observed when applying the staged deployment strategy for unique and same satellite design cases, respectively.
+
+to further validate the framework under the extreme probability distribution, three corners cases with the delta probability distribution and one case with a uniform probability distribution are examined.
+
+each case out of the first three corner cases as indicated in table 10, assigns a 100% probability to one scenario and 0% probabilities to the rest of scenarios (e.g. 100% probability of scenario a and 0% probabilities of scenarios b and c). the comparison with the original ) shows that all three corner cases reveal probability distribution ( cost reduction in the lifecycle cost. such cost reduction in the lifecycle cost is due to the certainty in the demand, which the first stage does not have to pay additional cost for the flexibility for the uncertain evolution of demand in the subsequent stage.
+
+the corner case with the uniform probability distribution also reveals the cost reduction in the lifecycle cost when compared with the original probability distribution. however, as shown in table 11 and table 12 in the appendix, the optimized vectors for both the original and the uniform probabilities distributions are alike, which is expected because the original probability distribution is close to a uniform distribution. this result demonstrates that the optimal solution highly depends on the probability distributions. 60%
+
+same satellite design
+
+fi(cid:137)(cid:204),(cid:24)(cid:25)6h fl (cid:8) 1 one key parameter for the analyzed constellation optimization problem is the discount rate. in order to observe the effects of the discount rate on the optimized solution, a sensitivity analysis is conducted by varying discount rate in 10% decrement/increments. the optimized staged deployment results for both unique and same satellite design cases are represented in figure 11. the comparison references, the optimal global coverage and all in single stage constellations, are visualized in dashed dotted lines.
+
+figure 11. sensitivity analysis of staged deployment configuration by varying discount rate
+
+the sensitivity analysis depicts a few important findings. first, the higher the discount rate, the more value the staged deployment provides, which is consistent with what has been found in the literature.1 the trend in the expected cost indicates that as the discount rate gets higher, the optimization solver tends to utilize less of the first stage constellation for the flexibility but more of the second stage constellation for a discounted cost. this is clearly shown in figure 12 and figure 13, where the first stage cost decreases as the discount rate increases; note that the first stage cost is not affected by the discount rate. also, even at the zero discount rate, we can still observe the reduction in the expected lifecycle cost. this shows an advantage of using staged deployment strategy.
+
+note that even though the optimized staged deployment solution can lead to a lower expected cost regardless of satellite design, the all in single stage case achieves a lower cost for certain scenarios with same satellite design case (e.g., scenario b for discount rate 0%, 10%, and 20%). thus, for a company willing to utilize the same set of satellites for all stage scenarios, the company may prefer to launch all at once in one stage to avoid the risk.
+
+this paper introduces an integrated framework design for a flexible multi stage satellite configuration considering the uncertainties in the areas of interest. multiple scenarios are generated based on the possible evolution of areas of interest for demand and the design of each stage is optimized so that the expected lifecycle cost considering all possible scenarios is minimized. each stage of the constellation is assumed to a circular flower constellation. at each new stage to launch, the constellation takes advantage of previously deployed satellites and optimally introduces new satellites to provide additional regional coverage over the area of interest and flexibility regarding possible further stages, given a set of possible scenarios. a case study compares the optimized two stage deployment strategy with a global coverage constellation and an all in single stage constellation. the expected lifecycle cost for the optimal two stage configuration is shown to be 28.9% and 19.5% less than the optimal global coverage constellation for unique and same satellite design cases, respectively. moreover, by utilizing the optimal two stage constellation providing coverage over all areas of interest considered for the case study, one can observe a cost reduction of 19.9% (unique case) and 9.3% (same case) less than the all in single stage constellation. this shows the value provided by the proposed satellite constellation by dedicating itself to the current area of interest while providing flexibility for later stages with other areas of interest.
+
+a sensitivity analysis is conducted by varying a discount rate. with a higher discount rate, the value provided by the staged deployment constellation is also larger in terms of the expected lifecycle cost compared with the those of optimal global coverage constellation and the all inne single stage constellation.
+
+this research is supported by advanced technology r&d center at mitsubishi electric appendix: simulation results for corner cases
+
+table 11. optimized design vector for corner cases (unique satellite design)
+
+stage 2 scenario b
+
+(cid:201) 1 o. de weck, r. de neufville, and m. chaize. "staged deployment of communications satellite constellations in low earth orbit." journal of aerospace computing, information, and communication, 2004, pp. 119 136.
+
+2 j. g. walker, "satellite constellations." journal of the british interplanetary society, vol. 37, 1984, pp. 559 572.
+
+3 d. mortari, m. p. wilkins and c. bruccoleri, "the flower constellations." journal of astronautical sciences,vol. 52, no.1, 2004, pp. 107 127.
+
+4 s. w. paek, "reconfigurable satellite constellations for geo spatially adaptive earth observation missions." master's thesis, massachusetts institute of technology, 2012.
+
+5 o. de weck, u. scialom, and a. siddiqi, "optimal reconfiguration of satellite constellations with the auction algorithm." acta astronautica, vol. 62, no. 2 3, 2008, pp.112 130.
+
+6 s. chan, a. t. samuels, n. b. shah, j. e. underwood and o. l. de weck, "optimization of hybrid satellite constellations using multiple layers and mixed circular elliptical orbits." in 22nd aiaa international communications satellite systems conference and exhibit 2004, monterey, california, 9 12 may 2004.
+
+7 center for international earth science information network ciesin columbia university. 2016. gridded population of the world, version 4 (gpwv4): population count adjusted to match 2015 revision of un wpp country center (sedac). http://dx.doi.org/10.7927/h4sf2t42. accessed 1 february 2017.
+
+8 nordhaus, w.d., and x. chen. 2016. global gridded geographically based economic data (g econ), version 4. palisades, ny: nasa socioeconomic data and applications center (sedac). http://doi.org/10.7927/h42v2d1c. accessed 1 february 2017.
+
+9 t. kashitani, "development and applications of an analysis methodology for satellite broadband network analysis", m.s. thesis, massachusetts institute of technology, dept. of aeronautics and astronautics, may 2002.
+
+10 mortari, daniele, and matthew p. wilkins. "flower constellation set theory. part i: compatibility and phasing." ieee transactions on aerospace and electronic systems 44.3 (2008).
+
+12 j. hanson, m. evans, r. turner, "designing good partial coverage satellite constellations", astrodynamics conference, portland, or, august 20 22, 1990.
+
+13 c. bruccoleri, "flower constellation optimization and implementation." ph.d. dissertation, texas a&m university, 2007.
+
+14 springmann, philip n., and olivier l. de weck. "parametric scaling model for nongeosynchronous communications satellites." journal of spacecraft and rockets 41.3 (2004): 472 477.
+
+15 janovsky, rolf. "end of life de orbiting strategies for satellites." 54th international astronautical congress of the international astronautical federation, the international academy of astronautics, and the international institute of space law. 2002.
+
+16 e. lutz, e., m. werner and a. jahn, satellite systems for personal and broadband communications, springer, 2000.
+
+17 b. evans, satellite communication systems, london, united kingdom: the institution of engineering and technology, 3rd ed., 2008.
+
+18 international telecommunication union, "itu t, g.114, series g: transmission systems and media digital systems and networks." 2003.
+
+19 deb, kalyanmoy. "an efficient constraint handling method for genetic algorithms." computer methods in applied mechanics and engineering 186.2 4 (2000): 311 338. and applications data
+
+lattice theory of flower

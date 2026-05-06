@@ -1,0 +1,207 @@
+dual polarized modulation and reception for next generation mobile satellite communications
+
+pol henarejos, student member, ieee, and ana i. pérez neira, senior member, ieee
+
+abstract—this paper presents the novel application of polarzed modulation (pmod) for increasing the throughput in mobile satellite transmissions. one of the major drawbacks in mobile satellite communications is the fact that the power budget is often restrictive, making it unaffordable to improve the spectral efficiency without an increment of transmitted power. by using dual polarized antennas in the transmitter and receiver, the pmod technique achieves an improvement in throughput of up to 100% with respect to existing deployments, with an increase of less than 1 db at low eb/n0 regime. additionally, the proposed scheme imlies minimum hardware modifications with respect to the existing dual polarized systems and does not require additional channel state information at the transmitter; thus it can be used in current deployments. demodulation (i.e., detection and decoding) alternaives, with different processing complexity and performance, are studied. the results are validated in a typical mobile interactive scenario, the newest version of ts 102 744 standard [broadband global area network (bgan)], which aims to provide interactive mobile satellite communications.
+
+index terms—satellite communications, polarized modulation,
+
+m ultiple input multiple output (mimo) schemes
+
+were introduced as a promising way to notably increase the spectral efficiency (se) using multiples antennas at transission and/or reception . in contrast to terrestrial comunications, where the transmitter can obtain channel state information at the transmitter (csit), in satellite links it is impossible to maintain csit updated due to the long round trip time. by the time the satellite receives the feedback parameters, the channel varies and the csit becomes outdated.
+
+among the different approaches that do not use csit, vertial bell laboratories layered space time (vblast) scheme and successive improvements present a simple way to increase the achievable rate with a relative increase of the processing
+
+manuscript received october 15, 2014; revised february 13, 2015 and june 11, 2015; accepted july 17, 2015. date of publication july 27, 2015; date of current version october 15, 2015. this work was supported by the spanish ministry of economy and competitiveness (ministerio de economia y competitividad) under project tec2014 59255 c3 1 r and by the catalan government (2014sgr1567). the associate editor coordinating the review of this paper and approving it for publication was g. colavolpe.
+
+p. henarejos is with the communications systems division, catalonian technological telecommunications center, 08860 barcelona, spain (e mail: pol.henarejos@cttc.es).
+
+a. i. pérez neira is with the department of signal and communication theory, universitat politcnica de catalunya, 08034 barcelona, spain. she is also with the catalonian technological telecommunications center, 08860 barcelona, spain (e mail: ana.isabel.perez@upc.edu). complexity in the absence of csit. however, vblast introduces interference between the streams since all signals are transmitted through all antennas without any interference preancellation. in consequence, the signals must be transmitted with higher amplitude to obtain the same error rates compared with the single stream case.
+
+in contrast to vblast, spatial modulation (sm) appeared recently to increase the se . in sm, the bits of informaion are split in blocks; some are coded as antenna indices and the rest are transmitted through the antennas that are selected by the indices. by estimating the antenna indices, the receiver can recover the bits used for this purpose. nevertheless, this approach is very sensitive to the channel variations and requires an accurate channel estimation as well as spatially uncorrelated channels .
+
+in satellite scenarios, due to the line of sight (los), the spaial components become correlated at the receiver side although the transmitting antennas may be separated at half wavelength. hence, in the absence of scatterers, the receiver only discovers a single transmission path and the sensitivity of the terminal is not enough to distinguish the different spatial signatures and detect the antenna indices. because of this, sm does not seem suitable as it does not provide sufficient diversity in satellite scenarios. on the contrary, the polarization channel provides more diersity and may be used for this kind of schemes . although dual polarized antennas were used for broadcasting, where subscribers only tuned a single polarization, recent studies unveil that dual polarized mimo channel is richer in terms of diversity . additionally, the use of dual polarized antenas is increasingly motivated by the new possibilities arising, together with the newest standards including dual polarized mimo, such as digital video broadcasting next generation broadcasting system to hand held (dvb ngh ). finally, research projects such as , reported that the throughput can be increased as in a conventional mimo system if more antennas, and the consequent radio frequency (rf) chains , are added in order to multiplex polarizations. the price to be paid is that the complexity of the satellite payload increases since interference among polarizations appears. for instance, extending the vblast strategy to dual polarized schemes requires higher transmit power to maintain the same quality of service (qos) in point to point clients .
+
+the primary motivation behind the present work is to aply the sm concept to dual polarized communications in the challenging mobile satellite channels. hereafter, this scheme is referred to as polarized modulation (pmod). indeed, it is not polarization multiplexing since only one polarization is activated at a time and therefore precludes the presence of interference. although this work has been triggered as an attempt to apply a simple diversity technique as sm to the satelite scenario, the paper could also be viewed as the extension to satellite communications of the pmod idea that has been reported previously in optical communications . however, from the authors' knowledge there is no literature describing in detail pmod demodulation scheme (detection and decoding) for optical communications, being polarization multiplexing far more common.
+
+the proposed pmod technique exploits the polarization diversity in satellite scenarios, where the spatial diversity is highly penalized.
+
+pmod does not require csit and increases the throughut maintaining the robustness based on the polarization diversity.
+
+usually, satellite systems operate with dual polarized antennas and thus the proposed scheme does not require additional antennas. the minimum requirement is to use a dual polarized feeder.
+
+the success of this scheme lies not only on the simplicity of the transmission technique, but also on the receiver design, which is also one main contribution of the present work, together with the performance evaluation. note that the information is conveyed not only in the transitted bit stream, but also in the polarization.
+
+finally, as we demonstrate in a maritime mobile satellite l band scenario, the result is an increase of the overall performance in terms of throughput, whereas guaranteeng a minimum qos and requiring a minimum increase in power usage. the best performance is obtained for low order modulations, where the proposed method achieves a gain of 2 when it is compared with a basic system without pmod.
+
+let us consider a mimo system where transmitter and receiver are equipped with a single antenna with dual polarizaion, and a rician frequency flat channel. each symbol contains b + 1 bits of information, where b bits are modulated within the constellation s and the remaining bit is used for polarization selection. this remaining bit is denoted as c and the modulated bits as s ∈ c. we would like to remark that the information is conveyed through the symbol s as well as bit c. the channels across the polarizations 1 and 2 are denoted h11∈ c and h22 ∈ c, respectively, and their respective cross channels as h21 ∈ c and h12 ∈ c. all channel coefficients hij follow a rice statistical distribution with (k, σh) parameters with a pair wise correlaion ρij = [0, 1]. the received signals for polarizations 1 and 2 are denoted as y1 ∈ c and y2 ∈ c, respectively, and ωi ∈ c follows additive white gaussian noise (awgn), ω ∼ cn (0, n0i2). −1 applies one of the following demodulaig. 1. reception scheme. pmod tion schemes to estimate the bit c and prepare the signal r to be processed by a common siso decoder.
+
+or in a more compact way as:
+
+where hi is the channel corresponding to the ith polarization.
+
+since this scheme adds an additional bit to the transmision by keeping the same power budget, the throughput gain of pmod with respect to single input single output (siso) case is
+
+for higher order modulations, (4) is asymptotically 1 and thus the proposed pmod scheme increases the gain for low order modulations. for instance, the gain is 2 for binary phasehift keying (bpsk) modulation or 1.5 for quadrature phasehift keying (qpsk) modulation. as low order modulations are used in low signal to noise ratio (snr) regime, it is clear that pmod increases significantly the throughput gain g in low snr systems. this is exactly the scenario for mobile satellite communications where shadowing, fading and power limitations cause low snr.
+
+iii. demodulation schemes
+
+the implementation of the receiver derives into several aproaches depending on the scenario constraints. since pmod transmits a single stream, we aim to extract this stream to be processed into a siso decoder. this scheme offers two main advantages:
+
+reduces the complexity drastically since the signal processing is one dimensional.
+
+can be combined with existing siso decoders, maintainng the compatibility with the current standards.
+
+the reception scheme is illustrated in fig. 1. with this scheme, pmod−1 implements one of the four demodulation schemes that are introduced in this section, estiates the bit c and manipulates the received signal y to produce the signal r, which is capable to be used by a siso decoder. (1)
+
+(4) transmitted symbols are equiprobable. thus, the optimal reeiver can be derived from the expression p(y|x, h)
+
+where x = cs and m is the symbol alphabet of x. hereafter, we assume that the noise contribution is gaussian. note that there is no restriction with the characteristics of the channel matrix. thus, we do not take any assumption on the statistical independence of h.
+
+based on the expression proposed in (6) four different de
+
+in this approach a zero forcing pre filter is applied before detecting the information in x. we note that the zero forcer = 0, where f (x) = (cid:4)y − hx(cid:4)2. this is is the solution of equivalent to apply the filter
+
+therefore we obtain the signal after the processing as
+
+in the case where the signal is being transmitted through polarization 1, i.e., c = 0, z1 contains the signal plus noise and z2 only receives the noise; and the reciprocal case for c = 1, z1 contains only the noise and z2 conveys the signal plus the noise. therefore, to decide on c we propose a power detector. it is denoted as:
+
+once the receiver knows the used polarization path, it is able to decode the symbol s based on the signal r = zˆc+1.
+
+this solution presents a simple implementation but it is not a sufficient statistic to decode the whole problem (symbol s and bit c). since it computes the envelope of the vector, the information conveyed through the phases is lost and therefore it is not sufficient.
+
+nevertheless, this solution presents a major disadvantage. hhh could be badly conditioned and thus it may prouce an excessive noise enhancement, doing impossible the demodulation. to lie in the subset m, the solution of the first approach may not be the optimal. thus, the optimal approach to solve (6) is performing an exhaustive search over the subset m.
+
+in the particular case of pmod, the transmitted vector x can be restricted to the subset x ∈ m, where the first vector of the set defines the transmission using the first polarization and the second vector of the set, using the second polarization. hence, the decision rule for demodulating the bit c is based (cid:6) s on ˆc = 0 if ˆx = . in the same way, the 0 signal r can be written as r = xˆc+1. (cid:6)
+
+this scheme, however, presents a notable increase of comutational complexity. the exhaustive search requires to find the solution among several possibilities. the complexity of the initial search is o(2b2) but due to the restriction of the set aforementioned, the complexity is reduced to o , which is equivalent to the complexity of the siso case where b + 1 bits are conveyed. (cid:8) 2b+1 (cid:9)
+
+furthermore, the previous demodulation schemes introduce hard decisions that induce non linearities, such as sign() or abs() functions. in the presence of coded information, as it can be seen in , soft decoding outperforms the previous ml implementation. in the following sections we describe schemes that introduce soft information.
+
+c. third approach: likelihood ratio with hard decision
+
+usually, to deal with channel impairments, the transmitted bits are coded. the channel decoder computes the metrics based on the likelihood of the received signal and is able to estimate the uncoded bits.
+
+the third approach is based on this philosophy and bit c is estimated based on the likelihood ratio. if the likelihood ratio is defined as
+
+the decision rule for estimating c depends only on the sign of log((cid:5)(y)). in the case where likelihood ratio is greater than 1, it means that it is more probable that c = 1 and vice versa. assuming that only b bits are coded, an estimator of the uncoded c can be stated as:
+
+once the receiver obtains the estimation of c, it knows which polarization is being used and thus it can recover the symbol s using the signal r = yˆc+1.
+
+although this scheme uses soft information in the decoding of symbol s, the decision of bit c is still hard. thus, if this bit is also coded, the result is suboptimal. in the next section we describe how to obtain a soft version of bit c. (cid:6)
+
+(11) the system conveys coded information as it was mentioned. the soft version of bit c corresponds to the log likelihood, exactly as the bits b. that is ˆc = log((cid:5)(y)).
+
+after that, the bit c is soft and can be passed to the soft decoder. however, there is the problem of which polarization to choose for decoding. in the previous schemes, since the bit c is hard, it is possible to process the received signal on the polarization indicated by c. in the present scheme it is not possible to decide which polarization conveys information.
+
+to solve this issue we compute the average received signal: r = p1y1 + p2y2. using the likelihood ratio (cid:5)(y) computed as in (10), and
+
+therefore, the receiver can recover the signal by weighting the received signals from both polarizations by p1 = 1 − p2 and p2, respectively. if we assume that the bit c is transmitted with equal probability, the averaged received signal takes the following form:
+
+finally, the combined signal r is passed to the decoder in order to obtain the b bits.
+
+iv. numerical results for uncoded ber
+
+in this section we analyse the results of the proposed schemes. to compare them, we deploy a system conveying qpsk symbols in addition to the switching bit c. for this purpose, we only examine the uncoded bit error rate (ber). the channel model used corresponds to the rician maritime mobile channel model described in the experiment v in with a correlation factor of ρij. all parameters are summarized in table i. fig. 2. comparison of the uncoded ber of the four proposed pmod techiques conveying a qpsk constellation.
+
+2) vblast is the polarization multiplexing vblast codng scheme.
+
+3) pmod zf is the first approach described in section iii a. 4) pmod ml is the second approach described section iii b. 5) pmod hd is the third approach described in section iii c. 6) pmod sd is the fourth approach described in section iii d. 7) ostbc corresponds to the orthogonal space time block codes applied to polarization instead of spatial diversity .
+
+in fig. 2, we compare the ber of the four pmod schemes. the four curves are labelled in the same order that they have been introduced (from the first to the fourth approach).
+
+as we stated in section iii b, the ml solution provides the lowest error rate, immediately followed by the fourth solution. as expected, in the absence of channel coding, the ml receiver becomes the optimal solution. although we remark that ml (cid:9) uses a reduced search space of order o , the computaional complexity is sensibly higher with respect to the other solutions. (cid:8)
+
+next to the curve of ml is the pure soft scheme (the fourth). if we examine the magnified area, we observe the gap between the ml solution with the pure soft is tight. hence, we conclude that the fourth demodulation scheme stays very close to the optimal solution.
+
+finally, the third approach, which does not use the condiional mean of the signal, performs close to pmod sd, whereas the first approach pmod zf obtains the highest ber.
+
+hereinafter, we choose the fourth approach, pmod sd, to compare it with other schemes different to pmod. the reason is twofold:
+
+first, it performs a near optimal ml solution, with a small gap of 0.05 db of eb/n0 for a fixed ber of 10−6. • second, the computational complexity is less expensive than in ml. fig. 3. comparison of the uncoded ber of the pmod sd with other existing techniques conveying a qpsk constellation.
+
+the same constellation for all schemes, the total se is different for each scheme. thus, although we are comparing different schemes with different se, the most remarkable point is the fact that the pmod is bounded by ostbc (lower se) and vblast (higher se) and therefore pmod achieves a trade off between ostbc and vblast in terms of ber and se.
+
+in all these schemes, 2 bits/channel use are conveyed. as expected, ostbc obtains lowest ber, followed by pmod and vblast. however, ostbc does not allow to increase the granularity of the adaptive bit rate. in other words, there is no choice to transmit 3 bits/channel use. the next step is to transmit a 16qam with ostbc, which is 4 bits/channel use. newest standards, such as dvb s2x , aim to include new modulation schemes to refine the rate adaptation curve.
+
+in contrast to the previous section, where the comparison is performed maintaining the same constellation, in this section we analyse the performance of pmod compared with the other schemes but constraint to the same se. to do this, we use the following transmission schemes:
+
+in all schemes, 2 bits per channel use are conveyed. fig. 4 decribes the curves of the different throughputs and it is clear that all curves tend to the same throughput for high snr.
+
+fig. 5 depicts the ber for the different techniques. in this case, ostbc obtains the lowest ber, followed by pmod sd, reference and vblast, respectively. as expected, ostbc exploits the full diversity of the channel and is closely followed by pmod. however, one of the advantages of pmod in front of ostbc is the ability to increase the granularity of the throughut adaptation. whereas ostbc increases the throughput by fig. 4. comparison of the throughput of the pmod sd with other existing techniques constraint to the same se.
+
+a powers of two, pmod can increase the throughput by small fractions, as it is seen in (4).
+
+v. results in a realistic system context
+
+in this section we describe the implementation of the pmod solution inside the broadband global area network (bgan) standard. in more detail, we deploy the downlink of the next generation satellite communications standard, currently beng redacted at the european telecommunications standards institute (etsi) committee (more detail at ). this part of the standard defines the scrambling, turbo coding and mapping stages, among other procedures. in order to offer flexibility in terms of data rate, several bearers and subbearers are deailed. they are different profiles with many combinations of coding rate and constellations. focusing in the downlink part, the symbol rate is 33.6 ksps and the frame length is 80 ms, table ii data coupling polarization matrix + interference matrices
+
+fig. 6. considered beam pattern to perform realistic simulations. working beam is marked with a red circumference and interfering beams as yellow circumferences.
+
+where the blocks of coded symbols are not interleaved. in order to simplify the model, qpsk bearers will be used in all simulations.
+
+a. next generation satellite communications simulation framework
+
+we simulate a l band geostationary satellite with 7 beams (one desired beam and six interfering beams) and dual poarization. since the beams are not perfectly orthogonal, we consider six adjacent beams at the same frequency subband as interferences, as well as the cross polarization couplings. all these values are summarized in table ii and are obtained via realistic multibeam antenna pattern during the project next generation waveforms for improved spectral efficiency (ngw), whose results are summarized in . in more detail, fig. 6 illustrates the beam pattern, where the working beam is marked with a red circumference and the interfering beams as fig. 7. co polar coverage for the forward link with contours at 3 db (red lines) and 4.5 db (blue lines).
+
+yellow circumferences. it is important to remark that not all beams induce the same levels of interference. depending on the position of the satellite and the geometry of the reflectors, the power of interferences varies between beams. in more detail, figs. 7 and 8 illustrate the co polar and cross polar coverage for the forward link with contours at 3 db (red lines) and 4.5 db (blue lines). one of the relevant aspect is the asymmetry of the co polar and cross polar gains in each beam. from these figures, it is clear that gains are different for each beam spot. finally, fig. 9 shows the block diagram used for the simulations described hereafter. pmod: groups the bits in blocks of size b + 1, modulates the symbols s and uses the c bits to select the polarization for each symbol.
+
+framing: encapsulates the symbols of each polarization in a frame defined in . it inserts pilots for channel estimation, a preamble for synchronization and a header for modulation code identification.
+
+interference matrix bi: models the cross polarization by a factor defined in table ii. b0 corresponds to the cross polarized matrix of intended data and b1, . . . , b6 correspond to the cross polarized matrices of interfering beams.
+
+p. it is imporant to remark that this is possible due to the fact that, for each symbol, only a single polarization is active and thus all power budget p is available, whereas in the case of vblast and ostbc this factor is divided by 2.
+
+li, i = 0, 1: equivalent path loss for each polarization. • hi, i = 0, 1: convolves the signal using the rician fast
+
+fading channel model. • noise: adds the awgn. • pmod−1: implements one of the schemes. • fec decoder: performs the inverse operation of fec encoder. it implements a turbo coder with systematic recursive convolutional codes (srcc).
+
+we consider the rician maritime mobile channel model described in the experiment v in and the parameters described in table i.
+
+the aim is to evaluate the basic transmission and reception concepts and schemes; thus, in this work it is assumed perfect synchronization at the receiver side as well as perfect channel estimation. prior to detection of symbol s, one of the four approaches is performed in order to estimate the bit c and filter the received signal.
+
+we remark that this scenario includes nongaussian intererence. thus, as we described the pmod solution under this assumption, we need to cope with the interference to minimize it. to achieve that, the receiver implements a mmse linear filter. this configuration mitigates the interferences from the other beams as well as the other polarization for the detection of symbol s. the bit c. fortunately, this effect can be reduced using a circular polarization or performing an estimation and assuming that the fr remains invariant during the time slot. an estimation of fr is described in and it can be applied using the pilot symbols used by the channel estimation. nevertheless, for the simulations, we assume that this effect is corrected.
+
+finally, in the next stage, the demodulated soft bits are passed to the turbo decoder and scrambled to obtain the information bits. in contrast to the previous section, since we consider interferences in this scenario, we use the signal to interference plus noise ratio (sinr) in the x axis rather than snr.
+
+b. comparing pmod solutions
+
+we compare the four proposed demodulation schemes. in contrast to fig. 10, although the ml solution is the optimal in absence of channel coding, this is not the case in the presence of coded information. certainly, the pmod sd scheme produces the lowest ber, followed by pmod hd. both schemes use soft bits and, thus, their performance is better than the hard solutions (pmod zf and pmod ml).
+
+in order to compare the proposed schemes with the existing ones, we compare the performance in terms of throughput, which corresponds to the average rate of successful information delivery and is defined as
+
+this is equivalent to the bitrate (r) of the particular bearer weighted by the probability of no error in the whole block (1 − bler) and the throughput gain (g), defined in (4). during all simulations, a fixed modulation code is simulated with coding rate of 0.625 (r = 40 kbps without frame overhead). bler is obtained by simulations and corresponds to the number of erroneous blocks divided by the total number of blocks. (16) fig. 11. comparison of the throughput of the four proposed pmod techniques conveying a qpsk constellation.
+
+gap between the solutions is tight, in this case the gap increases notably, making clearer the performance of the pmod sd/hd.
+
+c. comparing pmod sd with other solutions
+
+in this section we compare the performance of the pmod sd with ostbc and vblast in the same interference scenario. with the following comparisons we examine different strategies to increase the throughput.
+
+fig. 12 illustrates the coded ber for the different schemes. as with the uncoded ber (see fig. 3)), in this case, pmod sd lies between ostbc and vblast. one important aspect is that improves the ber of the reference scenario. this is positive since pmod increases the se but also the error rate. ostbc. from 3.5 db, the pmod sd increases the throughput by a factor of 1.5, followed by vblast from 5.5 db. this motivates the use of pmod in adaptive modulation and coding schemes (amc).
+
+d. xpd analysis
+
+in addition to prior comparisons, we also include a crossolarization discrimination (xpd) analysis for the pmod. the results are extremely encouraging and reveal that the pmod scheme is robust in front of cross polarization impairments. the reason is twofold:
+
+for high xpd values, only one polarization carries the data symbol whereas the other only contains noise. in this case, the system will decode the symbols s and the switching bits c correctly.
+
+for low xpd values, both polarizations carry the same symbol but only one polarization is decoded. in this case, the probability of error of decoding bit c increases as the xpd decreases but the probability of error of decoding the symbol s remains the same. this is motivated by the fact that, even in the case where the c bit is erroneous and the decoded polarization is the wrong one, it also contains the symbol s and thus, is able to decode the s symbols as if it was decoded from the other polarization.
+
+to analyse the xpd of the pmod technique, the xpd is
+
+(17) fig. 14. comparison of the throughput with respect of xpd of the different techniques conveying a qpsk constellation.
+
+different values to the xpd with the reference (reference). note that pmod hd and pmod sd are overlapped in the fig., although the pmod sd has slightly higher robustness. particularly, only for these simulation a fixed snr of 20 db was set, whilst the other parameters remain the same as in previous figures. as aforementioned, the pmod technique is robust in front of xpd as it can exploit the fact that the 2/3 of the bits are transmitted through the both polarizations.
+
+in this section we analyse the impact of an imperfect channel estimation. to study this behaviour we introduced an error ξ into the channel estimation which is normalized by the channel norm. indeed, the power of the error ξ is defined as follows:
+
+where e{x} is the expectation value of the variable x and ¯h is the estimated coefficient. the results can be examined in fig. 15.
+
+the pmod scheme becomes more robust in front of the reference scheme (reference). particularly, three of the four schemes (pmod zf, pmod hd and pmod sd) offer the same tolerance, but with the difference that pmod zf in addition is able to decode the bit c correctly. this means that although the scheme may be inaccurate, it is always capable to decode the bit c. this motivates hierarchical modulations. for example, using the pmod zf we could establish a hierarchical bpsk+qpsk and always succeed on decoding the bpsk scheme at least.
+
+finally, it is worth mentioning that the pmod technique presents a good trade off between robust techniques but with less throughput, such as ostbc, and more throughput availble techniques but more power consuming such as vblast, as fig. 15 depicted. fig. 15. impact of the imperfect channel estimation in the different techniques conveying a qpsk constellation.
+
+this paper introduces a novel application to mobile satellite communications of the entitled polarized modulation, which is based on dual polarized antennas. the work shows that with dual polarized modulation the throughput can be increased by a factor of 1 + b−1 in the absence of csit in low eb/n0 regime and that the transmission results robust to cross polarization and imperfect channel estimation. performance depends on the implemented receiver, that is why in this paper different alteratives are proposed that trade off computational complexity vs. performance. one of the demodulation schemes is based on probabilities, which involves soft detections and to the authors knowledge it is novel in the context of either spatial or polarized modulation. finally, the proposed techniques have been thorughly tested and validated using a maritime mobile satellite scenario and the newest implementation of the novel etsi's standard ts 102 744 , known as bgan, which is used for interactive mobile satellite communications. it validates the pmod scheme and demonstrates the enhancement of throughut and the robustness. further work is to extend the results and receiver architectures to more than two polarizations and investigate the pmod in aeronautical and urban channels. pmod exploits the diversity of the channel and therefore, whereas the polarization channel has diversity, the pmod will work as expected. additionally, although the union bound for rayleigh channel is provided, an interesting action is to study the impact of the averaged probability of error in rician channels as well as the mutual information and capacity analysis.
+
+the simulator tool was developed in the context of the european space agency (esa) contract for the project next generation waveform for improved spectral efficiency and for the satellite network of experts (satnex iv). the real measurements used as the interference gains as well as the coverage patterns were provided by esa.

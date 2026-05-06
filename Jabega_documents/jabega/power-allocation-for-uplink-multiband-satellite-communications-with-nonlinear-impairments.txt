@@ -1,0 +1,111 @@
+power allocation for uplink multiband satellite communications with nonlinear impairments
+
+arthur louchart, student member, ieee, philippe ciblat, senior member, ieee, and charly poulliat, member, ieee
+
+abstract—in this letter, we develop some generic power allocaion strategies in an uplink multiband satellite communications system when nonlinear impairments on the high power amplifier onboard satellite occur. based on the capacity closed form expresion related to receivers seeing nonlinear interference as a noise, we propose practical and scalable algorithms for three power allocation problems: i) sum power minimization, ii) maximization of minimum per user data rate, iii) sum rate maximization. we show that the solutions mainly rely on geometric programming and/or successive convex approximation approaches. the proosed solutions outperform naive approaches while enabling user scalability contrary to optimal brute force grid search algorithms.
+
+index terms—power allocation, nonlinear interference, capac
+
+w ith the exponential increase in data traffic, satellite
+
+communication systems coupled with the next genertion of cellular networks are becoming a key element. we actually focus on uplink/return link satellite communications around ka band where the terrestrial antennas may correspond to relay points from terrestrial systems, the satellite acts as a relay to the final terrestrial gateway , . in this context, papers dealing with resource allocation, e.g., , and the satellite's high power references therein, assumed that amplifier (hpa) operates in a linear regime. in , a closedorm expression for the sum capacity has been derived when nonlinearity at the hpa is considered and significant gains have been remarked when resource allocation is performed. nevertheless, their algorithm is just a brute force grid search. the main originality and contribution of this letter is to take into account the nonlinear behavior of the satellite hpa for deriving generic and practical resource allocation algorithms. we consider that the data rate relies on the capacity where the nonlinear interference is seen as an additional noise.
+
+when the hpa operates as a nonlinear device, the data rate (obtained through the capacity) depends on the nonlinear interference. the case of linear interference has been widely studied in the literature dealing with wireless communications, e.g., , . the case of nonlinear interference has been only pointed out in a few papers , .
+
+this work has been funded by anr through the sierra french
+
+charly poulliat is with irit, inp enseeiht, university of toulouse, actually, it is mentioned in that the third order interodulation interference may be managed through geometric programming (gp) for power optimization, but no simulations are performed. in , only a class of nonlinear interference is considered and does not fit with our case. our paper is technically related to since their tools remain valid in our case although this reference deals with linear interference.
+
+the rest of the paper is organized as follows: the system model is introduced in section ii. the considered optimization problems are presented and solved in section iii. numerical results are provided in section iv. concluding remarks and perspectives are drawn in section v.
+
+ii. system model
+
+we consider an uplink single beam multiband satellite comunication system, with k terrestrial users using orthogonal subbands to avoid interference . we assume that the suband assignment has been already done.
+
+, transmits an independent and z towards the n 2(cid:3)
+
+· identically distributed symbol sequence satellite where n is the sample number, with pk = e (cid:2) its transmit power. the channel gain gk between user k and the satellite is obtained with the user location . the hpa onboard the satellite induces nonlinear effects on the signal. we assume a perfect link between the satellite and the gateway, because the downlink uses a different frequency and involves broadcast to a single gateway. thus, the received samples for user k at the gateway, denoted by zk,n, write as follows : (1) { }
+
+where wk,n is the sampled additive white zero mean gaussian 2(cid:3) and ∆f is the noise (awgn) with variance width of a subband. the coefficients γ1 and γ3 are positive and characterize the nonlinear distortion of the hpa. the volterra kernel h3( is written as follows: h3( wk,n
+
+(4) where pt ) matched filter that satisfy nyquist's criterion.
+
+the nonlinear interference is correlated to the useful signal. however, in this letter, we consider a receiver which is not able to exploit the nonlinear part of the signal. this receiver then interprets the nonlinear effect as additional noise. under this condition, according to , the capacity of user k is (cid:18)
+
+pw are respectively the power of the where useful signal and the nonlinear interference power for user k, whose expressions are given by
+
+based on eq. (5) as an evaluation of the data rate for user k, we will explore in the following section different allocation strategies for the transmit power vector p =
+
+iii. nonlinear impairments aware power allocation strategies we hereafter consider three power allocation problems charcterized by different objective functions and constraints. for each problem, we propose a reformulation for which efficient optimization procedure can be deduced or proposed.
+
+for all studied problems, we assume the same mask con
+
+straint on the transmit power for any user k, namely
+
+≤ where pmax is the maximum transmit power. and
+
+pnl( end, let us consider the following two definitions.
+
+definition 1: a monomial function takes the following form: 2
+
+where , n are monomial functions. consequently, functions defined in eqs (6) (7) are monomial and posynomial with respect to p respectively. an optimizaion problem where the objective function and inequality constraints are posynomial is called gp and can be solved by convex programming after a change of variables . fn
+
+a. minimization of the sum power
+
+we consider the sum power minimization under a per user
+
+target data rate constraint. the related problem writes as:
+
+where rt k is the target data rate for user k. note that the problem may be infeasible if rt k is too large. in the case of a linear interference, the feasibility conditions are given in . the nonlinear interference due to the hpa is taken into account through the constraint (c2). this constraint can be rewritten as follows: (p1)
+
+pl( 2rt k k where pw is a pnl( constant. consequently, the left hand side (lhs) in eq. (c2) is posynomial. therefore, problem 1 is gp with respect to p, and can be efficiently solved by numerical algorithms . (pnl( k −
+
+− is posynomial, and
+
+b. maximization of the minimum per user data rate
+
+we address the maximization of the minimum individual
+
+data rate. the corresponding problem writes as follows:
+
+as the logarithmic function is monotonically increasing, probem 2 takes the following equivalent formulation:
+
+where the objective function is related to the signal tonterference plus noise ratio (sinr) depending on the noninear interference term. due to the minimization operator, this problem is not gp yet, but it can be circumvented by introducing the epigraph form as in . this leads to the following problem formulation: (p2)
+
+as the lhs in eq. (c3) is posynomial with respect to p and t, problem p2" is gp, and once again can be efficiently solved by numerical algorithms. (p2")
+
+(c3) we study the maximization of the sum capacity. the corre
+
+like , the objective function (p3) is rewritten in order to exhibit a ratio of posynomial functions:
+
+as the denominator is not a monomial, eq. (p3') remains a ratio of posynomials and so does not boil down to gp. we thus need to deal with a nonconvex optimization problem. a standard way for reaching a stationary point of the optimizaion problem is to resort to the so called successive convex approximation (sca) method. the main idea of sca is to upper bound the nonconvex objective function by a convex function approximating well the objective function at a given point, then to solve the problem with the upper bound, and to iterate at the new given point. the convex upper bound ˜fi at iteration i of the nonconvex objective function f has to satisfy , ∀x, ii) f x the following conditions: i) f , ) ) = where xi is the given point at iteration xi and iii) ( i corresponding to the solution at iteration
+
+in order to apply sca, our objective is now to find a tight upper bound for eq. (p3') which is either directly convex or gp. in where the interference is linear, it is proposed to replace the denominator with a monomial satisfying the sca conditions. at each step, this leads to a gp problem since a ratio of posynomial and monomial is a posynomial. here, we can follow the same approach even if the interference is nonlinear. at iteration i (for which the approximation is done around the point pi = ), we solve the following problem leading to the next point pi+1
+
+where (cid:101)qk,i is a monomial approximation of the denomina ) pw at the point pi. in order the tor qk pl( objective function in eq. (p4) to satisfy the sca conditions for the original objective function in eq. (p3'), this approximation is given by 3
+
+we summarize the algorithm for solving problem p3' below.
+
+around pi, using eq. (8)
+
+to sca used for difference of convex (doc), by applying the logarithm funcion to eq. (p3'), exponential change of variables, and linear approximation of the second convex function in doc . note that this approach is equivalent
+
+iv. numerical results
+
+we consider a multiband single beam satellite system oprating in the ka band for the uplink (27.5 29.5 ghz). the subband assignment has been already performed. the shaping filter is a square root raised cosine filter with roll off 0.25, and the values γ1 and γ3 are 1 and 0.05 respectively. the maximum power is pmax = 50w. the channel gains k } are computed according to , and we consider that one third of users undergoes rainy weather conditions, which degrade the channel gain by at most a factor of 10db. within a beam, for the same weather condition, the maximum difference is 3db between the user's channel gains. consequently, the maximum difference becomes 13db when some users undergo rainy conditions. unless otherwise stated, we have k = 6 users, including two users with rainy conditions.
+
+for any figure, we plot at least the value of the considered objective function for i) the naive allocation where the users use the same transmit power p which is then optimized for this objective function, and ii) the allocation, denoted by p(cid:63), proposed in the paper for this objective function. in addition, we display the optimal value of the objective function for the = 0. we use the k awgn case, i.e., when we force pnl( cvx toolbox to solve gp problems .
+
+in fig. 1, we plot the sum power versus the target data rate obtained for two resource allocations related to problem 1. we fix the same target for all users, and we inspect three values for the pre amplifier gain, denoted by gamp. this device is located before the hpa which operates into linear or nonlinear mode depending on the tuning of the pre amplifier. we remark that the optimal power allocation enables us to reach much higher target data rate when operating in nonlinear mode.
+
+in fig. 2, we plot the minimum user data rate versus the pre amplifier gain for two power allocations related to probem 2. once again, for high pre amplifier gain, the proposed algorithm outperforms the naive one.
+
+in fig. 3, we plot the sum capacity versus the pre amplifier gain obtained for two resource allocations related to problem 3. we consider the case where the algorithm is computed by knowing perfectly the channel gain as well as by knowing imperfectly the channel gain. the error on gk is uniformly distributed with a standard deviation (cid:15). we remark a significant gain in capacity when the proposed power allocation by algorithm 1 is implemented as soon as the nonlinearity occurs. −10−505100123 awgn 𝑃★ 𝑃naive gainofthepre amplifier[db]minimumuserdatarate[gbps]
+
+fig. 2. minimum of user data rate vs. pre amplifier gain gamp.
+
+this algorithm is also strongly robust to a misknowledge of the channel gains.
+
+fig. 3. sum capacity vs. pre amplifier gain gamp with (cid:15) % (in dotted and dashed line respectively). the solid line is the case of perfect channel gain estimation.
+
+in table i, we display the value of the powers provided by our proposed algorithm 1 and the naive algorithm related to problem 3 for various pre amplifier gain values. we show that the channel gain as well as the pre amplifier gain have an influence on the resource allocation. we unsurprisingly show that for low pre amplifier gain, the linear regime leads to pk = pmax. less obvious, for high pre amplifier gain, the terms gk pk are almost constant. and in between, the solution is less straightforward. especially, we do not know in advance (since it depends on each component of the set and their relative value to pmax) which regime could be applied. therefore our generic algorithm providing a relevant solution whatever the regime is of interest. 4

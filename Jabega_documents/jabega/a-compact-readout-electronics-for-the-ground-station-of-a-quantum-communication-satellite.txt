@@ -1,0 +1,89 @@
+a compact readout electronics for the ground station of a quantum communication satellite
+
+binxiang qi, shubin liu, qi shen, shengkai liao, wenqi cai, zehong lin, weiyue liu, chengzhi peng, and qi an
+
+abstract—free space quantum key distribution (qkd) is being developed for achieving unconditional secure communication over ultra long distance, which requires higher electronics perormance, such as higher time measurement precision, higher data transfer rate, and higher system integration density. as part of the ground station of the quantum science satellite that will be launched in 2016, we specifically designed a compact pci based measurement and control electronics with high time resolution and high data transfer rate. some necessary modules in the quantum communication experiment such as multi channel counter, system monitor and experiment control are also interated in a single board. the electronics performance of this system was tested, with the time precision bin size is 23.9 ps and the time resolution root mean square (rms) is less than 24 ps for 16 channels. the dead time is 30 ns. the data transfer rate to a local computer is up to 35 mbps, and the count rate is up to 30 mhz. the system has been proven to perform well and operate stably through a test of in door free space qkd experiment.
+
+index terms—data transfer, experiment control, ground sta
+
+tions, quantum communication, time measurement.
+
+o ver the past two decades, quantum communication has
+
+become the hotspot of future information technology research because of its unconditional communication security, which is guaranteed by the laws of quantum physics . free space qkd has been demonstrated as the most feasible option to achieve ultra long distance quantum communication . with a series of experimental researches and full scale
+
+manuscript received june 16, 2014; revised december 19, 2014; accepted may 08, 2015. date of current version june 12, 2015. this work was suported by the strategic priority research program on space science, the chiese academy of sciences (xda04030200), by the national natural science foundation of china (11405172), by the fundamental research funds for the central universities (wk2340000056) and the zhejiang provincial natural scince foundation (ly13f050007).
+
+b. qi, s. liu, and q. an are with the state key laboratory of particle detecion and electronics, ustc, hefei 230026, china, and also with the cas center for excellence and synergetic innovation center in quantum information and quantum physics and department of modern physics, university of science and technology of china, hefei 230026, china (e mail: qibx@mail.ustc.edu.cn; liushb@ustc.edu.cn).
+
+q. shen, s. liao, w. cai, and c. peng are with the hefei national laboatory for physical sciences at microscale, ustc, hefei 230026, china, and also with the cas center for excellence and synergetic innovation center in quantum information and quantum physics and department of modern physics, university of science and technology of china, hefei 230026, china (e mail: shenqi@ustc.edu.cn; skliao@ustc.edu.cn).
+
+z. lin and w. liu are with the college of information science and engi
+
+color versions of one or more of the figures in this paper are available online verifications , satellite ground quantum communication projects have been proposed by several countries . being one of the strategic space projects proposed by the chinese academy of sciences, the quantum science satellite will be launched in a low earth orbit at an altitude of about 600 km in 2016, which aims to implement satellite ground quantum communication experiments and carry out a series of tests about fundamental quantum principles on a global scale.
+
+in this paper, we designed measurement, control and dataransmission electronics as part of the ground station of the quantum science satellite, based on the compact peripheral component interconnect (cpci) bus. the high time resolution, high data rate and integratability of the electronics can well meet the requirements for quantum communication, and it performs well and runs stably in free space qkd experiments. this paper is organized as follows: in section ii, we present the specific reuirements for the measurement and control electronics of the ground station; in section iii, we introduce the electronics archiecture and describe the main modules in detail; in section iv, we give the electronics performance tests and an experimental demonstration; finally we conclude in section v and give the acknowledgements.
+
+qkd has been the most developed application of quantum cryptography , which uses single photons to transmit each bit of the key. the quantum mechanical properties of single photons are exploited to provide an unconditionally secure key distribution between distant parties, namely the sender (typcally named alice) and the receiver (typically named bob). alice and bob communicate with each other through a public classical channel and a quantum channel. the public classical channel transmits ciphertexts and authentication information. the quantum channel is only used to transmit single quanta (qubits).
+
+a typical satellite ground qkd system is shown in fig. 1, where the ground station is the receiving terminal. we use tracking and pointing telescopes to set up an ultra long distant quantum channel between the ground and the satellite. alice randomly sends information using photon polarization, which produces a shared secure key. some of the photons in the downlink path are collected by the receiving telescope, and detected by apds which are placed behind optical devices. and then bob registers all detected events and records the arrival times of all the output signals of the apds using high precision time measurement electronics and saves the data to a local memory for later processing on the ground. alice and bob are often far away from each other and they have independent fig. 1. scheme of a typical satellite ground qkd system. st, send telescope; rt, receive telescope; sd, synchronous detector; apd[x4], four avalanche photo diodes. gps,global positioning system.
+
+reference clocks. in order to solve the time synchronization problem, a synchronous laser diode and gps are used. as the synchronous light detected and measured by the two sides respectively are derived from the same source, so the time data of the synchronous light pulses have a fixed time differnce between each other, and then the two sides can establish precise time synchronization. the pulses per second (pps) of the gps receivers are also measured by both alice's and bob's time to digital converter (tdc). they are used to make the start synchronization of quantum communication, and the collected data can be separated in seconds by the gps pps so that the following algorithm processing is simpler.
+
+consequently, for the electronics of the ground station, a multi channel high precision time measurement module is essential to accurately record the input signals and establish high precision time synchronization between alice and bob. the time resolution of the tdc is required to be less than 100 ps. the event rate is up to 1 mhz when used in ground joint debugging and satellite ground joint debugging, where one event corresponds to 6 bytes of data, which needs a data transfer rate of 24 mbps for all four apds' input. a high speed data interface is necessary to transfer the experimental data to a local cpu. a qkd experiment control module is needed to assemble the experimental data and control the experiment. in addition, it should have the ability of photon event counting table i the electronics requirements
+
+and system monitor to debug and test. besides, it also should be easily extended to use in other quantum communication experiments, such as entanglement distribution and quantum teleportation .
+
+according to the design specification, the measurement and control electronics of the ground station system should have the performance characteristics as shown in table i. since the elecronics is designed for a ground station, there are no anti radition requirements, and all the devices use the industrial grade products.
+
+the timing measurement resolution and the time synchronization precision can directly influence the perormance of qkd systems, such as quantum bit error rates (qber), final key rate, etc. . high resolution tdc can improve the system's time measurement resolution, which then means the time coincidence window width can be set smaller, which results in a better signal to noise ratio (snr) with more noise eliminated. a better snr causes smaller qber. for the downlink 40 db channel loss , the satellite ground qkd specification demand to the qber is less than 3.5% and the final key rate is greater than 500 bps. particularly,
+
+iii. architecture of the electronics
+
+based on the cpci system, the electronics is designed in a standard 6 u size circuit board. fig. 2 shows its architecture, which mainly consists of a multi channel input module, a time measurement module, an experiment control module, a data transmission module, a system monitor module and an output module. besides, a counter is designed for experimental debuging and verification test.
+
+a. time measurement
+
+a 16 channel high resolution tdc is implemented in a xilinx virtex6 field programmable gate array (fpga) to record the arrival time of the input signals. the block diagram of the tdc is shown in fig. 3, which consists of the coarse measurement unit, the fine measurement unit, the encoder unit and the readout buffer. fig. 3. block diagram of tdc based on fpga's carry chains.
+
+coarse measurement unit is achieved by a simple counter with the system clock at 160 mhz. we use the half interval search algorithm to convert thermometer code to binary code for the encoder unit. the clock samples the state of delay cells when a hit arrives. by determining in which sample the rising edge of input signal comes out of a delay cell, the arrival fine time of the input signal can be deduced with a resolution equal to the tap delay. the system clock drives coarse counters to track the number of multiplied clock periods elapsed after the tdc was enabled. the coarse counter values are sampled when the hit arives. tdc data is assembled with coarse time data, fine time data and channel identification.
+
+the core of the electronics system is experimental control, which controls the timing of the quantum communication exeriment. fig. 4 shows its block diagram and fig. 5 shows its control flow chart. it has the following functions: parsing comands and transmitting them to other modules, maintaining the system absolute time by receiving a gps signal or a local signal, fig. 4. block diagram of experiment control based fpga.
+
+fig. 5. control flow chart of experiment control.
+
+generating proportion adjustable random code and outputting the code with a fixed frequency, assembling the random number data and tdc data to the experimental data and then writing the data by frame format to buffer fifo. a physical random genertor provides enough random numbers before the start of comunication and stores them in a local memory. a synchronous dynamic random access memory is used to guarantee zero data loss during processing.
+
+c. data transmission
+
+the data transmission is based on pci protocol to guarantee a high data rate. as shown in fig. 6, a complex programmable logic device (cpld) with the ip core pci_mt32 functions as the interface between the fpga and the pci bus. data of the quantum communication experiment is transferred in a timely manner to the pc through the pci interface. to achieve a high transfer speed, the dma (direct memory access) method is adopted. with different dma transfer length, the average transfer speed varies. the on line modification of the fpga logic is achieved with the passive serial configuration mode through this cpld via pc. the cpld controls the transfer of the configuration data from a storage device (a serial flash memory) to the fpga. in the on line modification process, the serial flash controller refresh the serial flash with new fig. 6. block diagram of data transmission based on cpld.
+
+as shown in fig. 7, a system monitor module is used to meaure the voltage and current on board, and the fpga's temperaure and voltage. the sense resistor detected the flowing current, and the analog signal of voltage and current is sampled using the ip core provided by xilinx inc.
+
+taking full advantage of the fpga's flexibility to program, not only the above functions, but also some necessary modles in the quantum communication experiment such as multihannel counter and digital to analog converter (dac) control are integrated in a single fpga. the counter module records the counting rate of each channel by detecting the signal's rising edge. the count values and the corresponding system time are latched in the registers, waiting for the pc to read. the dac module is used to adjust the input signal's threshold for all 16 channels.
+
+additionally, to enhance the compatibility of the system, the
+
+input range of the 16 channel inputs is expanded to
+
+v by adjusting the threshold. in order to extend the appliation in other quantum communication experiments, the other 12 low voltage transistor transistor logic (lvttl) channel inuts function as a backup design. there is also an external clock input and an external trigger input. fig. 8. the electronics performance test setup and the 6u electronics board.
+
+iv. test results
+
+a. electronics performance test
+
+the electronics performance of this system has been tested. the electronics performance test setup is shown in fig. 8, and it also shows the standard 6u electronics board based on the cpci system.
+
+we used a cable delay measurement method to evaluate the timing precision of the tdc by a periodic hit signal produced by a pulse generator . fig. 9 and fig. 10 show the time noninearity including dnl and inl. the figures show that 268 chains are used in the tests, while the fine time's chain length we designed is 275. the results testify that the delay chain length we designed is enough, and a larger chain length can prevent the drift caused by temperature and voltage.
+
+fig. 11 shows the typical statistical spread of the time meaurements of channel 2 and channel 3, in which the time resoluion rms is about 18.5 ps. table ii shows the test results of all 16 channels of the tdc. the time precision bin size is 23.9 ps and the time resolution rms is less than 24 ps for 16 channels. the dead time is about 30 ns. the rms values above are the results of the measured values divided by , as the measured values of standard deviation contain two tdc channels.
+
+the other electronics performance test results are shown in table iii. the random number generation rate is up to 4 mb/s. the data transfer rate to local computer is up to 35 mbps, and the count rate is up to 30 mhz. the results show the system can accurately monitor the operating state of the board, and the power consumption of the 6u circuit board is less than 9 w. table ii time measurement performance for 16 channels
+
+table iii the other electronics performance
+
+fig. 12. block diagram of the free space qkd experiment. sld, synchronous laser diode; bs, beam splitter; st, send telescope; rt, receive telescope; sd, synchronous detector; ld[1:4], four laser diodes; apd[1:4], four avalanche photo diodes; rnd, random data module; tia, time interval analyzer.
+
+b. qkd experiment demonstration
+
+as is shown in fig. 12, an indoor free space qkd experient, based on the bb84 protocol using the decoy state theory , has been carried out to verify the system's utility. we use the electronics as a receiver to communicate with alice in the experiment. once quantum communication starts, alice reads the random data and modulates the four lds to send weak coherent photon pulses at a clock frequency of 100 mhz. the photon polarization encoding method is used and the four lds mean 4 different polarization states "horizontal", "vertical", " ". meanwhile, bob's four apds detect the single photon pulses, corresponding to the four laser sent by alice. bob records the arrival times of all the output signals of the apds using the fpga based tdc and save the data to a local memory. as outlined in section ii, a synchronous laser diode (sld) and gps are used to solve the time synchronizaion between alice and bob. " and "

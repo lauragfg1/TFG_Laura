@@ -1,0 +1,69 @@
+energy efficient multicast precoding for multiuser multibeam satellite communications
+
+abstract—aiming at maximizing the energy efficiency (ee) of multicast multibeam satellite communications, we consider the precoding design under the total power and quality of service (qos) constraints. since the original ee maximization problem is nonconvex, it is sequentially converted into a concave convex fractional programming problem by introducing some variables and using the first order taylor low bound approximation. based on the charnes cooper transformation, it is further converted into a convex problem. then an iterative algorithm is presented to design the energy efficient precoding. to find feasible iniialization points for the algorithm and ensure its convergence, another convex optimization problem with some nonnegative slack variables and a positive penalty parameter is iteratively solved. in particular, the algorithm is verified by the measured channel data of multibeam satellite communications.
+
+index terms—satellite communications, energy efficiency (ee),
+
+the explosive demand on wireless access and service prompts the fast development of wireless communications. to provide seamless wireless signal coverage for highland, mountainous and sea areas, we typically resort to the satelite communications, which are highly matched with the particularity of these areas. aside of providing wide signal coverage, satellite communications are also well known for the strong capability of emergency communications. therefore, satellite communications are recognized as important parts for 5g and beyond. recently, precoding design for multibeam satellite communications is attracting more interests, since the precoding can mitigate the multibeam interference as well as compensating the channel fading and therefore can improve the spectral efficiency (se) . in order to provide larger bandwidth for each user, full frequency reuse among different beams can be used, which is generally adopted in terrestrial wireless communications. however, it may result in the inteream interference, which is also known as the co channel interference in the satellite community. as a consequence, precoding is required to mitigate the inter beam interference.
+
+this work was supported in part by national natural science foundation of china under grant 61871119, by natural science foundation of jiangsu province under grant bk20161428, and by the fundamental research funds for the central universities. (corresponding author: chenhao qi)
+
+chenhao qi and huajian chen are with the school of information scince and engineering, southeast university, nanjing 210096, china (email: qch@seu.edu.cn).
+
+yansha deng is with the department of informatics, kings college london,
+
+arumugam nallanathan is with the school of electronic engineering and computer science, queen mary university of london, uk (email: a.nallanathan@qmul.ac.uk). in , a frame based precoding design scheme under perntenna power constraints for multicast multibeam satellite systems is proposed. in , a two stage low complexity precoding design scheme for multibeam multicast satellite systems is proposed, where the first stage minimizes the inteream interference and the second stage enhances the intraeam signal to interference and noise ratio (sinr). however, both of them consider the precoding design aiming at the se maximization while neglecting the energy efficiency (ee) aspect. in , based on zero forcing and sequential convex approximation (sca), two precoding design algorithms for ee maximization problem under the total power and the quality of service (qos) constraints for multibeam satellite communications are presented. however, it only focuses on the unicast scenario while lacking the consideration of the multicast scenario.
+
+ii. system model
+
+we consider a multibeam satellite communication system with a single broadband multibeam satellite, a gateway and several users. the gateway transmits the information to the satellite via the feeder link. since the gateway is equipped with large size antennas offering high antenna gain, and is normally fixed and placed in an open area with the line ofight (los) channel to the satellite, we assume the feeder link to be an ideal channel . the array fed reflector on the satellite transforms m feeder signals into n transmit signals, where the coverage of each signal on the earth ground forms a beam and there are totally n beams.
+
+suppose each beam of the satellite covers q ground users 1.
+
+1if the number of users per beam is different, supposing the largest number per beam is qmax, we may set q = qmax so that each beam has some virtual users with zero channel coefficients. 1
+
+then the satellite serves totally k (cid:44) qn users. we denote the signal vector received by the k users as y ∈ ck, which can be further expressed as
+
+y = hx + η (1) where x ∈ cm denotes the feeder signals of the satellite. η ∈ ck denotes an additive white gaussian noise (awgn) vector, where each entry of η independently obeys the complex gaussian distribution with zero mean and variance being σ2, i.e., e{ηηh } = σ2i k. we denote h ∈ ck×m as the downlink channel matrix between the multibeam satellite and the k ground users, which can be expressed as
+
+h = φc (2) where c ∈ rk×m and φ ∈ ck×k denote the multibeam antenna pattern and the signal phase matrix caused by different propagation paths between the satellite and the users, respecively. since the distance between the neighbouring satellite antenna feeds is relatively small compared with the distance between the satellite and the users, it is common to assume that the phases between the user and all the feeders are the same , . therefore, φ is a diagonal matrix with the k(k = 1, 2, . . . , k)th diagonal entry being [φ]k,k = ejφk , where φk denotes a random variable obeying the uniform distribution in (0, 2π). the off diagonal entries of φ are all zero, i.e., [φ]k,m = 0 for i (cid:54)= m. for the multibeam antenna pattern, the entry on the k(k = 1, 2, . . . , k)th row and m(m = 1, 2, . . . , m )th column of c can be modeled as
+
+4π dk λ where dk denotes the the distance between the satellite and the kth user, gr denotes the receiving antenna gain, and gk,m denotes the gain between the mth antenna feeder and the kth user. λ, bw , κ and tr represent the wavelength, the bandwidth, the boltzman constant, and the clear sky noise temperature at the receiver, respectively. note that the function of the array fed reflector on the satellite has already been considered in the modeling of h.
+
+to mitigate the inter beam interference caused by the satelite channel, a common preprocessing technique is introducing a precoding matrix to combat the channel distortion. under this context, the feeder signals can be further expressed as
+
+x = w s (4) where w (cid:44) [w1, ..., wn ] ∈ cm ×n denotes the precoding matrix with the ith column of w represented as wi, and s (cid:44) [s1, ..., sn ]t ∈ cn is a signal vector that contains the symbols to be transmitted for the n beams. we assume that s ∼ cn (0, i n ).
+
+since the power of the satellite is typically supplied by the solar wings and onboard batteries, it is significant to save the power of the satellite to extend the lifetime of onboard devices. therefore, instead of merely improving the se of the 2
+
+satellite communications, we consider improving the ee as an important metric. we define the ee as the ratio of the sum rate of the worst ground users over the total power of the satellite. note that we pay more attention to the worst user of each beam with respect to the fairness among different users. in a multicast system, in order to ensure the fairness of different users so that all users instead of only part of users can get satellite services, we give special concerns to the worst user of each beam.
+
+now we formulate the ee maximization problem of multi
+
+beam satellite communications with multicast precoding as
+
+(6c) where the numerator of the objective function in (6a) is the weighted sum rate of the worst ground users from each beam, while the denominator is the satellite power consumption. α (cid:44) {α1, . . . , αn } is a set containing the predefined weights for all the n beams, where the larger weight implies the higher importance of the beam, e.g., the beam covering big cities probably needs larger weight. since the satellite power consumption is mainly determined by the platform payloads, the power consumption mainly includes that consumed by the power amplifiers for the user link, the feeder link, the remote sensing and control link, and the onboard signal processing units, which are generally denoted as p0. (6b) indicates the total power constraint of the satellite communications, where pt is the maximum transmission power determined by the power amplifier on the satellite . note that the power allocation is implicitly included in (6b). (6c) indicates the qos constraint for each user, where γn is a threshold sinr that each user in the nth beam should satisfy to guarantee the qos . (6a)
+
+we further introduce new variables βn,q satisfying n (cid:88)
+
+(10) where the right side of the inequality of (10) is defined as a real conditional function φ(t)(wn, βn,q|w(t) n,q). note that we use the superscript (t) to distinguish different values of variables or vectors at different iteration, since they will be iteratively updated in our algorithms, e.g., w(t) n is the value of wn at the tth iteration.
+
+since the objective function in (6a) is complicated due to both the maximization and minimization operations, we define rn (cid:44) min log(1 + γn,q), n = 1, 2, . . . , n , which implies that
+
+(12d) note that (12) is a concave convex fractional programming problem which can be converted into a convex problem with the charnes cooper transformation , . with such transormation, we define ¯rn (cid:44) ϕrn, ¯wn (cid:44) ϕwn, ¯βn,q (cid:44) ϕβn,q and ¯γn,q (cid:44) ϕγn,q, where ϕ can be regarded as an upper bound variable of the inverse of the total power consumption, i.e., ϕ (cid:44) ((cid:80)n n=1 (cid:107)wn(cid:107)2 + p0)−1. then (12) is converted into the following convex problem as
+
+(13g) which can be solved by the existing optimization tools, e.g., cvx. it is seen that given w(t) n,q for (13e), we can solve , ¯r∗ and ϕ∗ are the optimal solutions of (13). suppose w (13). we set ¯r(t+1) the same as ¯r∗, where ¯r(0) is initialized to be a zero vector. then the solutions of (12) can be obtained as and β(t+1) w respectively for (13e) to obtain the new solutions of (13). we iteratively run the above procedures until the stop condition is satisfied. the stop condition is set as n (cid:88) /ϕ∗ and ¯β∗/ϕ∗, which can be used as w(t+1) 3
+
+algorithm 1 energy efficient multicast precoding design 1: input: h, pt , p0, σ2, ξ, α. 2: initialize w in to be any matrix satisfying (6b). 3: initialize βin to be any matrix satisfying (8). 4: solve (15) with w in and βin, where the optimal values are
+
+denoted as w (0) and β(0), respectively.
+
+where ξ is a predefined threshold to control the convergence of the energy efficiency, e.g., ξ = 0.001. the procedures are summarized from step 6 to step 11 of algorithm 1.
+
+to ensure the convergence of the energy efficiency, it is important to find feasible w (0) and β(0) to start the iteration. to find feasible w (0) and β(0) satisfying the constraints of (12), we iteratively solve the following convex optimization problem
+
+i(cid:54)=n γn ≤ γn,q + [ψ4]n (15e) rn ≤ log(1 + γn,q) + [ψ5]n (15f) ψ1 ≥ 0, ψ2 (cid:23) 0, ψ3 (cid:23) 0, ψ4 (cid:23) 0, ψ5 (cid:23) 0 (15g) where ψ1, ψ2, ψ3, ψ4, ψ5 are nonnegative slack variables for each constraint and λ is a positive penalty parameter, e.g., λ = 100. we initialize w in to be any matrix satisfying (6b). we initialize βin to be any matrix satisfying (8). based on w in and βin, we obtain w(0) n,q as the initialization points of (15c). then we iteratively solve (15) with the same procedures as iteratively solving (13), with only difference in the stop condition, where we stop the iteration once all the slack variables are zero. then we obtain w (0) and β(0) and set them as the input to (13) for the first iteration. the procedures are summarized from step 2 to step 4 of algorithm 1. and β(0)
+
+iv. numerical results
+
+to evaluate the performance of our work, we assume a multibeam satellite working in 20ghz ka band with m = 16 feeders and n = 16 beams. within the coverage of the satellite, all users are uniformly distributed. we set α1 = α2 = · · · = αn = 1. the channel used in our simulation is provided

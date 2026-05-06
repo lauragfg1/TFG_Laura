@@ -1,0 +1,57 @@
+radar measured rain attenuation with proposed z r relationship at a tropical location
+
+division of communications engineering, school of electrical and electronic engineering, nanyang technological university, singapore
+
+for tropical country like singapore, excessive rainfall is a freuent phenomenon throughout the year. at a common tropical rainfall rate of 100 mm/h, an attenuation of up to 10 db per km is observed over 10 min in the ka band frequency of 20 ghz [1,2]. therefore, the knowledge of the rain fade is critical for the design of a reliable terrestrial and/or earth space communication link, espeially for frequency above 10 ghz. even the cost of establishing one earth to space communication link for propagation studies is very costly, hence radar reflectivity data provides an attractive alternaive for rain attenuation estimation and prediction.
+
+the radar reflectivity data is commonly used for rain attenuaion prediction due to the wide volume coverage of the data. rainfall rate estimation from radar measurements is based on empirical models such as the reflectivity (z) and rainfall rate (r) relation, the z r relation, which has been studied for more than 60 years . in radar meteorology, the accurate determination of the rainfall rate from the measured reflectivity is important. the z r relationships relate the measured radar reflectivity to rainfall rate according to the general formula (1) by marshall and palmer ,
+
+where z (mm−6 m3) is the radar reflectivity factor and r (mm/h) is the rainfall rate. marshall and palmer published the z r relaion using the exponential dsd with a set of generic parameters of
+
+electronics (aeü) and
+
+© 2014 elsevier gmbh. all rights reserved.
+
+of a = 200 and b = 1.6. battan presented a list with 69 different z r relationships in different parts of the world and proved that z r relationships are different for different climatic conditions. a proper z r relationship that fit with the local climate is essential for the prediction of rain attenuation from radar reflectivity data. section 2 provides a description of the radar system and the beacon receiver data used for the analysis. section 3 shows the formulas for the calculation of path rain attenuation. in section 4, the procedures to calculate the attenuation are described in detail. the comparison of beacon and radar measured rain attenuation in time series and cumulative distribution function (cdf) are also preented in this section. finally, the conclusions are given in section 5.
+
+2.1. weather radar (changi)
+
+is collected at the changi weather station (1.3512◦ n, 103.97◦ e) on the east coast of singapore. the radar is operating at the s band frequency of 2.71 ghz. it performs a full volume scans every 5 min. the maxmum range of the scanning rays is at least 120 km for elevation angles from 0.1◦ to 40◦. other details of the radar are given in . in section 4.1, full volumetric data for the year 2003 and for 16 months from may 2011 to august 2012 will be used to derive the z r relationship. the radar dataset used in this study
+
+2.2. weather station (ntu)
+
+rainfall rate is collected and measured by the tipping bucket rain gauge with a resolution of 0.2 mm/tip. the rain gauge data is recorded by the davis vantage pro 2 weather station. the weather station is located in the campus of nanyang technological univerity (ntu, 1.3423◦ n, 103.6807◦ e), which is about 32.2 km west of the location of the radar at changi.
+
+in order to verify the validity of the use of the full volumetric radar data in this study, the measured rain attenuation from beacon receivers will be compared with the radar derived rain attenuaion. this analysis is performed based on three sets of beacon rain attenuation measurements: winds, ge23 and st2 geostationary satellites. the beacon receivers are located besides the weather station.
+
+the beacon signal from the wideband inter networking engieering test and demonstration satellite (winds) satellite, located at 143◦ e has a frequency of 18.9 ghz, an elevation angle of 44.5◦, and is lhcp polarized. beacon signal from the general electric 23 (ge23) satellite, located at 172◦ e has a frequency of 12.75 ghz, an elevation angle of 13.2◦, and is linearly polarized. the beacon signal from the singtel 2 (st2) satellite, located at 88◦ e has a frequency of 12.5 ghz, an elevation angle of 71.5◦, and is linearly polarized.
+
+in order to remove spurious signals and scintillations , all the measured beacon signals undergo a 6th order butterworth lowass filtering with the cutoff frequency of 40 mhz. these beacon measurement data will be used in section 4.2 to derive and verfy the z r relationship used for converting the radar reflectivity values to rainfall rates.
+
+in order to derive the rain attenuation from the data obtained from the radar system, the point rainfall rate, ri, needs to be accuately obtain from the reflectivity to rainfall rate (z r) relationship. once the point rainfall rate, ri, is obtained, the slant path attenuaion can then be derived using (2). the itu r recommends the use · r1.6. however, litf marshall parmer's z r relationship of z = 200 erature has shown that the z r relationship differs based on the climatic zone. therefore, the z r relationship that is suitable for the singapore climate is presented in the section 4.1. the z r relationhip is used to convert the radar reflectivity values, z, into rainfall rate at every pixel along the earth space propagation path. in order to calculate the rain attenuation along the slant path between the earth stations to the satellites, the path attenuation associated with each pixel is calculated and then integrated over the length of the slant path using (2).
+
+the earth space path attenuation a is calculated through the
+
+is the link where l = hr/sin elevation angle, hr is the fixed yearly mean rain height, derived from itu r rec. p.839 3 . the coefficients of specific attenua ˛, can be obtained from the itu r rec. p.838 3 , and tion, k and is dependent on the link elevation angle, the radiowave frequency and the polarization. in (2), ri is the point rainfall rate value at each ith pixel along the slant path between the earth station and the satellite. therefore, the rain attenuation, which is strongly dependnt on the precipitation characteristics along the slant path, will affect the system performance significantly. fig. 1. performance of tropical z r relationship on the radar measured rainfall rate.
+
+4. results and discussion
+
+4.1. z r relationship for tropical climatic zone
+
+in order to calculate the path attenuation from radar data, the appropriate z r relationship should be used. fig. 1 shows the cdf of the point rainfall rate measured at the ntu measurement site using a 0.2 mm tipping bucket rain gauge. the rainfall rate derived from the commonly used marshall parmer z r relationship (m p z r) is also plotted.
+
+as can be seen from the figure, the point rainfall rate obtained from the radar data using marshall parmer z r relationship tends to underestimate the rainfall rate compared to our rain gauge meaured statistics. therefore, a z r relationship that is suitable for the tropical climatic zone needs to be obtained. using the best fit method, by comparing the cdf statistics of equi probable radar reflectivity z and equi probable rain gauge's rainfall rate r, the folowing z r relationship suitable for the tropical climate is derived:
+
+as shown in fig. 1, the z r relationship derived in (3) provides a closer match to the actual measured rainfall rate. note that due to the highly convective rain events experienced in the tropical region, instead of the z r parameters of 200 and 1.6 by marshall and parmer, the z r parameters are 62 and 1.6 for the tropical region. the exponent remains the same whereas the multiplicative factor is much lower since the rainfall rate in the tropical region is significantly higher than that in the temperate and sub tropical regions.
+
+since the rainfall rate collected by the rain gauge is at ground level, whereas the rainfall rate derived from the radar reflectivity is an average from the volume scan of a larger area around the location of the rain gauge, there is always a difference, as shown in fig. 1, between the rain gauge measured rainfall rate and the radar derived rainfall rate.
+
+4.2. performance of radar's rain attenuation calculation
+
+fig. 2 shows the rainfall rate of two heavy rain events on 17 july 2010 and 01 august 2010. figs. 3 and 4 show the slant path rain attenuation of these two heavy rain events. for figs. 3 and 4, the three graphs in each figure shows the rain attenuation measured by the beacon receivers for the slant path pointing towards the winds, ge23 and st2 satellites respectively. on the same graphs, the radar derived attenuation based on the tropical region z r (3) relationship using (3) and the marshall and parmer z r relationship of z = 200
+
+as shown in figs. 3 and 4, the radar predicted attenuation fits well with beacon measured attenuation. the sampling rate of the beacon and the radar data sets are 1 second and 5 min respecively. therefore, more fluctuations can be seen from the beacon measured rain attenuation as compared to the radar derived rain attenuation. the dynamic range of the winds, ge23 and st2 beaon receivers are 40 db, 25 db and 25 db respectively. therefore, due = 13.1◦), the slant to the low elevation angle of the ge23 satellite ((cid:2) propagation path for this satellite is relatively longer. the attenuaion suffered by the ge23 signal although lower in frequency in the ku band, is comparable to the attenuation suffered by the winds signal at a higher ka band frequency (with a shorter slant propaation path). in most of the rain events, the marshall palmer z r predicts the low rain attenuation very well, compare with tropial z r. this is because, the marshall palmer z r is valid for low rainfall rate in temperate region, therefore, it predicts low rainfall rates well.
+
+in both rain events shown in figs. 3 and 4, the signal received by the ge23 beacon receiver is beyond the dynamic range of the sysem, therefore, the flat line of 25 db attenuation are shown between 04:45 h and 05:50 h in fig. 3 and between 05:20 h and 05:50 h in fig. 4. since the dynamic range of the ka band beacon (winds) is higher, there are less or no flat line periods.
+
+fig. 5 compares the cdfs statistics of the three beacon attenations and their corresponding radar calculated attenuations. the difference between the equi probable attenuation of beaon and radar data is less than 3 db. this shows a good match between the beacons measured attenuations and the radar derived attenuations using the tropical region z r relationship. however, the radar derived attenuation using marshall and parmer z r relationship tends to underestimate the beacon measured attenation.

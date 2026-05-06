@@ -1,0 +1,219 @@
+on channel sharing policies in leo mobile satellite systems
+
+ioannis d. moscholios, vassilios g. vassilakis, nikos c. sagias, and michael d. logothetis
+
+abstract—we consider a low earth orbit (leo) mobile satelite system with "satellite fixed" cells that accommodates new and handover calls of different service classes. we provide an analytical framework for the efficient calculation of call blocking and handover failure probabilities under two channel sharing policies, namely the fixed channel reservation and the threshold call admission policies. simulation results verify the accuracy of the proposed formulas. furthermore, we discuss the applicability of the policies in software defined leo satellites.
+
+index terms—low earth orbit (leo) satellite, mobile satellite system, channel sharing policies, call blocking, software defined network.
+
+l ow earth orbit (leo) mobile satellite systems (mss)
+
+are ideally suited for globally providing multiservice real time applications to a diverse population . compared to geostationary earth orbit satellite systems, their requirements in terms of transmit power and transmission delays are sigificantly lower at the expense of frequent beam handovers (that occur due to the high speed of leo satellites) to inervice mobile users (mus). to assure a high quality of service (qos) in the complicated multirate traffic environment of contemporary leo mss, it is essential to develop qos mechanisms, with efficient and fast qos assessment, that: i) provide access to the bandwidth needed by the services of the mus, ii) ensure fairness among different "competing" mobile services/applications and iii) reduce handover failures for inervice mus. on the other hand, the incorporation of the emerging technologies of software defined networking (sdn) and network function virtualization (nfv) in next generation satellite networks , , provides new opportunities for fairer qos assignment among service classes. sdn decouples the control plane from the data plane, while nfv abstracts the network functions from the underlying physical infrastructure. sdn and nfv, although not dependent on each other, are closely related and complementary concepts.
+
+considering call level traffic in a leo mss which accomodates different service classes with different qos requireents, a qos mechanism that affects call level performance measures, like call blocking probabilities (cbp) and handover failure probabilities, is a channel sharing policy. the qos assessment of leo mss under a channel sharing policy can
+
+i. d. moscholios and n. c. sagias are with the dept. of informatics &
+
+telecommunications, university of peloponnese, 221 31 tripolis, greece.
+
+v. g. vassilakis is with the dept. of computer science, university of york,
+
+m. d. logothetis is with the dept. of electrical & computer engineering, be accomplished through teletraffic loss or queuing models. in the literature, there are various teletraffic loss or queueing models that describe channel sharing policies in leo mss . although there are different ways to classify them, e.g., in terms of the channel sharing policy, the call arrival process, the existence of queues or not etc., for presentation purposes, we classify them in two categories: i) single rate and ii) multirate models.
+
+by considering the first category, in , each cell is modlled as a markovian loss queueing model that accommodates poisson calls (new or handover) that require a single channel in order to be accepted in the cell. to guarantee a certain qos to handover calls, a fixed channel reservation (fcr) policy is considered, named channel locking mechanism, that treats different the first handover from the subsequent handovers of a call. extensions of are related to schemes based on: i) dynamic channel reservation with or without priorities , ii) time based channel reservation , iii) doppler based handover prioritization , , iv) probabilistic reservation for the handover management and v) fcr with first inrst out queuing handover . recently, in a queuing model has been proposed for the analysis of a leo mss in the case of correlated service times.
+
+by considering the second category, in , an analytical framework is proposed for the performance evaluation of leo mss with "satellite fixed" cells accommodating multiate poisson traffic under the complete sharing (cs) and the fcr policies. under the cs policy, all calls have access to all available channels. a call is accepted in a cell whenever the required channels are available; otherwise, call blocking occurs. contrary to the fcr policy, the cs policy is unfair to calls with higher channel requirements since it results in higher cbp. in , in addition to the cs and the fcr policies, the complete partitioning (cp) and the threshold call admission (tca) policies are proposed. in the cp policy, the capacity c (in channels) of a cell is partitioned into k subsets, where k is the number of service classes accommodated in the cell. by assuming that each partition k (k = 1, . . . , k) has a capacity ck and belongs to calls of service class k, each cell can be modelled as an m/m/ck/ck system. however, since the cp policy can lead to poor channel utilization we do not consider it herein. the interested reader may also resort to for an analysis on optimum cp policies. in the tca policy, a new service class k call is not accepted in a cell if the number of in service new and handover service class k calls plus the new call exceeds a threshold (different for each servicelass). in , simulation results initially are presented for the tca policy, while in an analytical markovian model 1
+
+is proposed that allows the determination of the performance measures by solving the global balance (gb) equations of k dimensional markov chains. this task is computationally extremely complex (if not impossible) and time consuming for systems with large capacities and many service classes, since it requires the solution of a linear system of millions or even billions of gb equations. a similar complex procedure (based on solving a linear system of gb equations) is proposed in the case of the fcr policy in , .
+
+in both categories, in service calls have a fixed channel asignment. the case of elastic calls whose channel requirements can tolerate compression has not been studied in leo mss. a possible springboard for such an analysis can be the works of whereby loss/queueing models are proposed for wired or wireless , networks under different channel sharing policies.
+
+in this paper, we provide simple and yet efficient formulas for the calculation of various performance measures under the fcr and the tca policies. these formulas significantly reduce the computational complexity, and therefore, can be invoked in network planning and dimensioning procedures. in addition, they provide highly accurate results as compared to equivalent simulation ones. our contribution is three fold: 1) we propose a recursive formula for the calculation of the channel occupancy distribution in the case of the fcr policy. compared to , where enumeration and processing of the state space is required (an extremely complex procedure for systems of large capacity and many service classes), the proposed formula has a low computational complexity of o(kc). 2) we show that: i) the steady state probability distribution in the tca has a product form solution (pfs), and ii) the channel occupancy distribution can be easily determined with the aid of a convolution algorithm. compared to , where again enumeration and processing of the state space is required, the proposed algorithm has a low computational complexity of o(kc2). 3) provide a framework for the aplicability of the proposed models in leo sdn/nfv satellite networks. the evolution of such networks is expected to be the necessary step for the integration and operation of combined sdn/nfv satellite and terrestrial networks.
+
+the remainder of this paper is as follows: in section ii, we present the leo mss model under consideration, in detail. in section ii.a, we provide a description of the model, in section ii.b, we determine the handover arrival rate and the channel holding time while in section ii.c, we provide insight to the analytical model under the cs policy. in section iii, we show a recursive formula for the calculation of the channel occupancy distribution in the case of the fcr policy. in section iv, we show that the tca policy has a pfs and provide a convolution algorithm for the calculation of the channel occupancy distribution and consequently all perforance measures. in section v, we discuss the applicability of the proposed models in leo sdn/nfv satellite networks. in section vi, we present analytical and simulation results for various performance measures, for evaluation, while in section vii, we present the conclusions. for the reader's convenience, table i includes the list of abbreviations used in this paper. table i: list of abbreviations
+
+adopting the model of , we consider a leo mss of n contiguous "satellite fixed" cells, each modelled as a rectangle of length l (425 km in the case of the iridium leo mss ), that form a strip of contiguous coverage on the region of the earth. each cell has a fixed capacity of c channels. the system of these n cells accommodates mus who generate calls of k service classes with different qos requirements. each service class k (k = 1, ..., k) call requires a fixed number of bk channels for its whole duration in the system. new and handover calls of service class k follow a poisson process with arrival rates λk and λhk, respectively. new calls may arrive in any cell with equal probability (i.e., it is assumed that mus are uniformly distributed in the system of cells). the cell that a new call originates is the source cell. the arrival of handover calls in a cell is as follows: handover calls cross the source cell's boundaries to the adjacent right cell having a velocity of −vtr , where vtr (approx. 26600 km/h in the iridium constellation) is the subsatellite point speed (fig. 1). this assumption is valid as long as the rotation of the earth and the speed of a mu are negligible compared to the subsatellite point speed on the earth . an in service call that departs from cell n (the last cell) requests a handover in cell 1, thus having a continuous cellular network (fig. 1).
+
+based on the above, let tc be the dwell (or sojourn) time of a call in a cell. then, tc is: (i) uniformly distributed in [0, l/vtr ] for new calls in their source cell and (ii) deterministically equal to tc = l/vtr for handover calls that traverse, from border to border, any adjacent cell. based on (ii), tc expresses the interarrival time for all handovers subsequent to the first one. the duration of a service class k call (new or handover) in the 2
+
+fig. 1: a rectangular cell model for the leo mss network.
+
+system and the channel holding time in a cell are exponentially distributed with mean tdk and µ−1
+
+b. determination of handover arrival rate and channel holdng time
+
+to determine formulas for the handover arrival rate λhk and k of service class k
+
+the channel holding time with mean µ−1 calls, some necessary definitions are required:
+
+1) the (dimensionless) parameter γk, which is the ratio between the mean duration of a service class k call in the system and the dwell time of a call in a cell : (1)
+
+note that this parameter expresses the average number of handover requests per service class k call assuming that there is no blocking.
+
+2) the time th1,k, which expresses the interval from the arrival of a new service class k call in the source cell to the instant of the first handover. th1,k is uniformly distributed in [0, tc] with probability density function (pdf) : tdk
+
+3) the probabilities ph1,k and ph2,k, which express the handover probability for a service class k call in the source cell and in a transit cell, respectively. due to the different distances covered by a mu in the source cell and in the transit cells, these probabilities are different. more precisely, ph1,k is defined as: and
+
+where tdk is the service class k call duration time (expoentially distributed with mean tdk). the residual service time of a service class k call after a successful handover request has the same pdf as tdk (due to the memoryless property of the exponential distribution ). it follows then that ph2,k can be expressed by: (cid:26) the handover arrival rate λhk can be related to λk by assuming that in each cell there exists a flow equilibrium between mus entering and mus leaving the cell. in that case, we may write the following flow equilibrium equation (mus entering the cell = mus leaving the cell):
+
+λk(1 − pbk ) + λhk(1 − pfk ) = λhk + λk(1 − pbk )(1 − ph1,k) + λhk(1 − pfk )(1 − ph2,k) where: pbk refers to the cbp of new service class k calls in the source cell and pfk refers to the handover failure probability of service class k calls in transit cells. the values of pbk and pfk will be determined in the next subsection.
+
+the left hand side of (5) refers to new and handover servicelass k calls that are accepted in the cell with probability (1 − pbk ) and (1 − pfk ), respectively. the right hand side of (5) refers to: 1) calls that are handed over to the transit cell (1st term), 2) new calls that complete their service in the source cell (2nd term) and 3) handover calls that do not handover to the transit cell (3rd term). a graphical representation of (5) is given in fig. 2. eq. (5), can be rewritten as:
+
+to derive a formula for the channel holding time of servicelass k calls, we remind that channels are occupied either: 1) by new or handover calls and 2) until the end of service of a call or until a call is handed over to a transit cell. since the channel holding time can be expressed as th1,k = min(tdk, tc) in the case of the source cell and th2,k = min(tdk, tc) in the case of a transit cell, then the mean value of thi,k, ek(thi,k) for i = 1, 2 is given by :
+
+we define now by pk and ph k the probabilities that a channel is occupied by a new and a handover service class k call, respectively. then:
+
+based on (7) (9), the channel holding time of service class k calls (either new or handover) is approximated by an expoential distribution whose mean µ−1 is the weighted sum of k (7) (for i = 1, 2) multiplied by the corresponding probabilities pk (for i = 1) and ph µ−1 k k (for i = 2):
+
+c. the analytical leo mss model based on the cs policy
+
+is modelled as a multirate loss system whereby the available channels are shared according to the cs policy. the cs policy is the springboard for the analysis of more complicated channel to analyze the leo mss, each cell . 3
+
+(10) fig. 2: flow equilibrium of service class k calls in a cell.
+
+to this end, let the system be in steady state and denote by nk the number of in service calls (new or handover) of servicelass k in a cell. then, the steady state vector is defined as n = (n1, ..., nk, ..., nk ) and its corresponding probability distribution as p(n). by exploiting local balance (lb) between the adjacent = (n1, ..., nk − 1, ..., nk ) and n = (n1, ..., nk, ..., nk ), states: n− k the values of p(n) are given by the pfs:
+
+where g is the normalization constant given by:
+
+a new service class k call is blocked and lost if the required bk channels are not available in the cell upon its arrival. based on (11), we determine cbp of new service class k calls, pbk , via the formula:
+
+eq. (13) has a computational complexity in the order of o(ck ) a fact that makes it impractical for real systems of large capacities and many service classes. to substantially reduce the complexity to o(ck), let j be the number of occupied channels in the cell, i.e., j = (cid:205)k k=1 nk bk, j = 0, 1, ..., c. then, the following recursive formula is proposed for the calculation of the channel occupancy distribution q( j) :
+
+which is the classical kaufman roberts formula , . based on (14), the values of pbk are given by:
+
+j=0 q( j) is the normalization constant. since the cs policy does not prioritize handover calls, we
+
+= pbk . eq. (16) is further modified to take into account the succes pfk
+
+sive handovers of a call during its service in the system:
+
+where δk is a correction factor introduced to model the depenency between successful handovers of a service class k call prior to a handover failure. the latter may occur during the ek(nhk)th handover if an accepted call has already performed ek(nhk)−1 successful handovers, i.e.:
+
+where ek(nhk) is the average number of times that a new service class k call is successfully handed over during its lifetime in the system (for the proof see appendix a):
+
+to determine q( j)'s, pbk , and pfk via (15) (18), the values of offered traffic load of each service class k, αk = (λk +λhk)/µk, are required. since λhk and µ−1 k depend on pbk and pfk (see (6) and (10)) an iterative procedure is necessary. the latter = 0 and stops when two consecutive values of starts with pbk pbk differ by less than 10−6 .
+
+having calculated q( j)'s, pbk , and pfk the following per
+
+formance measures can be determined: a) the call dropping probability of service class k calls, pdk , which refers to new calls that are not blocked but are forced to terminate due to handover failure: pfk ph1,k 1 − (1 − pfk )ph2,k =
+
+b) the unsuccessful call probability of service class k calls, pusk , which refers to calls that are either blocked in the source cell or dropped due to a handover failure: = pbk + pdk (1 − pbk ). pusk
+
+iii. a proposed recursive formula for the leo mss model based on the fcr policy
+
+to facilitate the description of the analytical model under the fcr policy, we distinguish new from handover calls and assume that each cell accommodates calls of 2k servicelasses. a service class k call is new if 1 ≤ k ≤ k and handover if k +1 ≤ k ≤ 2k.
+
+the fcr policy is described as follows: a call of service class k (k = 1, ..., 2k) requests bk channels and has a fcr parameter crk that expresses the integer number of channels reserved to benefit calls of all other service classes except from k. the analysis presented herein is more general as compared 4
+
+(21) to since it allows the application of the fcr policy to all calls (new or handover) of a service class k. in that sense, the fcr policy can be applied to favor handover calls of a service class against new or handover calls from other servicelasses. in , the fcr policy benefits only handover calls of a service class against new calls from other service classes. the gb equation for state n = (n1, ..., nk, ..., n2k ), expressed
+
+as rate into state n = rate out of state n, is given by:
+
+n− k p(n), p(n− k, n+ n, n− the fcr model does not have a pfs for the determinaion of the steady state probabilities p(n) since lb can be destroyed between adjacent states n− k due to the existence of the fcr parameters. this means that p(n)'s (and consequently all performance measures) can be determined by solving the set of linear gbs, a realistic task only for cells of very small capacity and two or three service classes.
+
+contrary to , , where it is suggested to apply a linear equation procedure (such as the gauss siedel iteration) for solving the gbs, we prove an approximate but recursive formula for the calculation of the occupancy distribution, q( j), of the fcr model (see appendix b for the proof):
+
+j=0 q( j) is the normalization constant. similarly, the values of pfk (k = k + 1, ..., 2k) are given by:
+
+as far as the values of pdk and pusk are concerned, they
+
+can be calculated via (20) and (21), respectively. 5
+
+fig. 3: state transition diagram between adjacent states of the tca model for service class k.
+
+iv. a proposed convolution algorithm for the leo mss model based on the tca policy in the tca policy, a threshold nk is defined for each service class k that denotes the maximum number of new and handover in service calls of service class k that are allowed in a cell. due to this definition, we do not distinguish new from handover calls and assume that each cell accommodates calls of k service classes.
+
+the tca policy is applied only to new service class k calls. more precisely, a new service class k call is accepted in a cell if and only if: a) there exist available channels, i.e., j + bk ≤ c and b) the number of new and handover in service calls of service class k plus the new one does not exceed the threshold nk, i.e., nk + 1 ≤ nk. the last restriction shows that a new call may not be accepted in the cell even if available channels do exist. on the other hand, a handover service class k call is accepted in a transit cell if and only if j + bk ≤ c.
+
+contrary to , where only simulation results are presented in the case of the tca policy, or where the set of gb equations should be solved, we propose the mathematical framework for the efficient calculation of all relevant perforance measures.
+
+to this end, let the system be in steady state and define the steady state vector as n = (n1, ...nk, ...nk ) and its correspondng probability distribution as p(n).
+
+based on the state transition diagram of the tca model (fig. 3), the gb equation for state n, expressed as rate into state n = rate out of state n, is:
+
+according to fig. 3, the corresponding markov chain of the tca model retains reversibility due to the so called kolmogorov's criterion : the circulation flow among four adjacent states equals zero: flow clockwise = flow counterlockwise. because of this, lb exists between adjacent states , and the following lb equations are extracted as (rate up = rate down), for k = 1, ..., k and n ∈ ω:
+
+based on the existence of lb, the probability distribution
+
+p(n) of the tca model can be described by the pfs:
+
+step 1) determine the channel occupancy distribution qk( j) of each service class k (k = 1, ..., k), assuming that only service class k exists in the system:
+
+step 2) determine the aggregated occupancy distribution q(−k) based on the successive convolution of all service classes apart from service class k:
+
+by the term "successive" we mean that initially q1 and q2 should be convolved to obtain q12. then we convolve q12 with q3 to obtain q123 etc. the convolution operation between two occupancy distributions of service class k and r is defined as:
+
+step 3) calculate the cbp of service class k based on the
+
+convolution operation of q(−k) (step 2) and qk (step 1) as:
+
+normalizing the values of (35), we obtain the occupancy distribution q( j), j = 0, 1, ..., c via: 6
+
+fig. 4: a sdn/nfv enabled satellite network architecture.
+
+based on q( j)'s, we propose the following formula for the cbp of service class k:
+
+the first term of (37) expresses those states j where there are no available channels for service class k calls. the second term refers to states x = nk bk, ..., c − bk where there are available channels for calls but call blocking occurs (for new calls) due to the tca policy and the threshold nk.
+
+similarly, the values of pfk can be determined via:
+
+where the factor δk is given by (18).
+
+v. applicability of the proposed models in future leo sdn/nfv enabled satellite networks
+
+our considered sdn/nfv satellite network architecture is presented in fig. 4. this is in line with the architecture proposed by the ec h2020 vital project , . in fig. 4, we depict a satellite network operator (sno) enhanced with sdn/nfv infrastructure that enables multi tenancy. sdn enbles abstraction and modularity of the functions within the acess network. this way, a hierarchical control architecture can be implemented, in which the high control layer controls the lower layers through defining behaviors and enforcing policies, and without the need to know the specific implementation of lower layers . this requires a holistic view of the network at the higher control layer to be built on appropriate abstraction of lower layers via well defined control interfaces. this is essential to enable programmable radio resource management (rrm) functions, such as the radio resource allocation and the call admission control. on the other hand, the nfv technology allows the execution of control programs on general purpose computing/storage resources .
+
+the sno has multiple virtual snos (vsnos) as its cusomers. consequently, vsnos offer satellite services to their customers without owing any physical infrastructure. in paricular, the architecture consists of the following parts:
+
+various control and management systems, such as the netork control center (ncc) and the network management center (nmc) (for simplicity not shown in fig. 4).
+
+satellite core network, where the sno at various locaions has installed nfv infrastructure (nfvi) points of presence (pops). on top of the nfvi, different tenants (i.e., vsno1 and vsno2 in this example) can install and operate their own virtual network functions (vnfs), such as load balancers, firewalls, etc.
+
+satellite access network that consists of a cluster of sdnnabled hubs, connected to the core network, and a distributed set of satellite terminals (sts), connected to the user equipment. both, hubs and sts are part of the nfvi. as shown in fig. 4, some sts can be multi tenant, whereas others can be dedicated to a single vsno.
+
+a constellation of leo satellites which connects hubs to sts.
+
+in this subsection, we demonstrate the applicability of our proposed models in sdn/nvf enabled satellite networks. as a specific example, consider the virtualization of the rrm function. one way to realize that is shown in fig. 5 and is described below.
+
+at the satellite core network level, the nfvi pops enable the execution of vnfs by the tenants (vsnos). one such vnf could be a centralized rrm (crrm) function that sets the configuration parameters, e.g., appropriate levels of qos or cbp for vsno's customers.
+
+on the other hand, at the satellite access network level, there is a distributed set of sts, which form a centralized pool of st resources (c st) that is owned and controlled by the sno. to benefit from nfv, the c st functionality and services have been abstracted from the underlying infrasructure and virtualized (v st). the virtual machine monitor (vmm) manages the execution of v sts. the nfvi pop also includes a sdn controller that decides routes and configures the packet forwarding elements. on top of the nfvi, a vsno can execute a number of edge vnfs, such as the distributed rrm (drrm) function.
+
+as shown in fig. 5, the drrm is logically connected to the crrm. the crrm sends to the drrm various guidelines, configuration settings, and parameters. the crrm determines the configuration parameters (e.g., call admission control thresholds) based on a number of objectives (e.g., qos asurance for a particular service, acceptable handover failure probabilities, coverage requirements, capacity requirements, etc). for example, the crrm can select a set of tca policy thresholds, nk, or fcr policy channel reservation parameters, crk, that can ensure certain target cbp for a particular service class. the drrm receives the configuration parameters and acts accordingly (e.g., rejects connection requests that do not conform to the specified requirements). also, the drrm sends (at regular intervals or when a pre defined condition is met) to the crrm various performance measurements and fig. 5: enabling sdn/nfv based radio resource management.
+
+alarms. e.g., the handover failure probabilities per service to the crrm. if the reported measurements violate the objectives/performance constraints (e.g., qos is below a predefined level or the hanover failure probability for a particular service is too high), the crrm will re calculate and send updated configuration parameters to the drrm. for example, the drrm may modify the crk parameters of the fcr policy in (23) and (24), so that a different pfk can be obtained in (27) for a particular servicelass k. similarly, the thresholds nk of the tca policy can be modified to reflect the desirable pbk and pfk in (37) and (38), respectively. the drrm may be configured to report
+
+in this section, we present two application examples. in the first one, we provide analytical results of the cbp, the handover failure probability, the call dropping probability and the unsuccessful call probability for the proposed formulas of the tca and the fcr policies. analytical results are also comared to simulation results. in the second example, we consider only the tca policy and show a case where oscillations may occur in the cbp and handover failure probabilities.
+
+for the simulation of the leo mss we adopt the iridium parameters. the simulated network consists of n = 7 coniguous cells (a typical value, see e.g., , ). extensive simulations have shown that a higher value of n does not affect our results. the subsatellite point speed is vtr = 26600 km/h and the length of each cell is l = 425 km resulting in a maximum dwell time of a call in a cell equal to 57.5 s. mus are uniformly distributed in the network of cells and new calls may arrive anywhere within the network. in addition, no distortion in the propagation links is considered.
+
+simulation results are derived via the simscript iii simuation language and are mean values of 7 runs. in each run, twenty million calls are generated. due to stabilization time, we exclude the blocking events of the first 3% of the generated calls. confidence intervals of the results are found to be very small (less than two orders of magnitude) and are not presented in figs. 6 10. each run requires on average 16 and 19 minutes for the 1st and the 2nd example, respectively, 7
+
+in a computer of intel(r) core(tm) i5 2430m cpu @ 2.4 ghz and 4gb ram. on the contrary, the analytical results are obtained in less than 1 sec (on average for both examples). in the first example, each cell has a capacity of c = 40 channels and accommodates poisson arriving calls of two service classes which require b1 = 1 and b2 = 5 channels, respectively. we further assume that td1 = 180 s, td2 = 540 s, while the offered traffic per cell is α1 = 16 erl and α2 = 0.4 erl. in the case of the tca policy, we consider two sets of thresholds: 1) n1 = 30, n2 = 3 and 2) n1 = 38, n2 = 3 calls. in the case of the fcr policy, the fcr parameters for the new calls of each service class are: cr1 = 4 and cr2 = 0 channels, respectively. this selection achieves cbp equalization among new calls of both service classes, since b1 +cr1 = b2.
+
+in figs. 6 9, we consider the tca policy. in figs. 6 7, we consider the 1st set of thresholds and present the analytial/simulation results for the various performance measures for each service class, respectively. in figs. 8 9, we present the corresponding results for the 2nd set of thresholds. according to figs. 6 9, we deduce that: i) the analytical results obtained by the proposed formulas are close to the simulation results, ii) increasing the offered traffic load results in the increase of all performance measures and iii) increasing the value of n1 from 30 to 38 calls, decreases/increases the cbp of the 1st/2nd service class calls but increases the handover failure probabilities and the call dropping probabilities of both service classes. this is intuitively expected since more new calls of the 1st service class are allowed to enter the system. in fig. 10, we consider the fcr policy and present the analytical/simulation results for the various performance meaures for both service classes. the term pb,eq in fig. 10 refers fig. 7: tca policy (1st set) 2nd service class.
+
+to the equalized cbp of both service classes (achieved due to the selected fcr parameters). according to fig. 10, we deduce that: i) the accuracy obtained by the proposed formulas compared to simulation is highly satisfactory, ii) increasing the offered traffic load results in the increase of all performance measures and iii) the fcr policy fails to capture the behavior of the more complex tca policy. this is because the fcr policy affects the number of channels reserved to benefit calls of a certain service class while the tca policy affects the number of calls that can be allowed in the system.
+
+as a general and also final comment on figs. 6 10, one may at first conclude that the analytical results are always slightly higher than the corresponding simulation results. however, this is only true for the current set of parameters, while it is not possible to provide "rules of thumb" on when analytical results will be above or below the corresponding simulation ones (e.g., figs. 5a 5b and 7a in show the opposite behavior compared to figs. 6 10 herein). approximations such as (10) which is used for the determination of µ−1 k or (18) which is proposed for the calculation of δk can affect (depending on the example) the analytical results compared to simulation.
+
+in the second example, each cell has a capacity of c = 100 channels and accommodates poisson arriving calls of two service classes which require b1 = 1 and b2 = 20 channels, respectively. we assume that td1 = 180 s, td2 = 540 s, while the offered traffic per cell is α1 = 10 erl and α2 = 1.0 erl. we consider the tca policy and three sets of thresholds: 1) n1 = 70, n2 = 2, 2) n1 = 70, n2 = 3 and 3) n1 = 70, n2 = 4 calls. figure 11 shows the analytical cbp and handover failure probabilities for the 1st service class and the three different sets of thresholds. for presentation purposes we do not show simulation results whose form is similar. according to fig. 11 and contrary to the first example, the increase of the offered traffic load does not necessarily lead to an increase of cbp or handover failure probabilities, i.e., we see that oscillations 8
+
+can appear in the tca policy. to intuitively explain such oscillations, consider an instant where a new call of the 1st service class arrives in a cell and finds 20 available channels. in that case, the call is accepted and the cell has 19 available channels. if now a new call of the 2nd service class arrives in the cell it will be blocked, leaving the 19 channels for calls (new or handover) of the 1st service class. in such a case, an increase in α1 will not lead to a cbp or handover failure probabilities increase. as α1 continues to increase, the corresponding probabilities of the 1st service class calls will increase until another block of 19 channels becomes available to 1st service class calls. such oscillations have not been studied in and show that attention is needed when dimensioning a system, especially when calls of a servicelass require much more bandwidth than others. note that oscillations do not appear in the case of the 2nd service class and thus we do not present the corresponding results. slight oscillations can also appear for the 1st service class calls in the case of the fcr policy but only for small values of the fcr parameters and not when cbp equalization is required.
+
+in this paper, we concentrate on two different channel sharing policies, namely the fixed channel reservation and the threshold call admission policies and provide an anlytical framework for the efficient calculation of various performance measures in a leo mobile satellite system with "satellite fixed" cells. the proposed analytical formulas have low computational complexity compared to the methodologies already proposed in the literature which are based on solving extremely large systems of linear global balance equations. the latter is a task that cannot be invoked in time efficient network planning and dimensioning procedures. furthermore, we discuss the applicability of the policies in future leo sdn/nfv enabled satellite networks. fig. 10: fcr policy both service classes.
+
+appendix a let ek(nhk) be the average number of times that a new service class k call is successfully handed over during its lifeime in the system and p(nhk) the corresponding probabilities of having nhk = 0, 1, 2, ... successful handovers. to determine ek(nhk) we work as follows:
+
+eq. (a1) refers to the probability of zero successful handovers. this is either because we don't have a handover from the source cell (this happens with probability (1 − ph1,k)) or because we have a handover with probability ph1,k but this is blocked with probability pfk . 9
+
+eq. (a2) refers to the probability of one successful handover. this is because the call is not blocked and we have one successful handover from the source cell to the first transit cell, expressed by ph1,k(1 − pbk ) "and either" we don't have a handover in the next transit cell (expressed by 1 − ph2,k) "or" we have a handover in the next transit cell but it is blocked with probability ph2,k pfk .
+
+p(nhk = 2) = ph1,k(1−pbk )ph2,k(1−pfk )(1 − ph2,k +ph2,k pfk ) (a3) eq. (a3) refers to the probability of two successful handovers. this is because the call is not blocked and we have one successful handover from the source cell to the first transit cell with probability ph1,k(1 − pbk ) and a second successful handover from the first to the second transit cell with probaility ph2,k(1 − pfk ). the last term shows that we don't have a handover in the next transit cell (expressed by 1 − ph2,k) "or" we have a handover in the next transit cell but it is blocked with probability ph2,k pfk .
+
+where ωj is the set of states whereby exactly j channels are occupied by all in service calls, i.e. ωj = {n ∈ ω : nb = j}. since j = nb = (cid:205)2k k=1 nk bk, (b1) can be written as follows:
+
+to determine the (cid:205) exists between states n− αk(n−
+
+sun, z.: satellite networking principles and protocols, 2nd edition,

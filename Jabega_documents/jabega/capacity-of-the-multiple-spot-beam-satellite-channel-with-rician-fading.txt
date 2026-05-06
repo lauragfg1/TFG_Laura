@@ -1,0 +1,227 @@
+the fpur dimensional representation corresponding to (cid:31)4 of q (also
+
+where (cid:17) = ej2(cid:25)=5. for the two dimensional representations ((cid:31)7), we have more directly from that
+
+j. l. alperin and r. b. bell, groups and representations. new york:
+
+b. l. hughes, "differential space time modulation," ieee trans. inf.
+
+b. l. hughes, "optimal space time constellations from groups," ieee
+
+g. james and m. liebeck, representations and characters of
+
+groups. cambridge, u.k.: cambridge univ. press, 1993. nick letzepis, member, ieee, and alex j. grant, senior member, ieee
+
+abstract—in this correspondence, the uplink of a multibeam satellite system with rician fading is analyzed under the framework of wyner's gaussian cellular multiple access channel. in this framework the received signal at a given multibeam antenna is the sum of signals transmitted by users within that beam's cell area plus a factor 0 (cid:20) (cid:11) (cid:20) 1 times the sum of the signals transmitted by users from adjacent cells plus ambient gaussian noise. both one dimensional (1 d) linear, and 2 d hexagonal cellular arrangements are considered. in addition, we consider a modified version of the 1 d linear arrangement whereby users from cells further than adjacent cells contribute to intercell interference. it is assumed that the distance between the antenna elements is small compared to the distance between a user and the satellite. thus when fading is present, a particular user's fading coefficient is the same at each multibeam antenna. this is the fundamental difference between the multibeam satellite fading channel and the terrestrial cellular fading channel, in which each user experiences independent fading at each base station. using a haar measure approximation we derive closed form approximations for the capacity of the satellite fading channel for the scenarios when optimal joint decoding and linear minimum mean square error filtering is employed at the ground station. these approximations are shown to be in close agreement to monte carlo simulation results for large dimensional systems. it is shown that fading causes a loss in capacity compared to the nonfading channel. furthermore, at high signal to noise ratio (snr) this loss is independent of the intercell interference and topology of the system, but is dependent on the distribution of the fading coefficients and the number of users per beam.
+
+index terms—information rates, multiaccess communication, multi
+
+beam antennas, rician channels, satellite communication.
+
+the delivery of telecommunication services to regional, rural and remote users on an equitable basis compared with their counterparts in metropolitan and large urban centres is impractical through the use of terrestrial cellular networks alone. it is internationally recognized that satellite communication (satcom) systems are needed to provide the required global coverage of future fixed and mobile personal comunications . as such, the future of mobile communications is heading toward the seamless integration of satellite and terrestrial comunication systems, and the distinction between these systems will cease to exist .
+
+in modern satcom systems catering for packet switched services for mobile users, satellites with multiple spot beams are employed. these types of satellites illuminate a cellular pattern on the earth's surface, as in terrestrial cellular systems, but on a much larger scale. thus, in the same way that base stations create a cellular network, multibeam satelites can also create a cellular network. however, the physical configuation of satellite based cellular systems differ greatly from their terresrial counterpart. the most obvious difference is that all users transmit
+
+manuscript received may 8, 2006; revised may 20, 2008. current version published october 22, 2008. this work was supported in part by dspace pty ltd. and by the australian government by arc grant lp0219304. the material in this correspondence was presented in part at the international symposium on information theory, nice, france, july 2007.
+
+the authors are with the institute for telecommunications research, univerity of south australia, mawson lakes sa 5095, australia (e mail: nick.letepis@unisa.edu.au; alex.grant@unisa.edu.au). their information to a central location, i.e., the satellite ground station, rather than transmitting to a local base station. this alleviates the need for decentralised decoding (required in terrestrial cellular sysems) to jointly decode all users of the system. moreover, in a joint decoding algorithm based on the turbo principle was proposed for a multibeam satellite system, highlighting the applicability of centralised decoding in such systems.
+
+other differences of satellite based cellular networks include: larger cell areas; the user signals travel longer distances (and therefore larger path losses are incurred); and, satellite systems have vastly different anenna specifications. despite these differences, in the absence of fading, the system can be modeled using the framework of wyner's gaussian cellular multiple access channel (gcmac). however, when fading is present, some of these differences need to be taken into account. in paricular, multibeam satellites typically have only a single antenna comrising of multiple elements. moreover, the distance between the anenna elements is small compared to the distance between a user and the satellite. thus a particular user's fading coefficient will be the same at each multibeam antenna , . this is the fundamental difference between the multibeam satellite fading channel and the terrestrial celular fading channel analyzed in , where independent fading is assumed for each user to base station propagation path. the objective of this correspondence is to analyze the effect that this potential loss in diversity has on the performance of multibeam satellite systems.
+
+this correspondence is structured as follows. in section ii, we begin by formulating a model for the multibeam satellite fading channel and introduce wyner's cellular models in and a modified version of his 1 d cellular model to incorporate intercell interference from cells further than neighboring cells. in section iii, we briefly recap wyner's results for the nonfading channel and analyze the implications of our modified cellular model. then, in section iv, using a haar measure approximation, we derive closed form approximations to the fading channel capacity for the cases when optimal joint decoding and linear minimum mean square error (mmse) filtering (followed by single user decoding) is employed. the approximations are remarkably close to monte carlo simulation results, and illustrate that fading causes a loss in capacity compared to the nonfading channel. when optimal joint decoding and wideband transmission is employed at high snr with rician fading, the loss is dependent only on the number of users per cell and the rice factor. moreover, the loss in capacity decreases as the rice factor, or the number of users per cell increases. concluding remarks are given in section v.
+
+the communication system of interest consists of a single multiple spot beam satellite, whose beams are arranged to form a cellular arangement on the earth's surface. the multiple spot beam antenna conists of n beam elements, each of which is assigned to one of n cell areas. each cell area contains k users who intend to transmit informaion reliably to a central receiver.
+
+we assume perfect symbol and frame synchronism so that, in the absence of fading, at any given symbol interval l the received signal at the multibeam antenna is modeled by the complex n (cid:2) 1 vector
+
+to the average power constraint n;k[l] (cid:20) p for all (n; k) 2 (1; . . . ; n ) (cid:2) (1; . . . k) (where the expectation is over discrete time l). from hereafter, we shall drop the symbol index l for brevity of notation. each user's symbol is subject
+
+the n (cid:2) n k gain matrix aaa models the effects of intercell inter
+
+where aaan;i = (an;i;1; . . . ; an;i;k) is a 1 (cid:2) k vector of path gains, i.e., 0 (cid:20) an;i;k (cid:20) 1 denotes the path gain between beam antenna n and user k of cell i. the structure of aaa depends on a number of physical parameters. first, aaa depends on the topology of the system, i.e., the spatial arrangement of cells on the earth's surface, the assignment of beams to cells and the location of users within each cell. second, aaa depends on the gain characteristic of each beam antenna. in particular, the roll off of the main lobe determines the amount of isolation between adjacent satellite beams and the sidelobe characteristics are important in determining the isolation between more distant beams .
+
+in this correspondence, we assume that the k users are located near the cell centre, so that their signals are received with the same gain coefficient at a particular beam antenna. although, the gain coefficient may be different for the same set of signals received at a different beam antenna. in other words, we assume aaai;n = bi;n1k , where bi;n denotes the gain coefficient for the k users from cell n received at beam anenna i, and 1k (1; . . . ; 1) is the 1 (cid:2) k all ones vector. thus we may rewrite aaa as the kronecker product of an n (cid:2) n profile matrix bbb and the all ones vector 1k , i.e.
+
+the gain matrix aaa encompasses wyner's gcmac , who conidered both 1 d linear and 2 d hexagonal contiguous cellular arrangeents (as shown in fig. 1). while these models were originally devised for the analysis of terrestrial cellular systems, they translate directly to multibeam satellite systems as well. in fact, wyner's analysis relies on the assumption of a super receiver that has delayless access to all cell site receivers, which is more applicable to multibeam satellite sysems than terrestrial cellular systems.4 in a multibeam satellite system, one usually has access to the received signals of each spotbeam at the same earth station, which can act as a super receiver. such a scenario has already been investigated by moher , who proposed an itertive multiuser decoder for a multibeam satellite system (which was modeled using a finite version of wyner's 2 d hexagonal gcmac).
+
+in wyner's model (in the context of a multibeam satellite sceario), the signal at a given beam antenna is the sum of the user signals within the corresponding cell area plus 0 (cid:20) (cid:11) (cid:20) 1 times the sum of
+
+2superscripts , and denote the hermitian transpose, non hermitian trans
+
+pose and conjugate operations, respectively.
+
+3also referred to as interbeam interference in the context of a multibeam satel (2)
+
+(4) fig. 1. wyner's 1 d linear and 2 d hexagonal cell arrangements.
+
+user signals from adjacent cells. for the linear arrangement of n cells [fig. 1(a)], the matrix bbb is equal to the tridiagonal matrix
+
+for the hexagonal arrangement of n = lm cells [fig. 1(b)], bbb is an n (cid:2) n toeplitz block toeplitz (tbt) matrix comprising of l (cid:2) l, m (cid:2) m submatrices, i.e.,
+
+wyner's model only considers intercell interference from adjacent cells. in multibeam satellite systems, depending on the beam antenna gain roll off and cell spacing, it is quite possible that users in cells furher than adjacent cells may contribute to intercell interference. in this correspondence, we modify wyner's 1 d model to incorporate these effects. according to , (see [4, ch. 6]) the spot beam antenna main lobe can be approximated by a gaussian characteristic, where the anenna gain decreases quadratically with the boresight angle 5 (in db). to model varying degrees of spot beam isolation lutz et al. model (cid:0)(cid:26)(d=r ) , where the spot beam antenna characteristic as g(d) / 10 d is the distance of the user from the centre of the beam, rcell is the cell radius ((cid:0)3 db contour), and (cid:26) is a parameter used to vary beam isolaion. in our model, since we assume that the k users of each cell are located near the cell centre, the distance between the users of cell i and the users of cell n is an integer multiple of rcell, i.e., d = 2ji(cid:0)njrcell. (cid:0)4(cid:26) results in a profile matrix bbb whose elements are setting (cid:11) = 10 bi;n = (cid:11)ji(cid:0)nj . in this correspondence, we consider an exponential rather than gaussian beam profile, i.e., bi;n = (cid:11)ji(cid:0)nj. whilst this may not reflect the actual characteristics of a spot beam antenna, it is sufficient for the purpose of analyzing the effects of intercell interfernce from users further than adjacent beams and, as will be shown later, permits an elegant analytic result. for a 1 d cellular arrangement, with an exponential gain characteristic, the profile matrix bbb is equal to the n (cid:2) n symmetric toeplitz matrix
+
+we refer to (8) as the modified wyner 1 d model (or simply the modfied model). in this model, (cid:11) affects the amount of isolation between the beams. when (cid:11) = 0, ^ttt 1d = iii n and the cells are completely isoated (as in wyner's model). however, when (cid:11) = 1, ^ttt 1d = 1n;n (where 1n;n denotes an n (cid:2) n "all ones" matrix), there is no isoation between the beams, each user's signal is received at each beam antenna with unit channel gain. (8) since the distance between the spot beam antennas is minute comared to the distance between the users and the satellite, then for a paricular user, we assume that the same fading coefficient is observed at each spot beam antenna. while the users of a particular cell are asumed to be relatively close to the cell centre (and hence have the same propagation path loss), we assume the distance between each user is still large enough so that the user's fading coefficients are independent of each other. the same fading model was also used in the analysis of a multibeam satellite downlink in , . however, in , the intercell interference is treated as noise, whereas in this corresponence the receiver joint decodes all users. with these assumptions and letting dn;k denote the fading coefficient for user k of cell n, the fading channel model is
+
+we assume the fading process dn;k are complex, independent, strictly stationary and ergodic. furthermore, it is assumed that the fading pro;k = 1 (where the cesses each have normalized power, i.e., expectation is over discrete time). the fact that the fading processes in (9) factor out as a random diagonal matrix is due to the assumption that for any given user the same fading is observed at each beam antenna. this is the fundamental difference to terrestrial cellular systems where for any given user an independent fading process is observed at each base station antenna.
+
+the rayleigh fading model is known to be an acceptable assumption for the fading observed in many wireless communications systems that do not have a direct line of sight (los) path. due to large free space losses and limited on board transponder power, mobile satellite sysems are usually forced to operate under los propagation conditions in order to accommodate medium to high data rates . for los sysems the accepted approach is to use a rician model. in fact, the riian model is more general in that both additive gaussian noise and rayleigh fading channels may be considered to be limiting cases of the rician channel. thus, the effect of the strength of the los comonent on system performance can be investigated using the rician fading model. with rician fading present, the fading coefficients are independent and identically distributed (i.i.d.) c.c.s. gaussian with in . dependent real and imaginary parts, distributed as define the rician factor , (cid:20), as
+
+a rician factor (cid:20) = 0 corresponds to rayleigh fading, i.e., using (12) and (13), (cid:22)r = 0 and (cid:27)2 1 and r = 1=2. as (cid:20) (cid:27)2 0 and the system approaches the nonfading channel. in this cor ! respondence, we assume the transmitted signals are subjected to rician fading and the receiver has complete knowledge of every users fading coefficient. made orthogonal by dividing the transmission period into k nonoverapping time slots of equal length. each of the k users are assigned a single slot and only a single user may transmit in any given slot. howver, to satisfy the long time average power constraint, each user may transmit at an average power of kp within its allocated time slot.
+
+as in , we consider two decoding strategies: optimal joint deoding and linear mmse filtering. optimal joint decoding refers to the strategy where the users from all cells are optimally joint decoded by a super receiver, which has knowledge of every user's codebook, and employs optimal joint decoding to decode every user's received signal. the second decoding strategy refers to when linear mmse filtering folowed by single user decoding to is employed to decode the received signals.
+
+iii. nonfading channel
+
+a. optimal decoding capacity
+
+to begin with we shall briefly recap wyner's results on the nonfading channel in , and investigate the implications of the modified model (8). in this correspondence, we refer to optimal decoding capacity as the normalized sum rate constraint , i.e., for the nonfading channel the optimal decoding capacity is
+
+where the maximization is over all product distributions of the user's p=(cid:27)2 denotes the symbols subject to the average power constraint, (cid:13) hhh) denotes the input output signal to noise ratio (snr), and j i mutual information conditioned on the channel matrix hhh. our definiion of capacity is looser than that of wyner's in that it allows users to transmit information at different rates. wyner considers caacity as the largest rate simultaneously achievable by all users of the system. however, in the limit as n , wyner showed that when ! 1 1k (where bbb is (5) or (6)), the sum rate constraint is the aaa = bbb biting constraint implying that (14) can be achieved by users transmiting at the same rate .6 is well known that (xxx; yyy
+
+information of a gaussian linear vector memoryless channel conditioned on the channel matrix is given by the log determinant formula , . since each user transmits independently under an average power constraint, the normalized input output mutual information of (1) is maximized when the users transmit i.i.d., c.c.s. gaussian symbols at xxxxxxy = p iii n k ). the maximum average power constraint (i.e., hence, when wideband transmission is employed it the input output mutual
+
+where (cid:21)i aaaaaay denotes the ith eigenvalue of aaaaaay. for wyner's 1 d and 2 d models, aaaaaay = kttt 2
+
+1d and aaaaaay = kttt 2 2d, respectively. this implies that the capacity of the system when intracell tdma is employed is the same as the wideband transmission strategy as shown by wyner . using the asymptotic equivalence of toeplitz and circulant matrices , , wyner derived a closed form expression for the 1 d cell arrangement
+
+(15) where ^(cid:13) k(cid:13). note that (16) can be determined without resorting to asymptotic equivalence theorems since the eigenvalues of ttt 1d are known [25, p. 67],
+
+for the 2 d model, ttt 2d is a tbt matrix. construct an asymptotic equivalent circulant block circulant (cbc) matrix by adding the apropriate corner entries to ttt m and sssm . the eigenvalues of ttt 2d will converge to that of its asymptotic equivalent cbc matrix , . , the eigenvalues of ttt 2d hence, using [28, th. 5.8.1] as l; m will converge to
+
+from (22) it can be seen that as (cid:11) 1 the capacity approaches zero for ! all ^(cid:13) > 0. of course, this is immediately apparent, because at (cid:11) = 1, ^ttt 1d = 1n;n , which has unit rank. hence, the capacity is 1 n log(1 + ^(cid:13)n 2) which approaches zero as n . this behavior is not seen in wyner's model because ttt 1d is always full rank. whereas, the modified model is intercell interference limited, it cannot cope with the extra interference from cells further than neighboring cells.
+
+note that for small (cid:11), the system behaves much like wyner's 1 d
+
+model. this can be seen by using the taylor series expansion,
+
+thus inserting (23) in (22) results in the channel capacity of wyner's original 1 d model (16). in addition for small (cid:11) it was shown that (16) exhibits a threshold effect such that for ^(cid:13) < 1 channel capacity 1 . hence as a increases with increasing (cid:11) and when ^(cid:13) consequence of (23) this behavior also occurs in our modified 1 d model. the low snr behavior of (22) can be examined by considering the following approximation. using the expansion log(1 + x) =
+
+which shows that for small (cid:11) and ^(cid:13), capacity increases with (cid:11). 2
+
+at high snr, wyner showed that (16) is lower bounded by
+
+which illustrates a threshold effect at (cid:11) = 1=2 where for 0 capacity decreases with increasing (cid:11) and for 1=2 increases with increasing (cid:11). (cid:20) (cid:11) 1=2 (cid:20) (cid:20) 1 capacity (cid:11)
+
+since the integral is equal to zero [30, p. 560, eq. 4.224(15)]. unlike the high snr capacity of wyner's model (26), there is no threshold effect in (27) and capacity simply decreases as (cid:11) increases. hence, interference from more distant cells acts to the detriment of the channel and it is always advantageous to have as much isolation between the cells as possible.
+
+fig. 2(a) compares (16) with (22) for low snr with k = 1 user per cell (solid lines). here we can clearly see that for both models, for small (cid:11), capacity increases with increasing (cid:11). interestingly, we see that the capacity of the modified model exceeds that of wyner's original model for (cid:11) < 0:8. for (cid:11) > 0:8, the capacity of the modified model begins to decrease with increasing (cid:11) until it reaches zero at (cid:11) = 1. thus, in this case we observe that there is an optimal level of intercell interference (which is dependent on the snr) that maximizes capacity. beyond this optimal level, the capacity decreases, i.e., the system becomes intercell interference limited.
+
+the large snr behavior of (16) with (22) is shown in fig. 2(b) (solid lines). again, as in the low snr case, we see that for small (cid:11) there is very little difference between (16) and (22), both decrease with inreasing (cid:11). however, for (cid:11) > 0:4, the capacity of wyner's original model begins to increase with increasing (cid:11). whereas for our modified model capacity continues to decrease toward zero. in this case, not only is the system intercell interference limited, but it is also better to have complete isolation between the cells ((cid:11) = 0). fig. 2. optimal decoding (solid) and linear mmse capacity (dashed) of the nonfading channel.
+
+whilst optimal joint decoding achieves optimal capacity, it has a complexity that is exponential in the total number of users of the system (i.e., n k users) , .7 a less complex, yet suboptimal
+
+7in addition, the multiuser decoding scheme proposed by moher for multieam satellite systems has complexity that is exponential in the total number of users plus an additional factor that is exponential in the constraint length of the code (assuming each user employs the same convolutional code). fig. 3. the linear mmse filter.
+
+decoding strategy is to perform linear mmse filtering followed by single user decoding. the filtering scheme is depicted in fig. 3, where ggg denotes the linear mmse filter and ^xxx = gggyyy denotes the filter output.
+
+which requires the inverse of an n (cid:2) n matrix and hence is polynomial with the number of cells . after filtering, the arithmetic average mmse over the users is
+
+from the capacity of the system when linear mmse filtering is employed followed by single user decoding is
+
+hence, substitution of (29) yields
+
+using the asymptotic equivalence of toeplitz and circulant matrices , , wyner showed8 in the limit as n ! 1 the mmse capacity of the 1 d and 2 d cellular arrays is given by (31) and (32) as shown at the bottom of the page, where u((cid:18)1; (cid:18)2) is defined as in (20). setting aaa = ^ttt 1d (cid:10) 1k in (30) and using (21), the mmse capacity of the modified 1 d model (8) in the limit as n ! 1 is shown in (33) also at the bottom of the page. furthermore, in the high snr regime
+
+ployed, i.e., we have extended his result to the wideband scenario.
+
+(32) where we have used [30, p. 410, eq. 3.616(1)] to solve the integral. notice that (34) only differs by a factor of 2 log(1 + (cid:11)2) compared to (27). this factor increases as (cid:11) increases, and is the penalty incurred when using linear mmse filtering rather than optimal decoding at high snr.
+
+fig. 2 compares (31) with (33) with k = 1 user per cell (dashed lines). here we observe similar behavior to the optimal decoding case. for low snr (fig. 2(a)) we see that the capacity increases to a maximum value until (cid:11) (cid:25) 0:65. then it begins to decrease with increasing (cid:11). inerestingly for high snr (fig. 2(b)) the capacity of the modified model exceeds that of wyner's original model until (cid:11) (cid:25) 0:6. at that point the capacity of wyner's model begins to increase, whereas the capacity of the modified model continues to decrease until it reaches zero.
+
+in this section we examine the capacity of the satellite fading channel
+
+first we shall not impose any assumptions on the profile matrix bbb, and consider two special cases: when the system contains a large number of users per cell; and the asymptotic high snr regime. then we conider the case when bbb describes wyner's 1 d and 2 d models, (5) and (6), as well as our modified 1 d model (8). for these cases we use a haar measure approximation to derive closed form channel capacity approximations, which, as we shall see, are remarkably close to monte carlo simulation results. finally, we show that the same haar measure approximation also yields very close approximations to the capacity of the channel when mmse filtering is employed.
+
+since the fading processes are ergodic by assumption, the optimal
+
+decoding capacity of the satellite fading channel (9) is
+
+where the expectation is over the random diagonal matrix ddd. from asumption (4), we can rewrite the matrix product aaaddddddyaaay as follows. let bbbi denote the ith column vector of bbb. re writing aaaddddddyaaay as a sum of n k, n (cid:2) n unit rank matrices yields to begin our analysis, suppose wideband transmission is employed, and each cell contains a large number of users (k ! 1). since the dn;kd(cid:3) dn;k's are independent, and n;k = 1 then by the law of large k numbers limk!1
+
+now suppose that limk!1 k(cid:13) = ^(cid:13), i.e., as the number of users inrease, k(cid:13) is held constant. therefore
+
+log det iii n + ^(cid:13)bbbbbby
+
+thus regardless of the fading distribution, as the number of users per cell increase the fading processes average out and the optimal decoding capacity approaches that of the nonfading channel. for the 1 d wyner model (bbb = ttt 1d), (39) was proved by somekh and shamai in . note that they refer to (9) as an "artificial fading" setup. however, they did not make the connection that (9) describes a multibeam satellite fading channel, and only considered the case when bbb = ttt 1d. whereas (39) holds for any profile matrix bbb and hence is independent of the cell arrangement.
+
+when bbb describes wyner's model, (39) implies that for large k the satellite fading channel behaves much like the nonfading channel, i.e., for small (cid:11), when ^(cid:13) < 1, capacity increases with (cid:11), and when ^(cid:13) (cid:21) 1 capacity decreases with (cid:11). this is contrary to the terrestrial fading channel, where somekh and shamai showed that for a large number of users, capacity increases logarithmically with (cid:11) and exceeds that of the nonfading channel (regardless of the snr).
+
+b. high snr regime
+
+suppose the system contains a finite number of users per cell and bbbybbb and (cid:4)(cid:4)(cid:4) are positive definite. then at high snr the optimal deoding capacity is lower bounded by
+
+which is defined as the difference in capacity between the nonfading and satellite fading channels (at high snr), and is dependent on the number of users per cell and the probability density p(cid:24)(x) of the diagnal elements of the diagonal matrix (cid:4)(cid:4)(cid:4). note that is independent of the profile matrix bbb and hence the cellular arrangement, or the inerference between cells.
+
+for rician fading, p(cid:24)(x) is a noncentral chi squared density ,
+
+(42) ((cid:20); k), (43), which is the difference between the capacity fig. 4. plot of of the multibeam satellite channel with rician fading to that of the nonfading channel at high snr.
+
+per cell (k). we write ((cid:20); k) to highlight this (p(cid:24); k) = dependence. this brings us to the following result, which is proved in the appendix.
+
+where (z) and pfq (a1; . . . ; ap; b1; . . . ; bq; z) denote the digamma function [30, sec. 8.36] and generalized hypergeometric function (of scalar argument) .
+
+((cid:20); k) versus (cid:20) for an increasing number of users. this figure demonstrates the importance of a los component in a multibeam satellite system. it can also be seen that the system benefits from increasing intracell interference (increasing the number of users per cell), and hence intracell tdma is distinctly suboptimal. these efects are illustrated by considering the following special cases.
+
+firstly, when k = 1, corresponding to intracell tdma, (43) re
+
+where ei(z) dt denotes the exponential integral. note that in the context of single user multiantenna communications, the high snr offset (44) was also derived in [35, corollary 10]. from (44), the loss in capacity decreases as (cid:20) increases and, not surprisingly, approaches zero as (cid:20) ! 1 (since the system approaches the nonfading channel).
+
+secondly, for the special case of rayleigh fading (42) reduces to a
+
+where e (cid:25) 0:58 denotes euler's constant. when k = 1, correponding to the intracell tdma scenario, (46) indicates that rayleigh fading will result in a loss in capacity of e nats/cell. for wideband trans (cid:0) log k [30, eq. 8.367(1)], mission, since e = limk!1 k=1 it can be seen that as k increases this loss in capacity reduces to zero [as predicted by (39)]. let us now assume that bbb is one of the wyner models described by (5), (6) or (8). in these cases, finding a general closed form exression to (37) is a difficult task. if bbbybbb or (cid:4)(cid:4)(cid:4) were unitary invariant with compact support then they are asymptotically free , .9 in this case, it is possible to compute (37) using tools from free proba transform . however, in some bility theory, namely voiculescu's transform of the constituent random matrices instances when the cannot be expressed in closed form, the approach becomes intractable . this is unfortunately the case when the fading is rician such that the diagonal elements of (cid:4)(cid:4)(cid:4) are distributed according to (42). in adition, by assumption, bbb is a fixed matrix and (cid:4)(cid:4)(cid:4) is a random diagnal matrix, which in general is not unitary invariant. however, as we shall see, it is possible to find a closed form approximation to (37) that is very close to monte carlo simulation results as n becomes large. the approximation is based on the work of debbah et al. on their asymptotic performance of isometric random precoded systems. they found that the use of random haar distributed matrices gives the same asymptotic performance as most common (deterministic) precoding matrices, e.g., walsh hadamard matrices. in a similar way, expanding bbbybbb = vvv (cid:10)(cid:10)(cid:10)vvv y in (37) and replacing the fixed unitary matrix vvv with a haar matrix uuu , yields a very good approximation that appears to be tight as n increases. we refer to this approximation as the haar meaure approximation, which is defined as follows.
+
+definition 4.1 (haar measure approximation): define the fixed n (cid:2) n matrix bbbybbb = vvv (cid:10)(cid:10)(cid:10)vvv y where vvv and (cid:10)(cid:10)(cid:10) are n (cid:2) n unitary and diagonal matrices, respectively. let (cid:4)(cid:4)(cid:4) be an n (cid:2) n diagonal matrix with nonnegative i.i.d. random diagonal entries. the haar measure approximation is defined as
+
+where uuu is an n (cid:2) n haar matrix.
+
+hence, using def. 4.1, we have the following capacity approxima
+
+obtaining an analytic expression for (48) is substantially simpler than that of (37). although the complicated pdfs of the diagonal matrices (cid:10)(cid:10)(cid:10) and (cid:4)(cid:4)(cid:4) prohibit us from using free probability theory, we may instead use hypergeometric functions of matrix argument to find a solution.10 in particular, we may use the results of gross and richards , as was done in to derive the average input output mutual information of gaussian vector channels where the gramian of the channel matrix can be expressed as the product (cid:10)(cid:10)(cid:10)uuu(cid:4)(cid:4)(cid:4)uuu y. consider the following results from .
+
+9the condition of compactness is sufficient, but not necessary. in bercovici and voiculescu extend the free convolution to measures with unounded support. (47)
+
+theorem 4.2: suppose (cid:10)(cid:10)(cid:10) and (cid:4)(cid:4)(cid:4) have limiting eigenvalue distribu
+
+(cid:0) (cid:0)1 xxx (u) denotes the innd !i = f verse limiting eigenvalue distribution function of the random matrix xxx).11 note that theorem 4.2 is a simple adaptation of [40, th. 1]. whilst (53) applies in the limit as n , in it was shown that (53) yields results close to monte carlo simulations for small finite n .
+
+i ( ^ttt 1d) [from (17) and (21)] for where !i = (cid:21)2 the 1 d wyner and modified wyner models, respectively. for the 2 d wyner model, we cannot use !i = (cid:21)2 i (ttt 2d) because ttt 2d has repeated eigenvalues resulting in (54) being indeterminate.12 instead, it is easier (cid:0)1 to use !i = f ttt
+
+random variables distributed according to f and f , respectively, . fig. 5. optimal decoding capacity of the multibeam satellite channel with 1 d cellular arrangements. wyner's original model (5) and the modified model (8) are indicated by ttt and ^ttt , respectively. the solid lines show the nonfaded channel capacity (16) and (22). the dashed and dot dashed lines show the computation of (54) (with n = 50) for the rayleigh and rician fading cases, respectively. the circles indicate the computation of (37) via monte carlo simulations (with n = 1000).
+
+a series of monte carlo simulations were conducted to confirm the validity of approximation (54). the simulations involved computing to ttt 1d, ^ttt 1d or the empirical average of (37) (with bbb equal ttt 2d) over many realizations of the random diagonal matrix (cid:4)(cid:4)(cid:4) for different levels of intercell interference. then (54) was computed with n = 50. the results of simulation are shown in figs. 5 and 6. from these figures it can be seen that the monte carlo simulated points (circles) match very closely to the analytic approximation (54). from a system analysis point of view, both figures show that unlike terrestrial cellular systems , in multibeam satellite systems, fading does not increase capacity beyond the nonfading channel as the level of intercell interference increases. for the rician fading case we see that with (cid:20) = 10 the dot dashed lines are much closer to the unfaded channel capacity (solid lines) than the rayleigh fading case (dashed lines), illustrating the benefits of having a strong los component. fig. 6. optimal decoding capacity of the multibeam satellite channel with a 2 d cellular arrangement (6). the solid line shows the unfaded channel capacity (19). the dashed and dot dashed lines show the computation of (54) (with n = 50) for the rayleigh and rician fading cases, respectively. the circles indicate the computation of (37) via monte carlo simulations (l = m = 32).
+
+levels of intercell interference (cid:11) 0:4 the channels behave much the same. like wyner's model, at low snr (^(cid:13) (cid:20) 1) the capacity of the modified channel increases with small (cid:11). however, regardless of the snr, as (cid:11) ! 1 the capacity of the modified channel decreases to zero (as discussed in section iii a). using the relationship between the input output mutual informaion and arithmetic average mmse for gaussian vector channels , , the haar approximation can also be used to approximate the channel capacity when mmse filtering is employed, i.e.
+
+theorem 4.3: let the function (cid:8)0
+
+the proof of theorem 4.3 is given in the appendix.
+
+as in the optimal joint decoding case, the approximation (56) is rearkably close to simulation results. to show this we conducted a seies of monte carlo simulations to compute the expectation
+
+the results of the analysis are shown in figs. 7 and 8. from these figures it can be seen that the monte carlo simulated points (circles) match closely to the analytic approximation of (56) indicating that the replacement of the unitary matrix with a haar matrix as in (54) is a very good approximation (for these cases). from a system analysis point of view, these figures exhibit a similar behavior as the optimal decoding capacity analyzed in the previous section. for the 1 d scenarios, in fig. 7 it can be seen that fading decreases capacity and a large rice factor is preferable. comparing wyner's 1 d model to the modified 1 d
+
+fig. 7. capacity of the multibeam satellite fading channel when linear mmse filtering is employed followed by single user decoding. wyner's original model (5) and the modified model (8) are indicated by ttt and ^ttt , respectively. the solid lines show the nonfaded channel capacity (31) and (33). the dashed and dot dashed lines show the computation of (56) (with n = 50) for the rayleigh and rician fading cases, respectively. the circles indicate the computation of (60) via monte carlo simulations (with n = 1000).
+
+model, like the optimal decoding capacity, we see that at low (cid:11) both systems behave similarly. as (cid:11) increases, the capacity of the modified 1 d model decreases to zero indicating that the system is interference limited.
+
+in this correspondence a simplistic model for the uplink of a multieam satellite channel with fading was developed to analyze the perforance of the system using an information theoretic approach when no frequency re use is employed between the spot beams. the model was based on the framework of wyner's gcmac , where (cid:11) is used to model intercell interference. in our analysis we also extended wyner's 1 d model so that users receive intercell interference from cells furher than adjacent cells (as would be experienced with a spot beam antenna where the power of the main lobe decays exponentially with the distance from the beam center). for the nonfading channel it was shown that at high snr, this modified model is interference limited, fig. 8. capacity of the multibeam satellite fading channel when linear mmse filtering is employed followed by single user decoding for wyner's 2 d model (6). the solid line shows the unfaded channel capacity (32). the dashed and dot dashed lines show the computation of (56) (with n = 50) for the rayleigh and rician fading cases, respectively. the circles indicate the computation of (60) via monte carlo simulations (l = m = 32).
+
+even when optimal joint decoding is employed. this is in direct conrast to wyner's 1 d model, which does not exhibit interference limited behavior when optimal joint decoding is employed. for the modified model, at low snr, ^(cid:13) < 1 it was shown that capacity increases with (cid:11) until it reaches a threshold (cid:22)(cid:11) beyond which capacity decreases to zero as (cid:11) ! 1.
+
+for the fading channel, when optimal decoding is employed, at high snr it was shown that intracell tdma is distinctly suboptimal and incurs a loss of e (cid:25) 0:58 nats=cell compared with the nonfading channel for all levels of intercell interference. moreover, this loss is independent of the topology of the system and the power profile of the channel matrix. when wideband transmission is employed, as the number of users per cell increases, the channel capacity approaches the nonfading channel capacity. using similar arguments as debbah et al. , we found that for the case when bbb describes wyner's 1 d, 2 d or the modified model, replacing the unitary matrix vvv in the spectral decomposition bbbybbb = vvv (cid:10)(cid:10)(cid:10)vvv y with a haar matrix uuu yields a tight approximation for large n (for both the optimal and linear mmse decoding strategies). this enabled us to use results from to numerically compute the channel capacity at any level of snr or intercell interference. the results were verified via monte carlo simulations.
+
+substitution of j1 and j2 yields (43) as in the statement of the theorem.
+
+where c > 0 is a scalar independent of (cid:13). differentiating with respect to (cid:13) and after some algebraic manipulation yields, see (65) at the bottom of the page. to differentiate f ((cid:13)) the following results are used. let xxx be a matrix whose elements are a function of a scalar variable t, then
+
+and d dt trxxx = tr
+
+dxxx dt y d dxxx dxxx dt
+
+thus using (66) and (67) it follows that
+
+substitution of (68) and (65) into (64) followed by some straightforard algebraic manipulation yields (57) as in the statement of the therem. setting s = 0 in (50) and (52) and differentiating yields
+
+which validates (58) and (59) in the statement of the theorem.
+
+the authors thank the anonymous reviewers for their helpful contructive comments and suggestions that significantly improved the original version of this correspondence. in addition, they thank ralf müller for his helpful suggestions. (66)

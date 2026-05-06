@@ -1,0 +1,395 @@
+design and validation of a passive radar concept for ship detection using communication satellite signals
+
+in this paper, the feasibility of a bistatic passive maritime surveillance system based on the use of communication satellites as illuminators of opportunity is considered and confirmed experimentally. a theoetical comparison of the characteristics of a radar using inmarsat and iridium signals as donors has been performed. the procedure of enhancing the range resolution by coherently combining available scarce active communication channels in the frequency domain is presented with the example of the inmarsat i 4 satellite broadband global area network signals. parameters affecting the performance of range doppler mapping of a target are investigated based on the analysis of the ambiguity function of the combined signals. an experimental set up with a stationary passive receiver designed for acquisition and processing of inmarsat signals is presented and the results are shown. the detection and estimation of radial velocities by reflected inmarsat signals are presented for the first time. the detected maritime targets ranged in size from a large passenger ferry to a small boat. the potential limitations of the concept are outlined, together with ways to overcome them.
+
+manuscript received september 26, 2016; revised june 26, 2017; released for publication june 27, 2017. date of publication september 14, 2017; date of current version december 5, 2017.
+
+refereeing of this contribution was handled by r. m. narayanan.
+
+this work was supported by the uk mod centre for defence enterprise (activity cde 38499).
+
+authors' address: l. daniel, s. hristov, x. lyu, a. g. stove, m. chernikov, and m. gashinova are with the electronic, electrical and systems engineering, university of birmingham, birmingham b15 2tt, u.k., eail: (l.y.daniel@bham.ac.uk; s.z.hristov@bham.ac.uk; zzuxiaoyong@ stovea@bham.ac.uk; m.cherniakov@bham.ac.uk; m.s. 163.com; gashinova@bham.ac.uk). (corresponding author: l. daniel.) the last decade has seen a surge of research dedicated to investigation of passive coherent location systems (pcl) for detection and tracking of ground, maritime, and airorne targets, mostly using terrestrial broadcasting signals . the reason for this great interest in passive sysems is that they represent an alternative way to provide large area surveillance with persistent monitoring in a costnd resource effective way, without the introduction of speific dedicated systems. the pcl system concept is well developed and has been under research for a few decades, a comprehensive review of the current state of the art can be found, for example, in .
+
+the traditional choice of terrestrial systems as illumiators of opportunity (ioos) is dictated by their accessibilty, high transmitted powers, excellent coverage (at least in populated areas), and reasonably large bandwidth providing a range resolution acceptable for many applications.
+
+terrestrial broadcasting networks have, however, no coverage over the open seas and are potentially vulnerale in situations of man made or natural disasters. these factors limit their universality and reliability and therefore also limit the attractiveness of such systems for pervasive surveillance; instead space borne ioos may help to tackle such limitations. assuming that a system based on spaceorne illuminators is feasible it will offer some benefits:
+
+1) covert operation and uncertainty for the target's radio countermeasure system,
+
+2) potentially longer target detection range, 3) low levels of glint due to the bistatic nature of the system, and
+
+4) reduction of the effects of clutter due to the lower opertional frequencies of many of the possible transmitters of opportunity, compared to a dedicated system.
+
+therefore, there is a need to analyze the suitability of available systems and to discuss possible tradeoffs of paameters to deliver the required performance.
+
+some experimental work has been performed on using the transmissions from space based synthetic aperture radar (sar) systems bistatically , . earlier work has also been performed investigating the concept of space based sar systems functioning in a passive way, utilizing recepion of terrestrial broadcast signals . global navigation systems (gns) have been used as ioo for sar purposes, as described in , these have the continuous coverage which is not available from dedicated radar satellites. this paper is, however, looking at real aperture applications, and its focus is on the use of communications satellites. the reearch into the use of communication based space borne ioos began with .
+
+the goal of this work is to investigate, experimentally and analytically, the performance of a bistatic passive sysem for detection and kinematic parameter estimation of maritime targets, based on the use of communication satelites as ioos. initial analysis of the ambiguity function (af) of iridium and inmarsat downlink signals with respect to the application of these systems for pcl has been already briefly reported by authors in and . this paper builds upon these studies and the system feasibility study presented in , which included a comprehensive power budget evaluation. that study was based on estimation of the system sensitivity in terms of expected signal to noise and clutter to noise ratios for varying sea states against a standard 10 m2 target, which were then confirmed through use of initial measurements of a small target. this paper follows on from that work by describing the actual imlementation of such a system, with a discussion of the range doppler processing, as well as theoretical and expermental analysis of the ioos' af—alongside this, methods to improve range resolution and reduce side lobes are disussed. to validate this implementation experimentally, a comprehensive measurement campaign was conducted for a variety of target types; results of which are presented herein.
+
+this paper is thus organized as follows. first, in section ii, the requirements for the ioos to provide global persistent surveillance are presented. then, in section iii the basic power budget is outlined, where the simulated radar cross section (rcs) of a representative target is shown and discussed in the context of the bistatic detection. in section iv, the experimental data acquisition procedure is presented and then the inmarsat downlink signal waveorm parameters and the range doppler processing techique used to best exploit the waveform are explained. the procedure of band "stitching" is then described and an analsis of the parameters affecting the autocorrelation function for a combined "effective" band is made, aiming to reduce the side lobe levels due to the coherent band combinaion. this is done using both experimental and modeling results of the af. experimental scenarios, measurements, and results are then presented and, finally, conclusions are formulated and plans for further work are outlined.
+
+ii. requirements for prospective illumina
+
+to provide the required capabilities, outlined in section i, the prospective ioos should be considered in terms of the following parameters:
+
+1) spatial availability. for maritime surveillance global coverage is needed; however, this requirement can be relaxed to exclude areas around the geographical poles. in future as the economic importance of the arctic region increases, we may expect additional satellite communiations coverage to be provided in that region. maritime applications have no requirement to operate over the southern polar regions as these are covered by land. limitation on the coverage by the illuminators in this region is therefore not an issue.
+
+2) temporal availability or pervasiveness. the signal of opportunity is required to be continuously available. 3) transmit power flux density (pfd) produced by the transmitter in areas of interest must be sufficient to provide the required target signal to noise ratio (snr) at the receiver for distances defined by the application. 4) transmit signal carrier frequency. this is a relatively "soft" requirement, though certain aspects need to be considered: utilization of signals from different indeendent ioos operating within the same radio frequency (rf) band will lead to reduced complexity of multichanel receiver, yet can provide multi aspect observation, more accurate positioning, and higher reliability of the system. this favors l band, which also offers the addiional advantages of lower atmospheric attenuation and fading in comparison with the higher frequency signals. 5) transmit signal bandwidth. this parameter specifies the radar range resolution and therefore defines the sysem performance in multitarget scenarios and reduces its sensitivity to surface or volume clutter.
+
+6) transmitter geometry with respect to the receiver. the bistatic angle must be known in order to estimate the target state, i.e., to determine the relationship between the measured "bistatic range" and the distance between the target and the receiver. this is also necessary to deermine the relationship between the measured bistatic doppler shift and the actual target velocity.
+
+7) number of the transmitters covering the chosen obervation area simultaneously. the reliability of the system fully depends on the availability of the ioos and, obviously the more transmitters which are visible simultaneously, the less is the chance of significant sigal outage. additionally, in bistatic systems care should be taken to avoid unfavorable bistatic geometries with large bistatic angles where both range and doppler resolutions degrade. spatial diversity of multiple ioos provides the opportunity to use the most appropriate available configurations. moreover, the powers received from several transmitters could be combined, at least noncoherently, to improve the sensitivity.
+
+8) ownership and operational control of the transmitters. this factor is also directly related to the system reliaility and pervasiveness. ideally, the transmitters would belong to international organizations or to allied defense forces or other national institutions. this would prevent anyone from denying access to the signals.
+
+9) vulnerability of the transmitter in the case of man made or natural catastrophes.
+
+according to all the requirements mentioned, satelliteased transmitters could be viewed as the most suitable. significant emitters such as the inmarsat i 4 and iridium communication satellite constellations, the upgraded gps, and the galileo satellite navigation systems as well as broadcasting satellites can be considered as potential canidates. their characteristics are shown in table i.
+
+the fact that there are only a small number of broadcast signals illuminating a given geographical area is driven by economics—the cheapest way to provide the signals is by using a single geostationary satellite, illuminating the region with a single beam transmitting all the signals together. from many aspects, such as bandwidth and spaial/temporal availability, gnss satellites may be viewed as the most suitable. however, the key parameter to ensure such system suitability for passive surveillance—the pfd at the earth, is approximately 30 40 db less than that of communication satellites . combining the signals may, however, improve the power budget. an examination of the incoherent integration gain shows that the improveent in sensitivity against noise can be taken to be n3/4 where n is the number of signals combined. if we consider the example of the gps system, which provides at least four but typically six satellites in sight at any time, with 2 3 frequency separated channels, their incoherent integraion would give an extra gain of about 4 6 db.
+
+as an alternative, communication satellite systems which have global or near global coverage, such as inarsat and iridium, may provide satisfactory pfd. they are less attractive in terms of the bandwidth and pervasiveness; therefore, research should be focused on the development of approaches to improve resolution and to investigate if multimode operation, i.e., various combinations of differnt ioos, services, channels, etc., can enhance the system performance. in the next section, we present the basic power budget for iridium and inmarsat transmitters with maritime targets of medium rcs.
+
+fig. 1 shows the general system topology where a double channel receiver positioned on either a low altitude airborne platform, or a seaborne platform, is used to collect reflected signals from a vessel coherently with a reference (synchronization) signal from a satellite.
+
+two examples of communication satellites, iridium and inmarsat i 4, provide very similar power densities at the earth's surface of 70 and 64 dbm/m2, respectively , despite their very different orbital heights of about 780 km for iridium (low earth orbit) and 36 000 km (geostationry earth orbit, geo) for inmarsat, because they both need sufficient power density to send down useful data rates into some have true global (e.g., iridium) or nearly global (e.g., inmarsat) 24/7 marginal to medium mostly l band low (i.e., 31.5 khz iridium single channel) to medium (i.e., 200 khz inmarsat single channel), could potentially be combined to improve the resolution. known or could be derived 1 5 at least 2 low 24/7 medium to high k band medium (per channel): could potentially be combined to become high
+
+known 1 2 low low
+
+fig. 1. passive target detection by pcl with a low altitude receiver and space borne transmitter. the figure represents a general passive bistatic scenario.
+
+receivers with modest antenna apertures. the wider bandidth of inmarsat is matched by the fact that its receivers use small dish antennas whereas those used by iridium, with its lower data rate, appear to be essentially monopoles.
+
+the two systems operate at slightly different frequenies within the l band; the difference is not significant given the other approximations within the model, so we use an identical nominal frequency of 1.5 ghz (20 cm waveength). the snr at the receiver for the satellite signal scattered from the target can be calculated by the followng equation, which is a simplification of the classic radar equation:
+
+where pfd incident power flux from the illuminator; arx effective area of the receiver antenna; σ d
+
+bistatic rcs of the target; range from the target to the receiver; (1) boltzmann's constant; receiver temperature; coherent integration bandwidth of the system; receiver noise factor.
+
+for a pseudo monostatic geometry, the resolution cell
+
+the clutter rcs is found by multiplying the area of the clutter patch by the specific rcs of the clutter and the signal to clutter ratio can be deduced directly from this, as shown in .
+
+the bistatic rcs is expected to be smaller than the monostatic rcs and less affected by the specular reflectors of the target. results of the cst microwave studio fullave simulation of a ship model made of perfect electric conductor material are shown in fig. 2.
+
+to simulate the position of the inmarsat satellite as the source of the probing signal at 26° over the horizon as in the experimental scenarios, the excitation plane wave port was positioned perpendicular to 0o elevation plane and the ship was rotated by −26° with respect to the excitation plane [see fig. 2(a)] to give an illumination direction of 0° in elevation and azimuth. this defines a 26° aspect angle from the satellite to the ship's broadside. fig. 2(b) shows the variation of the bistatic return (magnitude) with the eleation of the receiver around the red circle and the position of illuminator as shown in fig. 2(a). fig. 2(c) shows the same illuminator geometry with the receiver at 0o elevation and the return as a function of azimuth (around the green circle).
+
+the estimations using such a model simulate the full shape of a ship "in vacuum." as one can see from fig. 2(b), the reflection along the broadside direction at 0° elevation would be about 58 dbsm. the bistatic rcs at −20° after broadside would be 10 20 db below the backscatter return. at greater angles, between 15° and 120° in elevation away from broadside the bistatic rcs would be about 30 dbsm. this value will, therefore, be used in estimating the sensiivity of the proposed system.
+
+even more rapid decrease of rcs magnitude is oberved with variation in azimuth [see fig. 2(c)], such that few degrees variation of the ship heading can result in 20 40 db lower magnitude.
+
+as a reference, the monostatic rcs variation in azimuth plane of the ship is shown in fig. 3 which gives a broadside rcs of 55 dbsqm.
+
+given that all results are conservative and do not include the effects of multipath, we would expect the return could be of an order of magnitude smaller than the traditional estimate of broadside monostatic rcs. fig. 2. full size model of ship (a) with corresponding bistatic rcs in elevation (b) and in azimuth (c).
+
+inmarsat assuming a maximum of the pfd of −64 dbm/m2, a receiver aperture of −8 dbm2, a noise figure of 3 db, a coherent integration bandwidth of 2 hz, and a target range of 30 km, the snr against the target will be about 25 db according to (1). in sea state 5, the signal to clutter ratio using a single 200 khz channel will be about 15 db, as shown in , based on the monostatic clutter data derived from . the methods used to estimate the signal to noise and clutter to noise ratios are discussed in more detail in . these estimates suggest that a system based on this illuminator will have a very useful noise limited sensitivity as would be expected from the high transmitter power denity, but only a modest performance in clutter, as would also be expected from the relatively narrow signal bandwidth. for a similar system based on the iridium signals, the snr at 30 km will be 6 db lower, i.e., a still useful 19 db, simply because the incident power flux illuminating the target is 6 db lower. the signal to clutter ratio will be only about 7 db, due to the coarser range resolution which is in turn a consequence of the lower signal bandwidth and emphasizes the importance of finding techniques to reduce the effective area of the clutter patch. one such technique is the coherent summation of multiple channels to improve the range resolution, such as discussed in section vi.
+
+this theoretical comparison of the potential perforance using inmarsat and iridium signals as the emitters of opportunity shows that inmarsat will give higher snrs and also higher signal to clutter ratios. the definite aspect in faor of iridium is that the greater number of satellites gives more opportunity to avoid unfavorable geometries, i.e., near forward scatter geometry. this benefit should be borne in mind since it might be important for some potential applicaions. for installations such as harbor surveillance or vessel traffic management, however, it is anticipated that receiver locations will be able to be found which avoid unfavorable geometries so superior performance will be obtained by using inmarsat as the illuminator.
+
+if there is sufficient power for a target to be detected, the next practical step will be the analysis of the af of the conidered satellite system waveforms. because the theoretical analysis showed inmarsat to be the more promising donor, the experimental work concentrated on making measureents using this system and no experiments using iridium are reported in the paper. some performance analysis is, however, included in the paper for demonstration of the considerations involved in the proposed pcl system conept. in the next section, the af of the inmarsat broadband global area network (bgan) signals, which have been used in the experiments, will be investigated. satellites in constellation (i 4) downlink band (l), channelization
+
+multiple access modulation beams per satellite, effective isotropic radiated power geo (36 000 km) phone and data (bgan) near global excluding polar region (covers latitudes of −82° to +82°—minimum angle of elevation above the horizon for acceptable operation 8.2°). 3 1525 1559 mhz, 630 channels with frequency reuse or 170 frequency channels, 200 khz each fdd tdma 16 qam, qpsk 228 spot beams, 67 dbw each
+
+19 regional beams, 58 dbw each 1 global beam, 43 dbw right hand circular polarization (rhcp)
+
+inmarsat downlink signal, acquisition, and receiver calibration initial data
+
+the relevant parameters of inmarsat i 4 satellite constel
+
+lation and bgan waveforms are shown in table ii.
+
+a. inmarsat waveform
+
+the inmarsat bgan is the global, high speed mobile data network that provides remote mobile service with acess to the internet and the corporate intranets with a speed of up to 492 kbps.
+
+in each 200 khz channel, a bearer using the protocol described as f80t4.5x8b is transmitted . the bearer has a frame length of 80 ms and occupies a bandwidth of 189 khz. each frame consists of eight forward error correcion blocks. 16 qam and 0.25 root raised cosine filters are used to modulate and shape the signal. the overall symbol rate is 151.2 ksymbol/s. therefore, the bgan signal can be simulated as shown in .
+
+fig. 4 illustrates normalized spectra of simulated (a) and recorded (acquisition is described in the next section) (b) single inmarsat channel.
+
+b. flux density available from the inmarsat system
+
+it should be noted that although quotes a flux density of −64 dbm/m2 at the earth's surface, in reality one can expect lower available power and that value representing a product of total emitted power and the gain of each "spot" beam. indeed, the downlink spectrum is 1525 1559 mhz , inferring the system has approximately 170 channels. considering the total available effective isotropic radiated power (eirp) of 67 dbw, the saturation eirp per beam will be about 45 dbw. this is compatible with statement in that the service link saturation eirp of each beam is between 38 and 53 dbw. using this conservative 45 dbw, saturation power would give a flux density of about −87 dbm/m2 at the earth's surface. fig. 4. normalized spectra of a single inmarsat channel: (a) simulated and (b) measured.
+
+a single spot on the earth can, however, be illuminated by a number of beams, allowing a number of ground termials in the same region to use the system simultaneously. each geographical region sees only about one seventh of these channels (i.e., up to about 24 channels) because a degree of frequency diversity is used to prevent different signals from using the same channel at the edge of a "spot." a radar could potentially use the power from 24 channels, giving a total potential flux density of about −78 dbm/m2. in practice, the system will generally see many channels across the band and not all would be transmitting at full power. in our measurements, due to limited receiver bandidth, we typically record 4 6 channels.
+
+i 4a f4 satellite (alphasat), which has been used as an ioo in experiments discussed in section vii, all quantitative parameters might be further corrected taking into account higher total eirp of 70 dbw, extended downlink bandwidth 1518 1559 mhz, and fourolor frequency reuse scheme, which will result in a slightly better pfd of 85 dbm/m2 per channel.
+
+c. signal acquisition and receiver calibration
+
+the digital receiver designed at the university of birmngham is based on the universal software radio peripheral (usrp) ni rio 2950r with an operational bandwidth of 50 mhz to 2.2 ghz. fig. 5. usrp based passive receiver calibration with spectrum analyzer.
+
+table iii passive receiver components and parameters
+
+rf component gain, db
+
+during receive operation, the rf daughterboard is fed with an analogue signal which is amplified by a low noise amplifier (lna) and then down converted to i/q baseband with 40 mhz bandwidth. the analogue signals are then passed through 200 mhz analogue to digital converters and digitally down converted to the desired bandwidth in the digital signal processing oriented field programmable gate array. the sampling rate, center frequency, and gain of the usrp are set by the user along with other parameters of the system, such as the buffer length and the clock reference. the parameters chosen for the specific target detection scearios will be described in section vii. the signals are then transferred through a pcie ×1 (200 mbps) port from the usrp to be recorded onto a solid state drive.
+
+the usrp requires calibration of its receive chanels and for the calibration a fieldfox spectrum analyzer (sa) was used as a benchmark system. the experimental calibration procedure is indicated in fig. 5 and involves simultaneous measurement with the two devices. compoents and parameters of the passive receiver used in this test are presented in table iii. the transfer function of each component of the receiver within the recorded inmarsat band has been estimated for further processing of bandimited signals.
+
+fig. 6 shows a record of a sub band of 1550 1555 mhz made simultaneously by the sa with different intermediate frequencies (if) (a) and by the usrp (b).
+
+the flux density of the strongest signal in fig. 6(a) is −93 dbm/5 khz or about 77 dbm in a 200 khz chanel. this is equivalent to −93.5 dbm at the output of the antenna. the antenna gain of 16 db corresponds to an efective aperture of −9.3 dbm2 at a frequency of 1.55 ghz, corresponding to a flux density of −84.2 dbm/m2. this is in agreement with the argument in section iv b that the flux density will be about −85 to −87 dbm/m2.
+
+fig. 6 also shows that although single inmarsat chanel has a bandwidth of 200 khz, channels often appear inmarsat received power estimation within sub band 1550 fig. 6. 1555 mhz, measured by sa with different if settings (a) and usrp, with 30 s averaging (b).
+
+in groups of up to five adjacent channels. this fact can increase effective bandwidth up to 1 mhz and therefore lead to an enhanced range resolution and reduction of the clutter cell .
+
+v. passive system topology, bistatic acquisi
+
+the general bistatic geometry is shown in fig. 1. one channel with an antenna directed toward the ioo is a synhronization channel (hereinafter "sync") which should provide a copy of transmitted signal as a reference signal. a satellite signal scattered from a target is received by the relatively wide beam antenna of the radar channel (hereinafter "radar") of the passive receiver. this signal is a delayed and doppler shifted version of the reference sigal and therefore a two dimensional (2 d) cross correlation process along range/time and doppler shift/velocity direcions will provide data from which the bistatic range and bistatic doppler can be estimated.
+
+the relatively weak power density of the direct path signal from a satellite allows relaxation of the requirement on cancellation of the reference signal coming into radar antenna from a side lobe. the general processing procedure of direct signal cancellation outlined in is less crucial than in the case of commonly used broadcasting signals. fig. 7. range doppler processing block diagram.
+
+also experimental results show that zero range signal to background ratio is less than the coherent processing gain (product of the coherent integration time t int and a bandidth of a single channel bch) of direct signal so that the presence of the direct signal in the surveillance channel is not an issue.
+
+a. processing summary
+
+the processing algorithm block diagram is shown in fig. 7 and includes the initial alignment of both radar and sync channels. the correlation procedure of both channels is then implemented, where the length of each channel's signal is defined by the overall noncoherent processing interval tnc. in order to build a range doppler map and estimate range doppler parameters of the target, the sync channel samples are cyclically shifted before complex conugation and multiplication with the radar channel samples. the number of samples for each shift corresponds to the particular range resolution/bandwidth used. this shiftng process forms the range axis of the amplitude rangeoppler (ard) surface; the subsequent fast fourier transorm (fft) of each product of conjugated shifted sync and radar channel forms the doppler axis.
+
+prior to the ftt, the product signal is decimated to restrict the doppler processing to a range that is acceptble for the target of interest. otherwise due to the large data acquisition sample rates, the processing will include doppler shifts of many orders of magnitude greater than those in which a target can appear. thus, large parts of the doppler space can be eliminated a priori. this decimation is crucial to reducing the processing time due to reduction of fft size. the decimation procedure includes an initial digital low pass filter (lpf) with a cut off at the maximum required doppler frequency. 1) the number of range cells required is much less than the time for which the range must be integrated, since in this case the "direct" correlator is more efficient than a fourier transform based correlator and
+
+2) the range of doppler shifts of the targets of interest is relatively small, so the saving in processing caused by simplifying the doppler processing outweighs the cost of the transversal lpf.
+
+a sliding window defines the section of the signal correponding to the coherent integration time t int, and it slides with or without overlap over the total length of signal dened by the noncoherent interval tnc. once the processing has been defined for all required cyclic shifts of the sync signal, i.e., all the required ranges inside the coherent proessing interval, the process is repeated within the next sliding window.
+
+the noncoherent integration is defined by summing the magnitudes of outputs of the coherent processing intervals. results which are shown in section vii were derived with overall noncoherent and coherent integration times of 1 s.
+
+step 1: estimation of relative delay between the two reeive channels of usrp by direct signal measureents. this is only a part of a correction process for the receiver, where inherent timing delays are present between the two physical channels of the usrp and need to be accounted for. after esimation and compensation of these delays, the general passive bistatic radar (pbr) scheme is aplied: sync channel measures the direct signal and radar channel records the signal coming from a surveillance area. assuming that the direct path signal from the satelite will be the main component of the signals in both channels, cross correlation between channels has been used to find the channel sample offset. the position of the maximum of the absolute value of the cross correlation gives the sample lag required to align channels (see fig. 8).
+
+step 2: band pass filtering (bpf) is used to extract the required bands in the spectrum. after the receive channels have been aligned, a digital high order bandpass filter of 200 khz bandwidth has been used to select each active bgan band within the overall recorded signal as shown in fig. 9 for the radar channel (a) and sync channel (b). aligned and filtered signals in time domain are also shown for comparison in fig. 9(c).
+
+the target detection is typically performed on a range doppler map. the performance of pasive detection is defined by the af of the transitted waveform s(t) which is mathematically fig. 8. cross correlation of unaligned channel data. lag of channel 1 (allocated as sync) with respect to channel 2 (radar) is 362 samples.
+
+(3) where symbol * denotes the complex conjugation.
+
+in case of zero doppler, the af reduces to the autocor
+
+relation function of the signal complex envelope: (cid:3) ∞
+
+when the signal is used as a radar waveform, this defines the range resolution and the range side lobes of the waveform. the af at zero doppler of each radar and sync channel single band signals recorded as described in section iv b is shown in fig. 10. detailed analysis of af of single and combined bands available from the transmitter, which is the inmarsat bgan transmitter in this paper, will be presented in the next section.
+
+in the radar context, the cross correlation of the sync
+
+signal with the radar signal is given by
+
+where the subscripts "rad" and "sync" relate to signals from the radar and synchronization channels, respectively, and t int is the integration time used for estimation of the output of the matched filter.
+
+the range doppler map is obtained by calculation of
+
+af in the form:
+
+which represents the output of the matched filter.
+
+the most straightforward way to implement the calulation of (6) would be to calculate the discrete fourier transform (dft) of srad(t) · s∗ sync(t − τ ) for each range of interest, or for a number of discrete τ defining range bins within the total range where target is to be detected. 2
+
+(6) fig. 9. power spectral density (psd) estimates of radar channel (a) and sync channel (b) before bpf (blue line) and after (red line); (c) shows filtered time domain signals from both channels.
+
+fig. 10. zero doppler cut of the af of signals corresponding to one communication band in the radar channel (a) and sync channel (b).
+
+where n is the index of the range cell corresponding to the highest delay at which we need to see targets (equivalent to the monostatic concept of the maximum indicated range, expressed as a number of range cells).
+
+then, we apply fft:
+
+k=1:k,n=1:n (8) thus, we derive a 2 d array of k × n order which when mapped allows detection and localization of a target in bistatic range and velocity.
+
+this approach is called the long integration time method dft approach . the processing method is equivalent to doppler shifting the reference (sync) signal and then correlating with the radar signal. there is no processing loss in terms of size of the doppler shift, which delivers doppler resolution inversely proportional to the long interation time. the correlation could be performed without the fft, by correlating the signal with different dopplerhifted references; however, the chosen scheme is much more computationally efficient for low speed targets.
+
+as stated, decimation is used to improve the efficiency of the algorithm based on the following considerations. the maximum speed at which ships move within the harbor area may be taken as 10 ms1 (20 knots). at a carrier frequency of 1.55 ghz, this corresponds to a maximum monostatic doppler shift of about 100 hz, and the doppler shift seen in a bistatic system cannot be more than this. we can, thereore, be confident that if we can process target doppler shifts below a conservative value of 200 hz, we will see all the possible targets; therefore, we can discard the higher doppler frequencies (where targets of interest do not exist) through decimation prior to the fft to reduce the processng load when performing the fft. in the general scenario, the decimation ratio should be defined similarly by the maximum of the expected range of speed of the targets under surveillance.
+
+obviously, the longer the integration time, the finer the doppler resolution: (cid:4)fd = 1/t int, and the higher the proessing gain. there are several factors which can limit the integration time and in any case one will generally impose a tighter limit than the others. we consider two main factors:
+
+1) the requirement that a moving target should stay within the same range cell within integration time and
+
+2) the requirement that an accelerating target should stay within one doppler bin over the integration time.
+
+in any particular case, one or other of these two effects will provide the limiting factor, unless we are in the unusual case where the two factors give the same limit. in the design process, however, we need to examine both of them to see which gives the tighter limit. we can then define the maximum range doppler processing time which meets the above mentioned conditions.
+
+1) assuming radial or cross range motion of a target, we can estimate the time for which the target is within one resolution cell. for simplicity, but without loss of genrality, we assume hereinafter only radial motion and therefore only the dwell time in a range cell is estiated. for a single band 200 khz signal with range reslution of 750 m, when the target moves along the range direction from the receiver it will stay within the same range cell for a visibility time of about 75 s given a 10 ms 1 (or 20 kn) target speed. therefore, the cohernt integration time could be as large as 40 s. for the case where four bands can be combined to provide an 800 khz signal bandwidth, with a range resolution of 187.5 m, the visibility time within the same range resoution cell is about 20 s for 10 ms 1 target speed. thereore, the coherent integration time could safely be as large as 10 s.
+
+2) now we consider the time for an accelerating target to move through one doppler bin, given that the bistatic doppler frequency shift, assuming negligible change of bistatic geometry within the integration time, is b = 2v cos (β/2) cos θ
+
+where θ is the angle between the target velocity vector and the bistatic angle bisector. then, for a target which accelerates at a rate a, the change in bistatic doppler shift in time t will be
+
+the limiting value occurs when this change of doppler equals the monostatic doppler resolution 1/tint, giving a maximum correlation time of
+
+if we assume that the acceleration is 0.1 ms 2 (1 kn every 5 s) then at 1.55 ghz the limiting integration time is about 1 s. so to avoid possible loss and smearing, the coherent integration time could be limited to 0.5 s and therefore a doppler resolution in the order of 2 hz will be achieved (about 0.4 kn).
+
+the processing gain for a target occupying one doppler bin will then be defined as a product of the bandwidth and integration time, delivering 56 db gain for an 800 khz channel and 0.5 s integration time.
+
+it should be noted that this simplified correlation scheme has relatively modest computational requirements, certainly much less than is required for a completely general correator. for a maximum indicated range of 40 km, we require only about 200 range cells each with 200 m resolution. if our maximum doppler shift of interest is 200 hz as discussed above, then the correlator has an integration time of 5 ms with 200 khz bandwidth or 1000 samples. if the correlation is performed directly, each correlation thus requires of the order of 2 × 105 multiplications, so the required processing rate is only 4 × 107 multiplications per second. the subseuent doppler processing requires 200 fourier transforms, i.e., one for each range cell, ffts, each of nominally 100 points, in practice 128 points, or a total of about 6 × 105 multiplies in halve a second, which is negligible compared with the power required for the correlator. (9)
+
+fig. 11. saf surface maps of a single 200 khz bgan band (upper plots) and their zero range and doppler cuts showing range and doppler profiles (lower plots). (a), (c) are showing results of measurements, and (b), (d) are simulations. amplitudes are normalized to the peak value.
+
+we may compare this to the processing power required, for example, for a modest frequency modulated continuous wave radar, which may have to perform a 1024 pt fft every millisecond, which also requires of the order of 4 × 107 multiplications per second.
+
+whilst these are very basic estimates of the compuational power, for example, they do not consider the aditions, only the multiplications, they do indicate that the processing required for this scheme will not be excessively greater than that which is currently known to be practical for relatively modest systems.
+
+initial signal processing of acquired data. bands stitching
+
+the ambiguity of the waveform in both range and doppler is as important as resolution in both domains. being outside the radar designer's control, the waveform requires special attention to predict the performance of the system and its limitations. moreover, since, as discussed above, it is theoretically desirable to combine the signals in several channels to increase the overall bandwidth and therefore to improve the range resolution, estimation of the measured ambiguity of such combined signals is very imortant for understanding the practical implications of such a technique for the performance of the system. a. self ambiguity function of a single band
+
+reference measurements were made on the roof top of the school of engineering at the university of birmingam, where both a sync antenna (helical) and radar channel antenna (horn) were directed toward the alphasat satellite. the goal was to estimate the practical af of the bgan inarsat signal for a single band and for four adjacent bands, recorded in the separate reference and radar channels of the passive receiver. these signals were subsequently used for target detection as presented in section vii.
+
+we will use the term "self ambiguity" function (saf) stressing that directly received signals were used. in fig. 11 (left), the saf of the recorded signal for a single band of 200 khz and tint = 1 s (a), its range and doppler profiles (c) are presented; the plots in (b) and (d) show similar characteristics for the simulated signal.
+
+the measured range profile shows the expected side lobe pattern. a rectangular spectrum would of course give a sin (x)/x sidelobe pattern, with sidelobes at −13 db, and with a range resolution of about 700 m at the −3 db points. the actual shape is affected by the spectral shaping which reduces the energy at the edges of the nominal band. this degrades the range resolution to about 800 m and reduces the peak side lobe level to −15 db.
+
+the simulations predict a slightly broader main lobe than that which is actually observed and also predict slightly lower sidelobes, at about −20 db. it appears then that the actual transmitted spectrum has a slightly greater effective width than used in the modeling (see section iv a). both doppler profiles of simulated and measured signal safs demonstrate very similar behavior giving 1 hz doppler resolution with side lobe levels of about −45 db.
+
+the safs of both the simulated and the recorded sigals demonstrate the noise like behavior which would be expected for bgan waveforms. importantly, the range prole patterns for all the frequency bands are stable and highly repetitive and therefore can be removed by spatial filtering.
+
+the improvement of the range resolution in passive radars is one of the directions of research which is rather critical in order for passive operation to be able to compete with dedicated active radar systems.
+
+the range resolution improvement has been considered theoretically in for digital video broadcasting terrestrial (dvb t) signals, in and for fm signals, and experimental results can be found in and . in particular, shows both a theoretical analysis and experimental results for range resolution improvement in dvb t based pbr using adjacent multiple bands from the same transmitter.
+
+in contrast to broadcasting systems, when communicaion systems are used as ioos we cannot expect a constant spectrum, but will instead see dynamic band allocation driven by instantaneous demand, so that signals can apear randomly within the overall downlink band. thereore, a dynamic search of available bands which can appear sparsely and nonadjacently is required with band stitching at the if stage.
+
+in this paper, we outline a practical procedure for "stitching" the available bands in a recorded signal from alphasat and demonstrate the results obtained by using that scheme.
+
+for acquisition, the sampling rate and therefore the bandwidth of the receiver was set to be large enough to record several inmarsat bands. the results which will be shown in section vii are mostly based on four bands, each 200 khz wide, denoted as 3, 4, 5, 6 in fig. 12(a) (shown at baseband) which are centered at 1.5534 ghz. the addiional two bands numbered 1 and 2 centered at 1.5502 ghz were also used in the verification of the band stitching procedure.
+
+this study was aimed at analyzing the effects of nonequal band powers, phase discontinuity, and the arangement of the bands in sequence (at the if stage) on the af of a combined signal. in particular, it was found out that nonadjacency of the original bands will not sigificantly influence the range resolution performance of a pbr. moreover, it was also observed that if one internal band in a sequence is missing the results do not change dramatically, indicating the fact that even if one channel is fig. 12. band stitching: (a) power spectral density of received sync channel; (b) example of combined band which was made by single bands indicated as 1 6 in (a).
+
+missing for part of the dwell time this will not have a major effect on the operation.
+
+to combine bands, a digital bpf was used to extract individual bands, as shown in section v b. the selected bands were then frequency shifted to allow them to be conatenated in the frequency domain to increase effective the bandwidth from the 200 khz of a single channel to up to 1200 khz in different combinations of individual bands. one realization of "stitched" bands is shown in plot (b) of fig. 12.
+
+d. saf of combined signals
+
+range and doppler profiles of both the measured and the simulated saf of four combined bands are shown in fig. 13. these demonstrate a four fold improvement in range resolution over a single 200 khz band. the side lobes levels of the real and simulated signals differ by 4 db, although in this case, in contrast to the results shown in fig. 11, the experimental results show lower (better) side lobes than the simulation. while the width of the main range lobe has reduced to about 190 m, there are some relatively high ambiguities due to the "gaps" in the spectrum caused fig. 13. saf surface maps of combined bgan bands without overlap totaling 800 khz overall bandwidth (upper plots) and their zero range and doppler cuts showing range and doppler profiles map (lower plots). (a), (c) are showing results of measurements, and (b), (d) are simulations. amplitudes are normalized to the peak value. fig. 15. google earth photo with marked location of the receiver, radar, and sync antennas directions and typical trajectory of vessels within plymouth harbor during the experiments.
+
+by the guard intervals between channels. to avoid this and therefore provide a continuous spectrum of a noise like sigal, one can overlap spectra of individual bands. though this leads to slight degradation of the range resolution, this is much less significant than the reduction in the side lobe levels. the analysis of the effect of the ratio at which bands are overlapping in the if stage can be found in . the result of such a coherent combination, with a 10% channel overlap, is shown in fig. 14, although the potential phase errors have not been corrected. the recorded signal demontrates −18 db side lobe levels, which are comparable with what would be achieved by an ideal system.
+
+since each portion of the spectrum is "matched filtered" with the appropriate portion of the transmitted spectrum, the phases of the different carriers have no effect on this process. in one way of looking at this process, the "fine range" information can be considered to be conveyed by the relative phase between the returns from different channels, and the uncertainties in estimating the coarse range to the target will change the pattern of the range side lobes, but will not affect the width of the "main lobe" response.
+
+the main goal of the measurement campaign was to confirm the power budget and evaluate the performance of the pbr based on combined bands of alphasat (inmarsat 4a f4 25 e) to detect and locate maritime targets of diferent sizes. another goal was to provide a first estimate of the sea clutter levels.
+
+the trials were conducted at plymouth sound, u.k. (50.3755°n, 4.1427°w) in october 2015. the bistatic measurements were made with the radar channel antenna directed at 293° in azimuth and the sync channel directed at 144° in azimuth, providing a near monostatic configuration as shown in fig. 15.
+
+the settings of the receiver are summarized in table iv. the receiver was about 35 m above the sea and the distance between the receiver and drake island was about 2.5 km. the majority of targets were moving with a speed of about 10 kn (about 5 ms 1), due to harbor regulations. usrp lna gain lo centre frequency usrp i/q sampling rate usrp buffer samples usrp reference frequency source antenna
+
+patch (gain 6 dbi)
+
+cable total receiver gain −3 db 34.5 db
+
+table v target parameters
+
+estimated monostatic rcs, dbsm
+
+the radar channel antenna was a helical lh polarized antenna in anticipation that most man made targets are made with conductive materials and with single bounce reections it may be expected that the reflected signals would have opposite polarization to the transmitted.
+
+the sampling rate of 5 mhz enabled a number of adjaent channels to be captured without making the tuning of the receiver excessively sensitive. since the occupied chanels could be readily identified in the reference channel it was easy to filter the signals before the actual matched filer, in accordance with the processing scheme described in section v and shown in fig. 7, to ensure that the matched filtering would not be degraded by any out of band signals or noise.
+
+the results presented in the next section are taken from a large database of recorded signals from a diverse range of maritime targets. three representative types of maritime targets were chosen to demonstrate radar performance— a relatively small boat, a medium sized ship, and a large passenger ferry. the main parameters of the targets can be seen in table v.
+
+rcs is estimated according to a common rule of thumb equating the rcs in square meters to the displacement in tons applicable at moderate grazing angles. validation of the results was accomplished by comparion of the bistatic doppler frequency shifts estimated from range doppler maps and automatic identification system (ais) data which was used as ground truth of target position and velocity, recorded by a portable receiver piaual ais by aisspotter . the results presented secion vii b correspond to effective bandwidth of 800 khz of four adjacent inmarsat channels 3 6 indicated in fig. 12.
+
+the sea state in the english channel was evaluated from the wave height and wind speed data obtained from the readings obtained at the seven stones lightship and the channel lightship . on the day of the trials, the maximum wave height measured by both buoys over the duration of the measurements was between 3.3 and 3.9 ft, corresponding to douglas sea state 3. the wind speeds were in the range 15 22 kn, corresponding to a douglas sea state between 3 and 4.5 in a fully developed sea.
+
+conditions in the protected waters of the sound were much calmer, however, and the breakwater at the mouth of the sound probably meant that conditions out at sea would have little effect in the sound. the wind speed on land was forecast to be about 8 kn, which, in a fully developed sea, would correspond to sea state 2. observations, however, suggested a sea state of 1 at most. since the reflectivity is better correlated with the wind speed than with the sea state when the sea is not fully developed, the best estimate of the expected level of backscatter is probably that it would be equivalent to sea state 1. returns from the sea clutter can be seen in fig. 17, at a range of 500 m. they are distinct from the range sidelobes of the close in clutter by their small, but distinct, negative doppler shift. using the estimation methods described in , it was predicted that for this particular scenario, and in sea state 1, a cluttero noise ratio of 21 db would be expected at this range. the mean value of three observations of the clutter gave a clutter to noise ratio of 22 db, i.e., sensibly the same as the expected monostatic value. whilst this is of course only a single value and obtained under atypical sea conditions, when taken with the other evidence which is becoming available , is helping gradually to build up the evidence that in moderately bistatic geometries (i.e., away from the forward scatter regime) and at frequencies around 2 ghz, the mean backscatter from sea clutter is still effectively the same as the monostatic value.
+
+1) small to medium size boat: the signals from a number of small boats have been recorded; however, most boats of that size do not send ais tracking data. thus, to demonstrate the performance of the bistatic target localzation, we will show the result for the one of the boats for which such data were available—the training ship smit dart (see fig. 16(a)). the data were obtained around 15:00 on the 15th of oct. 2015 and the duration of recording fig. 16. smit dart boat (a) and google earth map (b) with location of the receiving equipment, radar antenna orientation (green line of the main beam axis and red lines showing the 3 db beam footprint), sync antenna direction (yellow line) as well as boat ais track (cyan) recorded during the experiments.
+
+fig. 17. bistatic range doppler track of smit dart over the duration of the record.
+
+was 220 s. the boat's characteristics are summarized in table v.
+
+in fig. 17, the bistatic track of the smit dart is shown. such a track is obtained by incoherent averaging of diferent (time separated) coherent range doppler plots. the data from which these plots were derived were obtained by coherently combining the signals from four adjacent bands. this used the process described in section vi c, fig. 18. trajectory of the medium sized ship cyan line. green line indicates radar antenna boresight and red lines enclose the area illuminated by the main beam. yellow line shows the direction to the satellite.
+
+fig. 19. bistatic range doppler track of medium size ship.
+
+but, for simplicity and unlike the results discussed in section vi d, the bands were not overlapped, since the improvement which could be obtained by doing so with the relatively low snrs seen here would not be justified by the additional complication. fig. 17 shows a nearly constant bistatic range during the time the boat was within the radar beam, which corresponds to the range estimated by ais data. the doppler frequency signature indicates that the boat is approaching, passing through zero doppler, and moving away along a trajectory nearly orthogonal to the main axis of radar beam. the relatively narrow clutter spectrum in negative doppler domain around −5 hz points to the low radial wind speed for the time and geometry of the recording. the strong stationary return at around 2.5 km range is from drake island (see fig. 15).
+
+the strongest returns are only about 25 db above the "floor." since the timeandwidth product of the transmitted signal is 53 db and its range/doppler sidelobe floor is known to be "flat" and at this level below the peak, this means that the sidelobes are below the noise floor and hence direct signal cancellation is not required in order to improve the dynamic range and, indeed, will not give an advantage. it is also important to fig. 20. bistatic doppler frequency estimated from ard and calculated according to ais data.
+
+fig. 21. ferry pont aven (a) and (b), its ais trajectory (cyan line) as recorded during the time of the measurement. green and red lines indicate radar antenna boresight and main beam width respectively. yellow line shows the direction to the satellite.
+
+observe that the return from the ship and also that from the island are at a similar level to the direct signal breakthrough. this reduction in the dynamic range of the system is, of course, in part a consequence of the great distance of the transmitter from the receiver and the target and is another practical advantage of using space based illuminators.
+
+2) medium size ship: the parameters of the medium sized ship are shown in table v. its trajectory during exerimental recording is shown in fig. 18. the target has been moving away from the radar nearly along the range at the beginning of the record. it then turned around the island whilst within the radar beam; this is clearly visible fig. 22. range doppler track of full length of signal recorded for mt pont aven. strong signal fluctuations at the end of the record correspond to the time when the ship was moving into dock, keeping her bearing.
+
+fig. 23. bistatic doppler frequency estimated from the ard map and calculated according to ais data of the ferry.
+
+in the range doppler track plot of fig. 19—created from over 420 s of recording. the comparison of the doppler frequencies estimated from the ard plot (see fig. 19) and calculated by (9) using ais data is shown in fig. 20. the values extracted from the radar data and the ais estimated values show good correspondence.
+
+3) passenger ferry "mt pont aven": a photograph of the ferry and some of its salient parameters are shown in fig. 21 and table v accordingly. duration of the record made around 16:00 on the 15th of oct. 2015 was 578 s.
+
+comparison of the doppler frequencies estimated from the ard (see fig. 22) and calculated by (9) using ais data is shown in fig. 23. as with the medium ship, the viii. conclusion
+
+the work addressed in this paper has shown that spaceased transmitters used by modern satellite communication systems provide potentially very useful ioos for multistatic radar systems operating over the open sea, where illuminaion from broadcast transmissions is not available.
+
+basic performance data have been included to show that such systems have very favorable power budgets against typical tactical marine targets.
+
+an efficient processing scheme has been described. this exploits the fact that marine targets only have relatively modest velocities. as expected, the modest range resoluion of the systems, derived from their modest bandwidths compared to typical dedicated radar signals, means that the signal to clutter ratio is less favorable than the snr. a scheme has been described to mitigate this by combining the signals from multiple communication channels to imrove the range resolution and hence reduce the size of the clutter cell.
+
+practical experiments have been performed to confirm the viability of the proposed system, using inmarsat 4 bgan transmissions as the illuminator; these experiments have also validated the expectations for the sensitivity of the system.
+
+it has been shown that combining the signals from diferent channels gives side lobe levels of the order of −20 db close to the target. whilst these are low enough to deliver the required reduction in the size of the clutter cell, they are too high to allow adequate discrimination between relaively close targets, so further work to look at possible ways of reducing these would be worthwhile.
+
+p. e. howland, d. maksimiuk, and g. reitsma
+
+f. colone, d. w. o'hagan, p. lombardo, and c. j. baker
+
+a multistage processing algorithm for disturbance removal and target detection in passive bistatic radar ieee trans. aerosp. electron. syst., vol. 45, no. 2, pp. 698 722, apr. 2009.
+
+d. cristallini et al.,
+
+space based passive radar enabled by the new generation of geostationary broadcast satellites in proc. 2010 ieee aerosp. conf., big sky, mt, 2010, pp. 1 11.
+
+passive detection using digital broadcasters (dab, dvb) with cofdm modulation iee proc. radar, sonar navig., vol. 152, no. 3, pp. 143 152, jun. 2005. passive geosynchronous sar system reusing backscattered digital audio broadcasting signals ieee trans. geosci. remote sens., vol. 36, no. 6, pp. 1973 1976, nov. 1998.
+
+m. antoniou, z. hong, z. zhangfan, r. zuo, q. zhang, and m.
+
+cherniakov passive bistatic synthetic aperture radar imaging with galileo transmitters and a moving receiver: experimental demonstraion iet proc. radar, sonar navig., vol. 7, no. 9, pp. 985 993, 2013.
+
+air target detection via bistatic radar based on leos commuication signals iee proc. radar, sonar navig., vol. 149, no. 1, pp. 33 38, feb. 2002.
+
+x. lyu, a. stove, m. gashinova, and m. cherniakov
+
+ambiguity function of iridium signal for radar application electron. lett., vol. 52, no. 19, pp. 1631 1633, 2016.
+
+ambiguity function of inmarsat bgan signal for radar appliation electron. lett., vol. 52, no. 18, pp. 1557 1559, 2016.
+
+a. g. stove, m. s. gashinova, s. hristov, m. cherniakov
+
+passive maritime surveillance using satellite communication signals ieee trans. aerosp. electron. syst., released for publication may 2017.
+
+prediction of radar range in radar handbook, m. i. skolnik, ed., 2nd ed. new york, ny, usa: mcgraw hill, 1990.
+
+radar design principles, library of congress card no. 790973. new york, ny, usa: mcgraw hill, 1969.
+
+representative mss systems in mobile satellite communications: principles and trends, 2nd ed. chichester, u.k.: wiley, 2014, ch. 11. itu recommendation itu r m.1850 1, dec. 2012. p. e. howland, h. d. griffiths, and c. j. baker
+
+passive bistatic radar systems in bistatic radar. emerging technology, m. cherniakov, ed., 1st ed. chichester, u.k.: wiley, 2008, ch. 7. "doppler relationships in bistatic radar, 2nd reprinted ed. raleigh, nc, usa: scitech, 2005, ch. 6, p. 120. k. e. olsen and k. woodbridge
+
+analysis of the performance of a multiband passive bistatic radar processing scheme in proc. 2010 int. waveform diversity des. conf., niagara falls, on, 2010, pp. 142 149.
+
+k. e. olsen and k. woodbridge
+
+performance of a multiband passive bistatic radar processing scheme—part i ieee aerosp. electron. syst. mag., vol. 27, no. 10, pp. 16 25, oct. 2012.
+
+m. conti, f. berizzi, d. petri, a. capria, and m. martorella high range resolution dvb t passive radar in proc. 2010 eur. radar conf., paris, 2010, pp. 109 112.
+
+a. s. tasdelen and h. koymen
+
+range resolution improvement in passive coherent location radar systems using multiple fm radio channels in proc. inst. eng. technol. forum waveform diversity des. commun., radar sonar, london, 2006, pp. 23 31.
+
+multiband fm based passive bistatic radar: target range resoution improvement iet proc. radar, sonar navig., vol. 10, no. 1, pp. 174 185, 2016.
+
+c. bongioanni, f. colone, and p. lombardo
+
+performance analysis of a multi frequency fm based passive bistatic radar in proc. 2008 ieee radar conf., rome, 2008, pp. 1 6.
+
+m. conti, f. berizzi, m. martorella, e. d. mese, d. petri, and a.
+
+capria high range resolution multichannel dvb t passive radar ieee aerosp. electron. syst. mag., vol. 27, no. 10, pp. 37 42, oct. 2012. m. j. skolnik
+
+the radar equation in introduction to radar systems, 3rd ed. new york, ny, usa: mcgraw hill, 2001, ch. 2, p. 64.
+
+ships/shipid:878683/mmsi:
+
+[online]. available: http://www.aisspotter.com/products/pia
+
+dual ais gps/ [online]. available: kingdom.shtml http://www.ndbc.noaa.gov/maps/united_
+
+j. baker, and k. woodbridge measurement and modelling of bistatic clutter iet proc. radar, sonar navig., vol. 4, no. 2, pp. 280 292, apr. 2010.

@@ -1,0 +1,279 @@
+flexible resource optimization for geo multibeam satellite communication system
+
+tedros salih abdu, student member, ieee, steven kisseleff, member, ieee, eva lagunas, senior member, ieee, and symeon chatzinotas, senior member, ieee.
+
+abstract—conventional geo satellite communication systems rely on a multibeam foot print with a uniform resource allocation to provide connectivity to users. however, applying uniform reource allocation is inefficient in presence of non uniform demand distribution. to overcome this limitation, the next generation of broadband geo satellite systems will enable flexibility in terms of power and bandwidth assignment, enabling on demand resource allocation. in this paper, we propose a novel satellite resource assignment design whose goal is to satisfy the beam traffic demand by making use of the minimum transmit power and utilized bandwidth. the motivation behind the proposed design is to maximize the satellite spectrum utilization by pushing the spectrum reuse to affordable limits in terms of tolerable interference. the proposed problem formulation results in a non convex optimization structure, for which we propose an efficient tractable solution. we validate the proposed method with extensive numerical results, which demonstrate the efficiency of the proposed approach with respect to benchmark schemes.
+
+index terms—flexible geo satellite, carrier allocation, power
+
+t he application of satellite communications (satcom)
+
+has recently evolved from providing a simple direct toome television (dthtv) to enabling a span of broadband internet services . furthermore, satcoms have an important role in providing ubiquitous connectivity to the maritime and aeronautical markets, as well as to remote areas with nonxisting or expensive connectivity to the terrestrial networks . current geo broadband satcom systems rely on a multieam foot print with a low fractional frequency reuse pattern that helps to improve the spectrum utilization while keeping the inter beam interference under acceptable levels. typically, the bandwidth and power allocation is done uniformly across beams, leading to equal offered capacity per beam , . recent studies have shown that this uniform allocation is extremely inefficient in practical scenarios with heterogeneous traffic demands, since the demand observed in some beams may exceed the available beam capacity, while in others the situation is the opposite , . furthermore, the current geo broadband satcom systems are facing challenges arising from the following aspects:
+
+the authors are with the interdisciplinary centre for security, reliability and trust (snt), university of luxembourg, l 1855 luxembourg. email: {tedros salih.abdu,steven.kisseleff,eva.lagunas,symeon.chatzinotas}@uni.lu.
+
+this work is supported by the luxembourg national research fund (fnr) under the project flexsat (c19/is/13696663) and the afr grant insat "power and bandwidth allocation for interference limited satellite communication systems".
+
+part of this paper has been published at the ieee pimrc 2020 . spectrum congestion: with the emerging new space actors, namely the non gso constellations with thouands of small satellites being launched, there is an increasing demand on the already limited spectrum . therefore, satellite operators have to assume that the spectrum that is made available for their operations is limited and it is important to make the most out of it in order to maximize the economic yield while satisfying the customers contracts in terms of offered capacity. • power consumption: power consumption has been traitionally a major limitation in satellite systems, as it has an impact on the mass and lifetime of the satellite . with the forthcoming on board beamforming technology, which is significantly power hungry, on board power optimization is becoming a major concern. therefore, innovative techniques must be implemented in order to reduce the power consumption and one feasible way is to reduce the transmit power .
+
+in response to the above challenges as well as to the heterogeneous traffic demand patterns, the next generation of satcom systems considers the deployment of a full digital payload combined with software defined adaptive resource management. this revolution in the space segment opens a door to advanced resource management techniques capable of maximizing the satellite resource utilization while dynamically matching the distribution of the satellite capacity on ground to the geographic distribution of the traffic demand . currently, more sophisticated satellite designs with adaptive resource assignment capabilities are in the making or in testing phase. as an example, the upcoming ses 17 (built by thales) and recently launched eutelsat quantum represent the major projects taking place in europe in this regard. while technology is mature enough, the actual alorithmic part to optimally exploit such technology is in lower stages of maturity. for instance, ses has recently partnered with kythera space solutions to develop a software system to dynamically synchronise space and ground resource . in addition, minimizing the satellite power consumption is a fundamental aspect, particularly for the upcoming digitallyontrolled payloads with on board active antenna systems , , .
+
+flexible satellite resource allocation strategies for the deand matching problem have recently attracted attention from the research community. a bandwidth allocation based on a greedy algorithms with spatial division multiple access (sdma) technique have been proposed in , where the 1
+
+bandwidth is assigned to users based on the cumulative interference levels. similarly, the bandwidth allocation based on beam traffic demand has been addressed in , where a heuristic approach is proposed to adjust the bandwidth of each beam while minimizing the difference between the traffic demand and the offered capacity. in addition, proposes an active beam selection algorithm to further increase the overall system capacity. the limitation of is that inteream interference has been neglected.
+
+the power optimization based on demand and channel qualty has been considered in , where the goal is the overall system performance as well as achieving reasonable fairness among users. similarly, power allocation with the objective of maximizing the energy efficiency (ee) is presented in , where the modeling includes the effect of imperfect channel state information. again, the main drawback of , is that the inter beam interference has not been considered. additionally, power allocation methods have been studied in , considering the conventional 4 color frequency reuse pattern, where inter beam interference is minimized at the cost of spectral efficiency.
+
+a joint power and frequency allocation has been introduced in focusing on the maximization of the minimum ratio between the requested and the offered sinr. the authors extended in by proposing a maximization of the total capacity allocated with respect to the requested traffic. the flexibility of , is however limited by the assumption on orthogonal carrier assignment within a beam cluster and a binary power allocation, i.e. {0, pmax}.
+
+targeting the minimization of the unmet system capacity, computationally expensive joint optimization techniques have been proposed in , . in , the resulting non convex optimization problem is solved using a modified version of the simulated annealing algorithm. on the other hand, extends to the frequency assignment by employing an hybrid genetic algorithm and simulated annealing method.
+
+the benefits of joint power and time flexibility are explored in , , by considering beam hopping (bh). in bh, all satellite resources are employed to provide service to a certain subset of beams, which is active for some portion of time. in this paper, frequency flexibility is preferred to time flexibility to avoid synchronization aspects related to latency issues the terminal switching on/off and potential the associated with the bursty transmissions. furthermore, digital transparent processor (dtp) payloads are more mature than bh payloads.
+
+some of the existing works also consider precoding techiques to reduce the inter beam interference when the system uses full frequency reuse. the utilization of full frequency reuse with precoding techniques substantially increase the spectral efficiency of the system . however, the goal of this manuscript is to shed some light onto the limits of a flexible geo satellite system without precoding capabilities which are require the upgrade of gateway (gw) and user terminals (uts).
+
+table i shows a comparison of the resource allocation schemes encountered in the literature in terms of the opimization objective (demand matching or/and total power minimization) and the satellite resource flexibility (power or/and frequency).
+
+table i comparison of schemes
+
+unlike previous works mentioned in the table i, herein we propose a flexible resource optimization method to satisfy the heterogeneous traffic demand while maximizing the satellite resource utilization. in particular, the minimization of the number of frequency carriers and transmit power required to match the predetermined beam demand is the focus of this paper. note that the main contribution of this work relies on a novel system optimization perspective that allows the system to utilize more efficiently the power and the bandwidth of the satellite with the objective of using as few carriers and less power as possible while satisfying the demand. in fact, the formulation of the proposed optimization problem targets a different goal than those of the existing papers, which is aligned with the relevant satellite operator concerns. the detailed contributions of this paper are summarized as follows: • we formulate an optimization problem for the carrier and power assignment enforcing the design to use as few carriers and less power as possible. note that the resulting assignment may consider frequency re use across beams. however, the proposed approach allows certain interfernce as far as the supplied capacity is above the requested demand.
+
+the formulated optimization problem renders a nononvex structure, for which we proposed a two step tractable approach. first, we estimate the number of frequency carriers and the power per carrier required for each beam to satisfy its demand. for this, we propose two techniques: (i) the contiguous carrier assignment (cca) and (ii) the interference aware carrier asignment (iaca), which considers a non adjacent carier assignment that minimizes the maximum inter beam interference component of the systems. finally, we opimize the power allocation based on the previously assigned carriers. difference of convex functions (dc) and successive convex approximation (sca) are used to tackle the optimization problems encountered in this part.
+
+a detailed complexity analysis is provided for each of the steps involved in the proposed solution.
+
+finally, the performance of the proposed algorithm is demonstrated via extensive numerical results. it is shown that the proposed scheme significantly outperforms the 2
+
+benchmark schemes in terms of demand matching, averge used power and bandwidth utilization.
+
+the rest of the paper is organized as follows. in section ii, the system model for the geo satellites with flexible resource allocation capabilities is described. the problem formulation and the proposed solution for carrier and power allocation is presented in section iii. in section iv, the numerical results are discussed. subsequently, section v concludes the paper.
+
+notation: boldface of upper case and lower case letters refers to matrices and vectors, respectively. the symbol (cid:100)·(cid:101) denotes the ceiling function. the transpose of a vector and conjugate transpose of a vector represented by [.]t and [.]h , respectively. lastly, e[.] and diag(.) represents the expected value and a diagonal matrix, respectively.
+
+we consider a downlink multibeam geo satellite system with n beams and k carriers (k = {1, 2, . . . , k}), as illustrated in fig. 1. the total available system bandwidth is denoted as btot while the carrier bandwidth is denoted as bsc, such that btot = k · bsc. in our analysis, we assume a single user per beam, which represents the aggregation of the overall beam demand. the location of the user within the coverage area of each beam will be randomly selected for the performance evaluation and changed from realization to realization in section iv. furthermore, we assume that the beam size is fixed.
+
+fig. 1. specific spectrum block shared among users per group
+
+ith is denoted by hi,k = the kth carrier beam over (cid:2)hi,k, hi,k, . . . , hi,k[n ](cid:3)t is a channel form the jth satellite feed towards the ith beam over the kth carrier. we denote xk = (cid:2)xk, xk, . . . , xk[n ](cid:3)t the assignment vector for carrier k, where xk[i] ∈ {0, 1} is indicator, with xk[i] = 1 indicating a binary assignment that carrier k is assigned to beam i. similarly, the transit power allocation vector for kth carrier is denoted as pk = (cid:2)pk, pk, . . . , pk[n ](cid:3)t , where pk[i] is the transmit power of kth carrier towards the ith beam. the information symbols to be transmitted in the kth carrier are arranged in sk = (cid:2)sk, sk, . . . , sk[n ](cid:3)t k ] = in . hence, the received signal at ith beam from the kth carrier can be expressed as where p = diag(pk) and x = diag(xk) are diagonal matrix of the power allocation vector and carrier assignment vector, respectively. the nk[i] denotes the additive white gaussian noise at beam i for carrier k. by reformulating (1), we obtain
+
+where φ is the phase of the satellite antenna, gr is the user terminal antenna gain, gi[j] denotes the gain from the jth satellite feed towards the ith beam and di is the slant range between the satellite and the user on the ith beam.
+
+the signal to interference plus noise ratio (sinr) of the ith
+
+beam over kth carrier is given by
+
+where gi,k[j] denotes the channel power gain gi,k[j] = |hi,k[j]|2 and σ2 = bscn0 is the noise power of nk[i] . the n0 is the noise power density. hence, an upper bound of the offered capacity at beam i in carrier k is given by the wellnown shannon capacity formula
+
+and an upper bound of the overall offered capacity at beam i considering the aggregation of all available carriers of the system is
+
+iii. proposed carrier and power allocation to maximize the satellite resource utilization
+
+in this section, a resource allocation problem is formulated to satisfy the demand of each beam with with the goal minimum power and carrier utilization. for this, we select the sum of the total number of utilized carriers in the system and the total amount of consumed power as a joint objective funcion for our optimization problem. the proposed optimization problem is formulated as follows,
+
+pk[i] ≤ ptotal,
+
+(7) in (7), constraint r1 ensures that the total offered capacity in each beam satisfies the respective demand di. constraint r2 provides the upper bound for the transmit power given by the total available power at the satellite ptotal. in addition, we restrict the maximum power to be transmitted per beam by pmax. furthermore, the carrier assignment xk[i] is a binary variable as indicated by r4. constraint r6 ensures that the allocated power is non negative. constraint r5 guarantees that the power is allocated to beam i in carrier k only if the carrier is assigned, i.e. xk[i] = 1. the scaling factor χ ∈ (0, ∞) measured in watt−1 describes the priority of power consumption with respect to the carrier utilization . note that r5 allows us to reformulate γi,k(pk, xk) as
+
+due to the non linearity of the sinr and the binary carrier assignment, the constraints r1 and r4 are non convex. the non convexity of r1 and r4 causes the optimization probem in (7) to be non convex. in particular, the problem (7) corresponds to a non convex mixed integer program. hence, no globally optimal solution for this problem can be obtained using the well known tools of convex optimization, cf. . instead, we propose a sub optimal method by splitting the non convex optimization problem into two more tractable subroblems. despite being non convex, these problems can be efficiently solved using the existing methods of successive convex approximation with close to optimum performance. the first sub problem addresses the design of the carrier assignment variables xk, ∀k, while the second sub problem focuses on the overall consumed power minimization by designing the variables pk, ∀k, based on the predefined carrier allocation obtained in the first step.
+
+in this section, we first obtain the number of carriers ki (1 ≤ ki ≤ k) required for the ith beam to approximately match the requested demand. next, we propose two algorithms to map the number of active carriers ki into the respective variables xk, while minimizing the overall number of carriers. due to the assumed flat fading channel, we can exploit the fact that all the signal's spectral components will be affected by the channel in a similar manner1. the similarity of the channel at different carriers of the same ith beam allow us to express hi,k ≈ ˆhi. hence, it is likely that the sinr values in
+
+1note that the atmospheric impairments usually affect the channel across a large signal spectrum in a similar way, such that the losses within the considered frequency band (e.g. btot = 500 mhz) can be viewed as sufficiently uniform. all carriers k = 1, . . . , k of beam i are similar, such that we can approximate (8) by ˆγi(p) and (5) transforms into
+
+where p = (cid:2)p, p, . . . , p[n ](cid:3)t and gi[j] = |ˆhi[j]|2. here, p[i] denotes the transmit power per carrier in the ith beam (same for all carriers within the beam). hence, for a feasible interpretation of the results, the values of pk[i] must satisfy pk[i] ≤ xk[i]p[i].
+
+using (9), we formulate a similar problem as in (7) but replacing the sum of all carrier assignment variables xk[i] by the number of carriers ki, i = 1, . . . , n . the resulting problem is given by:
+
+minimize {ki,∀i}, p
+
+problem (11) is still non convex because of the interference in v 4. term in ˆγi(p) of v 1 and the integer value of ki hence, we propose a method to convexify (11). we start by approximating the integer constraint v 4 as a continuous function in the range between 1 and k. next, we replace p[i] and ki with the exponential functions exp (q[i]) and the constraints v 2, v 3, and exp (zi), respectively. then, v 4 are replaced by {v 2 : (cid:80)n i=1 exp (q[i] + zi) ≤ ptotal}, {v 3 : exp (q[i] + zi) ≤ pmax, ∀i}, and {v 4 : 0 ≤ zi ≤ log(k), ∀i}, respectively. constraint v 1 can be then reformuated as two constraints:
+
+(12) where exp (α[i]) is an exponential slack variable bounded below ˆγi(p). by applying logarithm on v 1.2 constraint and using (10)
+
+since the log sum exp type of functions is convex (cf. ), (13) is convex, too. unfortunately, constraint v 1.1 remains non convex. however, we observe that v 1.1 contains a differnce of convex functions. thus, v1.1 can be treated as part of a dc program. correspondingly, the known method for solving this type of problems can be applied cf. . the dc 4
+
+where α[i](l) is the value of α[i] used in the lth iteration of sca and
+
+the overall optimization problem (11) is reformulated as
+
+note that we removed v 5 compared to (11) because exp(q[i]) is always positive. in (18), v 4(cid:48) is the first order approximation of v 1.1. this problem is now convex and can be solved optimally. the iterative process to obtain the number of carriers required for each beam to match the traffic demand is detailed in algorithm 1.
+
+since α[i] progressively increases in each iteration, we choose the value of the initial feasible point α[i](0) to be sufficiently small to satisfy the demand. for the results shown in this paper, we choose α[i](0) = 0.1. the algorithm terinates when the sinr changes from one iteration to the other become negligible. in other words, when the absolute sum of the difference between exp(α[i](l)) and exp(α[i](l−1)) becomes very small (10−4 in this work).
+
+the solution ki = exp(zi) of (18) in each iteration may have decimal values. since ki should be an integer number of carriers, we need a rounding procedure after completition of algorithm 1. to ensure that beams receive enough carriers to satisfy their demand, we quantize ki via (cid:101)ki = (cid:100)ki − ξ(cid:101), where (cid:100)·(cid:101) denotes the ceiling function and ξ is an auxiliary variable. the auxiliary variable ξ needs to be carefully chosen in order to maximize the system performance.
+
+algorithm 1: optimization of the number of carriers input: feasible point α[i](0), ∀i; l ← 0; repeat 5
+
+next, we provide a complexity analysis of algorithm 1. the procedure in algorithm 1 involves a complexity function r(l) related to the number of iterations l and a complexity function h(n ) of the convex optimization procedure in (18) which depends on the number of beams n . the total comlexity of algorithm 1 is the product of r(l) and h(n ), such that the total computational complexity can be given by o (r(l)h(n )). cvx tool solves the convex optimization (18) by constructing a polynomial approximation of its noninear parts . with first order polynomial approximation, the convex optimization (18) contains 2n decision variables and 5n +1 convex constraints. then, the complexity of h(n ) is o (cid:0)(2n )3(5n + 1)(cid:1). with r(l) = l, the total computaional complexity of algorithm 1 is o (cid:0)l(2n )3(5n + 1)(cid:1) , .
+
+in the following, we employ the optimized number of carriers (cid:101)ki in order to obtain the carrier assignments xk. we propose two carrier assignment methods, both targeting the minimization of the number of operational carriers. apart from the common goal of spectral efficiency, the two proposed methods follow different objectives which are detailed in the following.
+
+1) contiguous carrier assignment (cca): in this mode, adjacent carriers are assigned to each beam. this is an imporant advantage of this mode, since the adjacent carriers can be aggregated if they need to be assigned to a high demand user, thus substantially improves the power amplifier efficiency .
+
+the detail carrier assignment procedure is explained in algorithm 2. first, all values of xi,k are initially set to zero. then, we fill the carrier assignments into vector xk by setting xi,k = 1, k = 1, 2, . . . , (cid:101)ki. for example, assuming k = 4 and n = 7, and given the resulting set carrier assignment { (cid:101)k1, . . . , (cid:101)k7} equal to {1, 2, 1, 1, 3, 2, 1}, the output of algoithm 2 is shown in (19). clearly, the proposed cca compacts the carrier utilization regardless of the resulting interference2.
+
+we and simple o(kmaxn ). where algorithm 2: contiguous carrier assignment mode can
+
+observe its that algorithm 2
+
+computational is complexity the
+
+2the latter is assumed to be controlled by the subsequent power optimizaion and by the fact the the demand is satisfied in each beam even in case of full occupancy of each carrier according to the problem (11). 2) interference aware carrier assignment (iaca): in this mode, carriers are assigned such that a similar level of interfernce is received for all of the beams. this means that for each beam a contiguous carrier assignment may not be possible. to formulate the problem, we make use of the interference power received at the ith beam over the kth carrier, which is given by (20)
+
+where wji = p[j]gi[j] is the interference "weight" from the jth beam towards beam i. accordingly, our objective is to find the value of xk[j] that results in a fair interference distribution across beams. this problem is formulated as
+
+the optimization problem (21) follows a min max formuation with the main goal to minimize the maximum of the interference metrics ik[i], ∀k, ∀i. problem (21) considers two constraints, which are explained in the following. constraint e1 ensures that each beam is assigned a total of (cid:101)ki carriers. constraint e2 indicates that xk[i] is a binary assignment variable.
+
+the optimal solution for the problem (21) can be obtained via full search over all possible combinations of xk[i] for all k and i. however, full search imposes a very high computational complexity, especially when considering high dimensional systems with large numbers of carriers and beams. hence, we propose a heuristic with polynomial computational time in the following.
+
+problem (21) is a fairness oriented design. therefore, the interference distribution should be approximately uniformly distributed across beams. denoting nk as the number of beams that simultaneously operate in carrier k, we can intuitively set nk ≈ ((cid:80)n i=1 (cid:101)ki)/kmax, where kmax = max{ (cid:101)ki}. in order to avoid non integer values of nk, the following approach for the calculation of nk is proposed:
+
+algorithm 3: interference aware carrier assignment (iaca)
+
+the proposed heuristic for the iaca method, presented in algorithm 3, makes use of nk and the overall interference seen by beam i, which is defined as,
+
+the main steps of algorithm 3 are summarized below. 1) focusing on carrier k, we define u 1
+
+k as the set including the beams whose (cid:101)ki = kmax. the beams in u 1 k are selected to operate on carrier k. we record the beams assigned to carrier k with the set vk = u 1 k . if the cardinality of vk is equal to nk, the assignment of carrier k is completed and the algorithm jumps to step (5). otherwise, the algorithm continues with step (2). 2) focusing on carrier k, the beam with higher overall interference, i.e. m = max {w[i]}, n = {1, . . . , n }, is i∈n selected to operate on such carrier, i.e.vk = vk ∪ {m}. 3) finally, the φ = nk − |vk| beams (if any) providing minimum overall interference to beam m are set to {wjm}. denoting these operate in carrier k, i.e. min j,j /∈vk
+
+beams with the set u 2 carrier k expands as vk = vk ∪ u 2 k . k , the set of beams assigned to
+
+4) the carrier assignment vector xk is updated as follows: xk[i] = 1 for i ∈ vk.
+
+5) for carrier k + 1 the same procedure (1 4) is followed after performing the following updates:
+
+the complexity of algorithm 3 has a while loop with kmax and φ times iteration. it required also n iteration to perform step 1 and step 2. furthermore, it needs nk iteration for step 4 and step 5 of a and b. then, the complexity of algorithm 3 is o (2n kmax + φkmax + 3nkkmax).
+
+after having optimized the carrier assignment xk and obained an upper bound on the power per carrier in each beam p[i], in this section we focus on the refinement of the power allocation via optimization of the transmit power per beam and per carrier pk[i]. the optimization problem is formulated as follows,
+
+the optimization problem (25) is non convex because of constraint r1. however, similar to (11), this constraint can be reformulated in terms of dc programming and solved using sca. by adding a lower bound exponential slack variable exp (βk[i]), replacing the power pk[i] by exp (qk[i]), and applying of sca, the problem in (25) can be formulated as:
+
+(26) where (cid:101)q (β) is the first order approximation of q(β) and we removed r6 because exp(q[i]) is always positive. note that the detail reformulation of the problem (25) is provided in appendix. then, the problem (26) is convex and we obtain a solution using an iterative procedure based on sca, which is shown in algorithm 4. similar to algorithm 1, we initialize the variable exp (βk[i](0)) = 0.1 for all i corresponding to active carriers. then, (26) is solved, which leads to a new value βk[i](l+1). the algorithm terminates when the absolute sum of the difference between exp(βk[i](l)) and exp(βk[i](l−1)) is below 10−4, which indicates the convergence of the proposed algorithm. algorithm 4: power allocation input: feasible point βk[i](0) ; l ← 0; repeat
+
+the complexity of the convex optimization of (26) with n k decision variables and 2n + 2n k + 1 convex constraints is (n k)3(2n + 2n k + 1). assuming the maximum number of iteration of the loop is l then the total complexity of algorithm 4 is o(l(n k)3(2n + 2n k + 1)) , the total complexity of carrier and power allocation allocation of section iii is the sum of the complexity of algorithm 1, algorithm 4 and either of algorithm 2 or algorithm 3. is given by o (l (2n )3(5n + 1) +l(n k)3(2n + 2n k + 1) + n kmax ) or o ( l(2n )3(5n + 1) +l(n k)3(2n + 2n k + 1) + 2n kmax + φkmax + 2nkkmax ) if algorithm 2 or algorithm 3 used, respectively. as a result, the complexity is a polynomial function. hence, the proposed algorithm can be obtained from a computer in polynomial time. similar to algorithm 1,
+
+iv. simulation results
+
+in this section, we evaluate the performance of the proosed carrier and power allocation (cpa) via numerical simulations. table ii provides a summary of the key simlation parameters. the results shown in this section have been obtained from monte carlo realizations in which the locations of the user terminals were selected randomly from a uniform distribution within the considered beam coverage for each realization. an example of user locations for a single realization is depicted in fig. 2. note that, in principle, any number of beams can be selected for the performance evaluation. however, for this simulation, we considered 21 beams.
+
+table ii system parameters
+
+parameter satellite orbit satellite beam pattern number of beams (n ) number of carrier (k) system bandwidth (btot) sub carrier bandwidth (bsc) noise power density (n0) max. beam gain (gi[j]) user antenna gain (gr) total available transmit power (ptotal) maximum power per beam (pmax) auxiliary variable(ξ) value 13◦e provided by esa 21 4, 7, 20 500 mhz 25 mhz 204 dbw/mhz 51.8 dbi 39.8 dbi 1000w 100w 0.1 7
+
+table iii shows the metrics that are used for the performance evaluation and for comparison purposes, we consider the following benchmark schemes:
+
+1) uniform power 4cr: four color reuse scheme with uniform power allocation i.e. ps1[i] = ptotal/n .
+
+2) demand based power 4cr: four color reuse scheme with demand based non uniform power allocation i.e. σ2
+
+: a joint carrier and power allocation which is proposed in . the value of the fixed power allocation is pk[i] = ptotal/k.
+
+fig. 2. n = 21 beam scenario with an example of super user distribution
+
+we compare the performance of the proposed cpa emloying cca and iaca methods. table iv shows the aup result of cca and iaca for uniform demand ranging from 100 mbps up to 850 mbps . the results confirm that iaca outperforms cca in terms of power consumption. in particuar, it can be observed that the difference in consumed power ∆ = (aupcca − aupiaca) is maximize with demand di = 450 mbps, with a difference of ∆ = 8.4 w. the benefits are not significant with very low and very high demand because all beams tend to employ most of the active carriers.
+
+the power reduction gain provided by iaca comes at the cost of computational complexity. the complexity comparison of cca and iaca is shown in fig. 3. the complexity of both modes is computed in fig. 3 for different values of (cid:80)m
+
+fig. 3. comparison of complexity analysis of cca and iaca. ∆(w)
+
+note: the results included in section b and c are based on the cpa iaca mode. this is because the difference between iaca and cca mode is only in power consumption which does not affect any other performance metric.
+
+b. comparison of cpa iaca versus benchmarks schemes
+
+1) homogeneous demand: in this section, we assume that all beams have the same demand di = d, ∀i, and we vary the value of d between 100 and 1000 mbps. unless otherwise stated, k = 20 and χ = 1 are assumed for all simulation results. fig. 4a compared the proposed cpa with benchmark schemes in terms of asi. we observed that the proposed cpa improves user satisfaction by 36%, 100%, and 54.5%, comared with uniform power 4cr, demand based power 4cr, and , respectively. the reason for the poor performance of the benchmark schemes is that the inter beam interference is neglected to obtain power in demand based power 4cr, whereas equal power per beam and fixed power per carrier are allocated in uniform power 4cr and . in general, the performance of all schemes degrades with increasing demand. moreover, this degradation results from the fact that for some channel realizations, it is physically impossible to satisfy the demand. the degradation of cpa, uniform power 4cr, and starts at 600 mbps, 450 mbps and 300 mbps, respectively. this indicates that the degradation of the proposed method starts much later compared with other schemes. therefore, the proposed cpa method outperforms all benchmark schemes. generally, we can apply the proposed technique to satisfy up to certain demands without precoding. hence, for 21 beams, the proposed scheme can satisfy up to 600 mbps per beam demand. furthermore, thanks to the smart carrier and power assignment of the proposed scheme, a demand of 750 mbps can be satisfied in more than 23% of cases.
+
+the proposed technique not only shows a better demand matching compared to benchmark schemes, but also requires less overall transmit power. this can be achieved by allocating only as much power as needed to satisfy the demand. in contrast, no optimization of the power allocation is performed in uniform power 4cr and , such that the total transmit power is always large independently from the demand. in demand based power 4cr, four color reuse leads to a low bandwidth utilization, which is compensated by an increased power consumption in order to provide sufficiently high capacty. fig. 4b shows a comparison of the aup for the proposed method and the benchmark schemes. all three benchmark schemes converge to the same aup, which is equals the total available power ptotal. in contrast, the proposed method converges to a different aup, which is ≈ 4 db less than for the benchmark schemes. correspondingly, we observe a perforance gain in terms of aup, especially for high demand. for low demand, i.e. below 200 mbps, the benchmark demandased power 4cr seems to require less transmit power than the proposed method (by at most 1.5 db). however, this is compensated by a better satisfaction index and utilization of number of carriers.
+
+the proposed cpa scheme provides a lower ausc metric compared to the benchmark schemes. similarly to the ob servations of asi, the drawback of the benchmark schemes lies in the suboptimality of the power allocation, which either neglects the inter beam interference or is independent of the actual demand. the performance of the considered methods with respect to the ausc is depicted in fig. 4c. we observed that the ausc is zero for the requested demand in the range 100 mbps 600 mbps, 100 mbps 500 mbps, and 100 mbps00 mbps when cpa, uniform power 4cr, is applied, respectively. the performance of demand based power 4cr is above zero for all demands. as the demand increases the ausc increases as well, with the proposed cpa providing the lowest ausc results. hence, for greater demands, precoding is recommended to compensate for the mismatch error. however, using the proposed algorithm, we can provide zero mismatch error for lower and medium demands.
+
+the proposed cpa has no excess offered capacity since only as much power and as many carriers are allocated as needed in order to satisfy the demand. in contrast, in the excess offered capacity is observed since the power and the carriers are fully used by the system whereas in uniform power 4cr the fixed power per carrier allocation leads to excess offered capacity at lower demands. demandased power 4cr has no excess offered capacity since it provides a lower capacity than the requested demand, see fig. 4a. the auoc of the proposed cpa and the benchmark schemes are provided in fig. 4d. the result of uniform power 4cr and for demand below 800 mbps and 500 mbps, respectively indicates considerably high unused capacity. in contrast, for cpa and demand based power 4cr the unused capacity is always equal to zero. in general, the performance of cpa in terms of demand matching is shown to be better compared to the benchmark schemes. interestingly,
+
+the proposed scheme provides a more efficient utilization of carriers comared to the benchmark schemes. both uniform power 4cr and demand based power 4cr utilize four color reuse, which leads to the maximum utilization of the total frequency band. requires much less carriers compared to the other two benchmark schemes with low demand due to the employed carrier assignment. however, the power allocation is not optimal with , such that more carriers are assigned than acually needed to satisfy the demand. in contrast, the proposed cpa optimizes jointly the allocated power and the carrier assignment in aggressive frequency reuse mode. hence, the required number of carriers is not overestimated with cpa. this leads to a better bandwidth utilization. fig. 4e depicts the auc of cpa and the benchmark schemes. as the demand increases, the number of used carriers increases for cpa and while uniform power 4cr and demand based power 4cr always operate with the maximum number of carriers. the results shown in fig. 4e confirm that the proposed cpaaca scheme is able to satisfy the demands with much lower number of carriers than the benchmark schemes. for illustration, at 100mbps, the average number of carrier used by cpa, uniform power 4cr, demand based power 4cr and are 5, 20, 20 and 7 respectively. as the demand increases, all schemes converge to the total number of carriers k. in addition to the mentioned advantages, 9
+
+fig. 4. comparison of cpa and benchmark schemes for uniform demand per beam: (a) average satisfaction index (asi); (b) average used power (aup); (c) average unmet system capacity (ausc); (d) average unused offered capacity (auoc); (e) average used carrier (auc); and (f) average and standard division for di = 550mbps. 00.20.40.60.81avg satisfaction index 1002003004005006007008009001000demand [mbps] cpa iaca
+
+we have evaluated the standard deviation (std) of the demand satisfaction expressed as ci/di. the proposed algoithm is designed to match the offered capacity with demand per beam while using minimum power and a few carriers. correspondingly, the demand satisfaction is mostly uniform across the beams, which results in a low standard deviation of the per beam demand. the results are depicted in fig. 4f which shows how the standard deviation varies for each channel realization from its average (avg). we observe that the proposed method has a lower standard deviation compared to all benchmark schemes for the per beam demand ranging up to 550 mbps. for example, at beam 10 of di = 550mbps, the std of the cpa, uniform power 4cr, demand based power 4cr and is 0, 0.0404, 0.0971, and 0.0581, respectively.
+
+in this section we comare the proposed scheme with the benchmark schemes traffic demand. spatially heterogeneous in presence of in mbps. here,
+
+fig. 6. the offered capacity per beam of all schemes with respect to individual demand for a single user location realization.
+
+the results for the asi, ausc and auoc are shown in fig. 5a, fig. 5c and fig. 5d, respectively. again, the results confirm the superiority of the proposed scheme over the benchmark schemes in terms of demand satisfaction and unmet/unused capacity. furthermore, fig. 5f shows the proposed cpa has lower standard deviation compared to the benchmark schemes. to emphasize that there is no averaging of the demand for the (b)
+
+resource allocation, we show the simulation results per realizaion in fig. 6. it can be observed that the benchmark schemes fail to match the per beam demand, while the proposed method properly optimizes the system resource to satisfy the demand.
+
+regarding the satellite resource utilization, the aup and auc of cpa and benchmark schemes for non uniform deand are shown in fig. 5b and fig. 5e. similar to uniform demand the overall transmit power used by cpa is less the benchmark compared to the benchmark schemes. all schemes converge to the total available power ptotal whereas the proposed method converges to aup ≈ 22.5 db, which is 7.5 db less than ptotal. below 220 mbps, the transmit power of demand based power 4cr is less compared to cpa. however, cpa provides better asi with proper power assignent compared to demand based power 4cr. the results of auc in fig. 5e confirms that the proposed scheme is able to employ much less carriers than the benchmark schemes for the demands below 500mbps. for higher demands, the cpa and 11
+
+benchmark schemes reach the maximum number of carriers k. c. cpa iaca parameter sensitivity analysis
+
+in this section, we analysis different parameter sensitivity of the proposed scheme. we consider a heterogeneous demand di = iy [v], ∀i. note that similar results have been observed for homogeneous demand.
+
+1) spectrum usage: the average percentage of active cariers per beam is shown in table v with k = 7. we observe the evolution of the number of active carriers with increasing demand. when (cid:101)d = 110 mbps, ki = 2 carrier is used in 30% of cases while 69% require ki = 3. starting from (cid:101)d = 275 mbps all 7 carriers are sometimes needed. below demands of (cid:101)d = 220 mbps, we observe that minimum 2 carriers are not needed to satisfy the demand. generally, as the demand increases, the algorithm assigns more carriers to satisfy the requested demand until the full frequency reuse is reached, where all carriers are used in all beams. table v number of carriers versus demand (in percent)
+
+2) bandwidth granularity: in this section we show how the proposed solution behaves for different k values. we consider k ∈ {4, 7, 20}.
+
+fig. 7a and fig. 7b, respectively, show the power consumpion and bandwidth utilization of the proposed scheme for different values of k. we have observed that less bandwidth utilization and more power consumption for higher values of k. this is because the k has more weight in the objective function of (11) compared to the power variable. hence, the (11) forced to minimize k than the power variable, which reults in more power consumption. in contrast, (11) gives more priority to minimize power for a lower value of k. therefore, less power consumption and higher bandwidth utilization are observed. generally, figs. 7a and 7b indicate a trade off between power consumption and bandwidth utilization. hence, depending on the available resources, it is possible to select a suitable k, which may lead to a higher bandwidth or power consumption. however, this flexibility is only available for low traffic demands. selecting a suitable value of k for a given satellite system depends on the satellite operator requirements and payload capabilities. however, we recommend that a lower value of k should be selected for lower demand services. this saves more power for the system. however, a higher value of k must be selected for higher demand satisfaction.
+
+3) scaling factor: in this section we show how the proosed solution behaves for different χ values. we consider χ ∈ {5, 1, 0.3}. like bandwidth granularity, we observe a trade off between power consumption and bandwidth utilization of the proposed scheme for different values of χ. the average power used and the average used bandwidth are described in fig. 7c and fig. 7d, respectively. higher power consumption with a few used bandwidth is observed for lower values of χ. this is because the proposed algorithm gives less priority to minimize power than the bandwidth. in contrast, with higher values of χ, the algorithm gives higher priority to minimize the power than the bandwidth. hence, lower power consumption and more used bandwidth are observed for higher values of χ. in general, depending on system requirements and capabilities, satellite operators have to make a decision on the value of (χ) knowing that (i) high values of (χ) would prioritize power saving than spectrum utilization; and (ii) low values of (χ) would prioritize spectrum saving rather than power consumption. however, we recommended that if a high demand service is required, a lower χ should be selected; otherwise, for lower demand request higher value of χ is good to select to save more power.
+
+in this paper, we have proposed a novel carrier and power allocation method for flexible broadband geo satcom sysems. the main objective of the method is to provide the best possible traffic matching while utilizing the least amount of resources. the formulated joint power and carrier assignment optimization problem turned out to be non convex. hence, we split the problem into two sub problems i.e. carrier and power assignment, respectively. since both sub problems remain nononvex, we approximately solve them using successive convex approximation approach.
+
+for the carrier assignment, two modes have been proposed, which aim at either minimizing the inter beam interference in each carrier or assigning contiguous carriers for the fuure carrier aggregation. for the former method, an iterative method has been proposed. both modes are compared in terms of power consumption and complexity. we observe that the complexity of the interference minimization based mode is relatively high, which may become a burden, if lowomplexity algorithms are required for the online operation. however, the forthcoming satcom systems are expected to utilize cloud/edge computing technology, which can tolerate high computational complexities including the complexity of the proposed method.
+
+a comparison of the proposed carrier and power allocation scheme with the most promising existing methods has been provided. we show that the proposed scheme outperforms the benchmark schemes in terms of average per beam demand matching, average consumed power and bandwidth utilization. while this work has focused on the conventional satellite antenna architecture with fixed beam pattern, in our future work we plan to investigate the next generation of satellites equipped with active antenna systems, thus allowing reconfigrable beams on earth. furthermore, interference mitigation techniques can be considered on top of the proposed frequency allocation to further push the frequency reuse without a negative performance impact on the achievable capacity. 12
+
+we would like to express our gratitude to ses for a great support and specifically to dr. joel grotz for valuable discussions and suggestions.
+
+by adding a lower bound exponential slack variable
+
+both r1.1 and r1.2 in (27) are non convex. in order to convexify r1.2 we replace the power pk[i] by exp (qk[i]). applying the logarithm function on both sides of the equation and using (8), we can re write it as follows:
+
+(28) in the following, we denote β = (cid:2)β1[i], β2[i], . . . , βk[i](cid:3)t . the constraint r1.1 contains a difference of convex functions. thus, by approximating its concave part we obtain 13
+
+and internand networking, [online]. available: systems,"
+
+esa flexpredem project: demostrator
+
+niques https://artes.esa.int/projects/flexpredem for flexible broadband systems. of
+
+precoding tech [online]. available: esa cadsat project: carrier aggregation in satellite communication networks. [online]. available: https://artes.esa.int/projects/cadsat c. braun, a. m. voicu, l. simi´c, and p. m¨ah¨onen, "should we worry about interference in emerging dense ngso satellite constellations?" in ieee international symposium on dynamic spectrum access networks (dyspan), 2019, pp. 1 10.
+
+"eutelsat 172b satellite: on the road to kourou, march 2017," https://news.eutelsat.com/pressreleases/eutelsat 172b satellite on theoad to kourou 1857558, accessed: 2019 12.
+
+more https://www.ses.com/press release/ses and thales unveil nexteneration capabilities onboard ses 17 , accessed: 2020 12.
+
+https://spacenews.com/intelsat to market half of capacity on eutelsatsuantum satellite/ , accessed: 2020 12.
+
+"kythera partners with ses:," https://www.ses.com/press release/ses
+
+enhance and expand o3b mpower system capabilities dynamicoftware innovation , accessed: 2020 12.
+
+u. park, h. w. kim, d. s. oh, and b. j. ku, "flexible bandwidth allocation scheme based on traffic demands and channel conditions for multi beam satellite systems," in ieee vehicular technology conerence, sep. 2012, pp. 1 5.
+
+t. qi and y. wang, "energy efficient power allocation over multibeam satellite downlinks with imperfect csi," in 2015 international confernce on wireless communications signal processing (wcsp), oct 2015, pp. 1 5.
+
+j. lei and m. a. v´azquez castro, "joint power and carrier allocation for the multibeam satellite downlink with individual sinr constraints," in 2010 ieee international conference on communications, may 2010, pp. 1 5.
+
+a. paris, i. del portillo, b. cameron, and e. crawley, "a genetic algorithm for joint power and bandwidth allocation in multibeam satellite systems," in 2019 ieee aerospace conference, march 2019, pp. 1 15. x. alberti, j. m. cebrian, a. del bianco, z. katona, j. lei, m. a. vazquez castro, a. zanus, l. gilbert, and n. alagha, " system capacity optimization in time and frequency for multibeam multi media satellite systems," in advanced satellite multimedia systems conference and signal processing for space communications workshop, sep. 2010, pp. 226 233.
+
+m. g. kibria, e. lagunas, n. maturo, d. spano, and s. chatzinotas, "precoded cluster hopping in multi beam high throughput satellite systems," in 2019 ieee global communications conference (globeom), 2019, pp. 1 6.
+
+s. boyd and l. vandenberghe, convex optimization. cambridge, uk:
+
+cambridge univ. press, 2004.
+
+x. shen, s. diamond, y. gu, and s. boyd, "disciplined convex concave
+
+"the successive approximation
+
+http://web.cvxr.com/cvx/doc/advanced.html#the successivepproximation method, accessed: 2020 02.
+
+p. gahinet, a. nemirovski, a. j. laub, and m. chilali, lmi control
+
+toolbox users guide. usa: mathworks, 1995.
+
+h. al hraishawi, e. lagunas, and s. chatzinotas, "traffic simulator for multibeam satellite communication systems," in 2020 10th advanced satellite multimedia systems conference and the 16th signal processing for space communications workshop (asms/spsc), 2020, pp. 1 8.
+
+tedros salih abdu (s'20) received his joint msc degree in electrical engineering from the pan african university and jomo kenyatta university of agriculture and technology (kenya), in 2017. he has worked as a lecturer in wollo universityombolcha, institute of technology. he is currently working toward the ph.d. degree as a doctoral researcher at the interdisciplinary centre for secuity, reliability, and trust (snt) of the university of luxembourg. his research interests are in wireess communication technology, focusing on channel
+
+modelling, channel estimation, precoding, and resource optimization. 14

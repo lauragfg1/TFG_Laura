@@ -1,0 +1,275 @@
+a lagrangian heuristic for satellite range scheduling with resource constraints fabrizio marinelli a,(cid:2), salvatore nocella b, fabrizio rossi b, stefano smriglio b a dipartimento di ingegneria informatica, gestionale e automazione universit (cid:2)a politecnica delle marche via brecce bianche, i 60131 ancona, italy b dipartimento di informatica universit (cid:2)a degli studi di l'aquila via vetoio, i 67010 coppito, l'aquila, italy computers & operations research
+
+satellite systems support many different services, such as surveillance, geodesy and navigation, remote sensing and montoring, telecommunications and data relay. the dramatic increase of the demand for such services is currently stimulating the implementation of new constellations. one major technological novelty is that the large satellites used in early (monolithic) constellations are replaced by clusters of smaller satellites within a single orbital location, yielding the so called distributed satellite constellations . a distributed constellation is flexible, as it simultaneously delivers a variety of services, and robust, as it provides a high level of service even when the constellation is not completely deployed or in case of some component failure. moreover, small satellites are cheaper and can be managed more efficiently than large ones. on the other hand, the implementaion of distributed satellite constellations creates challenging problems, particularly on the planning and control side. one
+
+e mail addresses: fabrizio.marinelli@univpm.it (f. marinelli), nocella@di.univaq.it (s. nocella), fabrizio.rossi@univaq.it (f. rossi), stefano.smriglio@univaq.it (s. smriglio). & 2011 elsevier ltd. all rights reserved.
+
+major problem regards the data exchange between ground stations and spacecrafts. in fact, the set of communications (from now on referred to as services) to be scheduled everyday is rapidly getting larger and larger. on the contrary, the ground station networks consists of a few big and expensive installations, typically spread over different continents, and can hardly be expanded. in such a setting, careful scheduling policies are getting more and more important. remarkably, when spacecraft health and orbit control services are considered (called navigation services), minimizing the number of tardy services is critical to keep safe both the constellation and the performance delivered. unfortunately, these problems are quite difficult in practice. indeed, the common procedures, in which a team of experts build schedules using worksheets or simple scheduling tools, often yield poor solutions or even fail to find a feasible one. this has been experienced by the engineers of telespazio s.p.a.1 while planning missions for the forthcoming galileo constellation.
+
+1 telespazio, a finmeccanica alcatel company, is the italian reference operaor for galileo system management, navigation and control. the company has the responsibility for one mission and control constellation centre, located in fucino (l'aquila) and one signal performance validation centres, located in rome, as well as the responsibility for the italian galileo test range; www.telespazio.it galileo, a joint initiative of the european commission and the european space agency (esa), is a global satellite positioning and navigation system (gnss) specifically designed for civilian purposes, . it is designed to provide worldwide services with outstanding performance in terms of accuracy, integrity, contiuity and availability. the whole program cost is about 2.15 billion euro while the yearly management cost will be about 220 million euro. the first satellite (giove a) of a constellation of 30, was launched in december, 28 2005, while the second satellite (giove b) was launched on april, 27 2008. details on features and current status of galileo project can be found in .
+
+major space agencies, such as the national aeronautics and space administration , the indian space research organizaion , and the china national space administration develped tools for supporting services scheduling. descriptions of such tools and relative modeling assumptions can be found, for instance, in [2,19,23,27]. each tool has specific (mission depenent) constraints that prevent its direct application to similar contexts. this motivated telespazio and esa to support the development of an optimization based decision support tool for service scheduling within the innovation triangle initiative frameork.2 this paper illustrates the methodology incorporated within the tool.
+
+the problem of scheduling services on a satellite constellation has been formally introduced in and is referred to as satellite range scheduling problem. this consists of one ground station and a set of services. each service can only be processed (that is, transmitted) within a given time window, corresponding to the visibility period of the satellite which the service is directed to. each service has a fixed processing time and, once started, it cannot be interrupted until completion. the ground station can transmit at most one service at a time. the problem consists in finding a schedule that maximizes the number of on time services, that is, those transmitted within their feasible time window. even this basic problem turns out to be np hard. in fact, barbulescu et al. show that the single resource range schedulng problem is equivalent to the problem of minimizing the number of tardy jobs ðp ujþ on a single machine with release dates. finally, the extension in which services are transmitted by two or more ground stations, called multi resource range schedulng problem, is also addressed.
+
+in this paper we study a generalization of the multi resource range scheduling problem, namely the satellite range scheduling problem with resource constraints, (srsp rc). this includes several aspects which are quite relevant in practice and, to the best of our knowledge, have never been addressed before in the literature. the first novelty is that, besides ground stations, also satellites have unit transmission capacity, that is, can activate at most one connection at a time. this places the problem into the family of multiprocessor task scheduling problems, in which each task (service) requires a set of resources to be processed (ground station and satellite). furthermore, a set of complex technological constraints are included in the model to faithfully represent the current systems (see section 2). finally, a third issue, recomended by esa and telespazio engineers, concerns the objective function. in srsp rc each service is associated with a profit, and the
+
+2 iti supports the identification, validation and development of disruptive space innovations based on new ideas or concepts, giving preference to innovaions coming originally from non space industrial or research sectors. iti is based on the ''innovation triangle'' concept stating that a rapid and successful introducion of disruptive innovations in industry requires the collaboration of three different entities: an inventor as source of innovation; a developer, casting the new idea into space standards and validating it into a relevant environment; a customer, that is, a company operating in the space sector that is interested in using the new idea to improve an existing (or create a complete new) space product, see . goal is maximizing the total profit of on time services. following the development of , this is equivalent to minimizing the weighted sum p wjuj of tardy jobs.
+
+we propose a time indexed {0, 1} linear programming formulation for srsp rc able to model the complex structure of the constraints, and show that its linear relaxation provides very good bounds (see section 7). a major drawback of such a formulation is its size, which often makes even the lp relaxation difficult to solve. computational advances with time indexed formulations may often be achieved by lagrangian relaxaion, [1,17,22]. thus, we devise a strong lagrangian bound based on a lagrangian subproblem which extends the one proposed in for the single machine case, being equivalent to a set of maximum weighted independent set problems on interval graphs. unfortunately, the complex structure of the technological contraints prevents the application of standard crossover mechansms for deriving feasible good schedules within subgradient optimization. therefore, in section 6 we propose a heuristic which can be viewed as an adaptation of the fix and relax mip heuristic developed by dillenberger et al. to lagrangian relaxation. the computational experience (section 7) shows the effectiveness of the approach, yielding near optimal solutions for large scale instances of the galileo constellation. the tool incorporating our methodology is currently used by the telespazio engineers in preliminary simulations of the galileo mission.
+
+a satellite mission consists of a set s ¼ f1, . . . ,sg of satellites (space segment) and a set m ¼ f1, . . . ,mg of ground stations (ground segment).
+
+depending on the mission, satellites may be geosynchronous or not. in the latter case, a ground station m can communicate with a satellite s only when s lies within the transmitting horizon of m. in general, this happens periodically within the planning horizon t . therefore, for each ðs,mþ a s (cid:2) m, the visibility period can be expressed as the union of (disjoint) time windows:
+
+moreover, the system is designed so that each satellite s a s is visible from at least one station m am within the time horizon t , that is, 8s a s,(m am such that vðs,mþa |.
+
+several operations must be performed on spacecrafts, related to either satellite control (e.g., tracking, telemetry reception, telecommand uplink, ranging session, navigation/integrity message uplink), or satellite payload (e.g., earth observation or scientific data download). these operations require ground to space communicaions: we define service to be a generic communication between one ground station and one satellite. the information associated with a service is stored in data packets.
+
+the problem under investigation consists of a set of services j ¼ f1, . . . ,jg to be scheduled. each service j a j is characterized by the following parameters:
+
+(cid:4) sðjþ a s, the (unique) satellite requested by j; (cid:4) mðjþdm, the set of stations able to process j; (cid:4) pj az þ , the (deterministic) processing time, that is, the duration
+
+of the communication j;
+
+(cid:4) rj a t , the service release time, i.e., the time in which j becomes
+
+available for processing;
+
+(cid:4) dj a t , the service due date, i.e., the time by which j must be ð1þ the service profits may have different interpretations, accordng to the kind of services considered. in the case of mission planning, congestion at the ground station network often preents all the required navigation services (i.e., control commands sent to the satellite from the earth) from being sent on time. in this setting they must be ranked according to their relevance. therefore, profits represent command priority. in case of payload services, profits may represent prices negotiated by the ground station managers with external customers, or the service releance within, for instance, an education/science program.
+
+transmission and reception are regarded as being simultaeous. in fact, transmission delays of some milliseconds can be safely disregarded w.r.t. communications lasting several minutes. processing a service j requires the activation of a dedicated link between one ground station and the satellite. ground stations support single streams data handling and satellites can activate at most one link at time on a fixed operating channel (for instance, in s band). in other words, ground stations and satellites can be regarded as unit capacity devices, that is, can process at most one service at a time. once a link is established, the service must be entirely transferred through this link. therefore, services are nonreemptive.
+
+a service j processed in the period [rj, dj] is said to be on time, while it is tardy if completed after dj. in some cases, the operation associated with service j must be performed on the spacecraft some time later than the service upload. precisely, we are given a time instant ej a t , with ej 4dj, in which the on board operation associated with j must be started. as a consequence, the data packets of size lj have to be stored on the (limited) on board memory in the interval between the upload completion and the operation starting times. such services are said to be time tagged ðj tt d j þ, whilst the others, whose operation is performed exactly when the service is completed (i.e., do not occupy the on board memory), are referred to as immediate. time tagged services yield a first set of constraints:
+
+on board storage constraints. each satellite s has an on board memory buffer of size bs az þ able to store data packets of timeagged commands. at any time, the size of data packets uploaded on satellites s cannot exceed bs.
+
+other technological features have to be taken into account,
+
+yielding two additional families of constraints.
+
+precedence constraints. some immediate services may correpond to steps of a single control operation (such as rotating a satellite) and must be transmitted according to the sequence in which they will be executed. in such a case, the operation will be successfully performed only if all the corresponding services are processed on time. thus, (i) a precedence relation arise with the form of independent chains of services, (ii) any service in the sequence can be sent if and only if all the preceding ones have been already sent, and (iii) all services in a sequence but the last one have zero revenue, while the last one has a revenue representing the whole operation.
+
+ground stations set up times. several procedures have to be executed when a ground station has to switch from a satellite to another. primarily, the orbit of the new satellite must be loaded and a very big antenna moved for its tracking. depending on the relative position of the two orbits, this operation may take a time interval which is not negligible with respect to service duration. during this operation, no transmissions can occur. formally, when ground station m processes two consecutive services on distinct satellites i and j, the ground station requires a set up time sm ij . from a mathematical point of view, it is worthwhile to look also at the relaxation of srsp rc obtained by eliminating preceence, set up and on board storage constraints. we denote such a relaxation by srsp rc rel.
+
+a straightforward polynomial reduction can be performed from 1jrjj p wiui to a special case (i.e., single ground station) of srsp rc rel, implying that srsp rc rel (and, consequently srsp rc) is np hard. note that, if satellites have infinite capacity and wj ¼1 for all j a j (i.e., all the services have the same revenue), then srsp rc rel reduces down to murrs.
+
+the key feature of srsp rc rel is that processing a service j requires (simultaneously) one station in mðjþ and one satellite s(j). this locates srsp rc rel within the category of multiprocessor tasks scheduling (or one job on multiple machine) problems, [9,12,18]. the environment where each task can be processed by a collection of sets of alternative but specified processors is called dedicated and denoted by setj in the b field of the extended three fields notation, . because of the limited satellite/ground station visibility, the set of alternative processors for a service j is also time dependent: to this purpose, we introduce the notation sett j for our specific environment. therefore, srsp rc rel can be j ,rjj p wjuj, that is, the problem requires minienoted as pjsett mizing the weighted number of tardy jobs in a multiprocessor task system, where jobs have release and due dates and are processed by a set of (time dependent) alternative processors. to the best of our knowledge, this problem has not been addressed in the literature. in fact, most of papers on multiprocessor task scheduling deal with the fixed environment pjfixjj3, where the set of processors assigned to a task is fixed. in this area, a few papers have appeared concerning with the minimization of the (weighted) number of tardy jobs (see and the surveys [9,18]).
+
+3. a time indexed formulation for srsp rc rel
+
+for the sake of clarity, we start by illustrating a {0,1} lp model for srsp rc rel, referred to as {0,1} srsp rc rel, and in section 5 we discuss how to extend it to srsp rc. to this purpose, the planning horizon t is divided into 1,y,t periods (or time slots) where each period t starts at time t (cid:5)1 and ends at time t. given a service j, let us denote by
+
+m a mðjþ m a mðjþ
+
+the feasibility period of j, i.e., the set of time slots in which j can start in order to be completed on time. we introduce a binary variable xt jm assuming value 1 if ground station m starts processing service j t are defined only at time t and 0 otherwise. notice that variables xjm if t a fðjþ. hence, {0,1} srsp rc rel reads as follows:
+
+subject to m x x
+
+ð4þ constraints (2) state that each service can be processed at most once. constraints (3) represent the ground station capacity: each ground station m can process, without preemption, at most one service j at time t. constraints (4) represent the satellite capacity: each satellite can process at most one service at time t. the objective amounts to maximizing the total revenue from services that are completed on time.
+
+{0,1} srsp rc rel belongs to the class of the time indexed forulations (also known as xjt formulations, ). these provide very strong linear relaxations both for single [1,26] and for parallel machine problems . moreover, they are easily adapable to different objective functions, additional technological constraints, breakdowns, eligibilities, etc. a major drawback of time indexed formulations is their size: formulations of standard single and parallel machine problems require oðj (cid:6) tþ variables and oðj þtþ constraints. the size of {0,1} srsp rc rel is even bigger than these for the following reasons:
+
+(i) modeling the feasibility period of a service requires explicitly the machine index m (which is not necessary for the basic parallel machine model), yielding oððj þmþ (cid:6) tþ variables; (ii) there are two families of constraints ((3) and (4)) whose size
+
+depends on t, producing oðj þðm þsþ (cid:6) tþ constraints.
+
+therefore, the number t of discretization periods for the planning horizon t affects the model size significantly. since t is fixed, one can vary the length of the discretization step: large values help the computational tractability, but, unfortunately, yield an excesive modeling approximation, as illustrated in section 7.2.
+
+in conclusion, dealing with {0,1} srsp rc rel requires specific solution techniques for large scale formulations, such as either column generation [17,26] or subgradient methods for lagrangian relaxations [1,17,22]. in general, it is not yet clear what of such methods is definitely better, see [4,20]. in our case, however, the presence of a large number of constraints and the existence of a well structured lagrangian relaxation has driven our choice towards the latter method. this choice was also discussed with the company that declared to prefer a tool with limited use of third party software. in what follows, we show that a suitable lagrangian relaxation returns solutions very close to the lp relaxation of {0,1} srsp rc rel and in a very efficient way. the possibility of computing such a relaxation in a reasonable time is also the ground for the development of the heuristic of section 6.
+
+the strategic choice in lagrangian relaxation concerns the set of constraints to be relaxed. the lagrangian problems obtained by relaxing just one set of constraints of {0,1} srsp rc rel are difficult optimization problems. however, all the relaxations in which two constraint sets are dualized exhibit the so called integrality property, and therefore are easy to solve though the bound obtained is the same of that computed by the linear relaxation of {0,1} srsp rc rel.
+
+among them, the relaxation in which the assignment (2) and the ground station capacity constraints (3) are dualized shows two important (instance dependent) advantages. the first is that it introduces the minimum number of multipliers, precisely oðj þm (cid:6) tþ multipliers. on the contrary, relaxing constraints (3) and (4) yields oððm þ sþ (cid:6) tþ multipliers, while relaxing (2) and (4) results in oðj þ s (cid:6) tþ multipliers. in our test bed s bm and, consequently, oðj þ s (cid:6) tþ b oðj þ m (cid:6) tþ. the second advantage is that the complexity of solving the lagrangian subproblem is significantly cheap. the following analysis illustrates this point. let k z 0 and lz 0 be the lagrangian multipliers vectors for constraints (2) and (3), respectively. given a pair ðk,lþ, an upper bound zubðk,lþ for {0,1} srsp rc rel can be computed by solving the set packing problem spðk,lþ:
+
+spðk,lþ can be solved in pseudo polynomial time. first, observe that the matrix defined by constraints (5) is block diagonal. therefore, spðk,lþ can be decomposed into s disjoint problems sp1ðk,lþ, . . . ,spsðk,lþ, each corresponding to the variables of one satellite. now, for each s ¼1,y,s, define a conflict graph gs ¼ t (vs, es) associated with spsðk,lþ, where vs contains a vertex vjm for ikþ a e if and only if the each variable xjm , columns of the coefficient matrix associated with variables u are non orthogonal (i.e., both have entry ''1'' in at t xjm least one component). this occurs when services i and j overlap on satellite s. rewriting the objective function of spsðk,lþ as t
+
+j a j ðsþ, and ðvt
+
+and assigning a weight ðwj(cid:5)lj(cid:5)p t a yðj,m,tþmmtþ to each vertex a vs, it is easy to observe that spsðk,lþ is equivalent to finding vt jm a maximum weight stable set in gs. thanks to the special structure of gs this can be carried out efficiently.
+
+recall that a graph g¼ (v,e) is interval if there exists a total ordering ! of the vertices such that for each triple r!s!t a v, rt a e implies that st a e, . indeed:
+
+proposition 4.1. gs¼ (vs, es) is an interval graph.
+
+to the closed interval [t, t + pj] proof. associate each vertex vjm and consider the lexicographic order ! of the vertices based on completion time, ground station and service, ik if t þpj o u þ pi, or t + pj ¼u + pi and mo k, or t + pj ¼u + pi and !vu m¼k and j o i. let vt hw be a triple of ordered vertices jm ik a es. intervals [t, t + pj] and [r, r + ph] and suppose that vt jmvr overlap by construction, then t þ pj 4 r. on the other hand, t þpj r u þ pi r r þ ph according to the ordering defined, and thereore u þ pi zt þ pj 4r. hence, the intervals [r, r + ph] and [u, u + pi] overlap too, i.e., vu i.e., vt !vu
+
+ikvr hw a es. &
+
+the maximum weight stable set is polynomially solvable on interval graphs by dynamic programming , implying that spsðk,lþ is solvable in pseudo polynomial time. for the sake of completeness we report the recursive formula described in . let fv1, . . . ,vjvsjg be the total ordering ! of the vertices of gs. for each vertex vj, denote by wj its weight and by n o ðvjþ the set of vertices of vs which are lower than vj and non adjacent to vj, i.e., n o ðvjþ ¼ fvi a vs : io j and vivj=2esg. moreover, for each 1 rj r jvsj, let aðjþ be the maximum weight of an independent set and aðjvsjþ is the cardinality of the maximum weight independent set of gs. the procedure computes an optimal solution to spsðk,lþ in oðjvsjþ time. furthermore, jvsj r pm j ¼ 1 ðdj(cid:5)rj(cid:5)pjþ (equalty holds when vðsðjþ,mþ (cid:7) t ). thus, the overall complexity of spðk, lþ is given by oðps s ¼ 1 jvsjþ, that is:
+
+lemma 4.2. relaxation spðk,lþ can be solved in oðm pj ðdj(cid:5)rj(cid:5)pjþþ time. &
+
+this relaxation can be applied to general multiprocessor scheduling problems, but it turns out to be particularly profitable when, as in our case, the slack values dj (cid:5) rj (cid:5) pj are small. we remark that the special cases of single and multi resource range scheduling problem with no slack, typical of low altitude satelites, are polynomial (see, respectively, [8,3]).
+
+every feasible solution x of spðk,lþ may violate both the capacity constraints on ground stations (3) and the assignment constraints (2) (i.e., each service may be performed more than once, eventually on different ground stations). according to van den akker et al. , we say that this solution defines a pseudochedule, i.e., a schedule sc that satisfies the resource (satellite) constraints.
+
+the dual function zubðk,lþ is minimized through the standard subgradient method, . the iterative procedure (subgradient) adopted is reported in algorithm 1. the parameters values result from empirical experiments. the algorithm is initialized with a feasible solution xlb of value zlb, evaluated by a simple dispatchng rule, processing services according to their urgency (earliest due date). a textbook formula is used for multipliers update, where the scalar step size f depends upon the gap between the current upper and lower bounds (see, chapter 6).
+
+the extension of {0,1} srsp rc rel to srsp rc requires the intro
+
+duction of the following families of constraints:
+
+precedence constraints. for each pair i and j of consecutive
+
+ground station set up constraints. given a ground station m, if service h starts from m to satellite s(h) at time t then no other service i can be performed on the ground station m for a satellite sðiþa sðhþ within the time window ½t þ ph,t þ ph þsm sðhþsðiþ(cid:3), i.e., durng the time required for the antenna pointing: hm þxt xt im r 1, m am, h a j , i a j \j ðsðhþþ, t a fðh,mþ,
+
+notice that the length of the time window depends on the couple (s(h), s(i)) of the current and next satellites and on the ground station m. clearly, no setup occurs if the next satellite and the current one coincide. operations starts later than t, and gs ¼ ft a t j(j a j tt : ej ¼ tg be s the set of the corresponding starting periods (i.e., periods in which the on board memory is freed). due to the limited capacity of on board buffer, one has
+
+t a fðj,mþjt r t
+
+the lagrangian relaxation of section 4 can be extended to {0,1} srsp rc by dualizing constraints (6) (8). however, the numer of constraints (6) (8) can be very large in real life instances (see tables 5 and 6), affecting the convergence of procedure subgradient. in particular, the major computational difficulties arise with the set up constraints (7). on the other hand, we experienced that dropping such constraints from the lagrangian relaxation does not result in a significative impairment of the bound. therefore, we found profitable not to introduce them in the evaluation of the lagrangian relaxation, but taking them into account only in the crossover heuristic, described in the next section.
+
+require: an instance j of srsp rc rel ensure: a minimum dual solution xn of spðk,lþ, i.e., a pseudochedule sc, and the corresponding dual function value zub
+
+initialize: let zlb be the value of a feasible solution of {0,1}
+
+t a fðj,mþx(cid:8)t t a yðj,m,tþx(cid:8)t
+
+until zubis improved of at least 0.001 in the last 300
+
+6. the lagrangian fix and relax heuristic
+
+good feasible solutions can be derived from good relaxations in several ways. in case of lagrangian relaxation, feasible scheules are typically obtained from pseudo schedules computed during the subgradient optimization by a combination of elemenary moves such as swap, insertion, deletion, merge, etc. of the pseudo schedule, (see, for instance, [1,17]). we experienced that the pseudo schedules obtained from subgradient are far from primal feasibility and elementary neighbourhoods of such soluions often do not contain feasible improving solutions. on the other hand, several lp based heuristics are known in the literaure (see [10,14] for specific contributions and for a general reference) whose performance heavily depends on the tightness of the linear formulation. among others, we recall the fix andelax heuristic introduced by dillenberger et al. .
+
+fix and relax is a framework that alleviates the difficulty of solving a large scale ip by solving a sequence of small mips. in particular, consider a partition of the variable set n into k sets {n1, n2,y,nk}. the first mip of a sequence of k mips is obtained by ð8þ
+
+relaxing the integrality conditions on variables in {n2,y,nk}. then, the i th mip ð1 o i rkþ is obtained by (i) fixing the variables in {n1, y, ni (cid:5) 1} to the optimal values evaluated in the (i (cid:5) 1) th mip and (ii) relaxing the integrality condition on variables in {ni + 1,y,nk}. the integer solution (if any) of the k th mip is the heuristic solution. several algorithms derived from this basic framework has been successfully applied to different scheduling in particular, we are problems (see, for instance, [5,11,13]). interested in the implementation proposed in , in which the partition {n1, n2,y,nk} is not decided in advance but dynamically determined.
+
+unfortunately, the fix and relax scheme cannot be directly applied to {0,1} srsp rc rel because even its linear relaxation (see section 7) represents an excessive computational burden, taking too much time to be solved even by state of the art solvers. incidentally, this also prevents the application of other lp based heuristics, such as those presented in [10,14]. for this reason, we propose a lagrangian version of the fix and relax heuristic: at the i th iteration, instead of a mip, the lagrangian dual is solved (see section 4). then, the set of variables to be fixed is determined by exploiting the pseudo schedule sc derived from the solution of the lagrangian dual, as explained in the next subsection.
+
+exact fixing procedures in lagrangian methods are typically based on reduced costs . we designed a hybrid, non exact, fixing scheme which still exploits the reduced costs but also the structure of the pseudo schedule sc. formally, let j be an instance of {0,1} srsp rc rel, scðj þ be the pseudo schedule assoiated with the solution ðk(cid:8),l(cid:8)þ returned by subgradientðj þ, xn be the 0 1 vector associated with scðj þ and h be a feasible schedule of services. the input of the fixing procedure consists of j , h, ðk(cid:8),l(cid:8)þ, xn and scðj þ. then, the variable xt jm ¼ 1 with the maxmum reduced cost is selected. two cases are possible: either jm ¼0, for t a t, (a) service j is executed only once in scðj þ (i.e., xt m am) or (b) j appears in multiple copies.
+
+(a) if j can be inserted in h starting at time t on ground station m jm is set to 1 and the other
+
+(b) if different copies of j are assigned in scðj þ to different jm is set to 0, for m am. ground stations (case b1), then xt otherwise (all copies of j are on the same ground station, case b2), xt
+
+from a combinatorial point of view, cases (a) and (b2) correpond to deciding the starting time and the ground station of service j, while case (b1) corresponds to choosing only the ground station that performs the service. the rationale behind this policy is that, in cases (a) and (b2) the choice of the subgradient algorithm is considered more reliable and it is exploited to fix both starting time and station of a service. on the contrary, in the (b1) case the value of the reduced cost is considered only as an indication of the ground station that will process the service.
+
+the fixing procedure, denoted by fixðj ,h,ðk(cid:8),l(cid:8)þ, xn, scðj þþ, returns both a (possibly) larger feasible schedule h and a reduced instance j u dj of {0,1} srsp rc rel. the lagrangian dual of j by procedure subgradient which returns an optimal solution xn of spðk(cid:8),l(cid:8)þ by which a pseudo schedule scðj þ can be obtained (see section 4). the i th iteration consists of determining the variable set ni by a number of calls of the procedure fixðj ,h,ðk(cid:8),l(cid:8)þ,x(cid:8),scðj þþ and updating the relaxation. at each round of the fixing loop, fixð(cid:6)þ returns a reduced instance j u that becomes the input for the successive round. its associated pseudo schedule scðj uþ is obtained from scðj þ simply by removing the service corresponding to the fixed variables. then, at the end of the fixing loop, subgradient ðj uþ, is run on the current (reduced) instance j u and the resulting pseudo schedule scðj uþ comprises the input for the next iteration.
+
+in principle, this scheme could be repeated until all variables are fixed. however, in order to improve the solution quality, j u is solved to optimality as a mip as soon as it is allowed by the instance size.
+
+in general, fix and relax heuristics can have an important drawback: if at some iteration the relaxed mip becomes infeaible, nothing can be inferred on the whole problem. in our case this possibility is excluded: at the end of each fixing loop we deal with a reduced instance of {0,1} srsp rc rel. therefore, the whole algorithm always returns a feasible solution (although possibly of poor quality).
+
+another important remark concerns the solution of the relaxaion. suppose that the fixing loop fixes to 1 only variables corresponding to services that appear exactly once in scðj þ (case (a)): in the successive iteration the relaxation could return exactly the same solution previously found. however, in our experience, due to the non exact nature of the procedure subgradientðj þ, this case never happened.
+
+the algorithm parameters are: settings of the procedure subgradient (see algorithm 1), size of the largest instance solvable to optimality (see section 7) and the parameter fixiter. we experienced that small values of fixiter (typically, from 5 to 10) lead to the best results.
+
+algorithm 2. lagrangian fix and relax
+
+require: an instance j of srsp rc ensure: a feasible schedule h
+
+ðj u,hþ :¼ fixðj ,h,ðk(cid:8),l(cid:8)þ,x(cid:8),scðj þþ; remove from scðj þ the services corresponding to fixed
+
+end for end while solve j to optimality and let l be the optimal schedule of
+
+extend h with l;
+
+6.3. extension to srsp rc
+
+the extension of lagrangian fix and relax to {0, 1} srsp rc is straightforward. only the extension of fixð(cid:6)þ to {0,1} srsp rc requires some care when constraints (6) are included. in partiular, the service j corresponding to a variable xt jm with maximum reduced cost may belong to a chain a. in this case, two choices are possible: either fix only service j or all the services in the chain a. we experienced that the latter leads to better results. precisely, if scðj þ contains feasible schedules of the whole chain, then the one maximizing the sum of the reduced costs is fixed (i.e., all the corresponding variables are fixed to 1). otherwise, xt jm is set to 0.
+
+as mentioned in section 4, constraints (7) may be removed from the relaxation. in such a case, the reduced costs are not directly available in the solution of the lagrangian relaxation, but satisfactory estimates of their values (pseudo reduced costs) can be computed efficiently. consider a pseudo schedule scðj þ and recall that each service j in scðj þ has at least one starting time x(cid:8)t jm ¼ 1. then, for each service and for each starting time x(cid:8)t jm ¼ 1, pseudo reduced costs are evaluated by subtracting from zubðl(cid:8),m(cid:8)þ the value of the optimal solution of an instance of spðl(cid:8),m(cid:8)þ with xt
+
+the purpose of the computational experience is to evaluate the quality of the solutions returned by the lagrangian fix and relax heuristic. the test bed concerns the galileo space program and was proposed by the telespazio engineers. the galileo case yields very large scale instances of srsp rc and is described in the next section. in section 7.2 the computational results are disussed. finally, in section 7.3 some practical issues are illustrated.
+
+the galileo system as specified is the most demanding global navigation satellite system in terms of performance requireents on integrity, continuity, and availability. this requires a very tight and continuous control of satellites position, resulting in a large number of services to be scheduled within short time windows.
+
+a service oriented approach has been used to define the galileo architecture (for a complete overview of the galileo project we refer the reader to the european space agency, ). the space segment has been designed with 30 identical satellites, 27 of which are on three different orbital planes plus one spare per orbital plane. all satellites have circular orbits with semiajor axis of about 30,000 km and 563 inclination, resulting in an orbit period of about 14.4 h. the selected ground segment conists of 5 ground stations with the same technical features. for each ground station, table 1 reports the location, the global position, and the mean percentage of the time horizon in which the station is visible from satellites.
+
+once the infrastructure has been defined by the bodies involved (european commission, esa and galileo industries), a complex validation process is required to prepare operations. as responsible of the italian galileo test range, telespazio takes care of the galileo navigation control and one major interest is understanding whether this can be safely implemented with the available infrastructures. to this purpose, the telespazio engieers prepared nine scenarios to be investigated, each representng a weekly planning (that is, a time horizon of 10,080 min). these scenarios correspond to situations of increasing criticality, from standard control actions to ticklish contingencies. the first three scenarios (the routine scenarios g1, g2 and g3) contain only the services corresponding to routine operations. scenarios g4, g5 and g6 (maintenance scenarios) contain also a set of services for simple maintenance operations on different satellites. finally, scenarios g7, g8 and g9 (time tagged scenarios) require further services for a complex maintenance operation on specific satellites.
+
+services for routine operations. aim of the routine operations is to continuously measure and adjust satellites position along the orbit (services tm and adj) and perform a weekly full check of satellite navigation data (service full). the adjusting operation (service adj) can be performed only if the control center exactly knows the satellite position (by means of a tm service). therefore, any adj service requires one tm service as a predecessor. the release date of tm coincides with the first instant of satellite visibility from any ground station during the corresponding orbit period, and service adj is released 45 min after. on the whole, routine operations requires 348 services of type tm, 348 of type adj and 30 of type full, for a total of 726 services. details about these services for each scenario, are reported in table 2. the design parameter h (see tables 2 4) controls the time allowance for service execution. small values of h (i.e., h r120 min) lead to a tight (desired) control of the constellation, while large values may introduce failure risks in some operations, even if in principle are acceptable and allow to improve the total revenue.
+
+table 2 details of routine services for all scenarios.
+
+serv. name processing time pj (min) allowance dj (cid:5) rj (min)
+
+table 3 details of maintenance services for scenarios g4 g9.
+
+release date rj weight wj 2 1
+
+table 4 details of time tagged services for scenarios g7 g9.
+
+weight wj time tag ej size lj (kb)
+
+3 sa, sb, sc services for maintenance operations. maintenance operations include specific satellite tests (the service test), on board softare management (service obsm), calibration (service cal) and contingency (service cont). such operations may be particularly urgent, resulting in very short feasibility periods. moreover, in some cases, they must be sent simultaneously to several (up to 4) satellites and/or require a continuous contact for a large time period. data reported in table 3 corresponds to a set of 33 services in a week for each operation. note that each operation has a specific target satellite.
+
+time tagged services. complex maintenance operations can be also performed via time tagged commands. table 4 reports details about the corresponding services.
+
+instances have been generated from the above scenarios by a systematic variation of the parameter h. we also look at two possible sizes of the time slot t: t¼ 1 and 10 min. in particular, t ¼1 is the smallest significant value (leading to the largest instances), while t¼10 is the smallest value that yields almost solvable {0,1} lps. therefore, for each scenario from g1 to g6, we i¼1,y,6) consider eight different corresponding to different values of the implementation paraeter h ðha f0,120,240,360gþ and to different size of the unit time period t instance characteristics are reported in table 5. for each scenario from g7 to g9 we consider two i¼7, 8, 9) corresponding to h¼0 and instances (named gi_t, different size of the unit time period t ðt a f10,1gþ. the characterstics of these instances are reported in table 6. note that all scenarios from g1 to g6 lead to instances of {0,1} srsp rc with constraints (6) (7). scenarios g7 g9 lead to instances of {0,1} srsp rc with the whole set of constraints (6) (8). the number of constraints in instances with t ¼10 ranges from 277,631 to 1,630,026; while for t¼ 1 it ranges from 1,716,123 to 9,930,104.
+
+for all scenarios, the ground station set up times (antenna re positioning, section 2) are equal to 1 (i.e., sm sus00 ¼ 1) for any ground station m and for any pair of satellites su, s00. therefore, in order to perform a fair comparison, in all instances with t ¼10 the set up times are ignored. finally, the size of the on board buffer is bs¼8 kb for every satellite s.
+
+the experiments are run on a pentium iv 1.4 ghz machine with 1 gb ram. the parameters of subgradient are fixed as reported in algorithm 1, whereas fixiter ¼10 for scenarios g1 g3 and fixiter ¼5 for g4 g9 (see algorithm 2). the linear and integer optimal solutions are computed by the commercial ilp solver ilog cplex 9.1. in order to manage the very large scale {0,1} srsp rc's, all cut generation routine have been disabled and all constraints (6) (8) are dropped from the initial formulation and added dynamically. the time limit for the ilp solver is set to 12 h.
+
+the solutions returned by the lagrangian fix and relax heuristic are compared with the upper bounds provided by either the linear (for small solvable instances) or lagrangian relaxation of {0,1} srsp rc. tables 7 9, report the following data: value of the best solution of the lagrangian dual (ublagr), value of the primal solution found by the heuristic (lbheu), relative percentage gap (the label ''optimal'' in table 7 indicates that, lbheu coincides either with ublagr or with the trivial bound given by the number of all services), cpu time (either in seconds or in the format hh mm ss), respectively, for upper and lower bound evaluation, value of the lp relaxation (ublp), if available, best feasible solution instance name services (#) slot size t (min)
+
+table 6 characteristic of the instances for scenarios g7 g9.
+
+slot size t (min) # variables # constraints
+
+found by the ilp solver (lblp, the marker y indicates that the solution is not optimal) and cpu time for both lp relaxation and branch and bound (the entry *** means that the time limit has been reached). finally, tables 10 and 11 report the number of lbheu time ublp
+
+23.92 *** variables fixed by the heuristic and the number of on time services in the best solution for scenarios g4 g9.
+
+routine scenarios g1 g3. table 7 reports the results for routine scenarios g1 g3. from these data one can observe the following:
+
+(cid:4) the linear relaxation of {0,1} srsp rc provides very good upper bounds. in fact, all instances solved to optimality by cplex do not show integrality gap at the root node of the enumeration tree. on the other hand, cplex can evaluate (in the given time limit) the linear relaxation only for instances with large discretization (t ¼10).
+
+(cid:4) the lagrangian dual provides very good upper bounds as the relative percentage gap is close to zero. it is also strictly close to the linear bound, whenever it can be evaluated. note that the lagrangian bound for t ¼1 exceeds in some case the trivial upper bound of value 726 but, in such instances, the heuristic is able to accommodate all services. as far as cpu times are concerned, the evaluation of ublagr always remains under half an hour, even for large instances (i.e., instances with t ¼1, h 40). only for small size instances, subgradient takes a longer time than cplex simplex algorithm. maintenance serv. (#) routine on time maintenance on times
+
+the 12 instances solved by cplex, the heuristic fails to find an optimal solution only on g2_0_10. in all instances, the solution found by the heuristic with t ¼1 is always at least as good as the (optimal) solution found by cplex with t ¼10 and in 6 cases is considerably better.
+
+(cid:4) the lagrangian fix and relax heuristic solves several times the lagrangian dual. therefore, the cpu time gets very large for some instance, but is still acceptable for a planning horizon of 7 days. (cid:4) for all instances there is no difference between solutions found calling cplex at the end of the reduction phase of lagrangian fix and relax and solutions obtained by fixing all services by fixð(cid:6)þ. therefore, lbheu solutions of table 8 can be found without using the commercial ilp solver.
+
+maintenance scenarios g4 g6. these instances are larger than the previous ones (see table 5) and services have different weights. the results are reported in table 8, while table 10 contains further details on heuristic solutions. we observe that:
+
+(cid:4) unlike the routine case, cplex is unable to evaluate the linear relaxation also in six out of 12 instances with large discretizaion (t¼10). cplex succeeds in computing the optimal soluion only for three instances (all with t¼10).
+
+(cid:4) the lagrangian bound can be evaluated for all instances, even though it requires a larger computational effort. the relative percentage gap also increases, but remains under 6% on average. in five cases the gap is greater than 8%, and only in one case (namely, g6_120_10) exceeds 10%.
+
+(cid:4) unlike the routine case, the heuristic fails to find an optimal solution for the three instances solved by cplex. however, the heuristic solutions found with t ¼1 always outperforms the (eventually optimal) solutions found with t ¼10.
+
+(cid:4) the increase of heuristic computational times is not proporional to the increase of the time required to solve the lagrangian dual. this is due to the fact that the fixing phase gets more effective (see the second column of table 10). in summary, the modeling approximation introduced by the large discretization step (t ¼10) is not acceptable, but the small step results in problems which cannot be managed by the mip solver (not even to solve the lp relaxation).
+
+the present study started in 2002 jointly with the telespazio research and development branch. the engineers realized the need for an advanced system to tackle challenging srsp rc prolems arising in the forthcoming distributed constellations (e.g., cosmo skymed and galileo), which could not be properly managed by their standard procedures. in the current practice, service scheduling is carried out by a two phase approach: services are first assigned to ground stations and then singletation schedules are built. the two phases are typically perormed manually or by some heuristics, as in the case of the indian space research organization (isro) . although this procedure has been working properly until now, it gets stuck in the galileo case (and similar distributed constellations), due to the large number satellites and services.
+
+in a preliminary study, we experienced an exact version of the isro procedure in which the problem is decomposed into s single satellite problems with the whole ground segment availble for the satellite; then, each ground station is assigned with all services assigned to it by the optimal solutions of the singleatellite problems; finally optimal single ground station schedules are computed.
+
+a first prototype of the tool incorporating lagrangian fix andelax was tested in telespazio in early 2005. it allowed to obtain near optimal solutions with guaranteed approximation as opposed to poor solutions returned by the decomposition (even optimized) approach.
+
+for instance, in the congested scenarios g1 g3, the engineers experienced the difficulty of accommodating all routine services. the results in table 7 show that in 16 out of 24 cases lagrangian fix and relax returns a schedule with all services on time. in seven out of the remaining nine cases the percentage gap allows to conclude that such a schedule does not exist. in all cases, the value of the heuristic solution is less than 1% from the optimum one, providing very convincing answers to the engineers.
+
+whenever not all services can be accommodated, engineers are interested in evaluating the trade off between overall service revenue and tightness of the control. unfortunately, computing new schedules with different values of the implementation parameter h is too time consuming (if not impossible) with the manual procedure. such an analysis can be naturally performed by our tool. for instance, table 7 shows that congestion can be handled by increasing h, without additional resources. also, this does not suffice to accommodate maintenance operations, as shown in tables 8 and 10. notice that only large values of the implementation parameter h allows us accommodating all rouine services. however, even in such cases, at least 70% of the maintenance services are not scheduled (see columns 6 and 7 of table 10). finally, table 9 reports on the effect of timeagged commands. one can observe that a large percentage of these are accommodated by the lagrangian fix and relax heuristic without affecting the number of on time immediate services. therefore, introducing time tagged commands helps exploit the residual system capacity.
+
+both telespazio strategic managers and experts from the european space agency to which the study has been presented believe that, once most of the constellation will be in orbit, it will be mandatory to use optimization based tools for mission planning. they also realized that simple local optimization procedures do not provide satisfactory results, while sophistiated methods are required. our tool is currently under testing at the telespazio mission and control constellation centre (in central the mission control environment. italy) for integration into
+
+we introduced a challenging scheduling problem arising in satellite constellations of new generation. the complex structure of the constraints prevents the straightforward application of combinatorial algorithms. however, we presented a time indexed {0 1} programming formulation of the problem which is shown to be very tight. the formulation size is very large for practical problems and even the lp relaxation cannot be solved in most cases. to overcome this difficulty, we devised an original heuristic based on a suitable combination of mathematical programming techniques, which is able to find near optimal solutions for large scale instances of the european galileo program.
+
+this work was supported by the esa contract 18678/04. we are very grateful to stefano lagrasta and antonio salonico from telespazio s.p.a. for promoting this study and for their invaluable contribution in defining the problem. we also wish to thank alessandro donati from esa for his helpful comments during the development of the project. finally, we would like to express our gratitude to the anonymous referees for the careful comments which helped us to improve the quality of the paper.
+
+avella p, boccia m, d'auria b. near optimal solutions of large scale singleachine scheduling problems. informs journal of computing 2005;17(2): 183 91.
+
+barbulescu l, watson jp, whitley ld, howe ae. scheduling space ground journal of
+
+communications for the air force satellite control network. scheduling 2004;7(1):7 34.
+
+ben amor h, desrosiers j, frangioni a. stabilization in column generation. les
+
+beraldi p, ghiani g, griecoand a, guerriero e. fix and relax heuristic for a stochastic lot sizing problem. computational optimization and applications 2006;33(2 3):303 18.
+
+burrowbridge se. optimal allocation of satellite network resources. master
+
+thesis, virginia polytechnic institute and state university, 1999.
+
+chen j, lee c y. general multiprocessor task scheduling. naval research
+
+danna e, rothberg e, le pape c. exploring relaxation induced neighbouroods to improve mip solutions. mathematical programming, series a 2005; 102(1):71 90.
+
+dillenberger c, escudero lf, wollensak a, zhang w. on practical resource allocation for production planning and scheduling with period overlapping setups. european journal of operational research 1994;5:275 86.
+
+drozdowski m. scheduling multiprocessor tasks—an overview. european
+
+escudero lf, salmeron j. on a fix and relax framework for a class of project scheduling problems. annals of operations research 2005;140:163 88. fischetti m, lodi a. local branching. mathematical programming 2003;98:

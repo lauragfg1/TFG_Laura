@@ -1,0 +1,243 @@
+christian fuchs, nicolas perlot, jerome riedi, josep perdigues
+
+abstract—optical satellite communications have continually gained attention throughout previous years. optical downlinks to transmit data from earth observation satellites to ground may be an attractive solution to overcome the bottleneck caused by the limited spectrum and data rates of radio frequency systems. due to the significant attenuation introduced by clouds, it is generally considered that optical communication systems cannot penetrate clouds. therefore, the optimization and design of optical ground station networks enabling a high combined availability is crucial for the application of optical downlinks.
+
+within the onubla1 study funded under the european space agency's general study programme, a simulation software has been developed. it includes a global cloud database, which was generated from various satellite sources, and a simulation tool, which allows for assessing the system performance of optical satellite links in terms of availability, achievable throughput, latency and other characteristics. different system parameers, such as ground station network topologies, sensornd communication link rates, memory sizes, and many more can be taken into account in the simulation.
+
+in this paper, we focused on the assessment of optical leo downlinks. a large number of system configurations and paramters haven been compared and will be presented in this paper. three ogs network configurations with sites at european, polar and worldwide locations have been compared. we could confirm that large, worldwide ogs networks perform better and enable the transmission of more data than small, regional networks. we particularly found that the buffer size on board the satellite plays a crucial role for the system design. a further key result is that latency critical applications require large ogs networks to meet the requirements. finally, a comparison with potential rf systems shows that optical leo downlinks can compete with rf solutions, and even outperform them, if a reasonably sized buffer is available on board of the satellite.
+
+index terms—optical satellite communications, optical satellite
+
+t hroughout previous years, optical communication
+
+systems have become increasingly mature and the opertional use of such systems has materialized with the start of the european data relay system (edrs)/spacedatahighway service in 2016 . the benefits of optical free space comunications, such as high data rates, compact system designs, and the fact that no spectrum regulation is required, make them an attractive solution for space communication systems. the feasibility of using optical links in such applications has been demonstrated for leo leo inter satellite links , leo geo relay links , , and even deep space links .
+
+c. fuchs is from the german aerospace center (dlr), m¨unchener str. 20,
+
+82234 weßling, germany, email: christian.fuchs@dlr.de.
+
+n. perlot is from the fraunhofer heinrich hertz institute, berlin, germany. j. riedi is from the university of lille, france. j. perdigues is from the european space agency, noordwijk, netherlands. manuscript received july 1, 2017; revised january 10, 2018. 1onubla is an anagram of the spanish word nublado ( ˆ= cloudy). recently, demonstrations have been performed for the appliation scenario of optical leo downlinks , , , and further demonstration missions, such as those within dlr's osiris program, are currently under preparation .
+
+as a drawback, however, several challenges have to be overcome in order to use optical communication links in an operational environment. besides technical aspects, such as the requirement to ensure highly accurate beam pointing and tracking, a key challenge for optical links between space and earth is link blockage due to clouds and detrimental effects on the laser beam caused by atmospheric turbulence. at the typical wavelengths in the near infrared (mainly 1064 nm and 1550 nm), clouds effectively block the optical link which constitutes the main limitation for the actual optical ground station (ogs) availability. depending on the location, availbility figures for single ogs sites may range from 30% in central europe to 70% or 80% in locations with exceptionally good weather conditions. in order to increase these availability figures further towards 100% and to accommodate for the satellite orbit of a particular mission, an ogs network with multiple stations becomes a requirement. the influence of cloud blockage on the availability of optical ground station networks and the optimization of achievable system perforance is an area of ongoing research.
+
+many previous publications focused on deriving the comined instantaneous availability of ogs networks, such as , , , and . this is especially useful for applications like optical feeder links to geostationary satellites, where all stations in the ogs network are permanently in the satellite's field of view. in such applications, the ogs network's availability directly relates to the system availability. in order to fully assess the performance of optical leo downlinks, however, the satellite orbit needs to be considered. presents results considering a typical earth observation leo orbit, and investigates the performance of optical leo downlinks in conjunction with a cost model developed in . however, no studies are available that cover all relevant technical parameters, such as memory sizes on board the satellite, latency, data rate of the communication link, etc.
+
+within the onubla study, which was funded under the general studies program of the european space agency (esa), we developed algorithms and a simulation tool which enables the performance assessment of optical satellite links in a holistic manner. the study bridges the span from the creation of a global cloud database, the creation of a simulation tool for the assessment of different satellite to ground link scenarios (including leo downlinks, geo feeder links and geo relay links), as well as the performance evaluation of a number of communication link scenarios and ogs network configurations. the first results of the study were presented in and . in this paper, we focus on the optimization of ogs networks and the performance assessment for optical leo downlinks. key parameters affecting the system design, like ogs netork topology, data rate, memory sizes and latency will be assessed and their influence on the system performance will be discussed. the optical link performance will be compared to current and future radio frequency communication links.
+
+with respect to the state of the art in this area, the work
+
+presented contributes distinctively in the following points:
+
+we generated a unique global cloud database sourced from leo and geo satellite data over a duration of 5 years. the raw sensor data from all satellites was newly processed with the same algorithm, ensuring global comparability. the combination of data from several leo and geo satellites resulted in a cloud database with excellent temporal (ranging from 15 − 60 minutes for geo data to 4 observations per day for leo data) and spatial resolution (about 3 km at the equator).
+
+we developed a simulation tool which is based on cloud data from the database. environmental constraints, like the strength of atmospheric turbulence or the minimum sun exclusion angle, are taken into account in the simlations for the assessment of link availability. the tool considers a large number of system parameters in the simulations, such as satellite orbit, data rate, memory size on board the satellite, latency, link planning lead time, etc. • we investigated and compared different ground station networks. these range from small networks (e.g. with only european stations) to large worldwide networks which are suited for future optical satellite downlinks. this paper is structured as follows: section ii describes the cloud database generated within the study. section iii explains the developed simulation tool and its capabilities. section iv will define a reference satellite mission used for most of the simulations. section v will show the results of various performance assessments. section vi will give conclusions and provide an outlook on potential future work. determining the usability of ogs sites and the availability of operational networks critically relies on a precise descripion of cloud cover in both the time and space domains. several cloud climatologies are available to describe the occurrence of clouds on a global scale over decadal periods, however our current application focuses more heavily on the occurrence of "clear sky conditions", for which the atmospheric attenuation at the communication wavelength along the line of sight will allow for transmission (as defined by the link budget). the cloud dataset in particular must be able to provide sufficient detection of thin cirrus clouds and broken clouds, so recent sensors are better suited to provide the required detection level, despite the fact that an older dataset brings the benefits of longer records. another important consideration in building a cloud dataset is that the information it contains should be as homogeneous as possible, so that no systematic bias is introduced for the globally distributed candidate ogs sites. therefore, to establish our global cloud dataset, we considred instruments with an extended spectral range, to ensure the accurate detection of cirrus and thin cirrus. similarly, the spatial resolution and sampling needed to be high enough to identify broken cloud fields. a cloud dataset with a spatial resolution of 5 km was considered necessary and sufficient to provide meaningful information. coarser resolution would lead to overestimated cloud blockage in cases where there are broken clouds, while not adequately capturing thin cirrus. conversely, it was decided that a higher resolution was not really desirable, because transmission through broken cloud fields with holes on a kilometric scale were likely to randomly block the signal at moderate elevation angles. also, in those cases, evaluation of availability also strongly depends on our ability to locate the cloud field vertically to an accuracy that is not achievable with current sensors on a global scale. the added benefit in terms of potential transmission in such cases is therefore negatively balanced by the need and difficulty to predict and implement handover between ogss.
+
+in practice, our effort has focused on creating a global cloud dataset at 5 km spatial resolution with a temporal resolution of between 30 minutes and 1 hour. this allows us to capture all clouds that would block transmission for long enough that a handover to a different ogs would be required. in addition to cloud blockage, other information describing cloud properties such as cloud top altitude and cloud optical thickness has been added to the database when available. the rationale for the use of such information is to allow transmission when clouds are optically thin enough or refine cloud blockage at a given location accounting precisely for line of sight intersect with clouds. this information has currently been discarded in our network availability evaluation software due to uncertainties on cloud altitude and cloud edges location, which in turn has an impact on the parallax correction, making such information highly uncertain. however, this information has been made available in the database for future investigations.
+
+an extensive survey of available cloud coverage and cloud properties datasets, and a discussion of its respective strengths and limitations, in view of the state of the art, is provided by the recent gewex cloud assessment . from this, the following two main sources of cloud information have been retained in order to meet our application requirements.
+
+our first source of information derives from geostationary satellites observations used for meteorological applications. the cloud classification mask originally developed by meeofrance , and operationally produced by nowasting saf is used to produce a cloud classification from seviri/msg at 15 min temporal resolution. the same alorithm has been adapted to other geo satellites (mtsat and goes) in the framework of a project developed by the icare thematic center and provides a level 2 global product based on these additional geostationary sensors. the unique and interesting feature of this processing scheme is that a common theoretical basis is used for processing the data from the different sensors, leading to a homogeneous dataset in terms of detection and classification accuracy. this cloud classification based on geostationary data provides a description of cloud variability at relatively high temporal fig. 1. example cloud mask obtained on march 21st, 2009 from modis aqua.
+
+resolution, i.e. a sampling time of 15 min from seviri/msg and 30 min from mtsat and goes over land in the northern hemisphere (mtsat and goes can be up to an hour in other regions).
+
+the second source of cloud information is obtained from the modis cloud properties climatology. the modis instruents available on the aqua and terra platforms have been used to describe cloud occurrences at higher latitudes where geo sensors cannot provide observations. apart from active sensors such as lidar or radar in space, modis is curently being considered as a reference sensor for global cloud detection. it also provides cloud products (cloud top altitude, cloud optical thickness/cloud emissivity) of a higher quality than other available meteorological polar sensors and offers higher spatial resolution, which is critical for evaluation of cloud cover variability on small scales.
+
+after the processing of raw data, the level 2 product (cloud detection, classification and cloud properties from modis) has been reformatted in order to facilitate their use in our network availability simulator. the modis cloud products have been reprojected onto a fixed rectangular grid at a 0.05 degree resolution in latitude and longitude corresponding to a spatial resolution of approximately 5x5 km2 at the equator. an example is provided in figure 1 showing the cloud fraction observed from modis aqua on march 21st, 2009. note that cloud fraction ranges from 0 to 1 because at the chosen grid resolution, several full resolution modis pixels can contribute to the statistics. the geo data has been retained in its original fixed grid since conversion between geographical and image coordinates is constant. an example of the resulting cloud mask obtained from msg/seviri at 14:30 utc on june 21st, 2009 is provided in figure 2. for both data sources, only information over land and islands has been preserved while other areas have been filled with constant values in order to optimize file size through internal compression. the resulting dataset covers the period from june 2009 to june 2014 and represents approximately 600 gb of compressed data.
+
+finally, table i lists all key parameters of the cloud database
+
+the original dataset and algorithms used to construct our cloud information database have been extensively validated fig. 2. example cloud mask obtained on june 21st, 2009, 14:30 utc from msg/seviri.
+
+table i key parameters of the cloud database
+
+o e l satellites coverage product spatial resolution
+
+satellites coverage product spatial resolution temporal resolution
+
+time span msg, mtsat, goes global, except poles cloud mask (clear, contaminated, cloudy) 3 km by 3 km at equator, degraded at higher latitudes (≈ 5 km by 6 km over europe) 15 min (msg), 30 min 1 hour (mtsat, goes)
+
+modis (aqua and terra) global cloud fraction (from 0=clear to 1=cloudy) 5 km by 5 km 4 observations per day
+
+during their development. however, to ensure reliability of our database we have performed a comparison of cloud blockage time series, diagnosed by our simulator for specific test sites to independent sources on cloudiness, in particular the european climate assessment & dataset (http://www.ecad.eu) and climate explorer knmi (http://climexp.knmi.nl/), which are obtained from ground measurements. note that cloud occurrence as observed from the ground by human observers is usually reported in octa2, which does not necessarily provide a directly comparable metric to cloud detection observed from space. however, the temporal and quantitative behavior of the considered sites were in good agreement. in particular, it was verified on the island of tenerife (not shown here), that the cloud database was able to adequately reproduce the different cloud covers observed on different sites on the island, two at low altitudes (airport sites near coast), and another at higher altitude, which exhibited a higher frequency of clear sky.
+
+iii. simulation software
+
+the simulation tool delivers availability statistics of opical up /downlinks. the tool simulates several elements synhronously including an earth orbiting satellite with one or
+
+2an octa is an 1/8 of the hemispherical sky visible from a ground observer. thus, for instance, 4 octa correspond to a half covered sky, and 8 octa to a fully covered sky. fig. 3. parallax error when a satellite measures clouds above a ground station. top: parallax error 7 km (typical case; elevation angle 30◦, cloud altitude 4 km). bottom: parallax error 55 km (worst case; elevation angle 10◦, cloud altitude 10 km)
+
+more optical communication terminals, a dynamic atmosphere and a ground station network. the atmospheric channel is divided into cloud attenuation and turbulence. cloud data are quantized in several regards. for instance, cloud attenuation is considered binary, and no interpolation is attempted to increase the spatial or temporal resolution.
+
+a source for potential errors is the parallax between the cloud pixel seen by the meteorological satellite and the cloud pixel seen by the simulated satellite. the cloud parallax is stronger when clouds appear higher in the atmosphere and when satellites are observed close to the earth's horizon. figure 3 illustrates the parallax error. the parallax error is about the same size or larger than the considered cloud pixels (> 3 km). however, even in the worst case, the parallax error (about 55 km displacement between gs and cloud) is still small compared to the cloud correlation distance (typically about 300 km), . therefore, no significant statistical error is expected, unless the gs has a microclimate where the typical cloud correlation distance does not apply.
+
+as shown in figure 4, the mission simulation tool requires
+
+inputs that are extracted from two different databases:
+
+1) a list of preselected ground stations containing their gelocation parameters, view obstruction data, performance with respect to turbulence, etc.
+
+2) a global cloud database from which time series of cloud attenuation are extracted for each selected ground station
+
+in the mission simulation environment, the optical link availbility is evaluated at each step of the time loop. this way, the evolution of the availability statistics can be monitored as a simulation is running.
+
+input parameters for the tool include satellite orbit, ogs network, data rate, number of terminals on board the spaceraft, sensor acquisition rate and memory size. fig. 4. structure of the tool calculating the availability of up /downlinks.
+
+c. propagation model
+
+kepler elements are used to define the satellite orbits. for specific orbits, some kepler elements are artificially modified over time. for the sun synchronous orbit, the longitude of the ascending node is continuously rotated with a rotation period of one year to account for the ellipsoid earth shape. for the geosynchronous orbit, the satellite velocity is artificially set to the earth's rotating speed in order to prevent position drifts over long mission durations. whereas the earth is considered a geoid when mapping the space based cloud photos to the ground station locations, the earth is modeled as a simple sphere when calculating link geometries such as the link elevation.
+
+d. simulated parameters
+
+further parameters that are included in the simulation are: • link elevation: this link impairment consists of two elements. indeed, the link elevation is defined as seen either from the ground antenna or from the satellite antenna. the validity range of the link elevation is a user input. elevation can be specified as a function of azimuth to render the presence of obstructions such as trees or solar panels.
+
+cloud: if sky is clear in the current link direction. • atmospheric turbulence: the fried parameter r0 at a given ogs shall exceed a minimum value of r0,min. the cn2 model accounts for the link elevation above horizon and for the sun elevation.
+
+sun exclusion: according to the minimum "sun ogsatellite" angle.
+
+onboard data: onboard data may not be available for transmission, i.e. if the buffer on the spacecraft is empty. • link planning lead time: a link with a new ogs can be prohibited if planned too early and the weather situation has changed in the meantime.
+
+each element with an impact on the link availability is modeled as a binary availability mask (see table ii). clearky attenuation is neglected, and must be covered by the link budget. based on the cloud database, the software provides availability statistics of optical up /downlinks for any satellite in the earth's orbit. table ii example of availability mask vector (amv) for typical leo pass over a given optical ground station with a time resolution of 1 min.
+
+figure 5 shows a time evolution of the availability masks at five ground stations for a leo mission with two terminals on the satellite. at any time, the onboard terminal is assigned to a ground station which, if available, establishes a link. availability periods of gss are marked as white spaces where there is no obstruction mask. when there is no link, the onboard buffer is filled progressively. this buffer is emptied during links where a throughput is visible. although the simulation tool is capable of simulating an arbitrary number of satellite terminals, please note that only one satellite terminal was considered for the results presented in this paper, as this is likely to be the most common case. when a simulation is finished,
+
+the results can e.g. be processed to compare different ogs network configurations or to investigate other system parameters. the results are mainly given as: mean throughput per day: this shows the theoretical mean throughput per day as an average over the simuation duration. the buffer size on board the satellite is ignored to calculate the mean throughput, i.e. the mean throughput is the product of data transmission time and the data rate normalized to one day.
+
+percentage of data transmitted (pdt): this parameter considers the fact that the buffer size on board the satellite is limited and that it may overflow. in cases where the buffer overflows, further acquired data will be lost, which is reflected within the pdt.
+
+section v uses these two merits to present the results.
+
+iv. satellite mission requirements and simulation parameters
+
+a. satellite mission
+
+the system requirements used throughout this work have been derived from current and future esa missions. there is a clear trend towards high resolution imaging and near real time applications demanding stringent service availability requirements (100% of the data to be downloaded within 1 satellite orbit). satellite imagery data downloaded after 3 satellite orbits is considered obsolete for quasi real time applications.
+
+the orbit of the esa's sentinel 1 satellite is used as a reference for current missions. it is a typical earth observation sun synchronous orbit with an altitude of 693 km and a local time of descending node (ltdn) of 6:00 am. to evaluate the influence of the orbit parameters, simulations were carried out considering the esa's sentinel 2 satellite (sun synchronous orbit at 786 km with ltdn of 10:30 am), showing that the orbital parameters of typical earth observation satellites do not dramatically contribute to significant changes in system performance (i.e., mean throughput per day and pdt).
+
+future earth observation missions under consideration at esa incorporating large data volume instruments are expected to have comparable orbital parameters (i.e. sun synchronous orbit with altitudes in the order of 650 850 km) and utilize platforms with characteristics similar to the sentinel 1 and sentinel 2 satellites, but with much higher spectral and spatial resolutions, and consequently, featuring larger sensor rates.
+
+as a matter of comparison, state of the art sensor rates are smaller than 1 gbps, while to fulfill future user demands, higher sensor rates are envisaged. instrument duty cycles of 30% are typical for current missions and expected for future missions as well.
+
+the required downlink data rate rdl can be estimated as
+
+with rs being the sensor acquisition rate, d being the sensor's duty cycle, torbit being the orbit period of the satellite, and tdl being the time available for downlink communications.
+
+for example, with a sensor rate of 3 gbps, 30% duty cycle, 100 min orbital period and 10 min downlink communications time, the minimum downlink data rate is around 9 gbps. this simple calculation clearly shows the trade off between the (1) downlink data rate and the downlink communications time, which is closely related to the size of the ogs network.
+
+depending on the parameter under investigation, different data transmission rates, sensor acquisition rates and memory sizes have been chosen for the performed simulations.
+
+the performances of three different ogs network topoloies with up to 15 sites each have been evaluated by means of the onubla simulation tool: (a) network with european stations only (b) network with european and polar stations (c) network with worldwide stations
+
+appendix a gives detailed lists of the used optical ground station sites for the networks. the sites for the three networks have been extracted from a list of ogs sites with more than 300 worldwide sites which was created as part of the onubla study. from this list, between 30 and 60 ogs were preselected depending on the scenario. subsequently, the ogs order has been optimized based on system throughput, i.e. ogs number 1 in the network yields the highest mean throughput, ogs number 2 the 2nd highest and so on.
+
+as showing all results for all ogs networks would be out of the scope of this paper, most of the results presented later are tailored to particular ogs networks.
+
+as many system parameter variations are possible, a number of assumptions have been made to assess the influence of distinct parameters. all simulations are carried out with the satellite orbit of sentinel 1 and consider one optical terminal on the satellite. 500 gbit of acquired data per satellite orbit has been considered, which yields a continuous sensor acquisition rate of approximately 93 mbps for a 90 min orbit, or about 309 mbps if a duty cycle of 30% is assumed. the memory size is assumed to be 750 gbit, i.e. data can be stored without transmission for up to 1.5 orbits before the onboard memory overflows.
+
+8 gbps are used as a primary data rate, with a link start elevation of 10◦. this is consistent with the current state ofhe art of optical communication systems available in the near future. furthermore, it is in line with current standardization efforts within the optical communications working group at the consultative committee for space data systems (ccsds, www.ccsds.org). in case higher rates are simulated, wavelength division multiplexing systems with 40 gbps and 80 gbps are considered. as the focus of the paper is on assessing system performance, details on system implementation are not discussed any further.
+
+table iii lists a summary of all common system parameters which were used for the simulations shown later, unless otherwise noted.
+
+although a 5 year cloud database is available, it is desirable to use a shorter time period in order to reduce the simulation table iii system requirements used for the purposes of this work.
+
+satellite orbit number terminals sensor rate memory size opt. data rate link planning lead time sun exclusion angle simulation time period simul. time resolution value comment
+
+fig. 6. mean throughput per day (top) and percentage of data transmitted (bottom) for different simulation periods.
+
+time. however, it must be ensured that the results are also representative of longer time periods. figure 6 shows the results of a system simulation with network c. it can be observed that the difference in the various simulation periods is small and insignificant. further simulations with other ogs network topologies showed a result consistent with figure 6. therefore, a simulation period of 1 year is sufficient to evaluate the impact of the various parameters and the comparison with an rf communications downlink, and hence, it has been used for the further simulations to minimize the simulation time.
+
+the influence of the data rate of the various systems has is shown in been investigated for network a. the result figure 7, where the pdt is shown. the mean throughput per day is not shown; as the buffer size on board the satellite is ignored for the calculation of the mean throughput, it simply linearly scales with the data rate. the pdt, however, includes the buffer size of the satellite, also accounting for effects as, network a, 0.8 gbps
+
+fig. 7. percentage of data transmitted for network a for different data rates.
+
+for instance, an empty buffer which results in a data throughput of 0.
+
+it is interesting to note that an increased data rate does not necessarily result in an increase in transmitted data: the results for 8 gbps, 40 gbps and 80 gbps are the same. this is due to the fact that buffer overflows occur when the satellite has too little ground station contacts, which is especially the case for small networks as network a. therefore, if a certain data rate is sufficient to clear the buffer on board the satellite during ground station contacts, an increased data rate doesn't result in a better system performance, unless the buffer size on board the satellite is increased as well. networks b and c behave in the same manner as network a and are thus not shown here.
+
+in order to assess the influence of the different ogs networks, a comparison between the 3 ogs networks has been performed. figure 8 shows both mean throughput and pdt results. networks a (european ground stations) and b (european and polar stations) show an asymptotic behavior, i.e. more than about 5 to 7 ogs in the network result in little additional throughput or pdt. especially for network a, this is not surprising: with stations only in europe, and with only one satellite terminal, further ogs might increase availability, but the satellite is not able to accumulate more data between ground station contacts, i.e. no more data is available for transmission. the same holds true when polar stations are added to the ogs network.
+
+network c, however, shows an almost linear increase in throughput vs. the number of stations, as the stations are spread around the globe and are thus decorrelated from the satellite orbit. the topology of network c, of course, also gives the best pdt result.
+
+many current and planned missions have strict requirements in terms of latency, i.e. how much time is available from data acquisition with the sensor on the satellite until it is received on the ground. in order to investigate latency for optical leo downlinks, several simulations for buffer sizes ranging from 0.5 orbits to 1.5 orbits have been performed. data that is not transmitted before the buffer overflows is lost and thus the network b network c network a
+
+network a network c network b
+
+fig. 8. mean throughput per day (top) and percentage of data transmitted (bottom) for different network topologies.
+
+latency requirement is not met. figure 9 shows pdt results for networks a, b and c.
+
+considering network a, it is apparent that only about 35% of data is transmitted within 0.5 orbits, and up to about 62% within 1.5 orbits in large ogs networks. however, considering the network topology (european stations only) and the satellite orbit (which is sun synchronous), long time durations without ogs contact occur when the longitude of the satellite's ground track is not close to europe, meaning that data from these regions may not be transmitted at all within the given latency requirement. the addition of polar stations (network b) imroves the situation, and enables to transmit between 47% of the acquired data within 0.5 orbits to 80% within 1.5 orbits.
+
+due to the large ogs spread around the globe, of course, the situation is much better with network c. about 77% of data is transmitted within 0.5 orbits, 92% within 1 orbit and up to about 98% within 1.5 orbits, considering it is a large ogs network with more than 10 stations.
+
+therefore, applications with a binding latency requirement can only be served with optical data links if a large, worldwide ogs network is used.
+
+figure 10 shows pdt results for network a for various buffer sizes. it can be seen that, with increasing buffer size, more of the acquired data can actually be transmitted to the ground. interestingly, even with the small network a, almost 100% of all acquired data can be transmitted with only 3 to 4 optical ground stations.
+
+in order to assess the influence of data rate in combination with the memory size, additional simulations with a data volume of 10 tbit per orbit (corresponding to a continuous fig. 9. percentage of data transmitted for networks a (top), b (middle) and c (bottom) for different buffer sizes.
+
+fig. 10. percentage of data transmitted for network a for different memory sizes at a data volume of 500 gbit per orbit..
+
+sensor acquisition rate of about 1.85 gbps) and data rates of 40 gbps and 80 gbps have been performed. the results for networks a and c are visible in figure 11. in general, the behavior at the higher data volume and data rates is similar as the previous result. however, it is very interesting to note that network a and c show a similar performance for large buffer sizes. network a, buffer: 2.5 orbits (40 gbps)
+
+fig. 11. percentage of data transmitted for networks a (top) and c (bottom) for different memory sizes and data rates at a data volume of 10 tbit per orbit.
+
+furthermore, an increase in data rate from 40 gbps to 80 gbps results in a significant gain. this is not the case for smaller data volumes and buffer sizes, as can be observed, for instance, in figure 7.
+
+with network c, only 4 to 5 optical ground stations are required to transmit virtually all acquired data at a data rate of 40 gbps. if the data rate is increased to 80 gbps, only 3 ogs are required. also, with network a only 4 to 5 ogs are required to achieve a good pdt if a large buffer and high data rate are used.
+
+comparing these results with the latency results shown in the previous section, it can be concluded that the actually crucial parameter for optical satellite downlinks is latency, and not availability. if the buffer on board the satellite is large enough, bad network availability due to weather can be compensated by storing the data long enough, waiting for a data dump to become possible. in order to achieve low latency (in the order of 1 satellite orbit for all acquired data), however, a large, worldwide ogs network needs to be installed.
+
+f. influence of link planning lead time
+
+for real world applications, the time gap between the comanding of the satellite and the actual optical data downink must be considered. therefore, different link planning lead times (lplt) have been simulated. figure 12 shows throughputnd pdt results for network c. if the link planing lead time is increased from 0 to 1 hour, the throughput is already substantially reduced. higher link planning lead times result in larger throughput reductions. also in terms of pdt, the lplt has an effect, however, it is not as large as expected when considering the substantial loss in terms of throughput. fig. 12. mean throughput per day (top) and percentage of data transmitted (bottom) for network c for different link planning lead times.
+
+in addition to the previous evaluations, where different parameters of purely optical communication systems were assessed, a comparison with state of the art radio frequency (rf) communication systems has been performed. table iv lists the system requirements used for the comparison.
+
+for the rf link, a ground segment with 11 sites based on the esa's estrack network, which contains candidate sites for future rf communication systems, has been defined (cp. table viii). a link start elevation of 5◦ is assumed for both x band and ka band systems considering implementation of adaptive coding and modulation schemes. atmospheric effects such as rain attenuation are neglected in order to get the best achievable performances of the rf systems, i.e. the availability of the rf link is considered to be 100%. therefore, the current comparison is actually beneficial for the rf links. furhermore, data rates ranging from 0.6 gbps (current x band systems) over 2 gbps (future x band systems) to 8 gbps (future ka band systems) have been assumed.
+
+network c with worldwide optical ground stations has been used as ground segment for the optical data link. different data rates ranging from 8 gbps (current state of the art) to 80 gbps (future systems) were considered.
+
+figure 13 shows results for a sensor acquisition rate of 2 tbit/orbit and a selection of rf and optical system congurations for different memory sizes. an rf link with a data rate of 0.6 gbps (current x band systems) is outperformed by an optical link with a data rate of 8 gbps (as will be available on the market soon). an rf link with a data rate of 2 gbps (next generation x band systems), however, outperforms the optical data link. it is interesting to note that the gain due to an increased buffer size for the optical link is again visible, while table iv system requirements used for the comparison of optical and rf links.
+
+parameter value comment
+
+satellite orbit number terminals sensor rate memory size rf data rates rf network opt. data rates opt. network link planning lead time sun exclusion angle simulation time period simul. time resolution start elev.: 5◦ cp. table viii start elev.: 10◦ cp. table vii
+
+fig. 13. percentage of data transmitted for rf and optical links at a sensor acquisition rate of 2 tbit/orbit (≈ 0.3 gbps) with buffer sizes equivalent to 1 orbit (top) and 3 orbits (bottom) for different data rates.
+
+the rf link only marginally improves with a larger buffer. the fact that increasing the data rate of the optical link to 40 gbps does not result in a significant improvement indicates that the optical link is limited by the availability of the optical ground station network.
+
+figure 14 shows results for a sensor acquisition rate of 12 tbit/orbit and high performance data links, i.e. a potential ka band rf link with 8 gbps and future optical links with 40 gbps and 80 gbps. with this configuration, the situation appears different, as the optical links show similar results as the rf link for both buffer sizes.
+
+finally, figure 15 shows results with larger buffer sizes for the optical links, again for a sensor acquisition rate of 12 tbit/orbit. it can be observed that, starting with a buffer size of 3 orbits, an optical link with a data rate of 40 gbps behaves similar as an rf link with 8 gbps. if the buffer size fig. 15. percentage of data transmitted for rf and optical links at a sensor acquisition rate of 12 tbit/orbit (≈ 2.2 gbps) with different buffer sizes and data rates.
+
+is increased to 8 orbits, the optical link outperforms the rf solution. if the data rate of the optical link is increased to 80 gbps, a further improvement can be observed, indicating that the buffer size is the limiting factor in this particular configuration.
+
+summarizing, it can be stated that optical data links may not always outperform rf data links for downlink applications from leo satellites. however, whenever the on board sensors have very large acquisition rates, and a reasonable buffer size is available, optical links may indeed offer a better system performance than rf solutions.
+
+furthermore, it seems important to note that rf systems are strongly spectrum limited, what makes it challenging to increase their data rate beyond 10 gbps. optical links have no such limitations, even for very high data rates up to hundreds of gbps. this gives more room for improvements in the future. vi. conclusions
+
+this paper investigated the availability and system perormance of optical leo satellite to ground communication systems. based on a cloud database of 5 years duration with global coverage and excellent temporal and spatial resolution, a simulation tool has been programmed. it enables the simulaion of many parameters relevant to optical satellite to ground communications, like satellite orbit, data rate, buffer size, and many others. furthermore, the performance of several optical ground station networks and the influence of a number of key parameters has been investigated for the orbit of a typical earth observation satellite.
+
+trivially, larger networks with a worldwide distribution of optical ground stations perform better than smaller networks such as those with stations only in europe. of course, the data rate of the optical data link plays an important factor in terms of the achievable system performance. however, high data rates can only be used effectively if the onboard memory on the satellite is adequately sized.
+
+the results of this work show that the buffer size on board the satellite is crucial to ascertain that no data gets lost due to buffer overflows. if a sufficiently large buffer is available, small optical ground station networks are sufficient to transmit the acquired data, while stringent latency requirements can only be met if a large, worldwide ogs network is used. thereore, it can be stated: availability of optical leo satellite toround links is not an issue latency is.
+
+another important factor is the link planning lead time (lplt). although a substantial reduction in throughput could be found by the simulations if the lplt is increased, the percentage of data transmitted was actually not substantially reduced for a worldwide ogs network.
+
+a comparison between radio frequency communication sysems and optical links yields that optical links can compete with current and future rf solutions. if a reasonable buffer size is available on board the satellite, optical links may even outperform their rf counterparts. to overcome the challenge of larger latency when using optical links, a combination of rf downlink or optical geo relay technology with a direct optical downlink comes into mind: time critical data can be transferred with the rf or geo relay link, while the optical downlink is used to transfer large amounts of data with less criticality.
+
+potential future work may include the extension of the cloud database to a duration longer than 5 years. this would allow consolidation and verification of the results based on a larger statistical basis. although the cloud database used for the study has excellent characteristics, even better temporal and spatial resolutions are desirable for a further verification of the results. a potential way forward is the installation of ground based cloud imagers at distinct ogs locations. very good spatial and temporal resolutions are possible with such a device. this enables simulations with much better temporal resolution as is possible with cloud data obtained from satellites. finally, an exhaustive comparison between optical leo downlink systems and optical geo data relays, such as esa's european data relay system, should be performed. table v sites, positions and single site availabilities of optical ground stations in network a.
+
+tables v to vii show the used ogs sites. they are listed in the same order as was used for the simulations presented in the paper. their position as well as the 5 year average for single site availability, as extracted from the cloud database, are given as well. table viii shows the sites of the potential rf network which was used for the performance comparisons.
+
+the work presented in this paper was funded by the european space agency (esa) under the general studies programme (contract number 4000110718). the authors are grateful to the aeris/icare data and services center for providing the data used for the construction of the onubla cloud/atmospheric state database. # site latitude longitude availability
+
+table viii sites and positions for a potential rf ground network based on the esa's estrack network.
+
+# site latitude longitude
+
+1 2 3 malargue kiruna 4 kourou 5 santa maria 6 new norcia 7 villafranca 8 9 matera 10 maspalomas redu 11 inuvik longyearbyen
+
+a. biswas, b. oaida, k. s. andrews, j. m. kovalik, m. abrahamson, and m. w. wright, "optical payload for lasercomm science (opals) link validation during operations from the iss," in proc. spie, ser. freepace laser communication and atmospheric propagation xxvii, vol.

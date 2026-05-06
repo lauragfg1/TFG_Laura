@@ -1,0 +1,275 @@
+jiang lei, student member, ieee, zhu han, senior member, ieee, maría ángeles vázquez castro, senior member, ieee, and are hjørungnes, senior member, ieee
+
+abstract—in this paper, we study multibeam satellite secure communication through physical (phy) layer security techniques, i.e., joint power control and beamforming. by first assuming that the channel state information (csi) is available and the beamorming weights are fixed, a novel secure satellite system design is investigated to minimize the transmit power with individual serecy rate constraints. an iterative algorithm is proposed to obtain an optimized power allocation strategy. moreover, suboptimal beamforming weights are obtained by completely eliminating the cochannel interference and nulling the eavesdroppers' signal simultaneously. in order to obtain jointly optimized power alloation and a beamforming strategy in some practical cases, e.g., with certain estimation errors of the csi, we further evaluate the impact of the eavesdropper's csi on the secure multibeam satellite system design. the convergence of the iterative algorithm is proven under justifiable assumptions. the performance is evalated by taking into account the impact of the number of antenna elements, number of beams, individual secrecy rate requirement, and csi. the proposed novel secure multibeam satellite system design can achieve optimized power allocation to ensure the minimum individual secrecy rate requirement. the results show that the joint beamforming scheme is more favorable than the fixed beamforming scheme, especially in the cases of a larger number of satellite antenna elements and higher secrecy rate requirement. finally, we compare the results under the current satellite air interface in dvb s2 and the results under gaussian inputs.
+
+index terms—beamforming, multibeam satellite, physical layer
+
+t he issues of privacy and security in satellite networks
+
+have taken on an increasing important role, especially in military applications. currently, the secure satellite comunication (satcom) is realized only through upper layer protocols (e.g., in , ). in this paper, we will investigate
+
+manuscript received september 29, 2010; revised january 28, 2011; accepted april 11, 2011. date of publication may 02, 2011; date of current version august 17, 2011. this work was supported in part by the u.s. nsf cns 0953377, cns905556, cns 0910461, eccs 1028782, and in part by the research council of norway through projects 197565/v30, 183311/s10, and 176773/s10. the associate editor coordinating the review of this manuscript and approving it for publication was dr. paul prucnal.
+
+j. lei and m. a. vázquez castro are with the department of telecommunicaions and system engineering, universitat autónoma de barcelona, barcelona 08193, spain (e mail: jiang.lei@uab.es; angeles.vazquez@uab.es).
+
+z. han is with the department of electrical and computer engineering, university of houston, houston, tx 77004 usa, and also with the department of electronics and radio engineering, kyung hee university, south korea (e mail: zhan2@mail.uh.edu).
+
+a. hjørungnes is with unik university graduate center, university of oslo, the multibeam satellite secure communication through physical joint power (phy) layer security techniques , , control and beamforming schemes with individual secrecy rate constraints, which can be an alternative approach for satellite secure communication. power limitation and cochannel intererence are two challenges for multibeam satellite systems (e.g., in ). hence, power control and beamforming could be two approaches for improving the system capacity by adjusting the beam pattern such that the overall transmitted power is minimized or the signal to interference plus noise ratio (sinr) is maximized. i.e.,
+
+in this paper, we consider the joint power and beamforming with individual secrecy rate constraints. an iterative algorithm is proposed for updating the transmission power in each iteraion, such that target secrecy rates are achieved for each beam with minimal power consumption. we first study the secure satcom system design through a power control problem with fixed beamforming. next, the beamforming weights are achieved by cochannel interference cancellation and nulling the signal at the eavesdropper. moreover, the impact of channel state information (csi) of eavesdropper on secure satcom system design is studied.
+
+in addition to security issues, the efficient resources manageent is also important for the satcom systems, e.g., bandidth and power allocation. the authors in and invesigate the dynamic bandwidth allocation techniques for satellite systems. in , a power allocation policy is discussed to stailize the system based on the amount of packets in the queue and the channel state. in , a trade off strategy is proposed between different objectives and system optimization, and a convex optimization problem is solved. a joint power and carier allocation problem is discussed in , however, only upink is considered. in and , the authors focus on the caacity optimization in a multibeam satellite system, and the dulity of frequency and time domain is studied. the optimization problem of power and carrier allocation has been addressed in terrestrial networks (e.g. , ). the authors in propose an axiomatic based interference model for the sinr balancing problem with individual target sinr per user, but the concluions are not directly extrapolable to a satellite scenario. to the best of our knowledge, the security issue is not discussed toether with power control and beamforming in satcom sysems. in and , transmit beamforming has been used to null the signal for each cochannel receiver. in , the authors studied the zero forcing beam forming (zfbf) in the scenario of multiantenna broadcast where the weights are selected such as the multiuser cochannel interference is cancelled. our work is different from the aforementioned literatures, since we introuce the physical (phy) layer security for multibeam satellite previous work (in and ) addresses the problems of power control by sinr balancing and beamorming separately, and without taking into account the secure communication issues. for security in satcom networks, there exits various works (, ). however, most of them only focus on the upper layer security and realize through protocols, e.g., authentication, authorization, and accounting protocols (aaa), ip security (ipsec), and internet security association and key management protocol (isakmp) (in ). the phy layer based security of wireless communication has been investigated since the contributions in and . recently, the application of phy layer security in wireless communication is attracting more attention; e.g., in , the relay cooperating schemes are studied in order to maximize the achievable secrecy rate or minimize the transmit power. all the relays forward a weighted version of the decoded/amplified signal to the destination, thus, a maximized secrecy rate or minimized transmit power can be achieved by optimizing the weighting factor of each relay. the authors in generalize the secure communication over the fading channels; the power allocation is derived to minimize the outage probability. some recent work (in ) has been proposed to improve the performance, e.g., achievable secrecy rate, by taking advantage of multiple antenna systems (miso, simo, and mimo).
+
+the main contributions of this paper are: 1) we apply the phy layer security in satcom scenarios, which is novel in the satellite networks, since currently the security satcom is realized through upper layer protools.
+
+2) we model an miso wiretap channel, which is different from the aforementioned papers in various aspects. exsting mimo/miso models focus on the antenna level for the terrestrial networks, while we focus on the beam level for multibeam satcom systems. it means that, for a speific ground terminal, it corresponds to a specific beam on the satellite; the received signals by this terminal from other beams are considered as the cochannel interference. 3) the nature of the studied problem is different from the previous works. existing works focused on the analysis of the achievable secrecy rate. our aim is to characterize the secure satcom system through phy layer design, i.e., power allocation and beamforming design under the individual secrecy rate constraints. the main results of this paper can be summarized as: 1) we prove that the proposed novel multibeam satcom system design can achieve the secure communication by jointly optimizing the power allocation and beamforming. 2) we show that the joint beamforming scheme is more favorble than the fixed beamforming scheme, especially in the cases of a larger number of antenna elements and higher individual secrecy rate constraints.
+
+3) by comparing the results under the gaussian inputs with the results under the current air interface in dvb s2, we come to the same conclusions. fig. 1. multibeam satcom scenario.
+
+and solved in sections iii and iv. the impact of the eavesropper's csi on the system design is presented in section v the performance of the algorithm and numerical results are presented in section vi. in section vii, we draw the concluions.
+
+we adopt the following notation: bold uppercase letters denote matrices and bold lowercase letters denote vectors; denote conjugate, transpose, conju , , , and
+
+gate transpose, and moore penrose inverse,respectively; denotes the expectation;
+
+; denotes a diagonal matrix with the elements of vector denotes an all zero matrix denotes the euclidean norm of the vector denotes the denotes the th entry of the denotes the variance of
+
+along its main diagonal; ; of size
+
+is the identity matrix of size entry of the matrix ;
+
+vector ; and denotes the base 2 logarithm.
+
+ii. system model
+
+in the multibeam satcom system, we assume a security scenario (e.g., military application, as shown in fig. 1), where only a few beams are illuminated by coherently processing (e.g., beamforming) illuminated beams serve decentralized legitimate users in the same freuency band. one eavesdropper, denoted , is located outside/ inside the satellite coverage. both legitimate users and eavesropper are assumed equipped with a single antenna. thereore, for each specific user, the system can be seen as an miso wiretap channel. it is different from the miso model in and , because we focus on the beam level and cochannel intererence is taken into account. next, we introduce the different submodels. antenna elements. the
+
+a. channel attenuation amplitude model
+
+the attenuation due to the atmosphere depends on the freuency, the elevation angle, the altitude of the station, and the water vapor concentration . as discussed in , the atmosphere attenuation (e.g., rain attenuation) is negligible at lower frequencies, e.g., less than 10 ghz, but has a strong imact on the performance at higher frequencies, e.g., ka band and above frequencies, which is the frequency band applied in current satcom systems . attenuation also depends on the distance that the electromagnetic wave propagates through space, i.e., path loss. we assume an instantaneous analysis with denotes the channel attenuation factor for legitimate . the channel attenuation factor for
+
+we assume an array feed reflector (afr) antenna system , , , which is able to exploit the spatial characteristics of the propagation channel. each beam is synthesized by adding array elements, hence, we can provide flexible power allocation by controlling the on board processor (obp). the array antenna system can achieve large performance gains, depending on the number of antenna elements and their relative position in space. however, these gains come at the cost of the increased hardware complexity. we suppose that the antenna gain matrix of size
+
+where is the square root of the gain between the th beam on board antenna element and the th legitimate user. the anenna gain between antenna elements and the eavesdropper is
+
+for the legitimate users, and let be the overall channel gain vector antenna elements and the eavesropper. in practice, can be estimated accurately, e.g., by a feedback channel. however, is difficult to be estimated or is even totally unknown. in , the authors studied the posibility to estimate perfectly eavesdropper's csi. however, it is only applicable in networks combining multicast and unicast transmissions, in which the terminals play dual roles as legitiate users for some signals and eavesdroppers for others.
+
+in this paper, we do not focus on the csi estimation, however, we study the system design of power control and beamforming with given csi knowledge. specifically, the two cases of comlete eavesdropper csi knowledge and imperfect eavesdropper csi knowledge, are discussed. the first case is a common asumption in the phy security literature . the attenution factor can be estimated for the eavesdropper according to the method proposed in . for the second case, which is more realistic in practice, we assume that only imperfect esimates of the eavesdropper's csi are available.
+
+. the ame the transmitted data symbol to user plitude of the signal transmitted to each user is normalized to one, i.e., the allocated power . we denote by to the is the power allocation vector to all the beams. all signals are mapped onto the antenna array elements by the beamforming vectors is fig. 2. block matrix model of the satellite broadcast channel.
+
+. without loss of generality, given by we assume that . under this asumption, the transmitted power for each beam (e.g., beam ) is given by . , for
+
+the block matrix model of the satellite broadcast scenario is th user can be
+
+shown in fig. 2. the signals received by the expressed as the desired signal and interference as
+
+where between (the th column of ) is the channel vector
+
+antenna elements and the user in the th ground cell. is signal independent zero mean complex circular gaussian
+
+noise with variance
+
+at beam . the signal received by the eavesdropper is given as
+
+where the term is the desired signal if the eavesropper intend to wiretap the denotes the channel gain between the eavesdropper and the th antenna element, and is the gaussian noise. we assume that the noise level at the legitimate user (e.g., user ) is equal to that of at the eavesdropper, i.e., . this is a reasonable assumption since the sensitivity of all the terminals is often similar. th user.
+
+e. signal to interference plus noise ratio
+
+. according to the formulation of the received signal in (2) and (3), we can derive the sinr of the legitimate user let , and
+
+and the sinr of the eavesdropper, which intend to wiretap the signal transmitted to user as
+
+f. secrecy rate model
+
+as we have indicated in the introduction, there have been sevral precedents that investigate the phy layer security of the mimo wiretap channel, but they only focus on the terrestrial networks. certainly, these results also cover the special case of the miso channel. for the case of one eavesdropper, an achievble secrecy rate for a specific user (e.g., for the th user) is given as [17, eq. (10)] (2)
+
+(5) where the achievable maximum was shown in and with gaussian inputs, is the achievable rate of the link between the satellite and the th user, and is the achievable rate of the link between the satellite and the eavesdropper. note that the secrecy rate in (6) is achievable unless the maximum value is negative, in which case, the achieved secrecy rate is zero . in this paper, we focus on the practical scenario in which the secrecy rate is positive.
+
+in and , the authors discuss how to maximize the diference by adaptively adjust the power allocation. conversely, we restrict ourselves to the difference between . our aim is to characterize the best power allocation scheme subect to the individual secrecy rate constraints, i.e., the difference
+
+by assuming gaussian inputs, we can achieve
+
+where sinr after introducing the eavesdropping, and it is given by is defined as the secrecy sinr, which is the updated
+
+is a function of two paameters, i.e., and . in the next sections, we will discuss how to minimize the overall power consumption (sum of the elements inside ) under different constraints. the optimizaion problem with a secrecy sinr constraint is equivalent to the secrecy rate constraint. if we consider that the secrecy rate required by the , the secrecy sinr requirement can be derived as . therefore, in section iii, we focus on the power control problem with a secrecy sinr contraint per user.
+
+iii. power control problem with fixed beamforming
+
+in this section, we assume a fixed beamforming matrix as . we focus on the secure satcom system design through power allocation with individual sinr constraints.
+
+a more general solution based on is proposed to solve the power control problem. by doing the multibeam satellite power control, the overall transmit power of each beam is optimized, so that the received secrecy rate of each user satisfies
+
+, (where is the predefined targeted sinr threshold in order to realize the required secrecy rate), while the overall transmitted power used by all beams is minimized. hence, the power control problem can be defined as . the problem in (9) is a nondeterministic polynoial (np) hard problem [34, ch. 5, p. 109]. therefore, an itration algorithm is proposed. many iteration algorithms (e.g., in ) have been proposed in order to decrease the comlexity. however, the algorithm in this paper is different, since the eavesdropper is present.
+
+, which is a power update equation. is the power vector for all the th iteration step. then, for each beam (e.g., beam ), the interference function can be derived. the power allocated to each beam can be iteratively updated until converge with the individual secrecy sinr constraints. the algorithm steps at the th iteration are as follows: we first construct the complete iteration expression as
+
+the th power update iteration for beam is
+
+where mate user (13)
+
+are the updated sinr of the legitih iteration step, , and and the eavesdropper at the
+
+the computation of , , , and
+
+computational complexity of the algorithm. since dominates the is an
+
+matrices; thus, the expressions in (12) and (13) require a computational complexity of . we assume a security scenario (e.g., military application), where only a few beams are implemented, hence, the number of anenna element is quite low (e.g., maximum 20 as we asumed), and the proposed algorithm computational complexity is reasonable. in addition, since the satellite channel is relatively stable, the computations needed are less frequent. moreover, as we have noted in the antenna model section, although the array antenna system can achieve large performance gains with a large number of antenna elements , these gains come at the cost of the increased hardware complexity and computational comlexity. vector, and are
+
+in and , the authors have proved that if the interfernce function is standard, the algorithm will achieve the optimal solution if there exists at least one feasible solution. the intererence function the following three properties are satisfied , : , for the proposed interference function (11), we can obtain:
+
+standard function under the following three conditions: .
+
+the proof theorem 1 is presented in appendix a. in a practical scenario, the overall channel gain of the link "satellite—desired user" is much larger than that of the link "satellite—cochannel users," i.e., , the overall channel gain of the link "satellite—desired user" is larger than that of the link "satellite—eavesdropper," i.e., are roughly . the magnitudes of equal. therefore, with the lower secrecy sinr request , the above three conditions are indeed satisfied. in the case of very high sinr requirement, we can introduce optimization of the satellite antenna beamformer in order to decrease or eliminate the cochannel interference and the eavesdropper interference, and thereby the above conditions can still be satisfied.
+
+iv. joint power control and beamforming
+
+the optimal beamforming vector may vary for different power allocation policies, since the cochannel interference and wiretapped signal depend on the level of transmitter powers. hence, in this section, we first obtain a suboptimal beamforming weight vector by completely eliminating the cochannel interference and nulling the eavesdroppers' signal simultaneously. then, the power solution can be optimized when the secrecy rate is equal to the target value.
+
+in the joint power control and beamforming problem, the obective is to find the optimal weight matrix and power allocaion vector such that the secrecy sinr threshold is achieved by all the users, while minimize the transmission power. the problem can be formulated as this problem can be solved in two steps: first, we obtain the beamforming weight matrix by joint zfbf and eavesropper signal nulling, in which all the cochannel signal and eavesdropper signal are completely eliminated. second, the opimized power allocation solution can be obtained by solving , under the beamforming weights for
+
+obtained in the first step.
+
+a. joint zero forcing beamforming and eavesdropper nulling
+
+in order to completely eliminate the cochannel interference
+
+and null the signals at the eavesdropper, we assume that
+
+, we cannot completely eliminate the interference from the cochannel users and nulling the signals at the eavesdropper; appropriate system design for the case of is an interesting future research direction. by zfbf (in and ), the weights are selected such as the cochannel interference is canceled (zero interference condiion), i.e., for the desired user . simlarly, the eavesdropping interference can also be completely nulled by beamforming (e.g., in ), i.e., for the desired user . note that in the case of
+
+hence, the secrecy sinr can be reformulated from (8) as
+
+, for , we have to maximize the gain between the satellite antenna and the th user, i.e., . it means that we have to solve th optimization problem can be formulated as therefore, in order to minimize the transmitted power , under the secrecy sinr constraints
+
+maximize problems jointly. the
+
+note that the overall optimization problem is composed (for optimization problems as expressed in (16) ). in an equivalent way, we reformulate independent maximizah beamforming of
+
+the jointly maximize problems as tion problem, e.g., the problem to solve the weight vector can be formulated as
+
+the solution of the beamforming problem in (17) is given by (15)
+
+(18) as discussed in section iii, the minimum power is achieved . therefore, we can obtain
+
+is the solution of the beamforming weight vector for
+
+the channels between the satellite and the desired users can be estimated accurately, since they are legitimate channels. however, the channels between the satellite and the eavesropper can only be estimated, and the estimation contains errors. in this section, we will investigate the system design with unknown or imperfect csi of the eavesdropper.
+
+are random is known a priori. in order to variables, and minimize the power consumption subject to given target secrecy sinr, we can use a suboptimal way to cancel the cochannel interference, i.e., zfbf. we can formulate the th beamforming weight vector optimization problem as
+
+this problem is similar to the problem formulated in (16),
+
+after obtain the beamforming vector for each beam, the power allocation solution can also be obtained by the iteration algorithm in (11), i.e.,
+
+are redefined in theorem 2. theorem 2: the interference function in (24) is a standard , see appendix b for the proof of theorem 2. (26)
+
+b. imperfect eavesdropper csi
+
+the perfect channel gain between the satellite
+
+antenna elements and eavesdropper is modeled as
+
+, where estimation, and mation error. we assume that the entries of ables, which is independent of is known a priori. thus, is the imperfect eavesdropper channel corresponds to the channel estire random vari
+
+by joint zfbf and nulling the eavesdropper's signal, we obain the beamforming vector, e.g., for the th beam, as expressed in function (19). however, , which is defined as is replaced with
+
+we can solve the power control problem with the iteration
+
+algorithm in function (24), then
+
+as expressed in theorem 2, the interference function in (24)
+
+is standard with and given in (25) and (29).
+
+vi. simulation results analysis
+
+in order to evaluate the performance of the proposed system designs, we perform monte carlo simulations consisting of 1000 independent trials to obtain the average results. we define the satcom system payload parameters the same as in and assume that the noise power 10 dbm. for simplicity, the secrecy sinr request for all the beams is assumed to be equal, i.e., . the channel for each link is modeled as a product of an attenuation factor and a random phase. for example, the channel between the legitimate user and the antenna element , and the is defined as channel between the antenna elements and the eavesdropper is is a random phase uniformly distributed is
+
+within , where , and it is independent of and .
+
+we first investigate the convergence of the iteration algoithm. in fig. 3, the curves show the total power consumption at each iteration step for different target secrecy sinr. the reults show that the algorithm converges. notice from the figure that the black curve with higher target sinr db conerges slower than that of the red curve with lower target sinr fig. 3. total transmitted power versus the iteration number ( and
+
+fig. 4. total transmitted power versus the number of antenna elements ( and
+
+db , since more power is needed to achieve higher
+
+in fig. 4, the curves show that the transmitted power in the fixed beamforming scheme is almost independent of the number of antenna elements, and the transmitted power for the joint beamforming scheme decreases as the number of antenna eleents increases. from the optimization point of view, the satelite transmitted power can be saved by increasing the number of antenna elements. however, from the satellite payload deigners' point of view, the complexity and the weight of will inrease as the number of antenna elements increases. therefore, the optimal number of antenna elements should be balanced by taking into account all these views.
+
+in fig. 5, we evaluate the transmitted power according to different number of illuminated beams. we fix the number of antenna elements at and increase the number of beams from 2 to 12. as expected, the power consumption increases as the number of beams and secrecy request increase for both schemes. especially, the transmitted power increases very quickly in the case of a large number of beams. in fig. 6, we simulate the power allocation according to the channel attenution amplitude of the eavesdropper; the horizontal axis in the figure indicates the channel attenuation amplitude degradation in decibels, e.g., 0 db means the clear sky scenario. we notice fig. 5. total transmitted power versus the number of beams (
+
+fig. 6. total power consumption versus the channel attenuation amplitude to the eavesdropper ( , , and for ).
+
+that the joint beamforming scheme is almost independent of the eavesdropper's channel condition, which means that the satellite can adapt the channel degradation by optimizing the beamformer design. for the fixed beamforming scheme, the transmitted power will decrease as the eavesdropper's channel condition deteriorates.
+
+the performance of the transmit power as a function of the secrecy sinr request is shown in fig. 7. for simplicity, we asume that the channel attenuation amplitudes for all the users are the same, and the channel attenuation amplitude of the eavesropper is assumed as , clear sky. all other paramters are the same as previous figures. for both fixed beamorming and joint beamforming schemes, the curves in fig. 7 show that, as the channel condition deteriorates, more power will be consumed in order to compensate the signal attenuaion. we can also conclude from this figure that the joint beamorming scheme is more favorable than the fixed beamforming scheme in the case of a higher secrecy sinr request, since the power allocation is more sensitive to the higher secrecy sinr request (e.g., when db). and
+
+fig. 7. total transmitted power versus the target secrecy sinr (
+
+fig. 8. transmitted power for a specific beam (beam 1) versus the channel condition (
+
+power allocated to beam 1 will increase as the channel conition of user 1 deteriorates, especially in the case of a bad channel condition. in fig. 9, we compare the power allocation with and without the available of the eavesdropper's csi. under the given total power limitation (e.g., 100 w), the achieved serecy sinr per user with known eavesdropper's csi performs about 2 db better than the case of no csi available. in addition, this gap increases as the available total power increases.
+
+in fig. 10, we compare the results with gaussian inputs and with the current air interface in dvb s2. the value of the paameters is assumed to be the same as in fig. 7. for the case of the joint beamforming scheme, the sum of power consumpion increases as the spectral efficiency requirement increases for both gaussian inputs and dvb s2 cases. the power conumption of the dvb s2 case is always larger than the gaussian inputs case, and the gap between them tends to decrease as the spectral efficiency increases.
+
+the first row of table i indicates the maximum capacity of the system design for a fixed power allocation and a fixed beamorming system design, which is the baseline reference system design. we can notice that the capacity of the system design only with the flexibility in power allocation is around two times better than the reference one, and the capacity of the joint power conrol and beamforming system design is five times better than the fig. 9. power allocation with or without the available the eavesdropper csi ( , and ).
+
+fig. 10. total transmitted power comparison for the dvb s2 air interface and gaussian inputs ( , , and ).
+
+maximum number of users ( table i
+
+reference one. in addition, the table also shows that the capacity of the joint power control and beamforming system design is not sensitive to the eavesdropper's channel condition.
+
+by phy layer techniques, we realize secure communication of multibeam satcom systems while minimizing the overall transmitted power. we first assume that the beamforming weights are fixed, and propose a novel secure satcom system design that minimizes the satellite transmit power with individual secrecy rate constraints. a joint power control ) and beamforming problem is investigated to realize secure communication. the beamforming weight vector is solved by completely eliminating the cochannel interference and nulling the eavesdroppers' signal simultaneously. furthermore, the impact of channel condition of the eavesdropper on the secure system design is studied. after the numerical simulation, we conclude that the proposed multibeam satcom system design can realize the secure communication by joint power control and beamforming. in order to achieve the target individual secrecy rate per user, more power will be consumed in the cases of worse legitimate users' csi and better eavesdropper's csi. the results also show that the joint power and beamforming scheme is more favorable than the fixed beamforming scheme in the cases of larger number of antenna elements and higher secrecy sinr request. under a given overall power limitation (e.g., 100 w), the maximum secrecy sinr achieved per user with known eavesdropper's csi performs 2 db better than the case without csi available. by comparing the results with gaussian inputs and with the current air interface in dvb s2, we come to the same conclusions.
+
+" is dened for indicating that two expressions are equivalent; e.g., " monotonically decreasing," where a preference operator or equivalent relation " (34)
+
+thus, in order to prove , it is equivalent to prove
+
+under conditions 2 and 3, we find that
+
+, respecively. therefore, the inequality in (36) is satisfied and the monotonicity is shown. and
+
+c. proof of scalability
+
+the scalability condition can be rewritten as (if )
+
+since , the condition in (37) is equivalent to
+
+inequality (38) is equivalent to
+
+where is given by (39)
+
+where the condition in (39) under condition 1, and " ."
+
+in (40) is proved that proved. . therefore, the scalability is also
+
+appendix b proof of theorem 2
+
+as we proved in appendix a, by replacing and with
+
+if otherwise, l. liang, s. iyengar, h. cruickshank, and z. sun, "security for flute over satellite networks," in proc. int. conf. commun. mobile comuting, kunming, china, jan. 2009, pp. 485 491.
+
+m. s. b. mahmoud, n. larrieu, and a. pirovano, "an aeronautical data link security overview," in proc. ieee/aiaa digital avionics systems conf., orlando, fl, oct. 2009, pp. 4.a.4 1 4.a.4 14.
+
+a. d. wyner, "the wire tap channel," bell syst. tech. j., vol. 54, no.
+
+j. lei and m. a. vázquez castro, "joint power and carrier allocation for the multibeam satellite downlink with individual sinr constraints," in proc. ieee int. conf. commun., cape town, south africa, may 2010, pp. 1 5.
+
+j. lei and m. a. vázquez castro, "frequency and time space duality study for multibeam satellite communications," in proc. ieee int. conf. commun., cape town, south africa, may 2010, pp. 1 5. f. chiti, r. fantacci, and f. marangoni, "advanced dynamic resource allocation schemes for satellite systems," in proc. ieee int. conf. commun., seoul, korea, may 2005, pp. 1 4. e. ekrem and s. ulukus, "gaussian mimo multi receiver wiretap channel," in proc. ieee global commun. conf., honolulu, hi, nov./dec. 2009, pp. 1 6.
+
+s. shafiee, n. liu, and s. ulukus, "secrecy capacity of the 2 2 1 gaussian mimo wire tap channel," in proc. 3rd int. symp. commun., control and signal process., st. julians, malta, mar. 2008, pp. 207 212.
+
+z. li, w. trappe, and r. yates, "secret communication via multi anenna transmission," in proc. 41st conf. information sciences systems, baltimore, md, mar. 2007, pp. 905 910.
+
+f. oggier and b. hassibi, "the secrecy capacity of the mimo wiretap channel," in proc. ieee int. symp. inf. theory, toronto, on, canada, jul. 2008, pp. 524 528.
+
+characteristics of precipitation for propagation modelling itu r,
+
+specific attenuation model for rain for use in prediction methods
+
+rain height model for prediction methods itu r, tech. rep. p.839 3,
+
+g. maral and m. bousquet, satellite communications systems: sys
+
+tems, techniques and technology, 5th ed. new york: wiley, 2009.

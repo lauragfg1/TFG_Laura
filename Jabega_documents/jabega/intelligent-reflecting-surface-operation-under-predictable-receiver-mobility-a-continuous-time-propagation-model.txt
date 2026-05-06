@@ -1,0 +1,121 @@
+intelligent reflecting surface operation under predictable receiver mobility: a continuous time propagation model
+
+bho matthiesen, member, ieee, emil björnson, senior member, ieee, elisabeth de carvalho, senior member, ieee, and petar popovski, fellow, ieee
+
+abstract—the operation of an intelligent reflecting surface (irs) under predictable receiver mobility is investigated. we develop a continuous time system model for multipath channels and discuss the optimal irs configuration with respect to received power, doppler spread, and delay spread. it is shown that the received power can be maximized without adding doppler spread to the system. in a numerical case study, we show that an irs having the size of just two large billboards can improve the link budget of ground to low earth orbit (leo) satellite links by up to 6 db. it also adds a second, almost equivalently strong, communication path that improves the link reliability.
+
+index terms—intelligent reflecting surface, reconfigurable intelligent surface, metasurface, satellite communication, low earth orbit (leo), internet of things (iot), multi objective optimization
+
+intelligent reflecting surfaces (irss) are an emerging techology that enables tunable anomalous scattering of incident electromagnetic waves . this permits active control of the propagation environment and introduces an additional optimization dimension to wireless communication networks. a main use case is range extension and recent work focuses mostly on maximizing the received power over the irs path . instead, this paper considers multipath propagation with predictive receiver mobility and evaluates the implications of adding an irs to a line of sight (los) communication scenario. this calls for the development of a continuous time model that has, to the best of the authors' knowledge, not appeared in previous works. we uncover fundamental phenomena that are not visible in the standard discrete time models.
+
+our motivation to consider this setup is uplink transmission of an internet of things (iot) device to a satellite in low earth orbit (leo). since the satellite's orbit is known a priori, its position is completely predictable at all times. we show
+
+b. matthiesen is with the department of communications engineering, university of bremen, 28359 bremen, germany (e mail: matthiesen@uniremen.de). e. björnson is with the department of electrical engieering (isy), linköping university, 58183 linköping, sweden (e mail: emil.bjornson@liu.se). e. de carvalho and p. popovski are with the department of electronic systems, aalborg university, 9100 aalborg, denmark (e mail: {edc, petarp}@es.aau.dk). p. popovski is also holder of the u bremen excelence chair in the department of communications engineering, university of bremen, 28359 bremen, germany.
+
+this work is supported in part by the german research foundation (dfg) under germany's excellence strategy (exc 2077 at university of bremen, university allowance), in part by elliit and in part by the danish council for independent research dff 701700271. that this information can be used at an irs to optimize the received signal at the satellite in terms of signal to noise ratio (snr), doppler spread, or delay spread. in particular, the snr can be maximized while simultaneously compensating doppler spreading entirely and keeping excess delay spread due to irs operation within one carrier signal period. numerical results show an snr gain of 3 db to 6 db for an irs the size of two large billboards that can be achieved without introducing doppler spread into the system. it is shown that this gain cannot be achieved by using a simple reflector of the same size and, hence, is due to the proposed optimal choice of phase shifts at the irs. to the best of the authors knowledge, this is the first work to optimize irs operation with predictive mobility compensation. other application scenarios of our results include communication with vehicles on predictable paths, e.g., a car on a highway, a train, or an airplane. in the following, we first consider a generic mobility model and then, in section iv, apply our results to the outlined satellite communication scenario.
+
+notation: vectors are typeset in bold face. euclidean points are defined as p = (x, y, z)t . the functions , (cid:100)·(cid:101) and give the real value, the ceiling, and the floor of their argument, respectively. further, mod(x, y) is the remainder of the division of x by y, norms are l2, j is the imaginary unit, e is euler's number, z and n are the sets of integers and nonnegative numbers, respectively. (cid:60){·}
+
+ii. system model we consider an irs in the xy plane of a cartesian coordinate system with its geometric center at the origin. it consists of m columns and n rows of reflecting elements placed on a rectangular grid spaced dx and dy apart. the dimensions dx and dy of each irs element are usually within the range of 10 and λc λc 5 , where λc is the carrier wavelength. the center of element (m, n), m
+
+[0, 2π], respectively, and are located at pt and pr(t). ϕt, ϕr ∈ the irs and transmitter have fixed positions, while the receiver moves with time t. we do not consider polarization losses and coupling between the irs elements. we also assume that all transmissions take place in the far field. the analysis can potentially be extended to other cases and we refer to , for more information on coupling and near field analysis.
+
+we consider los transmission between the transmitter and receiver, both over the direct path and over the irs.1 the x(t)ej2πfct transmitter emits a passband signal xp(t) = √2 } with carrier frequency fc. it is created from the complexaseband signal x(t) = xi(t) + jxq(t). the components xi(t) and xq(t) are baseband bandlimited to b/2. in the absence of other propagation paths, the signal observed at an infinitesimal point at position p and time t is (cid:18)
+
+where the angles θt and ϕt are computed between pt and p as θt = θ(pt, p) and ϕt = ϕ(pt, p) with θ(p1, p2) = arccos and ϕ(p1, p2) = arctan , where the inverse tangent is defined such that it takes into account the correct quadrant for (x2 − adding the receive antenna, which has effective area gr(θ(pr(t), pt), ϕ(pr(t), pt))λ2 c/(4π), the observed signal (in the presence of only the direct los path) at the receiver is (cid:18)
+
+where gr t(t) is the antenna gain of the transmit antenna in the direction of the receiver and gt r(t) is the antenna gain of the receiver in the direction of the transmitter. these terms are computed as
+
+the signal observed at time t by the (m, n)th irs element is similar to (3) and is time delayed by φm,n(t) 0 before being scattered. this time delay is controllable in an irs and leads to a phase shift of φm,n(t) in the emitted signal. more precisely, the re emitted signal is t gt
+
+1local scattering around the transmitter is neglected for simplicity. we expect its effects to simply propagate through the irs given that the optimization in section iii is done for the los path. as this path usually has the maximum power, this is a reasonable assumption. where the antenna gains gm,n m,n are computed in the same way as (4) and where µ [0,1] determines the fraction ∈ of the incident energy that is scattered. the signal that reaches the receiver over this propagation path is and gt
+
+m,n(t) and gm,n with antenna gains gr
+
+r (t) computetd as in (4). assuming the propagation channel consists of the direct path and the scattered paths via the irs, we obtain the received passband signal as
+
+with np(t) being a white gaussian noise process with power spectral density n0. the amplitude gains and delays are
+
+for the direct path and
+
+for the path over the (m, n)th irs element. observe that the tunable delay φm,n(t) of the irs is not included in τm,n(t) 2πfc as it can be directly controlled to optimize the propagation environment. the corresponding complex baseband signal is
+
+it can be observed that the complex pseudo baseband channel response2 of the (m, n)th irs path is
+
+this matches with the usual narrow band model of irs communication, e.g., used in , , , and others, where the irs operation is represented by a multiplicative coefficient √µejγm,n . observe that causality requires γm,n to be negative as opposed to the usual assumption of γm,n ≥ 0.
+
+iii. optimizing the irs operation
+
+in the considered setup, the sole purpose of the irs is to improve the channel between the transmitter and the receiver. in the described los propagation environment, the direct channel is subject to a transmission delay and a doppler shift. introducing the irs turns this channel into a multiath environment with the usual positive effects of increased received power and transmission diversity. it also potentially
+
+2the complex baseband channel response is bandlimited and obtained by
+
+(12) introduces delay spread and doppler spread which necessitates more complex receivers and might degrade the performance. as the adjustable phase shifts of the irs can be configured in almost arbitrary ways, any of these multi path effects can be either amplified or attenuated. we will first independently optimize the phase shifts with respect to maximum received power, minimum doppler spread, and minimum delay spread. then, we discuss trade offs between these scalar solutions and discuss the joint optimization with respect to these metrics, using the multi objective optimization methodology , .
+
+assume the transmitter is sending a constant signal with power pt. then, the average received power in a time interval of length 2t centered around time instance t0 is
+
+where pr(t) is the instantaneous receive power
+
+(14) due to the monotonicity of integration [12, thm 12.4], the average received power is maximized if pr(t) is maximized at every t. it follows from the triangle inequality that this requires all the terms to have the same phase , , i.e.,
+
+(15) z, where km,n(t) are for all m, n and arbitrary km,n(t) additional full carrier signal period delays that do not affect the received power. hence, choosing
+
+maximizes the receive snr. this resembles the result in previous works , where it is obtained from discrete 0 implies time models. the causality requirement φm,n(t)
+
+the doppler spread is the maximum difference in instananeous frequency over all significant propagation paths, i.e., ds(t) = max {
+
+is the doppler spread between the direct path and the irs, and
+
+is the doppler spread across the irs. clearly, ds,0(t) is minimized if 3
+
+hence, (21) also minimizes ds,irs(t) and the doppler spread is zero. from a physical perspective, this choice of φm,n(t) compensates for the difference in relative velocities between the direct path and the irs as observed by the receiver. while this approach does not remove the doppler shift due to the movement of the receiver, it prevents the introduction of additional frequency components in the irs paths. (22)
+
+c. delay spread
+
+the delay spread is the maximum difference in propagation time over all significant transmission paths, i.e., td(t) = max { td,0, td,irs}
+
+is the delay spread between the irs and direct path, and
+
+is the delay spread of the irs.
+
+thus, the delay spread is an increasing function in φm,n(t) and choosing it as small as possible reduces the delay spread. in particular, the unique solution of minimizing td(t) is φm,n(t) = 0 for all m, n and t.
+
+d. pareto optimal phase shifts
+
+our design goal is to simultaneously maximize the received power and minimize delay and doppler spread, i.e., find a solution to the multi objective optimization problem
+
+it can be seen from (16) and (27) that jointly maximizing pr(t) and minimizing td(t) is impossible. hence, (28) has no single solution but, instead, an infinite number of noninferior solutions , . a vector (φm,n(t))m,n is considered a solution to (28) if it achieves an objective vector where no component can be improved without worsening at least one other objective. such a point is called a pareto optimal solution and the set of all such vectors is the pareto optimal solution set of (28). selecting an appropriate solution from this pareto set is, in general, no trivial task. however, in this case it is easy to make a strong argument for a particular solution.
+
+clearly, maximum received power is the most important among the objectives in (28) to ensure good reception as it maximizes the snr. moreover, as we will show in the sequel, pr(t) and ds(t) can be maximized simultaneously, and the relative increase in td(t) can be kept small when maximizing the other two objectives. these aspects suggest lexicographic ordering [13, §4.2] as the solution strategy, where the objectives in (28) are ordered by their absolute importance and maximized successively. in particular, consider the lexicographic order
+
+pr(t) where " be the solution set of maximizing pr(t), i.e., all solutions that satisfy (16). then, the lexicographic solution (29) of (28) pr(t) such that it only contains is obtained by first refining solutions that minimize ds(t) over pr(t) and then selecting a solution from this set that minimizes td(t). " stands for "is more important than", and let
+
+theorem 1: the lexicographic solution (29) of (28) is
+
+it is a pareto optimal solution of (28) and results in an instantaneous received power
+
+doppler spread ds(t) = 0, and delay spread 1 fc
+
+proof: the received power is maximized for all phase
+
+shifts that satisfy (16). the derivative of (16) is
+
+except for the last term, this is equivalent to the optimality condition for min ds(t) in (21). km,n(t) is a step function km,n(t) = (cid:80)n ti) where h(t) is the heaviside − . its derivative is d dt km,n(t) = 1, 1 step function and αi ∈ {− } (cid:80)n ti) with δ(t) being the dirac delta function. − thus, the derivative of km,n(t) vanishes except for the time instants where km,n(t) changes its integer value.3 however, since every change in km,n(t) results in a 2π phase shift, it does not lead to discontinuities in the signal and, hence, has no impact on the instantaneous frequency. therefore, d dt km,n(t) can be regarded as effectively zero and (16) minimizes the doppler shift. from (27), the delay spread for (16) is
+
+/fc. thus, km,n(t) and, hence, td(t) = maxm,n { should be chosen as small as possible to minimize the delay spread. thus, the optimal km,n(t) is, due to causality and (17), km,n(t) =
+
+3this cannot be prevented since a practical irs is only capable of implementing phase shifts in the order of a few multiples of 2π [7, §v b]. y α(t) z=dearthsurfaceleo v ro x 1500km rx
+
+fig. 2. orbital plane of the satellite and trajectory computation (not to scale).
+
+this solution is pareto optimal due to [13, thm. 4.2.1].
+
+comparing (32) to (27), it can be observed that td(t) is increased by at most 1 over its physical minimum, which is fc extremely small compared to the overall delay (spread). hence, the solution in theorem 1 jointly optimizes two out of three performance metrics and is very close to the optimal solution of the third. instead, reversing the lexicographic order in (29) leads to a slightly smaller delay spread but much larger doppler spread and no apparent gain of the irs. changing the order of pr(t) and ds(t) in (29) results in the same solution.
+
+iv. numerical evaluation
+
+we consider the uplink transmission of a fixed ground terminal, e.g., an iot device, to a satellite in leo at an altitude of 1500 km. this scenario is described as deployment d3 in . the communication takes place in the s band at a carrier frequency of fc = 2 ghz and requires a minimum elevation angle between ground terminal and satellite of 10°. the transmitter is located on the ground with a horizontal distance of 1 km to the irs center, while the irs has an elevation above ground of 100 m. hence, pt = (0, 100 m, 1 km). the receiver is moving parallel to the xy plane at a horizontal distance d to the irs and in an ideal keplerian circular orbit. the earth is assumed as a perfect sphere with radius 6371 km. thus, the orbital radius of the receiver is ro = 7871 km and (cid:113) µ with µ being kepler's constant the orbital velocity is v = ro 105 km3/s2 . the computation defined as µ = 3.986 004 of the trajectory pr(t) is illustrated in fig. 2. in particular, the angle α(t) is obtained from the orbital period 2πro as v α(t) = v t. assuming the satellite has position ro pr(0) = (0, 1499.9 km, d) at time t = 0, its trajectory is com), 0). puted as pr(t) 12.2 m, which corresponds to the size of two large us billboards. with an element size of dx = dy = λc 407 elements that are modeled as lossless diffuse reflectors (µ = 1) with the planar antenna gain pattern g(θ, ϕ) = 4π [0, π 2 ] λ2 c and zero otherwise. with phase shifts as in (30), the channel gain is given as pr(t) pt −
+
+the irs has dimensions 18.3 m
+
+assuming unobstructed view, no atmospheric effects, and isotropic transmit and receive antennas, i.e., gt(θ, ϕ) = gr(θ, ϕ) = 1, the channel gain is displayed in fig. 3. as baseline scheme, we compare to the case without irs, i.e., am,n(t) = 0 for all m, n in (31), and to scenarios where the irs is configured to approximate a specular reflector 4

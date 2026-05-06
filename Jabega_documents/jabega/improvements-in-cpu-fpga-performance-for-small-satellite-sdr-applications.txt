@@ -1,0 +1,184 @@
+improvements in cpu & fpga performance for small satellite sdr applications
+
+mamatha r. maheshwarappa, student member, ieee, mark d. j. bowyer, member, ieee and christopher p. bridges, member, ieee
+
+abstract— the ongoing evolution in constellation/formation of cubesats along with steadily increasing number of satellites deployed in lower earth orbit (leo), demands a generic reconfigurable multimode communication platforms. as the number of satellites increase, the existing protocols combined with the trend to build one control station per cubesat become a bottle neck for existing communication methods to support data volumes from these spacecraft at any given time. this paper explores the software defined radio (sdr) architecture for the purposes of supporting multiple signals from multiple satellites, deploying mobile and/or distributed ground station nodes to increase the access time of the spacecraft and enabling a future sdr for distributed satellite systems (dss). performance results of differing software transceiver blocks and the decoding success rates are analysed for varied symbol rates over different cores to inform on bottlenecks for field programmable gate array (fpga) acceleration. further, an embedded system architecture is proposed based on these results favouring the ground station which supports the transition from single satellite communication to multi satellite communications.
+
+index terms — central processing unit (cpu), field programmable gate array (fpga), satellite communication, software defined radio (sdr), system on chip (soc).
+
+mall satellites are fast becoming a way to perform scientific and technological missions more affordably due to reduced build time, more frequent launch opportunities, larger variety of missions, more rapid expansion of the technical and/or scientific knowledge base and greater involvement 2]. furthermore, there is an ongoing evolution of multiple small satellite scenarios such as flock 1 , autonomous assembly of a reconfigurable space telescope (aarest) , surrey training research and nano satellite demonstrator (strand 2) and edison demonstration of smallsat network (edsn) . the objectives of these missions are very ambitious and are driven by new complexities which require multi mode operation of wireless transceivers .
+
+this paragraph of the first footnote will contain the date on which you submitted your paper for review. it will also contain support information, including sponsor and financial support acknowledgment. for example, "this work was supported in part by the u.s. department of commerce under grant bs123456".
+
+m. r. maheshwarappa and c. p. bridges are with the surrey space centre, faculty of engineering and physical sciences (feps), university of surrey, guildford, united kingdom gu27xh (e mail: m.maheshwarappa@ surrey.ac.uk; c.p.bridges@surrey.ac.uk).
+
+m. d. j. bowyer is with airbus defence and space ltd., anchorage road, this work aims at three specific application areas. firstly, the ground station that can handle multiple satellite signals at any given time as seen in fig. 1. the increasing number of satellites in lower earth orbit (leo) occupying amateur radio spectrum together with variety of modulation techniques, data rates and protocols used across the cubesat community demands the integration of a multitude of communication standards onto a single platform. this is compounded by the problem of crowded spectrum which is driving research on more efficient use of the available spectrum e.g., by de confliction or cognitive radio (cr) techniques. for a universal programmable hardware is desirable, which intensifies the interest in software defined radio (sdr) in recent years . such an sdr must be robust in noisy and/or contested spectrum and make maximum use of a priori information to minimise initial acquisition and detection bandwidths. all such applications,
+
+fig. 1. radar view of the antenna showing different
+
+satellites in visibility
+
+secondly, the need for deployable mobile ground station network for the purposes of increased access time such as esa's global educational network for satellite operations (genso) system and satellite networked open ground station (satnogs) . a ground station based on sdr hardware is suitable for worldwide distributed systems, where updates containing the software for communicating with new waveforms could be shared among different distant stations without the need for hardware upgrades. 1
+
+finally, a candidate embedded design is presented as a possible enabler of the future sdr for distributed satellite communication systems. the growth of sdr offers small satellites the opportunity to improve the way space missions develop and operate transceivers for communication network in space as seen in and . the ability to change the operating characteristics of a radio through software once deployed to space offers the flexibility to adapt to new science opportunities and recover from anomalies within the science payload or communication system e.g., in global navigation satellite systems (gnss) receivers as in [38, 39]. also, potentially reduce development cost and risk by adapting generic space platforms to meet specific mission requirements. however, the flexibility and adaptability comes with an expense of power consumption and complexity in integrating previously separated building blocks on a single die.
+
+implementation and profiling analysis of smallsat telemetry, tracking and command state of the art radio (tt&c) waveform on frequency (rf) (analog devices ad9361) and base band soc (xilinx zynq) based architecture, with emphasis on ground system multi satellite reception.
+
+2. profiling of c/c++ based reference waveform design on dual, quad and octa core cpus with the aim of from general moving minimum purpose processor (gpp) software to (fpga) firmware, in order to meet performance goals, maximise expenses associated with implementation of many variant waveforms. flexibility
+
+3. using a low cost zynq soc solution (the zedboard), the desired multi satellite reception can accommodate up to 4 concurrent satellites by moving waveform and independent tuning, decimation functions from software to firmware, leaving waveform dependent matched filtering, demodulation and decoding functions in software.
+
+this paper is an extension of the work carried out in and where a novel sdr architecture on an embedded system is proposed as seen in section 2. the implementation and validation process of the proposed transceiver architecture is briefed transceiver implementation and validation can be found in ). the focus of this paper is to understand the cpu load caused by each transceiver block as discussed in section 4. further in section 5, an improvement in the design is achieved by reistributing the transceiver blocks within the soc. lastly, section 6 summarises the contributions and future work. in section 3 (more details on
+
+ii. transceiver architecture
+
+for over two decades, sdr technology has promised to revolutionise the communication industry by delivering low cost, flexible software solutions for communication protocols . in this decade, the introduction of bb soc and, most recently, rf programmable transceiver soc can fulfill the early promise. also, open source simulation tool such as gnuradio is widely used to implement low cost digital beacon receiver based on sdr , emergency managers weather information network (emwin) and low rate information transmission (lrit) software receiver using gnuradio . gnuradio was used in this research initially to understand the working of the existing/generated filters, channel equalisers, demodulators, decoders and other processing blocks using preecorded or generated data as addressed in . codes, synchronization elements,
+
+towards achieving the attributes discussed in the previous section, this work proposes a new sdr architecture on an embedded system as seen in fig. 2 . this architecture 2
+
+consists of a bb soc paired with rf soc. the bb soc contains fpga fabric and arm dual core cortex a9 processor. for initial development, the avnet zedboard containing the xilinx zynq 7020 fpga soc is chosen providing a low cost and well supported back end for the signal processing functionalities.
+
+on the rf programmable transceiver soc, initial evaluation took place using the lime micro myriad rf containing the lms6002d rf soc . more recent development has taken place using the analog devices ad fmcomms3 ebz containing the newer ad9361 rf soc . it is hoped that future developments will incorporate the latest and most capable lime micro soc, the lms7002m . the two boards using conventional parallel i/o for high speed sampled data (up to ~123 complex msps) and serial peripheral interface (spi) for configuration, control and monitoring. detailed description of the sdr architecture can be found in and .
+
+as a first step towards validating the architecture, a simple coder modulator/demodulator decoder reference model for a well known cubesat beacon telemetry was implemented. the funcube 1 (ao 73) cubesat provides a good starting point for our work because is documented and addressed by number of open source software (oss) demodulator decoder implementations written in c/c++.
+
+the particular scheme, from ao 40 heritage , common among several cubesats , is based on binary phase shift keying (bpsk) modulation and a robust concatenated code comprising viterbi (rate 1/2) and two reed solomon (160,128) blocks . much work here derives from phil implementation karn's well known ao 40 design and [ka9q] . the analog devices ad fmcomms3 ebz has bare metal and linux operating system (os) based device drivers accompanied by application examples. for this work, we have started with the zynq arm linux os based approach as the integration and test of application related oss may be simplified. to this end, analog devices provide a capable ad9361 linux device driver, dependent on and accessed, using linux industrial i/o (iio) framework . linux iio allows user space waveform applications to configure/query/sample stream to and from the ad9361 using familiar unix calls (open/close/read/write/ ioctl) and perhaps, and more preferred, by a user space library called libiio . the linux libiio provides a modern high performance abstraction to all iio devices including the ad9361. using iio, it has been possible to create a soft real time reference encoder called "iio fcenc".
+
+successful interoperability testing of iio fcenc took place for different symbol rates such as 1.2k, 2.4k, 4.8k, 9.6k and 19.2k. fig. 3 show the signals being received on a funcube pro+ dongle and spectrum analysis performed using sdr sharp . fig. 3. signal received on sdr sharp at different data rates 1.2k, 2.4k, 4.8k, 9.6k and 19.2k (from left to right)
+
+it was possible to run iio_fcenc on different platforms of varying architecture and core capacity, including arm cortex 15 and arm cortex a7, arm cortex a9 and intel x86. the transmission was also verified on a rohde & schwarz fsv3 vector signal generator (vsg) as seen in fig. 4 and the constellation plot of the bpsk signal can be seen in fig. 5. the error vector magnitude (evm) is ~2% which is within acceptable values for low order modulations. the carrier frequency offset is 225 hz from the centre frequency (145.935 mhz) suggesting absolute accuracy of ad fmcomms3 ebz crystal to be ~1.5 ppm.
+
+the ad fmcomms3 ebz provides the flexibility to transmit at any desired frequency within the range of 70 mhz to 6.0 ghz. also, the freedom to adjust centre frequencies and sample rates under software control helps compensating timing and doppler effects. this thermal drift, clock architecture demonstrates the sdr attributes such as postaunch re configurability, scalability and affordability to promote commercially available computer software and hardware products/standards which was not achievable by traditional transmitters.
+
+fig. 4. transmission verified on rohde & schwarz vsg 3
+
+fig. 5. constellation plot of the transmitted signal
+
+the chosen oss starting point to form a "reference implementation" is alex csete's funcube decoder (fcdec) available on github . this c/c++ code base, targeted for linux, is designed to work offline using sample files captured from the funcube pro dongle . using iio, along with fcdec it has been possible to create a soft real time reference decoder called "iio fcdec" similar to "iio fcenc". this was tested for interoperability against funcube 1 reference waveforms up sampled, stored and played back on a rohde & schwarz smbv100 vsg .
+
+the transmitted signals were looped back to the receiver port to transmit and receive the signals simultaneously. fig. 6 shows the decoded packets from the loopback test. it was also possible to run iio_fcdec on an x86 pc and odroid xu lite (octa arm cortex a15 quad core and arm cortex a7 quad core) and stream samples from zedboard (which is running iiod by default) over ethernet network to compare the performance of the blocks on different processors. different symbol rates (1.2k, 2.4k, 4.8k, 9.6k and 19.2k) were achieved by changing the interpolation ratio and decimation ratio in iio_fcenc and iio_fcdec respectively similar to what was achieved on the zedboard.
+
+a practical problem encountered stems from the lowest filtered decimated sample rate, of order 1.5 msps that can be output from ad9361 rf soc. to address this, the ad9361 is configured to produce an integer multiple of an oversampled symbol rate (e.g. 40x1.2k) that is conveniently larger than the 1.5 msps limit imposed. in this implementation, 1.536 msps was chosen that derives from 16 x 96 ksps. therefore, the received sample stream is decimated by 16. the resulting 96 to allow ksps sample stream has sufficient bandwidth sufficient bandwidth to address spacecraft doppler and oscillator uncertainties but discard lo breakthrough and iq imbalance artifacts by halving the available bandwidth to ~40 khz. the 96 ksps sample stream is processed in software for flexibility and simple access to floating point arithmetic. this receiver processing is embedded (on the zedboard's arm cortex a9) or streamed remotely to a more powerful host such as intel x86 and odroid xu lite as in table i using sample streaming provided by analog device's iiod .
+
+table i comparison of different platforms
+
+number of cores dell optiplex 745 intel x86
+
+odroid xu lite arm cortex a15 & a7 octa quad a15 & quad a7 zedboard
+
+cpu frequency 2.13 ghz
+
+identical application from source
+
+the first signal processing step is coarse carrier acquisition performed using an 8192 point fast fourier transform (fft). this results in a further 96 ksps sample stream that is approximately band centred on the largest (wanted) carrier. a software based finite impulse response (fir) filter, 27 taps long, containing a low pass impulse response, is used to further filter and decimate the signal by factor of 10 to 9.6 ksps and offset by 1.2 khz from baseband (for heritage reasons). at this stage the underlying signal is down converted to baseband and matched filtered followed by carrier phase recovery. finally, from symbol timing recovery a 1.2k symbol stream is produced and passed to the decoder. as the receiver input signal bandwidth is limited to ~40 khz by the reference design the symbol rate was limited to 19.2k (and still includes excess bandwidth for doppler uncertainty).
+
+profiling can decompose and tabulate the execution weight of each block in the compiled c/c++ program. we are using gnu gprof to identify critical regions, determine which blocks need to be optimised, vectorised and/or moved to fpga firmware (hdl). the aim here is to exploit vectorised instructions within the bb soc hardcore (ie. arm neon 4
+
+table ii relative comparison of the cpu consumption by different transmitter functions on dual core arm cortex a9 (1), dual core intel x86 (2) and octa core arm cortex a15 and a7 (3) vliw capability ) and fpga softcores (ddc/fft ) to optimise the implementation in order to accommodate more than one signal path on the bb soc. gnu gprof helps in making the above choices in an educated and incremental fashion. during profiling, the packet/frame decoding, success rates are recorded to later aid results reconciliation. in this approach, the data rate is increased to (and beyond) the point that cpu starvation sets in. using a block based waveform realised in pure software, the observed effects of cpu starvation are not catastrophic rather a graceful degradation occurs.
+
+fig. 7 shows the flow of the computationally intensive transmitter blocks the xilinx zynq processing system where main() which is streaming the samples and fcsample() which is performing up sampling reports the maximum cpu consumption.
+
+fig. 7. computationally intensive transmitter blocks
+
+during profiling, both transmitter and receiver programs are executed for different data rates and on different platforms discussed in table i such as zedboard, odroid xu lite and dell optiplex 745 to understand the function distribution for higher symbol rates. )
+
+data rate (bps)
+
+fig. 8. absolute cpu consumption transmitter
+
+the absolute cpu consumption on dissimilar platforms while the encoder is running at varied data rates. it is evident that the cpu consumption increases along with an increase in the symbol rates. the behaviour appears linear on arm cortex a9 operating at 700 mhz, quadratic on arm cortex a15/a7 operating at 1.4/1.2 ghz and cubic on intel x86 operating at 2.13 ghz. this behaviour can also be observed on relative cpu consumption plots of the encoder program across the platforms. fig. 8 gives the comparison of
+
+table ii gives the relative comparison of the cpu consumption by different transmitter functions on dual core arm cortex a9. fcsample() which is up sampling and main() responsible for streaming the samples and managing buffers are the two dominant functions, with other functions being negligible. though main() and fcsample() contribute ~50% towards the cpu consumption at 1.2k, the relative contribution of fcsample() increases whereas main() decreases linearly with symbol rate.
+
+the behavior of these functions on "the quad cores" arm cortex a15 and a7 appears quadratic. here the sample streaming is quicker compared to "the dual core" arm cortex a9 and therefore the fcsample() dominates over main(). on intel x86, the sample streaming is the fastest and therefore fcsample() is the only function contributing towards 80 100% of the relative cpu load. the rate of change of cpu consumption by fcsample() reduces on faster platforms with an increase in the symbol rate. since this is a relative measure of cpu consumption, other functions apart from main() and fcsample() are less prevalent (almost negligible) on all platforms.
+
+the aim here was to identify the most dominant block which is distinctly fcsample() performing up sampling, and this will be moved to fpga firmware (hdl) for optimisation and thereby enabling multiple signal transmission.
+
+similarly, fig. 9 shows the computationally intensive functions in the receiver chain (on intel x86). the down sampling is done in three different stages: main(), in the function called go and rxdownsample() which are the most dominant followed by processfft() where the appropriate signal the absolute cpu consumption on dissimilar platforms while the decoder is running at varied data rates. the decoder consumes more than 50% cpu at 1.2k on arm cortex a9 and reaches almost 100% (appears linear) resulting in low success rate as the symbol rate increases (fig 11). the behaviour appears quadratic on arm cortex a15 and a7 and reaches ~50% at higher data rate.
+
+this results in unsuccessful decoding at data rates 9.6k and 19.2k as shown in fig.11 along with differences in profiling behavior as shown in table iii. whereas intel x86 which exhibits cubic behaviour is well within 50% even at 19.2k and ensuring 100% success rate. fig. 9. computationally intensive receiver blocks
+
+7.62 the function main() is decimating the samples from 1.536 msps to 96 ksps becomes less dominant as the data rate increases on all three platforms whereas the function go() which does further down sampling from 96 ksps to 96 bps along with reed solomon and viterbi (embedded within fecdecode which works on hard bits but capable of working on soft symbols) is more prevalent on the arm cortex a15 and a7 when compared to arm cortex a9 and intel x86 and thus suppressing other functions as seen in table iii. although there the relative cpu consumption between two different stages of down sampling [main() and go()] at 1.2k, the difference gradually reduces and they consume almost the same cpu (~50%) at 19.2k on arm cortex a15 and a7 unlike on arm cortex a9 intel x86 where the down sampling from 1.536 msps to 96 ksps dominates the other functions. the significant observation here is that the cpu consumption of down sampling [main()] on arm cortex a9 is more than 50% at different data rates and reaches maximum of 90% at 1.2k where the signal is down sampled to a greater value (16).
+
+fig. 11. success rate comparison on different architectures
+
+in addition, the compilers were found to be different across the platforms as seen in table iv. there is a difference in the instruction sets used across various architectures to perform similar functions and was observed using 'objdump'. on intel x86 architecture 'move' instructions dominate over 'add' functions, whereas on 'add' instructions are called more frequently. this may suggest that memory operations are the key, reducing the number of read/write to the memory and decimating the samples would make the design more efficient.
+
+v. implementation of ddc block in fpga
+
+based on the profiling results obtained earlier it is evident that the up sampling and down sampling are computationally intensive blocks in the transceiver. the architecture was revised in order to efficiently utilise the fpga firmware and take advantage of its flexibility and speed. the fpga firmware was re configured to include the sample ddc block. the reference design includes the core from analog devices which fetches the samples from rf soc interface core and provides them to zynq ps for further processing. the sample ddc block was in between rf core (axi_ad9361) and sample packer block which packs i and q 7
+
+table iv comparison of instruction set across different platforms
+
+implementation on fpga fabric use the zynq 7020 but in case of more number of signals with higher data rates, a larger fpga may be selected .
+
+this paper presents the design and implementation of an adaptive sdr architecture on different platforms with varied symbol rates such as 1.2k, 2.4k, 4.8k, 9.6k and 19.2k. c/c++ was preferred over vhdl for initial implementations due to the reduced implementation time of simple blocks such as decoding/encoding/demodulation and modulation. profiling using gprof tabulates the relative and absolute performances along with success rates due to cpu saturation. also, the functions exhibit diverse behaviour such as linear/quadratic and cubic on dissimilar platforms. the obtained performance results demonstrate the need to move blocks demanding higher computation capacity such as up/down sampling blocks.
+
+the sample ddc block was moved to fpga and the postrofiling results show the improvement in the performance thereby facilitating more than one signal at any given time. the significant improvement being at lower data rates such as 36.76% at 1.2k and 31.14% at 2.4k. this comes with a cost of 13.14% more on chip power and 5 15 % increase in onhip resources. therefore, it has been concluded that for this reference design, moving the front end ddc function alone, from software to firmware, is sufficient to allow multiple satellite reception at typical cubesat telemetry rates.
+
+future work includes the implementation of the proposed design with n stage pipeline architecture on fpga soc as shown in fig. 13 based on different stages of transmission synchronisation. the objective of the pipeline architecture is to receive the signal from more than one satellite operating at techniques, data rates and centre different modulation frequencies. rf soc would acquire the desired signal present in the spectrum with predefined software configuration of the frontend such as gain, filters, bandwidth and centre frequency. the next stage in the architecture includes parallel wrappers of ddcs consisting of digital quadrature tuner (dqt) and cascaded integrator comb (cic) blocks. each valid signal in the spectrum is mapped to separate channel based on the available on chip resources. each signal is stored under different offset address in the dma which is configured according to the pre calculated memory requirements. the last stage in the architecture is proposed to be asynchronous as the signal stored in the dma can be accessed independently using different decoder threads running on dual core processors.
+
+using a single programmable baseband soc to execute several baseband processing programs at the same time can benefit in increased hardware reuse, shared software kernel functions and use of shared information, such as link state and channel parameters. however, in order to avoid data loss, dropped packets or frames, the combined fpga logic and processor must have the resources to support the worst case load in all supported standards simultaneously.
+
+in conclusion, this paper demonstrates the concept of combining state of the art low cost sdr hardware and open source software tools towards achieving a new generic satellite communications. for communication platform potential applications of the proposed embedded system for multi satellite the ground station architecture are 9
+
+communications, deployable mobile ground station network and can be further extended to distributed satellite system.
+
+the authors would like to thank dr. brian yeomans, research fellow, surrey space centre for his valuable time, discussions and contributions towards the paper.
+
+h. bedon, c. negron, j. llantoy, c. m. nieto, and c. o. asma,	
+ "preliminary internetworking simulation of the qb50 cubesat constellation," in communications (latincom), 2010 ieee latin american conference on, 2010, pp. 1 6.
+
+c. p. bridges, b. taylor, n. horri, c. i. underwood, s. kenyon, j. barrera ars, l. pryce, and r. bird, "strand 2: visual inspection, proximity operations & nanosatellite docking," in proc. aerospace conference, 2013 ieee, 2013, pp. 1 8.
+
+(2015) satnogs: satellite networked open ground station, athens,
+
+(2015) avnet zedboard: a development board for xilinx zynq 7020,
+
+phoenix, az, usa. [online]. available: http://zedboard.org/
+
+(2015) lime microsystems: field programmable rf ics lms6002d, [online]. available:
+
+guildford, http://www.limemicro.com/products/field programmable rf icsms6002d/
+
+development kit, norwood, ma, usa. http://www.analog.com/en/evaluation/eval ad fmcomms3 ebz/eb.html 10
+
+http://www.limemicro.com/products/field programmable rf icsms7002m/
+
+(2015) funcube: uk amateur radio educational satellite, blandford, dorset, uk [online]. available: http://funcube.org.uk/overview/contacts/
+
+s. w. shaker, s. h. elramly, and k. a. shehata, "fpga implementation of a configurable viterbi decoder for software radio receiver," in proc. autotestcon, 2009 ieee, 2009, pp. 140 144. (2003) oscar 40 fec telemetry. j.miller [online]. available:
+
+http://www.amsat.org/amsat/articles/g3ruh/125.html
+
+(2015) analog devices: ad fmcomms3 ebz user guide,norwood, usa. [online]. available: http://wiki.analog.com/resources/eval/useruides/ad fmcomms3 ebz
+
+(2015) analog devices: github library for interfacing with iio devices. [online]. available: https://github.com/analogdevicesinc/libiio (2015) funcube dongle: funcube dongle pro+, blandford, u.k. [online]. available: http://www.funcubedongle.com/?page_id=1073 (2015) rohde & schwarz: smbv100a vector signal generator, http://www.rohde
+
+a.csete (2015) fcdec github: funcube telemetry decoder for linux.
+
+[online]. available: https://github.com/csete/fcdec
+
+(2015) hardkernel: odroid xu lite,
+
+(2015) analog devices: github library for iio devices. [online]. available: https://github.com/analogdevicesinc/libiio/tree/master/iiod profiling (2015) gnu gprof: tool.
+
+https://sourceware.org/binutils/docs/gprof/
+
+l. codrescu (2013) qualcomm hexagon dsp: an architecture for mobile multimedia and communications [online].
+
+(2015) zynq 7000 all programmable soc overview. [online].
+
+available: http://www.xilinx.com/support/documentation/data_sheets/ds190 zynq000 overview.pdf
+
+m. r. maheshwarappa and c. p. bridges, "software defined radios for small satellites," adaptive hardware and systems (ahs), 2014 nasa/esa conference on, leicester, 2014, pp. 172 179.
+
+m. r. maheshwarappa, m. bowyer and c. p. bridges, "software defined radio support multi satellite communications," aerospace conference, 2015 ieee, big sky, mt, 2015, pp. 1 10 (sdr) architecture to
+
+gnuradio. free and open source toolkit for software radio.
+
+available: http://gnuradio.org
+
+l. l. presti, p. di torino, e. falletti, m. nicola, and m. t. gamba, "software defined radio technology for gnss receivers," in metrology for aerospace (metroaerospace), 2014 ieee, 2014, pp. 314 319. f. pinto, f. afghah, r. radhakrishnan, and w. edmonson, "software defined radio inter satellite implementation of ds cdma communications for small satellites," in wireless for space and extreme environments (wisee), 2015 ieee international conference on, 2015, pp. 1 6. in
+
+e. l. valles, k. tarasov, j. roberson, e. grayver, and k. king, "an emwin and lrit software receiver using gnu radio," in 2009 ieee aerospace conference, 2009, pp. 1 11.

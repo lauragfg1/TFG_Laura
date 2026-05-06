@@ -1,0 +1,333 @@
+location based timing advance estimation for 5g integrated leo satellite communications
+
+wenjin wang, member, ieee, tingting chen, rui ding, gonzalo seco granados, senior member, ieee,
+
+li you, member, ieee, and xiqi gao, fellow, ieee
+
+abstract—integrated satellite terrestrial communications netorks aim to exploit both the satellite and the ground mobile communications, thus providing genuine ubiquitous coverage. for 5g integrated low earth orbit (leo) satellite communication systems, the timing advance (ta) is required to be estimated in the initial random access procedure in order to facilitate the uplink frame alignment among different users. however, due to the inherent characteristics of leo satellite communication systems, e.g., wide beam coverage and long propagation delays, the existing 5g terrestrial uplink ta scheme is not applicable in the satellite networks. in this paper, we investigate location based ta estimation for 5g integrated leo satellite communication systems. we obtain the time difference of arrival (tdoa) and frequency difference of arrival (fdoa) measurements in the downlink timing and frequency synchronization phase, which are made from the satellite at different time instants. we propose to take these measurements for either ue geolocation or ephemeris estimation, thus calculating the ta value. the estimation is then formulated as a quadratic optimization problem whose globally optimal solution can be obtained by a quadratic penalty algorithm. to reduce the computational complexity, we further propose an alternative approximation method based on iteratively performing a linearization procedure on the quadratic equality constraints. numerical results show that the proposed methods can approach the constrained cram´er rao lower bound (crlb) of the ta estimation and thus assure uplink frame alignment for different users.
+
+index terms—random access, timing advance, leo satellite, time difference of arrival (tdoa), frequency difference of arrival (fdoa), localization.
+
+manuscript received june 12, 2020; revised february 23, 2021; accepted may 5, 2021. date of publication xxxx, 2021; date of current version xxxx, 2021. this work was supported in part by the national key r&d program of china under grant 2019yfb1803102, in part by the national natural science foundation of china under grants 61801114, 61631018, and 61761136016, in part by the jiangsu province basic research project under grant bk20192002, and in part by the fundamental research funds for the central universities. g. seco granados is partially funded by the icrea academia programme and the spanish ministry of science and innovation under project tec2017 89925 r. part of this work was presented at the ieee globecom 2020 . the associate editor coordinating the review of this article and approving it for publication was prof. igor bisio. (corresponding authors: li you and wenjin wang.)
+
+wenjin wang, tingting chen, li you, and xiqi gao are with the naional mobile communications research laboratory, southeast university, nanjing 210096, china, and also with the purple mountain laboratories, ttchen@seu.edu.cn; nanjing 211100, china (e mail: wangwj@seu.edu.cn; liyou@seu.edu.cn; xqgao@seu.edu.cn).
+
+institute of telecommunication satellite, china academy of space technology, beijing 100094, china (e mail: greatdn@qq.com).
+
+gonzalo seco granados is with the telecommunications and systems enineering department, universitat aut`onoma de barcelona, barcelona 08193, spain (e mail: gonzalo.seco@uab.cat). d uring the recent years, with the standardization of
+
+the 5g new radio (nr) communication systems and the ongoing resurgence of satellite communications (satcom), the integration of satellite and terrestrial 5g networks is considered as a promising approach for future mobile comunications . thanks to the wide area service coverage capabilities, satellite networks are expected to foster the roll out 5g services in un served areas that are not covered by terrestrial 5g networks . several key impacts in 5g nr protocols/architecture have been identified to provide support for non terrestrial networks , one of which is the adaptability of the existing 5g uplinking timing advance (ta) method in low earth orbit (leo) satcom.
+
+to ensure the uplink intra cell orthogonality, 5g nr reuires that the signals transmitted from different users within the same subframe arrive approximately in a time aligned manner when reaching the base station (bs), i.e., the bs can receive the uplink frames within the range of one cyclic prefix (cp) . to this end, 5g nr employs an uplink ta scheme during the random access procedure to avoid timing misalignment interference, particularly in the terrestrial networks. however, in a typical leo satcom system, the differential time delay will be significantly larger than that of the terrestrial networks.1 moreover, the propagation delay in a satellite to ground link varies due to the fast movement of the leo satellite. such a significant difference between the leo satcom system and terrestrial wireless one raises a question: is it possible to achieve accurate ta estimation in the leo satellite networks employing a random access procedure compatible with 5g nr? this paper aims to answer this question.
+
+the ta estimation for random access in non terrestrial netorks (ntn) has been investigated during the past few years. recent 3rd generation partnership project (3gpp) studies have identified that location information of user equipment (ue) is beneficial for uplink ta estimation . some proposals also consider several physical random access channel (prach) formats for long distance transmissions, such as the use of long sequences (length =839) for both fr1 (450 mhz 6 ghz) and fr2 (24.25 ghz 52.6 ghz) operating bands, more repetiion or multiple sequence transmissions . for satcom systems with large doppler shifts and oscillator uncertainties, symmetric zadoff chu (zc) sequences have been adopted to estimate ta . in , a two step time delay difference
+
+1for example, with an orbital altitude of 1000 km and the minimum elevation angle of 20◦, the differential time delay will be approximately 3.74 ms. 1
+
+estimation was presented for satcom systems, which first divides a beam cell into some layered small sub areas and then two types of prach preamble burst formats are transmitted. ta estimation based on the correlation between a zc sequence and its conjugate replica has been used in . in , a reliable ta estimation approach with robustness to frequency offset was proposed in satellite mobile communication scenaros. compared with sending ta commands from the satellite to the ue, signaling overhead can be significantly reduced if the ta value can be estimated directly at the ue side. however, to the best of our knowledge, most previous works on ta estimation for satcom systems were carried out at the satellite side during the uplink while little focus has been placed on the investigation of ta estimation at the ue side with the utilization of 5g downlink synchronization signals.
+
+in this paper, we propose a novel ue location informationssisted approach for uplink ta estimation in 5g integrated leo satcom. two specific but important scenarios are taken into account. one is that the satellite broadcasts ephemeris periodically, and the ue is not able to obtain its position using a global navigation satellite system (gnss). the visibility of 5g leo satellites and gnss satellites, which are mostly deployed in the medium earth orbits (meos), is not similar . moreover, sometimes, it is expected to design a system that can work independently of the other systems. hence, the consideration of this scenario is reasonable. this could happen in urban scenarios where having enough gnss satellites to compute the position is troublesome, but 5g leo satellites are visible. the other is that the satellite does not broadcast ephemeris, and the ue can perform gnss positioning. we utilize the timing and frequency offset estimates acquired from downlink synchronization signals to perform ta estimation in these two scenarios separately. the timing and frequency offset estimation can be then transformed into time differnce of arrival (tdoa) and frequency difference of arrival (fdoa) measurements equivalently. as the combined tdoa and fdoa measurements have been extensively used in the source localization , we propose to adopt them to estimate the ue location or satellite ephemeris information, and then the value of uplink ta can be calculated at the ue side. the major contributions of our work are summarized as follows:
+
+we propose a method for ta estimation in 5g integrated leo satcom through a 5g nr compatible random access procedure. depending on whether the ue has the capability of gnss positioning or not, we divide the scenarios for ta estimation problem into two categories and carry out the studies separately. we further extend the problem into the multi satellite networks based on the system model of ta estimation in the single satellite case.
+
+we estimate the timing and frequency offset in the downlink synchronization phase to acquire the tdoa and fdoa measurements. with these measurements, we convert the problem of ta estimation into either ue geolocation or ephemeris estimation. as the altitude of ue is often known, we exploit this altitude information to improve the positioning accuracy of ue.
+
+we formulate the equality constrained optimization probem via using the system model of 5g integrated leo satcom for either geographical location or ephemeris estimation. then we propose a quadratic penalty alorithm to find the globally optimal solution of the estimation problem. in order to reduce the computational complexity, we further propose an iterative constrained weighted least squares (cwls) method for this equalityonstrained problem. some of the notations adopted in this paper are listed as
+
+upper and lower case boldface letters denote matrices and column vectors, respectively.
+
+rm ×n denotes the m × n dimensional real valued vector space.
+
+in and 0m ×n denote the n × n dimensional identity matrix and m × n dimensional zero matrix, respectively. the subscripts are sometimes omitted for brevity.
+
+the superscript (·)t , (·)−1, and (·)† denote the transpose, inverse, and pseudo inverse operations, respectively.
+
+(cid:107)·(cid:107) denotes the euclidean norm. • det(·) denotes the determinant operation. ˙(·) denotes the derivative of (·) with respect to time. • • diag(·) denotes the diagonal matrix with the elements of (·) on the main diagonal.
+
+∇(·) denotes the gradient computation. • [a]i,:,
+
+the j [a]:,j, and [a]i,j denote the i th row, th column and the (i, j) th element of the matrix a, respectively.
+
+all estimated parameters are described as ˆ(·). the rest of the paper is organized as follows. section ii introduces the ta problem in 5g integrated leo satcom. section iii and section iv present the location and ephemeris estimation algorithms with downlink synchronization signals, respectively. section v presents the ta estimation in multiatellite systems. section vi illustrates the numerical results and section vii concludes the paper. ii. system model
+
+a. timing advance in 5g integrated leo satcom
+
+in the development of 5g integrated satcom, most existing works focused on the air interface design of the satellite modle to maximize utilization of the technology commonalities with the terrestrial systems, so as to reduce the implementation costs and simplify the interactive procedures. for example, as the 5g nr basic waveform, cp orthogonal frequency division multiplexing access (cp ofdma) requires that the signals transmitted from different ues are time aligned when reaching the bs to keep the uplink intra cell orthogonality, i.e., any timing misalignment across the received signals should fall within the range of one cp. to this end, 5g nr adopts a scheme for ta during the random access procedure, where the bs first estimates the uplink ta for the ue through the prach preamble and then sends the adjustment information to the ue by the random access response (rar) message . the ue further adjusts its uplink transmission time based on the received ta values combined with the acquired downlink timing synchronization information.
+
+however, such a scheme is designed specifically for the terrestrial networks and may not be applicable to the satelliteo ground transmission. for example, the cell coverage is limited by the cp length of prach preambles. the current 5g nr prach preambles with lra = 839 formats allow the cell coverage varying from 15 km to 102 km. the beam footprints of leo satellites can be designed to be similar in size to the terrestrial cell coverage. however, in most practical leo satelites, due to the consideration of coverage requirements and implementation complexity, the diameter of beam footprints is designed on the order of several hundreds of kilometers, which is significantly larger than that in terrestrial systems , . in addition, large variation of the round trip delay in satelliteo ground communications within a cell/beam would limit the availability of cyclic shift (cs) multiplexing as well, resulting in smaller cell reuse factor of preamble sequences . on the other hand, the maximum value of the ta command in the rar message defined in 5g nr may be smaller than the round trip delay of a leo satellite to ground link .
+
+in addition, due to the high speed motion of the leo satellite, the satellite to ground links usually exhibit a varying propagation delay. as this change rate of the propagation delay between the ue and satellite is very large, the ta command sent by the satellite is outdated by the time the ue receives it . hence, to account for this expected ta inaccuracy, an additional adjustment procedure is needed to update the original ta command, as shown in fig. 1.
+
+in view of these challenges, 3gpp has agreed that several options can be considered to support ta adjustment in random access procedure for ntn. firstly, when ue positioning capabilities, e.g., gnss positioning, are enabled at the ue side, they can be used to enhance the ta estimation at the ue side and minimize the amount of signaling required, especially in leo satcom systems . moreover, as indicated by fig. 1, the total ta can be divided into beam/cell specific common ta l1 and user specific differential ta l2, where the former is used to compensate for the round trip delay at a reference point within the cell/beam, e.g., the nearest point to the satellite, and the latter is used to represent the difference between the common ta and the actual ta for a specific user. note that the common ta can be obtained by ues via broadcast information from the satellite and then only the differential ta is responded in the rar message.
+
+b. location based timing advance estimation
+
+in this part, we investigate how a ue can get a rough user specific ta in 5g integrated leo satcom using only downlink signals. in 5g nr, the downlink synchronization signal block (ssb) is introduced, consisting of the primary and secondary synchronization signals . the ue can acquire timing and frequency synchronization within a cell and the physical layer cell id through the detection of ssb. in the following, we first introduce the 5g downlink synchronization signals received at the ue side.
+
+consider k ofdm symbols in one frame. denote the numer of subcarriers and length of cp as n and ng, respectively. 13 133l(common ta)(differential ta)(an additional ta updated value) l ue coveragesatellite orbit1l2l13ll (reference point) far sidenear side
+
+fig. 1. illustration of cell/beam coverage of ntn.
+
+where θ denotes the integer valued symbol timing offset (normalized by the sampling interval) and ε denotes the normalized carrier frequency offset (cfo) with respect to the subcarrier spacing, including the contribution of the differnce in the transmitter and receiver oscillators εe and the doppler frequency shift εd introduced during the downlink transmission of signals. εe is assumed to be constant during the observation time of the signal . in addition, h(l), l = 0, 1, ..., l − 1 denotes the impulse response of a multipath channel with l uncorrelated taps, and z(n) is the additive white gaussian noise with zero mean and variance σ2 z .
+
+by using the maximum log likelihood criterion, discrete prolate spheroidal sequences (dpss), and the cp structure of ofdm, the timing and frequency offset estimation algorithms in can achieve near optimal performance, i.e., accurate estimation of parameters θ and ε based on the observation rk(n) at the receiver is available. denote the total number of downlink ssbs as m . consider a short period, namely the timing window,2 in which the satellite is visible to the target ground ue. within this timing window, we can then obtain sequences of timing and frequency offset estimates corresponding to different ssbs written as (cid:101)θi and (cid:101)εi, where i = 1, 2, ..., m denotes the serial number of ssbs. consider the initial synchronization timing offset (cid:101)θ1 and cfo (cid:101)ε1 as the reference, then the estimated tdoa (cid:101)ti,1 and fdoa (cid:101)fi,1, i = 2, 3, ..., m between ssb i and ssb 1 are given by
+
+2note that the timing window refers to the product of (m − 1) and the
+
+time interval between two adjacent ssbs. 3
+
+(2b) ∆ti,1 and fdoa noise ∆fi,1 caused by estimation error of the timing offset and cfo can be written as
+
+where ti,1 and fi,1 denote the noise free values of tdoa and fdoa, respectively.
+
+hence, based on the timing and cfo estimation algorithm with 5g downlink synchronization signals, we can obtain noisy measurements of tdoa and fdoa. then, we perform the problem of ta estimation in the following two important scenarios:
+
+1) scenario 1: the satellite broadcasts ephemeris periodcally and the gnss service is not available for ues. as the ephemeris information is available at the ue side, the ta estimation for random access for the 5g integrated leo satcom is therefore transformed into the location estimation of the ue with the utilization of downlink synchronization signals. with the ue location estimates and ephemeris information, the propagation delay between ue and the satellite can be estimated at the ue side. the ue can then adjust the timing of its uplink transmissions based on the delay estimates. regarding the broadcasting ephemeris data, there are two different possible representations as described in . one possibility is to use orbital parameters, including the orbital plane and satellite level parameters. the other is to provide the location and velocity of the satellite combined with a reference point in time. since several satellites typically share a common orbital plane in a satellite network, orbital plane parameters remain the same and can be pre provisioned to ue as baseline ephemeris data. then only satellite level parameters are required to be broadcasted to ue via system information. hence, in this paper, we consider the first option to represent the ephemeris data to reduce the broadcasting overhead. in addition, to make sure that the ue always uses the latest ephemeris data for initial access, once the ue has obtained new ephemeris data, the parameters stored in the ue are obsolete and overwritten by the newer values. 2) scenario 2: the satellite does not broadcast ephemeris but the ue has the capability of gnss positioning. in this scenario, ue location is available through the gnss positioning. however, the ephemeris information is unknown. thus, the ta estimation is converted into the ephemeris estimation with the downlink synchronization signals, and then the propagation delay between ue and the satellite can be calculated. note that
+
+in this paper, we perform the ta estimation method in the regenerative architecture, which only considers the user link between the satellite and ue. in practice, the gateway and satellite locations are assumed to be known by each other. then the propagation delay and frequency shift of the feeder link can be pre compensated at the satellite or the gateway side. hence, our work can also be applied to the transparent architecture. in addition, both the 2 step and 4 step random access procedures are taken into consideration in this 0• step 0: broadcast satellite ephemeris (optional) and beam/cell specific common ta.• step a(step 1): with timing and frequency offset estimates, calculate the propagation delay and make ta adjustment.(a) 4 step random accesssatellite scheduled transmission system information block ue ue contention resolution 1 pusch payload a random access preamble 3 2 b 0(b) 2 step random accesssatellite 4 random access response
+
+fig. 2. the random access procedure with location based ta estimation.
+
+paper. fig. 2 shows the 2 step and 4 step random access proedures with location based ta estimation for 5g integrated leo satcom. the type of random access is selected based on the network configuration by the ue at initiation of the random access procedure. as the ta estimation is transformed into the geolocation of ue and the ephemeris estimation with downlink synchronization signals, next sections further give the location estimation algorithms for scenario 1 and ephemeris estimation algorithms for scenario 2.
+
+a. problem formulation
+
+fig. 3 shows a single leo satellite with a ue located on the surface of the earth in the earth centered earth fixed (ecef) coordinate system, which is aligned with the equaorial plane and the greenwich meridian . the position and velocity vector of the ue in ecef are denoted by p = [x, y, z]t and ˙p = [ ˙x, ˙y, ˙z]t , respectively. the satellite locations si = [xi, yi, zi]t and velocities ˙si = [ ˙xi, ˙yi, ˙zi]t when at the transmit instant of the i th ssb, i = 1, 2, ..., m satellite orbit (x,y,z) y x z o s1=(x1,y1,z1) sk= (xi,yi,zi) sm= (xm,ym,zm) v p
+
+fig. 3. geometric relation of a single leo satellite and the ue in ecef coordinate.
+
+are assumed to be known thanks to the broadcast satellite ephemeris as supposed in scenario 1.
+
+let di represent the distance between the satellite and the
+
+ue corresponding to the i th downlink ssb given by
+
+then the range difference of arrival between the i th and the first ssb related to the tdoas is given by
+
+where c is the speed of light. taking derivative of (5) with respect to time, we can obtain the range rate differences , which are denoted as ˙di,1 given by
+
+where ˙ti,1 and ˙di denote the rate of change of ti,1 and di, respectively. from the derivative of (4) with respect to time, ˙di can be further described as
+
+˙ti,1 in (6) can be derived from the fdoas written as fi,1 = fc ˙ti,1,
+
+from (5), it can be observed that tdoas are equivalent to the range differences. in the following, tdoas and the range differences will be used interchangeably. in addition, fdoas and range rate differences will be also used interchangeably as they are equivalent by (6) and (8).
+
+the influence of noises caused by estimation errors of timing and frequency offsets, we define (cid:101)di,1 and (cid:101)˙di,1 as the measured value of range and range rate differences, respectively. they can be derived from noisy measurements of tdoa and fdoa sequences as
+
+[c∆ ˙t2,1, c∆ ˙t3,1, ..., c∆ ˙tm,1]t ∈ r(m −1)×1 be the vectors of tdoa and fdoa noises, respectively. we assume that they are both zero mean and have covariance matrix as follows
+
+developing the squared term in d2 i and d2 i = (di,1 +d1)2, and using 1, we can then obtain a set of tdoa
+
+(4) to span d2 equations
+
+further, to make use of fdoas, we take derivative of (11) with respect to time and obtain
+
+(18) consider that the elements of u1 are statistically indepenent, then the maximum likelihood estimation of u1 can be written as
+
+where f (h1|u1) is the conditional probability density function of h1 given u1 and given by
+
+thus, the maximum likelihood estimation of u1 can be decribed as
+
+weighting matrix ψ is unknown in practice as b and ˙b contain the accurate satellite ue distance and its rate of change, respectively. we propose to solve this problem through a further approximation, which considers two typical cases. in the first case of short time random access procedure, di(i = 1, ..., m ) is close to each other. supposing they all approach d0, then b ≈ 2d0i is satisfied. correspondingly, ˙b ≈ 0 is also satisfied. since scaling ψ does not affect the solution to problem (21), we substitute i for b to simplify the weighting matrix. in the other case of initial access for the search of the ue location, since the observation window of the satellite might be much larger, we take the initial value of b and ˙b as i and 0, respectively, and then iteratively update the weighting matrix by (16) with the latest estimation results . in the following, we focus on the estimation problem with a fixed weighting matrix.
+
+in the solution of problem (21), the correlations among the elements of u1 are not considered. however, they are related to each other in practice , . in the following, we aim to exploit this relationship to provide an improved estimate. firstly, consider a non spherical earth model and that the ue is located on the surface of the earth, then the ue location p satisfies the following equation
+
+where ra and rb denote the semi major and semi minor axes of the earth, respectively. in addition, the elements of u1 are also related by (4) and (7) at i = 1. with these constraints, the above tdoa/fdoa based location estimation problem in (21) can be reformulated as where
+
+b. globally optimal solution
+
+the optimization problem in (23) is a quadraric programing with quadratic equality constraints. quadratic penalty method is commonly used in practice to solve the equalityonstrained problems because of its simplicity . the idea of the quadratic penalty method is to transform the original constrained problem into an equivalent unconstrained one, so that the algorithms, e.g., newton's method and conjugate graient method can be used to solve the equivalent unconstrained problem , . in this part, we first adopt the quadratic penalty method to solve this problem and then discuss its optimality.
+
+the penalty function can be defined as follows
+
+note that (26) is the penalty function of the constraint problem (23). obviously,
+
+where d is the feasible set of (23).
+
+note that f (u2; µ) is called the augmented objective funcion of (23) where µ(> 0) is the penalty parameter of the quadratic penalty method. then, (23) can be transformed into the following unconstrained optimization problem
+
+proposition 1: for a given ψ and µk, suppose that u2,k is the minimum point of (28). then the sufficient and necessary condition under which u2,k is the minimum point of (23) is u2,k ∈ d.
+
+proof: please refer to appendix a.
+
+proposition 1 shows that if the global minimizer of f (u2; µ) belongs to the feasible set d, then it is indeed the solution of (23). (24a)
+
+(28) proposition 2: for a given weighting matrix ψ, suppose that u2,k is the global minimizer of f (u2; µk) defined by (25) and that µk → ∞. then every limit point u∗ 2 of the sequence {u2,k} is a globally optimal solution to problem (23).
+
+to make the solution of (28) approach the optimal solution to the original problem, the penalty parameter µ is required to be sufficiently large. therefore, we choose an increasing sequence of penalty parameters {µk} to repeatedly solve a sequence of problems in (28). on this basis, we adopt newton's method to solve the unconstrained optimization problem (28). the iterative equation of each step is given by
+
+where u2,j and u2,j+1 denote the j th and (j + 1) th iteraion estimated values, respectively. gj is a nonsingular and symmetric matrix, and the positive scalar βj is the step length for the j th iteration. to ensure the line search direction to be a descending direction, the following condition need to be satisfied: pt j ∇fj < 0. in newton's method, gj is the exact hessian ∇2fj. however, the hessian matrix may not be positive definite, which causes the search direction not always to be descending. in such cases, we can adopt a modified hessian method by adding a positive diagonal matrix to the original hessian .
+
+in the above proposed algorithm, we first adopt the quadratic penalty method to transform problem (23) into an uncontrained one, and then utilize newton's method with modication to solve the unconstrained problem in (28). we show that the proposed algorithm is guaranteed to obtain a globally optimal solution. however, since the penalty parameter µ is required to be updated repeatedly and the unconstrained problem in (28) for a given µ also needs multiple iterations in newton's method, this approach tends to have a high comutational complexity. it is possible to trade off some degree of optimality for a reduced cost. hence, in the following, we propose an iterative cwls method as an alternative algorithm. the method starts from an initial estimate of u2. then, we write one of the variables u2 in ci(u2), i = 1, 2, 3 as a combination of the estimated value ˆu2 and the estimated error ∆u2. with the estimated value of u2, we convert the problem in (23) into an approximate quadratic programming with linear equality constraints, which is verified to have a closed form solution in . next, we update the linear equality constraints with the latest estimation of u2 and solve the approximate quadratic programming iteratively. in the following, we present more detailed descriptions of this method.
+
+an initial estimate of u2 can be calculated by (21) as ˆu2 = (gt ψ−1g)−1gt ψ−1h2. then, equality constraints based on (23) can be formulated as the approximate quadratic programming with linear
+
+the above problem (31) has been proved to possess a closedorm solution , which can be expressed as
+
+note that the quadratic penalty and cwls methods both need to update the weighting matrix. simulations show that updating the weighting matrix once is sufficient to provide an accurate result in practice. the penalty method requires inner iteration to solve the unconstrained problem (28) with newton's method and outer iteration for the updating of the penalty parameter µ. compared with the penalty method, the cwls method derives a closed form solution to the approximate problem (31) and only requires to update the u2 iteratively by (32). hence, the computational complexity can be significantly reduced.
+
+d. cram´er rao lower bound
+
+the crlb is the mimimum variance that an unbiased parameter estimator can attain . the constrained crlb of an unbiased estimator has been given in . let d = ˙d = [ ˙d2,1, ˙d3,1, ..., ˙dm,1]t , and u = [d2,1, d3,1, ..., dm,1]t , [pt , ˙pt ]t . combined with the system model of this paper, the constrained crlb for u can be completely calculated as
+
+(36) y +i1s orbital ellipseauxiliary circleapogeeperigee satelliteearth centeris x i i
+
+∂ ˙d ∂ ˙pt = the crlb derived from (34) will be used for the following simulations to compare with the mean square error (mse) of our proposed method.
+
+iv. ephemeris estimation algorithms with downlink synchronization signals
+
+for scenario 2, we aim to perform the ephemeris estimation with the aid of downlink synchronization signals in this secion. to facilitate the formulation of the following estimation problem, we first introduce two coordinates extensively used in the satellite to ground links.
+
+a. coordinates used in the satellite to ground links
+
+fig. 4 illustrates the orbital plane coordinate (opc), where the orbital plane forms the x y reference plane, x axis points towards the perigee, and z axis completes a right hand rule . the satellite location in opc when launching the i th ssb can be then written as
+
+where ri denotes the distance between the satellite and the center of the earth, and αi is the angle between x axis and position vector of the satellite as shown in fig. 4. in the following, we focus on the circular orbits and denote the orbital radius by r.
+
+another common coordinate system for describing the satelite orbits is the earth centered interval (eci) coordinate with its origin at the center of the earth, x axis aligned with the vernal equinox, and z axis directed to the north pole. the transformation between any two of the coordinates opc, eci, and ecef can be achieved by rotations of the coordinate axes. define the elementary matrices
+
+to describe rotations around the x and z axes by an angle of φ, respectively. then, the satellite location in eci when launching the i th ssb can be obtained by
+
+where ω, ϑ, and ϕ denote the right ascension of ascending node, inclination, and argument of perigee of the orbit, repectively. θgi denotes the greenwich sidereal time (gst) when the satellite launches the i th ssb.
+
+with the relationships in (41) and (42), we next investigate how to relate the tdoas and fdoas to the unknown positions and velocities of the satellite.
+
+as the gnss service is available for ues, the ue location and velocity are assumed known. for the notation simplicity in the following, we transform the satellite and ue coordinate from ecef to eci. the ue location in eci can be described as (pi)eci given by
+
+accordingly, the velocity of ue in eci can be given by ˙p denoted as ( ˙pi)eci. in the case of the definite satellite orbit, the locations of satellite corresponding to different ssbs satisfy the following equation
+
+where ai is a transformation matrix related to the time interval of adjacent ssbs and orbital parameters, e.g, ω, ϑ, and ϕ. the derivation of ai is given in appendix c.
+
+for a satellite in a circular orbit, the velocities of the satellite
+
+in opc at the transmit of the i th ssb can be given by
+
+where v = is the geocentric gravitational constant. by employing the same procedure of derivation (39)
+
+(45) in appendix c, the satellite velocities in eci can be also described by the transformation matrix ai given by
+
+in addition, from (38) and (45), the satellite velocities can be denoted by the satellite positions and the orbital parameters, i.e.,
+
+the elements in z1 are related to each other. d1 and ˙d1 in z1 are related to (s1)eci through the nonlinear relationships (4) and (7) at i = 1. in addition, as the satellite moves in a definite circular orbit, (38) is satisfied and its equivalent expression in ecef can be written as
+
+like the location estimation problem in (23), with the above constraints, the ephemeris estimation problem can be written as
+
+c. the ephemeris estimation algorithm
+
+the ephemeris estimation problem in (59) is a quadratic programming with equality constraints. as the problems in (59) and (23) are essentially the same kind of optimization problem, we employ the cwls method to solve the problem in (59). the procedure of the ephemeris estimation algorithm with the downlink synchronization signals is given as follows. ˙b0 = 0, ψ0 by (16), and 1 (ψ0)−1b2.
+
+4) estimate the location of the satellite in the k th iteration:
+
+the derivation of the constrained crlb for the satellite location s1 follows the same procedure as that in the section iii.
+
+v. timing advance estimation for multi satellite systems
+
+the solutions in the above sections apply to ta estimation in single satellite networks. however, with the rapid growth on the quantity and type of satellites, the ground ues may receive downlink synchronization signals from multiple satellites at the same time . here, we extend the problem of ta estimation to the multi satellite case in scenario 1.
+
+consider that the ue receives downlink synchronization signals at si,g = [xi,g, yi,g, zi,g]t , and move with velocities ˙si,g = [ ˙xi,g, ˙yi,g, ˙zi,g]t when launching the i th ssb, i = 1, 2, ..., m , g = 1, 2, ..., g. taking the signal transmitted from satellite 1 corresponding to the first downlink ssb as the reference signal, tdoa (cid:101)tm,1 and fdoa measurements (cid:101)fm,1, m = 2, 3, .., gm can be represented by (2a) and (2b), respectively. then, we adopt the location estimation algorithms in section iii to estimate the propagation delay thus ta estimation can be between ue and satellites, calculated at the ue side. uesat#1sat#2sat#3sat#4earth surface
+
+fig. 5. geometry of the ue in relationship to the satellites with good gdop.
+
+the multi satellite systems have several characteristics, e.g., more extensive coverage area, more complex connection reationships, and dynamic geometry change. fig. 5 and fig. 6 illustrate two different arrangements of satellites, respectively. in fig. 6, satellites are placed almost in a curvature, which limits the length of the visibility window of satellite links and thus results in poor geometric dilution of precision (gdop), while the satellites in fig. 5 are distributed at well spaced positions with a better geometry , . we will compare and analyze the performances of our proposed methods for ta estimation under typical situations in the following simuations.
+
+vi. numerical results
+
+the numerical results are provided to evaluate the perforance of our proposed cwls method for estimating the ta in 5g integrated leo satcom. in this section, the tdoa and fdoa measurements are generated by applying the timend frequency synchronization algorithm in . due to the requirements of downlink synchronization defined for ntn ue in , the signal to noise ratio (snr) of synchronization in downlink is set to be 6 db in this simulation. a multipath fading channel with system bandwidth 20 mhz and sampling frequency 30.72 mhz is adopted. in addition, the cp duration is assumed to be 0.67 ms, which corresponds to the standardzed value for a subcarrier spacing of 15 khz, and delay spread is set to be 250 ns, which is stated to cover 90 % of the cases .
+
+the positioning accuracy is evaluated in terms of root mse (rmse). for scenario 1 and scenario 2, they are defined as
+
+respectively, where ˆpl denotes the estimate of ue position of the l th run, ˆsl 1 denotes the estimate of satellite position of the l th run at the transmit instant of the first ssb, and l = 2000 is the number of independent runs.
+
+ta estimation error is defined as the differential value between the actual satellite ue distance and its estimate. hence, the ta estimation error for the single satellite scenario can be given by
+
+∆d =| ˆd1 − d1|, where ˆd1 denotes the estimate of the distance between the satellite and ue corresponding to the first downlink ssb. for the multi satellite scenario, we consider taking satellite 1 as the reference, then the estimate of distance is calculated between satellite 1 and ue.
+
+in this simulation part, we analyze the performance of our proposed methods in single satellite systems. the major simulation setup parameters for single satellite systems are three representative ue listed in table i. we first select locations in the satellite beam coverage area, which are subatellite point and two positions (pos1 and pos2) at the region edge with lower elevation angles. pos1 is in the direction of the sub satellite trajectory and pos2 is in the vertical direction of this trajectory. the detailed locations of these ground terminals table ii location of the ground terminals
+
+ground terminal location elevation angle
+
+fig. 7. the distribution of three representative ue locations.
+
+are given in table ii. fig. 7 illustrates the distribution of these ues.
+
+we first study the shortest possible timing window with the guaranteed performance of ta estimation. keeping the time interval between two adjacent ssbs = 20 ms, fig. 8 and fig. 9 show the cumulative probability distribution of ta estimation error of different ues in scenario 1 and scenario 2, respectively. we can observe that for a given ssb interval of 20 ms, the timing window of 12 s can guarantee that the ta estimation offsets of all uplink frames are no more than 14 km in scenario 1, and the length of timing window can be reduced to 2 s in scenario 2. considering the cp type and the delay spread value, the timing window can ensure that the ta estimation offsets of all uplink frames fall with the range of one cp. as the satellite location to be estimated in scenario 2 is constrained by a definite orbit while the possible estimates of ue location in scenario 1 follow the spherical equation of the earth, the performance of the ta estimation algorithm is better in scenario 2.
+
+table iii compares the runtimes of quadratic penalty and
+
+table iii average runtime (in sec.) for sub satellite point in scenario 1 (timing window: 10 s; ssb interval: 20 ms)
+
+method average time
+
+quadratic penalty method iterative cwls method 53.10 6.24 11
+
+fig. 8. the cumulative probability distribution of ta estimation error in scenario 1 (timing window: 12 s).
+
+iterative cwls methods. in this simulation, we set timingindow = 10 s and ssb interval = 20 ms. the simulation was conducted by matlab on a desktop computer with inter i7700 processor and memory capacity 16 gb. we can observe that the average computation time of the quadratic penalty method is significantly larger than that of the iterative cwls method.
+
+fig. 10 and fig. 11 compare the mse of our proposed cwls method and the quadratic penalty algorithm with the constrained crlb in scenario 1 and scenario 2, respectively. we observe that the proposed cwls method approaches the crlb effectively, and that the performance of the proosed cwls method has little degradation compared with the quadratic penalty algorithm.
+
+the approximation ˙b ≈ 0, and their iteratively updated values are b ≈ 2d0i, applied to calculate the weighting matrix ψ. to verify the accuracy of the approximations, we compare the performances of our proposed method with the weighting matrix taking the exact, approximate without the update, and iteratively updated values. fig. 12 and fig. 13 show the comparisons of the 020406080100120140160180200positioning accuracy [db]
+
+fig. 10. comparison of positioning accuracy with crlb in scenario 1 (terminal: pos2; ssb interval: 20 ms).
+
+fig. 11. comparison of positioning accuracy with crlb in scenario 2 (terminal: sub satellite point; ssb interval: 20 ms).
+
+cumulative probability distribution of ta estimation error in scenario 1 and scenario 2, respectively. we can observe that in both scenarios, our proposed methods of ta estimation with weighting matrix taking the exact and iteratively updated the same performance. as the timing values have almost window in scenario 1 is larger than that in scenario 2, the iteratively updated expression provides slightly better ta estimation results than the approximated values in scenario 1, but no significant improvement is observed in scenario 2. hence, for the short time random access procedure, the approximated expressions without the update are sufficient, and the iteratively updated expressions are preferred for longer initial access time.
+
+b. multi satellite systems
+
+the performance of our proposed cwls methods for multiatellite systems in scenario 1 is discussed in this section. iteratively updated expression exact expression approximate expression
+
+fig. 12. the cumulative probability distribution of ta estimation error in scenario 1 with the weighting matrix taking the exact, approximate without the update, and iteratively updated values (timing window: 12 s; ssb interval: 20 ms).
+
+the number of satellites is set to be four and two scenarios with different geometries of satellites are presented. in the first scenario with good gdop, sat1 and sat3 are in the same orbit, while sat2 and sat4 are in the same orbit. the right ascensions of ascending node of these two orbits are 0◦ and 20◦, respectively. the satellites in the second scenario with bad gdop are all in the same orbit and its right ascension of ascending node is 0◦. the other orbital parameters are the same as those in table i. fig. 14 shows the cumulative probability distribution of ta estimation under these two different arrangements of satellites. we can observe that the timing window of 1s can guarantee that the ta estimation offsets of all uplink frames to fall within the range of one cp, and the performance of our proposed method for ta estimation under geometry with good gdop is better. geometry with good gdop 00.010.020.030.040.050.060.07cumulative probability
+
+fig. 14. the cumulative probability distribution of ta estimation error for multi satellite systems in scenario 1 (timing window: 1 s).
+
+fig. 15. the cumulative probability of ta estimation error in scenario 1 with different number of leo satellites (terminal: pos 2; ssb interval: 20 ms; timing window: 1 s).
+
+fig. 15 compares the cumulative probability of ta estimaion error with different number of leos. in our simulation, the numbers of leo satellites vary from 2, 4, 6, to 8. except for right ascension of ascending node, the other orbital parameters are set to be the same as those in table i. we can observe that the timing window of 1 s can guarantee that the ta estimation offsets to fall within the range of one cp, and that the performances of our proposed method for ta estimation with 4, 6, and 8 satellites are significantly better than that with 2 satellites.
+
+in this paper, we proposed a new approach aided by the ue geolocation to perform uplink ta for random access in 5g integrated leo satcom with the tdoa and fdoa measurements acquired in the downlink timing and frequency synchronization phase, thus solving the inadaptability of the ta scheme initially designed for 5g nr system in 5g 13
+
+integrated leo satcom. we established the system model of ta estimation in two typical scenarios separately and conerted the problem into ue geolocation or satellite ephemeris estimation. we introduced an equality constrained quadratic optimization problem to obtain the ue geographical position or satellite ephemeris and then adopted a quadratic penalty algorithm to find the globally optimal solution of the problem. to reduce the computational complexity, we further proposed an iterative cwls method alternatively. numerical results showed that the proposed method can effectively reach the constrained crlb of ta estimation and thus achieve uplink frame alignment across ues.
+
+since the minimum point of the problem (23) must be in the feasible set d, the necessity is established. proof of sufficiency is given as follows.
+
+since u2,k is the minimum point of f , it leads to the following inequality
+
+supposing ¯u2 is a global solution of (23), we obtain
+
+2 is a limit point of the sequence {u2,k}, i.e., by taking the limit as k → ∞ on both sides of (74), we obtain
+
+≤ lim k→∞ thus we have that ci(u∗ 2) = 0, i.e., u∗ 2 is a feasible point. by taking the limit as k → ∞ and considering the nonnegativity of µk, we obtain
+
+since u∗ that of the global minimizer ¯u2, we can conclude that u∗ also a globally optimal solution. this concludes the proof. 2 is feasible and its objective value is no larger than 2 is
+
+appendix c derivation of ai in (44) from (38), the tranformation between (si)opc and (s1)opc
+
+can be described as
+
+where t denotes the time interval between adjacent ssbs, and n(cid:48) denotes the mean motion satisfying
+
+define eeci mation matrix in (41), it further has
+
+(si)eci = eeci = eeci
+
+thus, the transformation matrix ai in (44) is given by
+
+the authors would like to thank the associate editor and the reviewers for their constructive comments and suggestions.
+
+t. chen, w. wang, r. ding, g. seco granados, l. you, and x. q. gao, "location based timing advance estimation for 5g integrated leo satellite communications," in proc. ieee globecom, taipei, taiwan, 2020, pp. 1 6.
+
+o. kodheli, a. guidotti, and a. vanelli coralli, "integration of satelites in 5g through leo constellations," in proc. ieee globecom, singapore, 2017, pp. 1 6.
+
+a. guidotti, a. vanelli coralli, m. caus, j. bas, g. colavolpe, t. foggi, s. cioni, a. modenini, and d. tarchi, "satellite enabled lte systems in leo constellations," in proc. ieee icc, paris, france, 2017, pp. 876 881. (76)
+
+h. saarnisaari, a. o. laiyemo, and c. h. m. de lima, "random access process analysis of 5g new radio based satellite links," in proc. 2019 ieee 2nd 5gwf, dresden, germany, 2019, pp. 654 658. c. li, h. ba, h. duan, y. gao, and j. wu, "a two step time delay difference estimation method for initial random access in satellite lte system," in proc. 16th int. conf. adv. commun. technol., pyeongchang, south korea, 2014, pp. 10 13.
+
+y. zhang, l. zhen, g. lu, and k. yu, "timing advance estimation with robustness to frequency offset in satellite mobile communications," in proc. ieee iccc, chongqing, china, 2020, pp. 917 922.
+
+o. montenbruck and e. gill, satellite orbits models, methods, and
+
+applications. new york, ny, usa: springer verlag, 2000. 15

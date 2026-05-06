@@ -1,0 +1,249 @@
+dual band, orthogonally polarized lp to cp converter for satcom applications
+
+michele del mastro, mauro ettorre, senior member, ieee, and anthony grbic, fellow, ieee
+
+abstract—a systematic design of dual band, orthogonallyolarized linear to circular polarization (lp to cp) converters is proposed. this class of polarization converters can transform linearly polarized waves into rightnd left hand circularlyolarized (rhcp and lhcp) waves in two separate non adjacent frequency bands. the reported polarizer is made of three casaded bianisotropic sheet admittances, spaced by two isotropic dilectric slabs. the electromagnetic problem is studied by means of impedance boundary conditions. a transmission matrix analysis of periodically loaded transmission lines is employed in design. an analytic model is developed and closed form expressions are derived for the frequency response of each sheet admittance. this method avoids the use of multi parameter optimization procedures. an example of a dual band, orthogonally polarized lp to cp converter is proposed for satellite communication applications in the k/ka band. the polarizer separately performs lp to lhcp and lp to rhcp conversions over the transmitting and receiving channels of the k/ka band. the design is validated with a prototype. under normal incidence, the polarizer exhibits axial ratios (ars) lower than 3 db over the 18 22.2 ghz (∼21%) and 28.7 30.4 ghz (∼6%) bands. the total transmission is above 1 db within the same two bands. the performance is stable for scanning angles up to ±45◦. for a 45◦ angle of incidence, the ar is lower than 3 db in the bands 17 22 ghz (∼25.6%) and 28.6 30 ghz (∼4.7%) with a total transmission higher than 1.2 db.
+
+index terms—circular polarization, dual band polarizer, peiodic structures, lp to cp conversion, satcom, metasurfaces.
+
+t he demand for high speed satellite communications
+
+(satcom) calls for ever increasing robust ground termial antennas. circular polarization (cp) is used in satellite links and is a key asset to mitigating multipath fading and polarization mismatch between transmit and receive antennas . in addition, k/ka band satcom terminals operate in two separate bands: 17.7 21.2 ghz (down link) and 27.5 31 ghz (up link). orthogonal polarizations are preferred in these two bands to improve the isolation between transmitted and received signal.
+
+the design of antennas with orthogonal cps for the two bands is thus of increasing interest and represents a future challenge for the scientific community.
+
+manuscript received xx/xx/2018; revised xx/xx/2018. "this work was supported by the direction g´en´erale de l'armement and by brittany region, france.
+
+m. del mastro and m. ettorre are with univ. rennes, cnrs, ietr (institut d' ´electronique et de t´el´ecommunication de rennes) umr 6164, f 35000 rennes, france (e mail: michele.delmastro@univ rennes1.fr).
+
+a. grbic is with radiation laboratory, department of electrical engineerng and computer science, university of michigan, ann arbor, mi 48109122 usa (e mail: agrbic@umich.edu). fig. 1. exploded view of the dual band, orthogonally polarized lp to cp converter. the incident waves are linearly polarized at 45◦ with respect to the orientation of the metal patterns. they are converted into rightnd left hand circularly polarized waves in two separate bands. the polarizer is a symmetric structure consisting of three patterned metallic claddings (metasurfaces).
+
+the design of highly efficient dual band, orthogonallyolarized satcom antennas is not straightforward. combinng linear to circular polarization (lp to cp) converters with linearly polarized (lp) antennas represents a simpler solution that meets the above mentioned satcom specifications. typcally, the upnd down link are covered by combining two distinct radiating apertures with lp to cp converters . in this paper, we propose a novel dual band circular polarizer to attain orthogonal cps in the k/ka band. this solution may be used by a single aperture satcom terminal covering both bands.
+
+polarization converters usually consist of cascaded freuency selective surfaces (fsss) . multi layer meander lines or more complex geometries have been designed to achieve broadband, single band lp to cp converters . multi parameter optimizations are usually employed in their design. a semi analytic method to design single band lp top converters has recently been proposed in . as in the design of negative refractive index (nri) meta materials , , the design procedure in is based on engineering the dispersion of the considered unit cell's phase shifter. in , the unit cell consists of three cascaded metasurfaces. by modeling each metasurface with a given circuit topology, the axial ratio (ar) bandwidth can be broadened, thus reducing insertion losses. however, the works to date do not provide a systematic procedure to address the design of dual band lpo cp converters with orthogonally polarized transmission.
+
+the design of dual band, orthogonally polarized lp to cp converters remains an open area of research. only a few works can be found in literature. the elements of equivalent circuit models (ecms) are usually obtained using multi parameter 1
+
+optimizations. the goal is to maximize the transmission at two frequencies and shape the ar response according to the project specifications. multi layer fss based structures have been proposed operating either in reflection or transmission , . in , the entries of ecms are obtained by performing optimizations in keysight advanced design system (ads) . the ecms of have been recently presented in , but they refer to a given unit cell's geometry. generic ecms irrespective of unit cell's geometry have not been presented yet. alternatively, all dielectric casaded metasurfaces can achieve multi band, multi functional polarization controllers , . such low loss topologies are very attractive but in general thicker than cascades of patterned metallic surfaces. the solution proposed in combines a four layer meander line polarizer with a polarizaion rotator, but the final system is bulky. finally, exploiting the real time re configurable properties offered by time modulated metasurfaces would be a further way to realize dual band, orthogonally polarized lp to cp converters, as was done for polarization rotators in . however, no prototype has been presented in the open literature yet.
+
+the goal of this contribution is to provide a fully analytic design procedure for dual band, orthogonally polarized lp top metasurface based converters. a dual band quarter wave plate is realized by cascading three anisotropic electric sheet admittances, separated by two isotropic dielectric slabs. as shown in fig. 1, 45◦ slanted lp plane waves are converted to leftnd right hand circularly polarized waves in the downnd up link channels of k/ka band satcom link. the problem is studied by considering two equivalent shunt loaded transission line (tl) problems for each transverse field compoent (i.e., xnd y polarized waves). the desired polarization conversion is achieved by enforcing 100% transmission at two design frequencies in the two considered bands. a ±90◦ phase delay is also enforced between the two transmitted transverse components to achieve orthogonal cps to the two bands. the proposed ecms are fully characterized using analytic formulae.
+
+the paper is organized as follows. the design procedure is outlined in section ii. section iii proposes the design of a dual band, orthogonally polarized lp to cp converter in the k/ka band. the design is validated by a prototype in section iv and its performance is compared with the state of the art. section v discusses the capability and the limitations of the presented analytic model. finally, section vi concludes the paper.
+
+a lp to cp converter is also referred to as a quarter wave plate . the transverse field components are phased ±90◦ with respect to each other while maintaining equal amplitudes. fig. 2 shows the geometry of the considered unit cell's phasehifter. it consists of three sheet admittances cascaded along zxis. two dielectric slabs of thickness d and relative dielectric constant (cid:15)r are used to separate the sheets. the transverse extent of the structure is assumed infinite. the outer sheets ¯¯ys1 are diagonal and equal to each other. the inner admittance ¯¯ys2 2
+
+fig. 2. geometry of the problem under analysis. three anisotropic sheet admittances are cascaded along the z axis. the external sheet admittances are equal.
+
+is also diagonal but distinct. the electric admittance of each sheet is given by
+
+given that the admittances are diagonal, the structure in fig. 2 can be analyzed by considering each orthogonal transverse component separately. to streamline the mathematical formuation, we will consider scalar admittances hereinafter.
+
+a. abcd matrix formulation
+
+the structure in fig. 2 can be seen as the unit cell of periodic structure consisting of a transmission line (tl) loaded with reactive elements. therefore, the theory of two port microwave networks can be used in the analysis . let us assume that the admittance matrix of such a network is symmetric (reciprocal) and its entries are purely imaginary quantities (lossless). each sheet admittance can be expressed in terms of the bloch phase delay φ of the unit cell. to this end, the transmission matrix of the unit can be computed (cid:20)d1 b1 (cid:21) c1 a1 (cid:20)a b c d (cid:21)
+
+where θ is the electrical length of each dielectric slab and ηd = η0/ (cid:15)r, where η0 is the characteristic impedance of free √
+
+space. moreover, ξ = det
+
+where det{·} indicates the determinant of a matrix.
+
+finally, the inner and outer sheet admittances can both be expressed in closed formulae as function of bloch impedance zb and bloch phase delay φ of the unit cell in fig. 2. after some algebraic manipulations and exploiting the symmetry of the network , we obtain
+
+(5) a detailed derivation of equations (4) and (5) is reported in appendix a.
+
+transmission is maximized by setting |s21| = 1 in (6), yielding
+
+equation (7) shows that the network exhibits maximum transission when impedance is matched to free space. this result is easy to understand being equivalent to the zero reflection condition in tl theory , . it is important to note that equation (7) does not necessarily lead to maximum efficiency .
+
+finally, substituting (7) into (4) and (5) provides the sheet
+
+admittance values for 100% transmission regime
+
+the design procedure for dual band, orthogonally polarized lp to cp converters starts by specifying an appropriate freuency behavior for each electric sheet admittance. once this is done, the design work flow consists of enforcing the maximum transmission condition (7) at two distinct design frequencies: f01 and f02. the systematic method depends on the variable φxx 01 , i.e. the bloch phase delay of the unit cell in fig. 2 for x polarized waves at frequency f01. φxx 01 is the only required input parameter to the model. after assuming a value for φxx 01 , equations (8) and (9) are used to compute the sheet susceptances bxx s1,01 = bxx 01 , f01) s2 (φxx s2,01 = bxx and bxx 01 , f01) at frequency f01. the frequency response of y xx is assumed to be that of an inductor or s1 capacitor. according to the sign of bxx s1,01, the outer sheet admittance for x polarized waves y xx is expressed as a s1 function of the frequency, as follows
+
+where θ02 = θ(f02) and bxx s1,02 = bxx 02 , f02) is calculated by inverting (10) at the frequency f02. it is worth noticing that this procedure may be repeated assuming the frequency response of y xx s2 is that of a single lumped reactive element. this calculation is straightforward and not reported here for the sake of brevity. s1 (φxx
+
+enforcing (14) and (15) guarantees orthogonal lp to cp conersions at the two design frequencies. at this point, equation (13) is inserted into (9) and bxx 02 , f02) is calculated at the frequency f02. likewise, byy s2 are computed at the two design frequencies, by substituting both (14) and (15) into (8) and (9), respectively. thus, the frequency responses s2 , y yy of y xx s2 are assumed to be those of series lc resonators, yielding s2 (φxx s1 and byy
+
+sm,02 where 02 , f02). 01 , f01) and bψψ sm,02 = bψψ fig. 3. contour plots of the absolute value of (a) axial ratio and (b) transmission coefficient as a function of frequency and φxx 01 . the dashed red line indicates the chosen operating point for the design.
+
+to summarize, this model only requires the phase delay for x polarized waves φxx 01 as an input parameter. the bandwidths are maximized by sweeping φxx 01 and observing its impact on the ar and the transmission. this is a direct consequence of having modeled y xx s1 as a single shunt inductor or capacitor. it is worth noting that a lc series topology could be chosen for y xx s1 as well. the latter would provide two design parameters, namely φxx 02 . this scenario would require a more complex approach (e.g., optimizations) to search for the best values for φxx 02 . besides, inductors and capacitors are easier to design than resonators using patterned metallic claddings.
+
+here, a design example is reported and discussed. the goal is to design a dual band lp to cp converter for next genertion satcom terminal antennas. such device is required to attain polarization diversity between the down link (17.7 21.2 ghz) and the up link (27.5 31 ghz) communication channels in the k/ka band. we enforce a lp to lhcp conversion in the lower frequency band, as well as a lp to rhcp conversion in the upper band. in the following, the bandwidth of the polarizer will be referred to as the frequency range over which the ar < 3 db and the transmission is higher than 1 db.
+
+using the model proposed in section ii, we will first focus on retrieving all the design parameters. afterwards, a physical realization of the sheets is proposed and discussed. each sheet is realized as a sub wavelength textured metallic cladding: a metasurface , .
+
+(a) down link of k/ka band. (b) up link of k/ka band.
+
+fig. 4. numerical results for the dual band, orthogonally polarized lp to1 = 82.5◦. axial ratio and transmission coefficients cp converter with φxx for both rhcp and lhcp are plotted in two bands: (a) 17 21 ghz and (b) 27 31 ghz.
+
+fig. 5. equivalent circuit models of the structure. networks for xnd yolarized waves are analyzed separately.
+
+as mentioned earlier, the only parameter the designer sets is φxx 01 . in fact, a single reactive element is employed to describe the frequency response of the admittance sheet y xx s1 . thus, the parameter φxx 02 is not a degree of freedom in the model, but is computed from (13). given an incident lp plane wave with eeld polarized in the direction (ˆx ± ˆy) / 2, the impact of the choice of φxx 01 on ar and transmission bandwidths is observed. by enforcing lhcp in (14) and rhcp in (15), contour plots of the ar and the transmission are shown in fig. 3. values of φxx 01 within the range [75◦, 90.5◦] lead to dual band lpo cp conversions with orthogonal cp functionality. unlike in , a 360◦ phase coverage is not achieved while designng multi band polarization converters. furthermore, different bandwidths result from distinct values of φxx 01 . considering 01 = 82.5◦ is chosen. this the trade off, a phase delay of φxx operating point is in the middle of the range of solutions [75◦, 90.5◦], as graphically depicted by a dashed red line in fig. 3. it offers large bandwidths and robustness of the system to tolerances. √
+
+the corresponding ar and transmission coefficients are plotted in fig. 4. specifically, the polarizer conveys lhcp and rhcp fields in the frequency bands 17.6 21 ghz and 28.5 29.7 ghz, respectively. the model of section ii has been used to predict the frequency behavior of each sheet admittance. all sheet admittances can thus be studied by means of ecms, as depicted in fig. 5 for xnd y polarized waves. y xx s1 is modeled as a shunt inductor, whereas series lc resonators model the remaining sheet admittances. for the sake of completeness, the values of the lumped circuit elements are listed in table i. 4
+
+table i circuit elements obtained by using the analytic method proposed in section ii
+
+fig. 6. patterned metallic geometries of the metasurfaces' unit cell: (a) outer and (b) inner sheets. all dimensions are given in millimeters. the simulated susceptances for the patterned metallic geometries are shown in (c) (e) for xnd (d) (f) for y polarized fields. the black and grey dot markers indicate the desired design values at the frequency f01 and f02, respectively.
+
+each sheet admittance is realized with periodic subavelength patterned metallic cladding . the unit cell's shape and geometrical sizes were designed through full wave simulations in ansys hfss 2018.2 . the simulation setup can be found in . the first two fundamental floquet modes excite the unit cell, whose sides are surrounded by periodic boundary conditions. the frequency responses are 𝑬 𝒕 𝒙𝒙 ((𝜖0,𝜇0 ((𝜖0,𝜇0 floquet's port (no.2) 𝑬𝒕 floquet's port (no.1) (𝜖0𝜖𝑟 𝑑 yy x y z ,𝜇0 ((𝜖0𝜖𝑟 ,𝜇0 ( 𝟒𝟓∘ 𝑑 periodic bcs 𝑬𝒊
+
+(a) simulation setup.
+
+(c) axial ratio.
+
+(d) total transmission.
+
+fig. 7. (a) simulation setup of the polarizer's unit cell. a comparison between the circuit network and full wave simulations is reported. (b) transmitted lhcp and rhcp. (c) axial ratio. (d) total transmission. the fullave simulations considers a normal incidence onto the polarizer. besides, the incident e field is linearly polarized in the direction ˆα = (ˆx ± ˆy)/
+
+then extracted from the reflection coefficient for both xnd y polarized fields and matched to those of the ecms in fig. 5. the choice of the unit cell's geometry is inspired by standard jerusalem cross shapes, whose simplified ecm consists of series lc resonators , . the proposed geometries are shown in figs. 6(a) and 6(b). the metasurface's transverse cell dimensions are 0.28λmin × 0.28λmin, where λmin is the free space wavelength at 31 ghz. gap capacitors are designed in combination with meandered lines, to attain the circuit elements in table i. their susceptances are plotted in figs. 6(c) to 6(f) for normal incidence in the frequency band 17 31 ghz. the desired susceptance values ((8) and (9)) are also plotted using black and grey dot markers at the frequencies f01 and f02, respectively. very good agreement between ecms and full wave simulations is observed. no optimization process was performed in the design. it is worth √
+
+fig. 8. (a) pcb stack up of the polarizer. (b) fabricated prototype. the overall size of the board is 123.74 × 123.74 × 3.14 mm3. the outer metal pattern is highlighted by a zoomed in photograph's detail.
+
+noting that in fig. 6(c) the large inductance lxx s1 is realized as a very small capacitor. in terms of physical design, there is no metal pattern along x axis for the outer sheets (see fig. 6(a)). this is only possible when the sheet admittance approaches the open condition, as follows
+
+finally, the full wave simulation setup is depicted in fig. 7(a). the stack up of the polarizer is simulated as a structure that is transversely periodic. the illumination consists of a lp plane wave with the e field polarized in the direction 2. normal incidence is considered in the ˆα = (ˆx ± ˆy)/ simulations. fig. 7(b) shows that a lp to lhcp conversion is performed in the lower band and lp to rhcp in the upper band. the simulated ar is plotted in fig. 7(c). the 3 dbr bandwidths are 22% (17.2 21.6 ghz) and 6% (28.8 30.6 ghz). the transmission coefficient is plotted in fig. 7(d). the designed polarizer exhibits larger 3 db ar bandwidths than its ecm. the transmission is 0.7 db lower than the ecm results in the upper band (see fig. 7(d)). this is due to a difference between ecms and physical design. in fact, the corrugatedcircular horn α pna network analyzerkeysight n5227a z θ0 1 einc=eαdutreflectorα^ txrx 2
+
+fig. 9. (a) schematic drawing of the experimental setup used to measure the polarizer: quasi optical test bench . (b) photograph of the test setup.
+
+outer metasurface's unit cell and ecm have a different circuit topology for x polarized waves, see fig. 6(c). however, the transmission is acceptable since it is above 1 db everywhere in the bands of interest.
+
+iv. prototype and experimental results
+
+several prototypes were fabricated, using standard printed circuit board (pcb) technology. a schematic representation of the converter cross section is depicted in fig. 8(a). the patterned metallic surfaces are etched on the faces of the subtrates, with a 45◦ rotated orientation with respect to the circuit board edges. a photograph of the fabricated board is shown in fig. 8(b). the transverse size of the converter is ∼ 7λmax, where λmax is the free space wavelength at 17 ghz. the overall dimension of the polarizer is 123.74 × 123.74 × 3.14 mm3. as shown in fig. 8(b), the inner textured metal cladding is not visible.
+
+a. measurement setup
+
+the dual band, orthogonally polarized lp to cp converter was experimentally characterized using a quasi optical meaurement system (thomas keating ltd) . a schematic drawing of the experimental setup is shown in fig. 9. the fabricated boards are illuminated by a collimated gaussian beam, under normal and oblique incidence. specifically, two corrugated circular horn antennas are employed for illumiation and reception. the first horn (tx in fig. 9) feeds 6
+
+fig. 10. comparison between measured and full wave performance of the polarizer. (a) transmitted lhcp and rhcp. (b) axial ratio. (c) total transmission of the polarization converter. the measurements refer to a normal illumination of the dut.
+
+a pair of reflectors, whose purpose is to focus the incident gaussian beam on the device under test (dut). a second pair of reflectors focuses the field coming from the sample to a receiving corrugated circular horn antenna (rx in fig. 9). the horns are connected to a pna network analyzer (keysight n5227a) with coaxial cables. the experiments in the band 17 31 ghz were carried out considering two separate measurement setups to cover the two bands 18 26 ghz and 26 40 ghz, respectively.
+
+a free space thru, reflect, line (trl) calibration proceure is performed to calibrate the input ports located at the interfaces of the coaxial cables. the effects of waveguide transitions and horn antennas are not calibrated out, but a timeating procedure is applied to isolate the dut. the transmision coefficients are measured by rotating the receiving horn in the direction of the xnd y axis (see fig. 8(a)). the dut is characterized in terms of its scattering matrix. finally, the ar and the transmitted power are calculated by post processing the measured data.
+
+the measured results are plotted in fig. 10, when the dut is illuminated under normal incidence. as shown in fig. 10(a), the dual band and the orthogonally polarized transmission of the polarizer have been demonstrated. a 45◦ slanted lp planeave is transformed into lhcp and rhcp plane waves in two separate bands. the cp's purity is characterized in terms of ar, whose plot is shown in fig. 10(b). also, the total efficiency of the polarizer is plotted in fig. 10(c). several experiments were performed on four fabricated boards. the measured results were in excellent agreement with full wave simulations, thus demonstrating the reliability of fabrication and measurement processes. a slight frequency shift exists between the measured and simulated results at lower freuencies. this is likely due to a phase variation resulting from fabrication tolerances. from fig. 10(c) it is evident that the measured transmitted power matches very well in amplitude with simulations. this points to the fact that there is a phase mismatch at lower frequencies between measurement and simulation. fig. 11(a) compares the phase difference ∆φ = φyy −φxx in measurement and simulation. a percentage variation of more than 10% occurs between the measured and 1820222426283032
+
+(a) phase difference ∆φ = φyy − φxx comparison between fig. 11. measurements and simulations. percentage error of measured data in the (a) downlink and (b) uplink of the k/ka band.
+
+simulated phase difference ∆φ at lower frequencies, whereas such a difference is lower than 5% in the upper band, as shown in figs. 11(b) and (c). this difference is likely due to fabrication tolerances. indeed, tolerances in the substrate's thickness d impact the electrical paths of the propagating waves. likewise, variations in the dielectric constant (cid:15)r result in different refraction behaviors. in both cases, the phase delay φ may vary with respect to the design value. these effects can be observed using ecms in section ii. figs. 12(a) and (b) show the ar variation when fabrication tolerances are considered for d and (cid:15)r, respectively. the tolerances δtoll = 0.0762 mm and δr,toll = 0.04 are provided by rogers corporation . it tolerances in d and (cid:15)r cause a frequency shift at lower frequencies. the ar response remains nearly unvaried in the upper band. therefore, the ar response exhibits a more robust stability to tolerances at higher frequencies than at lower. this behavior is clear from fig. 12 that 7
+
+fig. 12. tolerances effects of (a) d and (b) (cid:15)r on ar using ecms. the nominal values of d and (cid:15)r are varied by fabrication tolerances provided by rogers corporation .
+
+table ii measured fractional bandwidths of the proposed dual band, orthogonally polarized lp to cp converter under normal plane wave incidence
+
+total bandwidth: ar < 3 db and transmission better than 1 db.
+
+at lower frequencies is attributed to the presence of two close resonances in the transmission coefficient response (see fig. 10(a)). small variations of the phase delay in the structure (see fig. 2) have a stronger impact on shifting the resonances. on the other hand, only one resonance appears in the upper band, as shown in fig. 10(a). a more robust frequency behavior is then expected in this case. this effect is confirmed by the measurements shown in fig. 10(b).
+
+the performance of the converter is sumarized in table ii. the polarizer performs a lp to lhcp conversion over a 21% fractional bandwidth. furthermore, a lp to rhcp conversion is performed over a 6% fractional bandwidth. these bandwidths are calculated considering a transmission higher than 1 db.
+
+the fabricated boards were also tested under oblique incience. the dut is mechanically rotated on the quasi optical test bench. the impinging waves illuminate the dut at diferent angles θ0, as shown in fig. 9. specifically, two types of illuminations were considered. in the first scenario, the impinging plane wave presents the e field polarized along the ˆα direction (te illumination). secondly, a plane wave with the 33 θ0=45◦ 2 0 29 axialratio(db)frequency(ghz) 10 3 θ0=15◦ θ0=30◦ 21 25 1 17 θ0=45◦ transmission(db)frequency(ghz) 17 θ0=15◦ 21 −1 θ0=30◦ 25 33 −2 −3 0 29
+
+(a) te illumination
+
+(c) tm illumination
+
+fig. 13. measured performance of the polarization converter under different incident angles in the βz plane where ˆβ = ˆα × ˆz, see fig. 9. (a) (c) axial ratio. (b) (d) total transmission. both vertical (te) and horizontal (tm) eeld illuminations are considered.
+
+h field along the ˆα direction (tm illumination) is considered. the measured results are shown in figs. 13(a) (b) for the te illumination and in figs. 13(c) (d) for the tm.
+
+the ar performance is generally stable for incident angles up to ±45◦. in particular, the 3 db ar bandwidths remain roughly unperturbed with respect to normal incidence, when a te illumination is considered (see fig. 13(a)). however, fig. 13(b) shows that the 1 db transmission bandwidth slightly narrows with respect to normal incidence.
+
+in general, the measured results differ for te and tm illuminations. in particular, the tm case is more sensitive to oblique incidences. this is likely due to the asymmetry of the polarizer's unit cell, as depicted in fig. 6(a) (b). the 3 db ar bandwidth is very stable for angles of incidence up to ±45◦, within the upper frequency band. on the contrary, the lower bandwidth is slightly reduced, as shown in fig. 13(c). the total efficiency of the polarization converter remains nearly unvaried for all incident angles, as plotted in figs. 13(d). a detailed and complete summary of the polarizer's performance is reported in table iii for both te and tm illuminations. the total bandwidth in table iii is calculated as the frequency range where ar < 3 db and the total transmission is higher than 1 db. the tm illumination results in narrower bandwidths at lower frequencies, whereas the opposite behavior is observed at higher frequencies. moreover, the difference between te and tm illuminations is mitigated at upper frequencies. the coupling effect between the polarizer sheets is, indeed, reduced at those frequencies and a quasi plane wave field propagation can be assumed through the metasurfaces. 8
+
+the total bandwidth refers to the frequency range for which ar < 3 db and the total transmission is better than 1 db.
+
+a comparison with state of the art dual band, orthogonallyolarized lp to cp converters for satcom applications is presented here. table iv lists some prior articles that proposed a solution to this problem. our converter represents a good trade off between performance and size. polarization converion is efficiently performed over larger frequency bands with respect to the state of the art. the bandwidths in table iv refer to frequency bands for which ar < 3 db and transmission is above 1 db. as detailed in section iv c, the angular stability is also highly improved. angular stability is dependent on the choice of geometrical shapes for the metasurfaces' unit cells. in fact, the geometries in fig. 6(a) (b) mitigate the mutual coupling between the transmitted orthogonal transverse components. jerusalem's cross like fsss are well known for ensuring low sensitivity to oblique incidences , . morever, the overall thickness of the converter also represents a good trade off. ultra thin polarizers , exhibit narrower bandwidths. on the contrary, more complex systems , are too bulky. our polarizer's thickness is electricallymall. the impact of dielectric losses is therefore reduced and high transmission is observed over larger bands. also, this paper proposes a generic analytic design procedure for dualand polarizers. in contrast to , , our method is not dependent on the geometry of the metasurfaces' unit cells. θ0 = 30◦
+
+the proposed model allows for the synthesis of dual band polarizers in terms of generic ecms. once the ecms are obtained, the metasurfaces' unit cells can be designed using various geometries. analytic formulae also provide insights to overcome the use of multi parameter optimization processes.
+
+v. impact of d and (cid:15)r on ar bandwidths in this section, we discuss the impact of the substrate thickness d and dielectric constant (cid:15)r on ar bandwidths. the ecms introduced in section ii avoid using optimizations since φxx 01 is the only parameter controlled by the designer. this choice enables having an overall view of the maximum achievable performance of the polarizer. for instance, it is sufficient to sweep the value of φxx 01 and observe the correponding ar response. however, the simplicity of the model may exclude potential solutions. for instance, other parameters could be used to improve the performance of the design. here, we consider the substrate's thickness d and dielectric constant (cid:15)r as representative example.
+
+in figs. 14 and 15, the impact of a 20% variation in d and (cid:15)r with respect to their design values (dnom = 1.524 mm and (cid:15)r,nom = 3.00) is plotted in terms of ar, repectively. these parameters clearly represent key assets in engineering the 3 db ar bandwidth. for instance, fig. 14(a) shows that larger bandwidths are achieved at higher frequen 9
+
+(a) ar versus frequency for different substrate's thicknesses d. (b)
+
+cies when d = 1.2dnom. this operating point resembles performance achieved in previous contributions , . likewise, broader 3 db ar bandwidths are obtained at lower frequencies when (cid:15)r = 0.8(cid:15)r,nom or (cid:15)r = 1.2(cid:15)r,nom (see fig. 15(a)).
+
+using d and (cid:15)r as design parameters may impact the overall design of the structure. one issue is the physical implementaion of ecm's elements. the range of values of ecm's entries is dependent on the geometry of the metasurfaces' unit cells. assuming a given unit cell geometry, only a limited range of circuit element values can be realized. to give an example, the geometry in fig. 6(a) and (b) can realize capacitance and inductance in the range of [6.5, 25] (ff) and [2.5,15] (nh), respectively. as shown in fig. 14(b) and 15(b), the design complexity fairly increases for d = 0.8dnom and (cid:15)r = 0.8(cid:15)r,nom, since the capacitance c xx s1 reaches very low values. in this scenario, the geometries in fig. 6(a) and (b) cannot be employed in the physical design. different geometries can obviously help in overcoming this issue. nonetheless, the set of usable geometries is limited, given the electrically small unit cell's size at k/ka band. finally, fabrication constraints represent a further limitation in the implementation of the circuit elements.
+
+moreover, it is worth mentioning that figs. 14 and 15 report results around the operating point (dnom, (cid:15)r,nom). in this sceario, (d, (cid:15)r) = (dnom, (cid:15)r,nom) represents the optimal choice for a variation of d and (cid:15)r up to 20%. this does not mean that a better operating point cannot be achieved by optimizing d, (cid:15)r and φxx 01 over larger ranges. one could possibly trade off a better performance for increased computational complexity. 01235
+
+(a) ar for different (cid:15)r.
+
+(b) ecms elements.
+
+fig. 15. (a) ar versus frequency for different substrate's dielectric constants (cid:15)r. (b) related circuit parameters.
+
+this is something that will be explored in future work.
+
+a novel design method for dual band, orthogonallyolarized linear to circular polarization converters is proposed in this contribution. the polarization converter consists of three cascaded sheet admittances, separated by two dielectric slabs. each sheet admittance is modeled using equivalent circuit models based on periodically loaded transmission lines. by enforcing 100% transmission at two separate frequencies, the equivalent circuit models of the polarization converter are described by means of closed form analytic expressions. the bandwidths of the polarizer are thus engineered accordng to specifications. the proposed method avoids the use of multi parameter optimizations. a dual band, orthogonallyolarized linear to circular polarization converter is designed in the k/ka band for satellite communication applications. a prototype was fabricated in printed circuit board technolgy. measurements were performed to validate the numerical results. the measured results are in very good agreement with full wave simulations. under normal incidence, the poarizer efficiently performs linear to left hand circular polarzation conversion over the band 18 22.2 ghz (∼ 21%). in addition, linear to right hand circular polarization conversion is demonstrated in the band 28.7 30.4 ghz (∼ 6%). these bandwidths are calculated as the frequency ranges over which the axial ratio is below 3 db and the transmission is above 1 db. the polarizer performance remains stable under oblique incidence for angles up to ±45◦. the axial ratio remains lower 10
+
+than 3 db over the bands 17 22 ghz (∼ 25.6%) and 28.6 30 ghz (∼ 4.7%) when the plane wave's incident angle is 45◦. furthermore, the insertion loss remains lower than 1.2 db in this scenario. such a device may find application in satellite communication terminals for polarization control based on its low profile and stable performances with scanning. for instance, it can be integrated with linearly polarized satellite communication terminal antennas to enhance robustness and isolation between transmitted and received signal.
+
+the authors would like to thank dr. laurent le coq and frederic boutet for their help in performing the the measureents.
+
+appendix a derivation of ys1 and ys2 in closed form this appendix details the derivation of equations (4) and (5). a scalar formulation is used to streamline the notation. the network is assumed to be symmetric, reciprocal and lossless. under this assumption, the following relation holds
+
+the unit cell in fig. 2 is assumed infinitely periodic along z axis. this allows a bloch phase delay φ and the bloch impedance zb to be defined. the bloch impedance zb can be expressed in terms of an abcd matrix formulation , yielding
+
+where a, b, c and d are defined in (2). using the matrix multiplication, they can be written as
+
+the bloch phase delay can be found as function of the abcd matrix entries , yielding 11
+
+exploiting (ia.1), the relation (ia.11) reduces to
+
+and can be arranged in the following form:
+
+now, we can focus on finding the expression of the bloch impedance zb as function of the bloch phase delay φ, the abcd matrix and ys2, by substituting (ia.8) and (ia.10) into (ia.6). in formulae :
+
+where the trigonometric identity used. 1+cos φ cos φ tan φ = 1
+
+by inserting (ia.3) and (ia.5) into (ia.15), the following
+
+relation is found
+
+finally, (4) is obtained by inverting (ia.16) and applying
+
+some algebraic manipulations.
+
+b. closed form of ys2
+
+by inserting (ia.2) and (ia.3) into (ia.8) and using the relation (ia.1), the second entry b of the overall abcd matrix takes the following form
+
+furthermore, b can be expressed in terms of the bloch unit cell's phase delay φ and bloch impedance zb , yielding
+
+finally, equation (5) is obtained using the following trigono
+
+metric identity: sin(2θ)
+
+r. dybdal, "communication satellite antennas: system architecture,
+
+technology, and evaluation.", mcgraw hill, 2009.
+
+a. v. stankovsky, y. a. litinskaya, a. m. alexandrin, s. v. polenga, and y. p. salomatov, "spatial polarizers for cts structure based anenna arrays," 2019 ieee conference of russian young researchers in electrical and electronic engineering (eiconrus), saint petersburg and moscow, russia, 2019, pp. 885 889. m. born, and e. wolf, "principles of optics, 7th ed.," cambridge
+
+d. m. pozar, "microwave engineering 3th ed.," john wiley & sons,
+
+p. naseri, and s. v. hum, "a dual band dual circularly polarized reflecarray for k/ka band space applications," 2019 13th eur. conf. antennas propag. (eucap), krakow, poland, 2019, pp. 1 5.
+
+n. j. g. fonseca, and c. mangenot, 'low profile polarizing surface with dual band operation in orthogonal polarizations for broadband satellite applications," 2014 8th eur. conf. antennas propag. (eucap), the hague, 2014, pp. 471 475.
+
+p. naseri, j. r. costa, s. a. matos, c. a. fernandes, and s. v. hum, "equivalent circuit modeling to design a dual band dual linear to circular polarizer surface," ieee trans. antennas propag., 2020 z. wu, y. ra'di, and a. grbic, "tunable metasurfaces: a polarization
+
+tian wu li, da li, and er ping li, "a novel fss structure with high selectivity and excellent angular stability for 5g communication radome," 2017 10th global symposium on millimeter waves, hong kong, 2017, pp. 50 52.
+
+thomas keating ltd, www.terahertz.co.uk. rogers corporation, https://www.rogerscorp.com.
+
+michele del mastro was born in avellino, italy, on july 25th, 1992. he graduated in clarinet at the conservatorio di musica d. cimarosa, avellino, italy, in 2011 and he received the m.sc. degree summa cum laude in electronics engineering from the universit`a degli studi di napoli federico ii, naples, italy, in 2017. since october 2017, he is pursuing the ph.d. degree in electrical engineering at the institut d' ´electronique et de t´el´ecommunication de rennes (ietr), universit´e de rennes 1, rennes, france.
+
+in 2016, he joined the electronic research laboratory, delft university of technology, delft, the netherlands, where he carried out his master's thesis. from may to october 2019, he was visiting ph.d. student at the radiation
+
+laboratory, university of michigan, ann arbor, mi, usa.
+
+his research interests include the analysis and design of wideband antenna arrays, numerical modeling, frequency selective surfaces for polarization converters, and periodic structures.
+
+mr. michele del mastro was a co receipt of the best innovation award at the 39th european space agency antenna workshop, noordwijk, the netherlands, in 2018. 12

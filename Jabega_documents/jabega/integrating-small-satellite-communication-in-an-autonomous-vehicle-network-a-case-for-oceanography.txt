@@ -1,0 +1,251 @@
+integrating small satellite communication in an autonomous vehicle network: a case for oceanography
+
+please cite this article as: a.g.c. guerra, antó.sé. ferreira, m. costa, d. nodar lópez, f.a. agelet, integrating small satellite communication in an autonomous vehicle network: a case for oceanography, acta astronautica (2018), doi: 10.1016/j.actaastro.2018.01.022.
+
+this is a pdf file of an unedited manuscript that has been accepted for publication. as a service to our customers we are providing this early version of the manuscript. the manuscript will undergo copyediting, typesetting, and review of the resulting proof before it is published in its final form. please note that during the production process errors may be discovered which could affect the content, and all legal disclaimers that apply to the journal pertain. highlights of the "integrating small satellite communication in an autonomous vehicle network: a case on oceanography" manuscript:
+
+(cid:1) deployment of multi heterogeneous autonomous vehicles in the ocean is a new
+
+(cid:1) satellite communication is essential but expensive or limited for small vehicles (cid:1) small satellites can provide a cheaper and tailored option and be an active player (cid:1) a test platform with an uav and a sdr radio was developed and tested successfully (cid:1) combining small satellites and autonomous vehicles, we created a system of systems andré g. c. guerraa,∗, antónio sérgio ferreirab, maria costab, diego nodar lópezc, fernando aguado ageletc
+
+adepartamento de física e astronomia, centro de física do porto, faculdade de ciências, universidade do porto, portugal blaboratório de sistemas e tecnologia subaquática, faculdade de engenharia, universidade do porto, portugal cescola de enxeñaría de telecomunicación, universidade de vigo, españa
+
+small satellites and autonomous vehicles have greatly evolved in the last few decades. hundreds of small satellites have been launched with increasing functionalities, in the last few years. likewise, numerous autonomous vehicles have been built, with decreasing costs and form factor payloads. here we focus on combining these two multifaceted assets in an incremental way, with an ultimate goal of alleviating the logistical expenses in remote oceanographic operations. the first goal is to create a highly reliable and constantly available communication link for a network of autonomous vehicles, taking advantage of the small satellite lower cost, with respect to conventional spacecraft, and its higher flexibility. we have developed a test platform as a proving ground for this network, by integrating a satellite software defined radio on an unmanned air vehicle, creating a system of systems, and several tests have been run successfully, over land. as soon as the satellite is fully operational, we will start to move towards a cooperative network of autonomous vehicles and small satellites, with application in maritime operations, both in situ and remote sensing.
+
+keywords: small satellites, autonomous vehicles, satellite communication, system of systems, maritime operations, field trials
+
+oceans are a fundamental piece of the earth ecosystem, not only because they cover more than 70% of the earth surface, but also by playing a central role in the world climate. therefore, performing measurements of all its features, with both large temporal and spatial resolution, is an important task for several disciplines. besides scientific objectives, there are also ecoomic and security issues, which most coastal countries have been trying to tackle for several years. this has been mainly achieved through the use of conventional ships or static assets, which currently allow for several in situ methods of measurng ocean features. albeit their small scales, the measurements performed are very accurate and can even be used to calibrate earth observation satellites.
+
+in the last few years, autonomous vehicles, either underater, surface or aerial, increased the capabilities of traditional assets, by surveying larger areas in less time and at a smaller cost. the use of autonomous systems provides numerous unaralleled advantages to typical, human centred, approaches to problem solving when dealing with operational scenarios such as surveillance , search and rescue , oceanographic and/or atmospheric studies [3, 4]. advances in autonomous vehicles are in a state of rapid evolution not only due to the lowering
+
+∗corresponding author email addresses: aguerra@fc.up.pt (andré g. c. guerra),
+
+asbf@lsts.pt (antónio sérgio ferreira), mariacosta@lsts.pt (maria costa), diego.nodar@space.uvigo.es (diego nodar lópez), faguado@tsc.uvigo.es (fernando aguado agelet) of hardware costs, which impact directly the feasibility of more ambitious endeavours, but also due to the increase in quantity and quality of open source alternatives to regular commercial autopilot and payload solutions. these variables have set the stage for an ever increasing plethora of applications for auonomous systems not just centred on a single vehicle paradigm but more inline with a multiple system approach. consequently, networked vehicles have been a topic of great interest due to the extended capabilities which can be extracted for problem solvng purposes .
+
+multi vehicle operational setups have been spearheaded by the lsts (laboratório de sistemas e tecnologia subaquática) from the university of porto for quite sometime. several develpments have culminated in a robust software toolchain and in low cost vehicle solutions, whose discussion will be further exanded in section 2. moreover, all integration developments are regularly tried and tested in large scale multiple vehicle deployents . however, these large scale multiple deployments lead to an increased level of difficulty in terms of guaranteed interoperability in teams of heterogeneous vehicles [7, 8].
+
+the challenge of implementing network interoperability is of particular interest since unmanned assets can be seen simulaneously middle and end nodes in a multi hop network. furhermore, there is always a limitation in terms of range and bandwidth of communication. therefore, there has been an inreasing tendency of providing redundancy for the networked system by implementing different simultaneous communication channels in each asset . while allowing to overcome some limitations of each individual communication channel, this added redundancy creates, at the same time, a more robust communiation backbone for the underlying vehicle network. in this regard, and specially when dealing with remote and/or spaially large covering operations, a de facto communication elment of a multi channel backbone is the satellite link. proiding a global and reliable means of communication, while empowering local gateways, or replacing them all together if needed, has long caught the attention of groups working in reote locations, hence positioning satellite communication as a paramount player in robust networking in multi vehicle scenaros.
+
+nowadays the most well know satellite systems are inmarsat, iridium, and argos, for the particular case of martime applications. some of these systems have a large cost not only for the user to have access to them, but also for the provider to set up and maintain them. their characteristics, both in terms of platforms used as well as user terminals, are examined in secion 3.
+
+in the last two decades, cheaper spacecraft, which use comercial off the shelf (cots) components, have been growing in number, capabilities and possible applications, the so called small satellites . these spacecraft, classified as micro (< 100kg), nano (< 10kg) and pico (< 1kg) satellites, have among other advantages an inherent cost reduction, although still folowing industry standards. therefore, a constellation can be, in principle, constructed at a lower price, assuring thus a coninuous cover of some sites or even the globe. nevertheless, with the known limitations of small satellites, for instance, the limited power generation capability, they cannot be used for all kinds of communication systems. an example of a small comunication satellite system, created initially to support small scientific and humanitarian operations, is the humsat system (discussed in section 4). this system is already on the second version, where two way communication is one of the most imortant new features.
+
+our main goal is thus to have an integrated operational sceario with autonomous vehicles and small satellites linked and working together. an overview of this scenario can be found in section 5.
+
+firstly, this choice would free us from expensive current satellite communication while, at the same time, maintaining the satellite link as an integral part of the communication backone. secondly, by equipping the spacecraft with other payoads, it would expand the satellite's operational portfolio, makng it part of the remote observation system, and helping the auonomous vehicles navigate the monitored area, and ultimately to be "at the right place at the right time".
+
+the first step to accomplish our goal, is to have the auonomous vehicles and small satellites talking to each other. to this end, we integrated a humsat software defined radio (sdr) on an unnamed air vehicle (uav). several bench tests were caried out, to make sure everything was working as intended, toether with some field trials. the work developed by lsts and the university of vigo (uvigo), and the obtained results, are described in section 6.
+
+by using a sdr, and in particular the humsat sdr, we have a system that can be reconfigured as required. for exam ple, any vehicle equipped with the sdr can act as a storage node, if for some reason the satellite is not available, forwardng the data when a link to the ground station or the satellite is available. therefore, this flexibility allows to create a system of systems.
+
+2. lsts networked systems
+
+currently the lsts is composed of a multi disciplinary reearch team, including faculty members and students, with elecrical, computer, and mechanical engineering and computer science backgrounds. vehicles in the lsts fleet are engineered for networked operations and use modular hardware and softare components to facilitate development, maintenance, and operations. the lsts open source software toolchain allows the operators at the lsts control stations to command and conrol all types of vehicles in an uniform manner.
+
+the lsts toolchain1, represented in figure 1, is an openource software suite for mixed initiative control (humans in the planning and control loops) of unmanned ocean and air vehicles operating in communication challenging environents with support for disruptive tolerant networking (dtn) protocols . the unique features of the toolchain are built on experience with the coordinated operation of heterogeneous vehicles .
+
+ripples is a communication hub for data dissemination and situation awareness. it serves as a web entry point for storing situational awareness information like asset positions, mission specifications and collected data. ripples is used to collect data from different sources and to maintain a global situation awareess. all data being sent and received from remote devices is stored in ripples, enabling coordination among geographically distributed teams, even in communication restricted environents.
+
+neptus is a distributed command and control infrastruct ture for the operation of all types of unmanned vehicles. supports the different phases of a typical mission life cycle: planning, simulation, execution and post mission analysis. it can be adapted by operators to fit mission specific requirements and extended by developers through a comprehensive plug in framework.
+
+imc (inter module communication) protocol is a message oriented protocol designed and implemented to build interconected systems of vehicles, sensors and human operators. these are thus able to pursue common goals cooperatively by exhanging real time information about the environment and upated objectives. imc abstracts hardware and communication heterogeneity by providing a shared set of messages that can be serialized and transferred over different means.
+
+dune (unified navigational environment) is an on board software running on the vehicles. it is responsible not only for every interaction with sensors, payload and actuators, but also
+
+1the open source software can be found at https://github.com/lsts. figure 1: visual representation of the lsts toolchain layers.
+
+for communication, navigation, control, manoeuvring, plan excution and vehicle supervision. it is written to be independent of cpu architecture, as well as operating system.
+
+although there are various vehicles available at the lsts, we opted to start integrating smaller uavs as our test platform. this was done due to the simplicity of the hardware integration, and the fact that the communication links on these vehicles are very straightforward in their configurations.
+
+the uav currently used by lsts is the x8 skywalker delta wing. it is a cots vehicle, modified at the lsts, which has been used within various types of operational scenarios in preious projects.
+
+the glider shape and size allows for a logistically light opration setup with a short preparation time (about 20 minutes for the first flight, where the uav is mounted and all consoles turned on, and around 5 minutes for subsequent flights). furhermore, the vehicle possesses a wide oval internal area, which allows for easy accommodation of different kinds of payload. this proved important for the physical integration process of the humsat system, due to its prototype nature. it is thus a veicle perfected for low altitude reconnaissance scenarios, with live video feed, and for remote sensor scenarios.
+
+as presented in table 1, the main construction material of the x8 is expanded polyolefin (epo) foam. the x8 has no documented turbulence restrictions and no minimum visibility conditions for operation. moreover, it has no strict outside air temperature limitations, except for the ones we have determined at the lsts (0 ◦c and 40 ◦c). regarding any in flight icing issues, the lsts x8 does not operate in any environment that would allow such a scenario.
+
+model designation design material motor type fuel/energy length wingspan body diameter brakes hydraulic system parachute weight empty mean take off weight indicated air speed (min|cruise|max) wind tolerance (head|cross|gust) maximum endurance maximum range maximum altitude maximum rate of climb maximum rate of descent maximum bank angle turn radius | turn rate limits x8 skywalker fixed wing delta wing epo foam electric lipo battery 0.80 m 2.12 m oval (from 0.15 m to 0.30 m) none none none 1.2 kg 4.3 kg 15 | 18 | 23 (m/s) 17 | 15 | 19 (m/s) 50 min 20 000 m 350 m 2 m/s 3 m/s 30 deg 31 m | 32 deg/s
+
+3. commercial satellite communication systems
+
+most satellite communication systems are designed for large volumes of data, i.e. the user has at his disposal video, voice and data communication. nevertheless, there are systems designed specifically for performing primarily data collection. the obective for these systems is to have multiple small ground terinals, transmitting small amounts of information, which are then collected by satellites passing above, and downlinked aferwards to a ground station.
+
+the first dedicated maritime satellite communication serice was inmarsat. the system is arranged in a four oceanegion configuration , with a total of twelve operational satellites . the new network of spacecraft, called global express, is composed of three satellites plus a spare one at a geostationary orbit (geo), i.e. at an altitude of about 35 800 km . each satellite has a mass at launch of about 6 100 kg and meaures 6.98 m × 33.8 m, when deployed. five solar panels are used to generate over 13 kw, after 15 years in orbit, and a xenon ion propulsion maintains the satellite orbit. there are several ground stations, distributed over the globe, routing all data reeived to each customer over the internet.
+
+the customer has several different equipments available to use the system, including handheld satellite phones (e.g. the isatphone 2) or satellite radios (e.g. the fleet one handset) . these radios, attached to fixed antennas weighting 2.5 kg and measuring 27.5 cm × 22.1 cm, can provide up to 100 kbits/s, consuming around 100 w . smaller options, e.g. the isatm2m service, has modems measuring just 12.6 cm × 12.6 cm × 4.9 cm (for 43.2 cm × 14.7 cm × 2.5 cm (for a modem equipped with batteres) . for the latter, the weights goes up to 1.3 kg, including batteries. 12.6 cm × 9.3 cm × 7.4 cm. since the satellites are at a high orit, both terminals need more power to send data. therefore, the consumption can go up to 9 w when transmitting.
+
+one of the most well known satellite communication serices is iridium. the system uses 66 satellites (without countng spares) distributed by 11 orbital planes . unlike any other communication system, these satellites are cable of changng messages between them, with each satellite linked to four others .
+
+iridium is build of low earth orbit (leo) satellites, at an altitude of approximately 780 km. the new spacecraft, the iridum next, have life spans closer to 12.5 years , and are smaller (2.4 m × 9.4 m when deployed), lighter (with a mass of 860 kg), and require less power to operate (2.2 kw), when comared to inmarsat .
+
+the user terminals are commercialised by other companies and are usually small, with omnidirectional antennas and limted power available. nowadays, one of the top of the line sysems includes a broadband connection and three independent voice lines, using an equipment with 1.35 kg and a 12.5 kg anenna . this system claims to have data transfer rates of up to 134 kbits/s, consuming up to 31 w during data transmision. there are also small transceivers capable of transmitting short burst data, for instance, for data telemetry (with less than 340 bytes) . data rates for these can reach 2.4 kbits/s . another commercial example is the rockblock communication equipment, from rock seven, which weights 0.076 kg, meaures 7.6 cm × 5.2 cm × 1.9 cm , and the transceiver conumes less than 1 w for transmitting .
+
+the companies that sell the terminals lease the access to the system and charge for each voice or data call (i.e. duration or volume of data exchanged). for example, rock seven nowaays charges $10 /month so a transceiver can connect to the system, and about $0.14 /message (each message is composed of a maximum of 50 bytes) . cls group charges around 1 e/kbytes of data transmitted, for the large bandwidth realime system . others charge $0.75 /minute to $1.50 /minute, for outgoing calls, and several dollars per minute for incoming ones.
+
+argos is operated and managed by the cls group, which charges about 4 e/day, with a maximum of 63 e/month . version 2 of the system offers global coverage and doppler loation capability, with terminals transmitting messages at a reglar interval, without a downlink acknowledgement. with the new version (argos 3) two way communication is implemented, and the terminals, now called platform messaging transceivers, only send messages when a satellite is in view . is manufactured by elta (exclusively for cls), measures 1.8 cm × 4.3 cm × 10 cm and consumes up to 5 w . a heaver option is produced by kenwood (2.5 cm × 6 cm × 8 cm with a mass of 0.16 kg and a power consumption of also 5 w) . all transmitters use uhf to communicate, and have a strucured message composition (with maximum 31 bytes of user data per message ). average data rate for both transceivers is about 400 bits/s .
+
+argos does not have its own dedicated satellites. instead, it depends on other large spacecraft to function (e.g. metop, 4 087 kg, and noaa 5th generation, 2 232 kg) . all of these satellites are sun synchronous (altitude of about 800 km) and, although designed for other purposes, they are equipped with argos payloads, a receiver (16 kg) and a transmitter (8 kg), providing a data rate of up to 4.8 kbits/s . for the orbit of these satellites, and the transmitters used, this means that up to 3.1 kbytes are upload each pass (in interactive mode with downlink acknowledgement) . daily this means an averge data transmitted of 10 kbytes, depending on the transceiver latitude .
+
+the ground segment is composed of three main stations, which receive all user data from the satellites. apart from those, there are several regional ones, that perform data relay (i.e. reeive data if the station and transmitter are under the same footrint).
+
+4. a different comms approach the humsat system
+
+building upon the advantages of small satellites, a new comunication system started to be developed in 2011, the humat system. a project supported mainly by the un office for outer space affairs (unoosa) and the european space agency (esa), was initiated as a cooperation between the university of vigo, the california polytechnic state university, the national autonomous university of mexico, and the regional center for education in space science and technology in latin america and caribbean countries . it is also supported by the interation astronautical federation.
+
+it is a smaller system than all previous ones, still under development, but very similar to the argos concept. table 2 shows a comparison of this system with the ones described above.
+
+the initial aim was to provide a free non guaranteed store and forward data system to serve areas not covered by telecomunication services, for humanitarian purposes . another objective was to have sensors in remote areas transmitting mesages to users, without having to set up a communication netork .
+
+the system is now moving slowly from a technological demon
+
+strator to commercial applications, the humsat 2.0 . the plan is not only to maximize the number of users, but to inlude two way communication and new added value services, such as data relay between terminals, encrypted communicaion, prioritization, reliable communications and group of terinals management capabilities. different access schemes are being devised, as well as error correction algorithms and fixed and mobile terminals support. all of them enabled by the deloyment of a constellation of small satellites.
+
+all humsat satellites have been controlled using the same operation software and tools. uvigo built a ground station at the university, with two redundant stations capable of receivng four simultaneous polarisation signals . nevertheless, to command and downlink data from these small satellites it is not necessary a big antenna. besides supporting the operation of the two satellites described above, it was also used to comunicate with other small satellites.
+
+the transmitter of the humsat system is called by uvigo as the user terminal. there are two options available, either use an automatic or autonomous platform, or to integrate the humsat transmitter directly on the user equipment. the first is an almost plug and play solution, which simply relays data coming from the user sensors . for the second terminal the user needs to prepare both the hardware and software to link the transmitter to its equipment. we focus here on this last option as it is smaller, lighter and consumes less power.
+
+this transmitter is a simple board with three modules, a raio frequency (rf) stage, a control stage, and a power stage, as shown in figure 2. the board shown weighs 30 g and measures 13 cm × 5.3 cm. the interface to connect to the board is similar to an arduino shield. the rf connector, to link the terminal to an antenna, is an u.fl connector.
+
+figure 2: humsat transmitter photo with labels (from uvigo).
+
+to power the board an unregulated line from 4.3 v and 17 v has to be used, and the board regulates itself accordingly. the board consumes in standby less than 0.14 w, and up to 3.2 w when transmitting at 30 dbm. if just 27 dbm are used for transitting, it consumes 2.4 w. the communication interface is performed over a universal asynchronous receiver/transmitter (uart) serial bus, with a bit rate of 9.6 kbits/s. the rf output signal has a frequency beween 400 mhz and 470 mhz, and a maximum possible power output of 30 dbm, both selected by the user. the signals have a gmsk (gaussian minimum shift keying) modulation, with a data rate of up to 1.2 kbits/s.
+
+humsat 2.0 terminals will have a similar electrical configuation. however, the board is expected to be smaller and capale of higher data rates. furthermore, smart terminals are being designed to be dynamically integrated with newer sensors .
+
+although up to now argos and humsat seam very similar, one of the main differences is the spacecraft they use. humsat uses a constellation of small satellites, in particular cubesats, although only a few at a time have been launched yet.
+
+the first satellite, humsat d, was launched in 2013, and was an adaptation of the previous uvigo small satellite, xatobeo (figure 3). it was a cubesat, with 10 cm × 10 cm × 10 cm, and weighted 1 kg. using solar cells distributed through most faces, it produced around 3 w. this was sufficient to power the satellite and its communications payload. this consisted in a single electronics board and one turnstile omnidirectional anenna (with four monopoles). no attitude control was even necssary to operate the satellite. launched from a dnepr 1 rocket as a secondary payload, its final orbit altitude was 600 km, and was operational for over a year .
+
+figure 3: xatcobeo satellite (from esa uvigo/inta)
+
+with humsat d uvigo wanted a demonstrator and guide for the rest of the satellites of the system . the next one was called serpens, and was built for the university of brasilia with the support of uvigo, funded by the brazilian space agency. this was a bigger cubesat (10 cm × 10 cm × 30 cm and 3 kg). the objective of this satellite was to test different combinations of the payload and user terminals for future implementations. additionally, this satellite included an enhanced payload which was able to counteract external interferences in uhf band, deected with the first satellite.
+
+5. an integrated system: mission scenarios
+
+the main driver for the developments presented here is to enable multi vehicle systems to operate in an integrated and coordinated fashion, by providing them with a robust and stale communication backbone with an ultimate goal of reducng cost and complexity in remote maritime operations. we endeavour to show that, through the use of new small satellite technology, the underlying cost overhead of using satellite comunications can be significantly reduced. at the same time, we can empower the observation and data collection capabilities of the network, by also having these satellites participate with their own on board payload.
+
+a pristine example of an operational scenario is the poruguese continental shelf. to monitor and carry out surveillance of its current 1.72 million km2 area, or the proposed extension of 4 million km2 (figure 4), with just conventional methods, represents a large investment, monetary and human. therefore, a robust autonomous network like the one described here is funamental to support these tasks .
+
+looking at figure 4, the mission scenario has various layrs of active communication links. these links range from short range (wi fi/rf), through medium range (gsm/4g), up to satellite communications. moreover, these links are not frozen and can be re arranged as assets are entering and leaving the opration area. the plug and play modality is fundamental for the viability of a system of systems, and a central reason why the developed efforts here were built upon a pre existent software tool chain, devised to handle such operational setups.
+
+figure 4: operational scenario of an integrated network of autonomous vehicles and small satellites.
+
+although we plan to start with a single small satellite, a constellation of spacecraft will serve the goal better. since this constellation will take time to build, the scalability of the netork can be initially probed through the use of various uavs which, provided with sufficient sdrs, can emulate the satelites. although the range and scope of the scenario will not be as far reaching as with satellites, a lot can be inferred regarding issues of bandwidth and network capacity for the radios.
+
+even though the project used to fund part of this work is centred in a forest fire project with uvigo , all developents can be easily ported to oceanographic scenarios, since the network created is agnostic to the type of data being streamed and collected.
+
+to facilitate system integration and testing, we began with the lsts x8 uav, focusing on transmitting only the vehicle's position and velocity. nevertheless, as the project evolves more metadata will be sent through the satellite, since the communiation protocol supports message segmentation and reassembly, to handle information too extensive for a single burst. the x8 already has wi fi and gsm communications, and we can thus use these for redundancy during the sdr tests.
+
+6. system integration and test
+
+hardware integration of the humsat system implies adding the sdr board, and an uhf antenna, to the uav payload. for the lsts's x8 delta wing this is quite straightforward, considring both its main cpu and the sdr board have a 3v3 ttl (transistor transistor logic) serial communication. figure 5 depicts where the sdr is placed within the x8 avionics.
+
+figure 5: x8 avionics block diagram.
+
+for selecting the antenna, and placing it on the vehicle, the main concern is to match the radiation pattern to our needs. in particular, the uav is required to communicate both with a satellite and ground assets, as discussed in section 5. thereore, the selected antenna is a uhf dipole 433 mhz , and is installed on the nose of the vehicle (see figure 9).
+
+all software developments made to integrate the sdr sysem were done on top of the software toolchain developed at the lsts, previously described in section 2. a driver task, named satcomms, collects and parses messages, determines when the satellite is in view of the vehicle (and messages can be transmited), and manages the interaction with the humsat transmitter (using an adaptation of uvigo's libraries) .
+
+satcomms falls within the transports scope (communicaion and logging) on dune's code organization. during opertions the user has full control of the task, being able to change several parameters related to radio configurations, satellite orital information (period, communication window and last pasage), if data is to be transmitted whenever possible, and which type of data.
+
+bandwidth constraints of the satellite communication sysem are a major concern, with the current version limited to 32 bytes messages. this is circumvented by fragmenting data into smaller parts and then reassembling them back to its origial state. the two main reasons for this solution are the fact that it was already implemented within the lsts toolchain, and beause it is a message type independent solution. to test and validate the sdr hardware and software integraion, since the real satellite is still to be deployed (2018), uvigo provided a satellite simulator. this simulator is able to run the same software that will go on board the future satellite and thus mimics its behaviour. the test set was divided in three stages: workbench tests, communication dry run and finally field trials.
+
+a closed loop setup was devised to verify every step of the implementation. it is composed by an exact replica of the uav avionics (an x8 testbed), the humsat sdr transmitter and a dummy antenna, a satellite simulator (provided by uvigo for testing purposes) and a laptop running neptus (a neptus worktation). part of this setup is shown in figure 6.
+
+figure 6: x8 avionics testbed with humsat transmitter connected and uvigo satellite simulator.
+
+this hardware in the loop (hitl) setup is used to validate the satcomms task behaviour in a simulated environment, in particular the data fragmentation, transmission and reconstrucion outcome. at this stage, all systems are connected in the same network and the simulator is configured to send the inoming data to the neptus workstation (ip and port). the nepus workstation received all message fragments and was able to reconstruct the data. a few changes were necessary on neptus to handle repeated message fragments correctly, since the sdr forwards, for redundancy, four times each message.
+
+following the software developments validation, we setup a test to emulate a real operational scenario. this requires, apart from the equipment used before, two communication gateways2. both gateways are capable of providing a 3g connection, each with a different external ip, thus creating isolated networks. the lsts server needs to be active as it will serve as a data router. in this testing setup, shown in figure 7, the simulator is conected to one communication gateway (gateway a), whilst the testbed (linked to the sdr) and the neptus workstation (which will play the part of a remote dpc, deferred procedure call) are connected to another gateway (gateway b). we placed the testbed (plus sdr) and the neptus workstation on the same network only for logistical convenience, since we also need to have a local workstation to command the testbed.
+
+2the lsts manta communication gateways is a portable communication hub, allowing multiple communication channels to be active at the same time. gateway a
+
+the satellite simulator is configured to send the incoming data to the lsts server (which is in the laboratory connected to the internet), using gateway a. in turn, the server routes the data received from the ip of gateway a to the ip of gateway b, which delivers the incoming server traffic to the neptus workstation. a schematic of the links is depicted in figure 8. the neptus workstation can distinguish between the traffic received from the uav and the one coming from the satellite. in fact, the only way the neptus workstation can receive the data that is being sent with the sdr is through the routing communication done by the lsts server
+
+figure 8: communication dry run scenario test setup block diagram.
+
+a test sequence was carried out to verify everything was working as expected. the tests made, the desired outcome and the results are enumerated, in sequence, in table 3.
+
+after testing and evaluating the sdr integration developents in the workbench, the next step was to confirm the reults at the airfield. we installed the humsat transmitter in the vehicle's belly (vertically, for space optimization purposes) and the uhf antenna on the nose (opposite side to pitot tube), as shown in figure 9.
+
+the operational setup is identical to the "communication dry run" scenario. the only difference is the use of the real x8 instead of the x8 testbed. figure 10 presents the setup used during the field trials, and table 4 displays the scripted field mission step by step, with the obtained results during the field trials.
+
+during the flight tests we were able to gauge that, with the current humsat configuration, just one satellite, and a commuication window of about 5 minutes, approximately 45 kilobytes would be sent from the vehicle to the satellite. in a multiehicle scenario, even with a single spacecraft, larger streams of information can be shared among the vehicles, which can then schedule their data transmission, so that a large data packet (e.g. an image, an environmental log or some navigational data) can be transmitted and reconstructed on the command and control station. the field trials were carried out on april 2017, with the next steps already envisioned for mid 2018, when we expect to have a real satellite in operation. results
+
+connection established between gateway and simulator
+
+connection established with lsts server
+
+mobile internet successfully established and external ip attributed ok
+
+iptable rule successfully saved
+
+connection established between lsts server and neptus workstation ok
+
+wait for system in "service" and satcomms task active
+
+simulator ready to receive data
+
+set parameter and warns about sent option state
+
+wait for satellite to appear and starts sending data
+
+humsat terminal confirms transmission ok
+
+simulator receiving packets
+
+neptus shows incoming messageparts
+
+neptus shows data reconstructed correctly
+
+netpusworkstation gateway b x8 + sdr
+
+figure 10: field trials operational setup.
+
+in this work we have described the lsts vehicle system as well as uvigo's sdr board in detail. for the lsts, the toolchain as well as the vehicles have been deployed around the world, with many hours of accumulated operations. alhough the humsat system from uvigo is more recent, it has been validated with the launch of two small satellites, and sevral ground terminals deployed in places such as antarctica, south and north america, and europe. † on the first flight there were some problems receiving all messageparts, since the uav was forced to fly away from the simulator area due to very strong winds. on the second trial the
+
+flight occur at the determined area, and all data was received and reconstructed.
+
+additionally, we characterised some of the current commerial satellite communication systems. even though there are several options available, we focus on the ones that could be representative of the different options for sea operational scearios. moreover, we discussed a large bandwidth and real time system, inmarsat, one with limited bandwidth and gaps in the communication, argos, and a mixed system that can offer both options and does not require a large transmitting power, iridium. these solutions depend on the user's objectives, and have a wide range of prices.
+
+finally, we have presented the efforts of integrating the humat sdr system on board of a small, low cost, uav. the develpment team created additional software for the lsts toolchain, which allows the use of the sdr as a viable communication channel, in spite of the current limitations to the amount of data which can be streamed through this channel. moreover, a preiminary analysis of the bandwidth issues with the sdr techology was assessed, and important conclusions for the next version of the radio prototype were drawn. these will influnce the next prototype iteration of the srd system. results
+
+everything working as expected
+
+satcomms reports status active
+
+receive data successfully when uav is away (as far as possible) ok
+
+uav in air and ok
+
+vehicle synchronizes plan successfully
+
+plan execution starts
+
+loiter while transmitting.
+
+uav landing safely!
+
+the modifications to the current proposed solution deal with both hardware and software components. one of the main isues, already being addressed, is the possibility of upgrading the humsat sdr to allow centralised full duplex communicaion, since the current prototype only has one way. this would enable each vehicle to receive as well as transmit data, increasng the robustness of the communication network, without usng two sdrs. it would also simplify communication logistics and accommodation problems in small uavs. another issue, is the number of messages that have to be sent to the satellite to transmit a simple variable as the vehicle's estimated state. since the main reason, apart from the humsat 32 bytes data length, is the overhead created by the imc communication proocol, steps are being taken to employ a minimalistic version of this protocol for the satellite channel. with this approach, less messages would have to be transmitted for each package of data, maximising thus successful variable reconstruction on the neptus workstation (i.e. the uav ground station). all of these solutions will be tested in the next batch of field flight tests.
+
+although a fully fledged test will be difficult without a comlete satellite constellation in place, the scalability of the pro posed solution can still be inferred by the use of multiple uavs in the operation area as smaller relay nodes. these will help identifying issues about the network before having the logistial costs associated with the spacecraft launches while, at the same time, allow for evaluating the synergies of the sdr techology with the remaining communication links available to the autonomous vehicle teams.
+
+the reality of creating a fully multimedia satellite service would require a considerable initial investment, even taking into account the reduced cost of small satellites when compared with conventional commercial ones. it would have to take into account not only the costs of developing and building the necssary number of spacecraft, but also to cope with the logisics involved in launching all small satellites, and making sure that they reached their correct positions. nonetheless, a small satellite constellation, providing just low speed data connection will, at least in principle, have a smaller cost. moreover, the overall success of the small satellites approach, to keep up with the large communication spacecraft, is correlated with specific pieces of technology which are key for future missions. examles of these include new and miniaturised high gain antennae, improved software defined radios, high efficient amplifiers, and better orbit and attitude control.
+
+the work of andré guerra is supported by the fundação para a ciência e a tecnologia (portuguese agency for research) fellowship pd/bd/113536/2015. andré guerra would also like to thank his phd supervisor, orfeu bertolami, for several disussions and suggestions on the subject of this paper, and for reviewing it. the work of maria costa and sérgio ferreira was partially supported by marinfo (norte 01 0145 feder00031) and stride (norte 01 0145 feder 000033). the work of diego nodar and fernando aguado was partially suported by the spanish ministry of economy, industry and cometitiveness under projects humsat 2.0 (esp2013 47935 c4 1) and imonss (esp2016 79184 r). the work of maria costa, sérgio ferreira, diego nodar and fernando aguado was parially supported by interreg sudoe programme under grant numer soe1/p4/e0437 (fire rs project). the authors would like to thank all the support from the people in the laboratório de sistemas e tecnologia subaquática (lsts) and centro gallego de innovación aerospacial (cinae).
+
+p. mcguillivary, j. b. sousa, r. martins, connecting the dots. networkng maritime fleets of autonomous systems for science and surveillance, marine technology reporter (2012) 32 38. c. fuchs, a. s. ferreira, j. b. sousa, g. gonçalves, adaptive conoles for supervisory control of multiple unmanned aerial vehicles, in: m. kurosu (ed.), human computer interaction. interaction modalties and techniques, springer berlin heidelberg, 2013, pp. 678 687. doi:10.1007/978 3 642 39330 3_73.
+
+p. chini, g. giambene, s. kota, a survey on mobile satellite systems, international journal of satellite communications and networking (2009) 29 57doi:10.1002/sat.941.
+
+url www.inmarsat.com
+
+url www.orbcomm.com
+
+orbital atk, iridium next fact sheet, retrieved june 20, 2017 (2015). https://www.orbitalatk.com/space systems/
+
+cls america, iridium services & hardware 2017 catalog (2016). rock seven mobile services ltd, rockblock v2 developer guide
+
+rock seven mobile services ltd, rock seven, visited june 20, 2017
+
+b. yann, cls america, personal communication (2017). cls america, argos 3 the new generation, tech. rep. (2011). elta, terminals and beacons pmt argos 3 (2017). cls america, argos 3 pmt k platform messaging transceiver (2009). european space agency, satellite missions directory earth observation

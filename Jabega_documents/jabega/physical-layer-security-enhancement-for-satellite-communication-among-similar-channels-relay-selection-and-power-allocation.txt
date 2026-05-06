@@ -1,0 +1,223 @@
+physical layer security enhancement for satellite communication among similar channels: relay selection and power allocation
+
+jingtao li, shuai han , member, ieee, xiangxue tai, ciyuan gao , and qingli zhang
+
+abstract—to implement secure communication among similar channels for satellite communications, a secure communication model based on collaboration with the interference relay of the satellite physical layer is proposed in this paper. relay selection and power allocation are further studied to enhance the security performance of the satellite communication system based on the model. the relay selection standard under known instantaneous channel state information (csi) and statistical csi conditions is theoretically derived, thereby minimizing the secrecy outage probbility(sop). in addition, the power allocation factor is optimized based on the minimization of the sop. moreover, a power alloation method based on the statistical csi is presented. the sop performance of each relay selection criterion and power allocation scheme are analyzed.
+
+index terms—physical layer security, power allocation, relay
+
+t he security problems that accompany the wide area open
+
+ness of satellite communication are far more serious than those of terrestrial networks. with the development of quanum computing, the encryption of traditional information layers faces the risk of being brute force cracked. nevertheless, the theory of physical layer security will become a powerful means of ensuring the security of satellite communications.
+
+to date, extensive research on physical layer security techology has been performed. beamforming is a basic technique for implementing secure communication in the physical layer of the system and is extensively applied to achieve security in specific communication scenarios. ammari and fortier anlyzed the physical layer security of a multi input multi output (mimo) transmitting beamforming system against an eavesropping channel based on a maximum ratio combining reeiver. lin et al. presented a novel frequency diverse array
+
+manuscript received october 6, 2018; revised january 23, 2019 and april 23, 2019; accepted may 25, 2019. this work was supported by the national natual science foundation of china under grant 61771169 and grant 61831002). (corresponding author: shuai han.)
+
+j. li is with the institute of telecommunication satellite, china academy of space technology, beijing, china, and also with the school of aerospace engineering, beijing institute of technology, beijing 100091, china (e mail: lijingtao216@sohu.com).
+
+s. han, x. tai, c. gao, and q. zhang are with the school of electronics and information engineering, harbin institute of technology, haerbin 150006, china (e mail: hanshuai@hit.edu.cn; taixiangxue@qq.com; gaociyuan@ foxmail.com; zhangqingli_18@163.com).
+
+(fda) beamforming method in which highly correlated chanels of legitimate and eavesdropping users are decorrelated via the frequency offset of the array antenna. liu and malaney proposed a new location based beamforming method with a focus on eavesdropping channels. similar to the beamformng technique, the artificial noise (an) technique can also efectively enhance the secrecy performance of the system. the principal idea of the an technique is to incorporate approprite pseudorandom noise into the transmitted signal to interfere with the eavesdropper such that the signal receiving quality of the eavesdropper is reduced, thereby enhancing the secrecy caability. with multiple available antennas for the transmitter, the information and an can be simultaneously transmitted , . goel and negi pioneered the use of an methods to enance the channel capacity . ahmed and lin proposed a new strategy based on the ordinal eigenvalues of the wishart matrix. the message is encoded in the strongest characteristic subchannels, and the an signal is generated in the remaining space. a complex noncentral wishart distribution is applied to extend this strategy to the rician channel. the performance of a mimo communication system is simulated in a rician fading environment to study the influence of the rician factor on the security capacity. lu et al. present a transmission method that maximizes the secrecy outage probability (sop) in the case of multiantenna transmission. the accuracy of the channel state information (csi) corresponding to the eavesdropping channel affects the application of physical layer security techniques. diferent an design methods are employed depending on whether the eavesdropping channel state is known. the design of direcionally isotropic an is utilized when the csi of the eavesdroper is unknown , . in addition, the an technique is often combined with beamforming to achieve physical layer security. in , an an optimization method that assists and coordinates multiple cells in beamforming is studied for multiuser systems. all beamforming base stations and the an vector are collecively optimized to reduce the total transmission power to the greatest extent possible while simultaneously guaranteeing the quality of service for authorized users and avoiding the intereption of information by unauthorized users. the optimal anssisted beamforming method is also studied in . several previous results regarding single antenna eavesdroppers have been extended to multiantenna eavesdroppers, showing that the traditional zero space an plan is indeed the best for any paameter of the system. shafie et al. proposed an optimized 1
+
+secure multiantenna transmission method based on an assisted secure beamforming for the situation in which the feedback from a single antenna receiver is limited. zhang et al. designed an an assisted transmission strategy for a multiple input singleutput multiantenna eavesdropper. the transmission and an coariance are collectively optimized owing to the maximization of the secure rate. cofrequency co time full duplex technology can be applied to transmit an for the purpose of interfering with the eavesdropping node and thereby enhancing the secrecy performance of the system. full duplex technology considers two primary scenarios for the physical layer security. 1) the leitimate receiving end has full duplex functionality; it receives the signals coming from the transmitting end while transmiting the an to interfere with the eavesdropper. 2) in the wiretap model with relays, full duplex technology is deployed on the relay node. the relay node receives the signal while transmiting the interference signal to interfere with the activity of the eavesdropper , .
+
+the physical layer security technique for terrestrial wireless communication stated above utilizes the difference between leitimate and eavesdropping channels to achieve secure comunication. however, in satellite communications, because the altitude of the satellite is much greater than that of any legitimate receiver, almost no blocking obstacles or reflection is present in the transmission. the power of a direct signal is much greater than that of a multipath signal. consequently, the channel is esentially related to the transmission loss, which is determined by the distance. when a legitimate user is close to an eavesdroping user, the distance between the legitimate and eavesdropping users is much less than the distance from the satellite to either one, and it can thus generally be ignored. hence, the csi of the legitimate channel is very similar to the csi of the eavesropping channel. therefore, the physical layer techniques for traditional terrestrial wireless communication cannot be directly applied to the security of satellite communication.
+
+bankey et al. mainly investigated the sop of a downlink land mobile satellite system. in their model, co channel interfernce signals are also considered. chen and song proposed a method to increase the secrecy rate in which a terrestrial base staion operates as a two stage amplify and forward (af) relay to assist in providing secure transmission. in the first stage, pcma was used to send an, and in the second stage, beamforming was designed for the secure enhancement.
+
+this paper presents research regarding the physical layer seurity in satellite communication when the legitimate and eavesropping channels are similar. the main contributions of this paper are summarized as follows: 1) a cofrequency co time cooperative interference relay is incorporated to transmit an interference signals that only affect the eavesdropping user by reducing the quality of the signal received while ensuring the sigal quality for the legitimate user, thereby ensuring the secrecy capability of the system and achieving security of the commuication. 2) to further improve the secrecy performance of the system, physical layer security enhancement techniques, includng relay selection and power allocation, are studied, with a focus on the circumstances detailed above. the relay selection mainly concerns optimal selection among the multiple relays that can be accessed by the satellite communication system such that the ieee systems journal
+
+table i notation summary
+
+fig. 1. satellite ground physical layer secure communication system model.
+
+sop performance of the system is optimized. power allocation mainly concerns the case in which the total transmission power of the satellite and cooperative interference relays is fixed. by making the most effective use of the power allocation between the satellite and relays, the performance in terms of the sop is optimized. for ease of reading, the notations are summarized in table i.
+
+ii. system models
+
+to resolve the physical layer security problem for similar satellite communication channels, the incorporation of a nearround cofrequency co time cooperative interference relay is considered. the near ground cofrequency co time cooperative interference relay transmits an interference signal that theoretially has no effect on the legitimate receiving end according to a certain strategy. this approach significantly reduces the qualty of the signal received by an eavesdropping receiver, but the signal quality remains substantially unchanged for legitimate users, thereby ensuring the secrecy capability of the system and achieving security of the system.
+
+fig. 1 shows the satellite ground physical layer secure comunication system model. the model contains a satellite (alce), a legitimate receiver end (bob), an eavesdropping receiver end (eve), and m near ground cofrequency co time cooperative li et al.: physical layer security enhancement for satellite communication among similar channels
+
+interference relays {relayk}m k with respect to the satellite. to simplify the analysis of the model without losing generality, only one relay is selected from the m relays each time.
+
+assume that bob is close to eve. in actual satellite communiations, the satellite ground channel is a rician fading channel with a very large rician factor. the relay is near the ground, and thus, the channel relayed to the ground receiving end is modeled as a rician and rayleigh channel. therefore, when bob is near eve, the channels from alice to bob and from alice to eve are approximately similar, whereas the channels relaying to bob and eve differ. when data must be transmitted between the satellite and bob, a selection from among the m accessible relays near bob must be made according to a relay selection strategy, and the selected relay participates in the data transmission of the satelite communication system. alice transmits a confidential data signal, and the relay transmits an an interference signal that is orthogonal to the channel between the relay and the legitimate receiving end. both bob and eve can receive cooperative intererence relays from alice and the relay. assume that the number of transmitting antennas for the satellite and relay are n s and n r, respectively, the receiving antennas of bob and eve are sinle antennas, and the satellites and relays transmission powers are p s and p r, respectively. then, when the relay selected by the satellite communication system that participates in the data transmission is relay k, assuming that the legitimate and eavesropping receiving ends have the same gain, the signals received by bob and eve, respectively, are
+
+in which yd,k represents the signal received by bob when the selected relay is relay k; ye,k indicates the signal received by eve when the selected relay is relay k; hsd is the csi vector from alice to bob, hsd ∈ cns×1; hse is the csi vector from alice to eve, hse ∈ cns×1; hrd,k is the csi vector between the relay and bob, hrd,k ∈ cnr×1; and hre,k is the csi vector from the relay to eve, hre,k ∈ cnr×1. nd is the complex addiive gaussian random noise at bob's end, nd ∈ cn (0, σ2 d), and ne is the complex additive gaussian random noise of the eavesropping node at eve's end, ne ∈ cn (0, σ2 e ). xs represents the confidential data signal transmitted by alice, xs ∈ cns×1, for which the power is 1. xz,k indicates the an interference sigal transmitted to eve by the cooperative interference relay k, which is pseudorandom complex gaussian noise orthogonal to the channel between relay k and bob; i.e., xz,k is located in the null space of channel hrd,k, xz,k ∈ cnr×1, for which the power is equal to 1. xz,k can be specifically expressed as
+
+in which ghrd,k is the normalized orthogonal basis matrix ∈ cnr×nr−1, of the null space for channel hrd,k, ghrd,k i.e., hh rd,kghrd,k = 01×nr−1. zk is the pseudorandom complex gaussian noise, zk ∈ cnr−1. according to (1) (3), the ratios of signal to interference at
+
+bob and eve are
+
+then, when the relay is relay k, the instantaneous secrecy caacity at bob is
+
+e = σ2 when the gaussian noise power is equal to σ2 at the locations of bob and eve, because (cid:3)hsd(cid:3)2 = (cid:3)hse(cid:3)2, pr(cid:3)hh (cid:3)2 > 0, so γd > γe; therefore, cs > 0. this result indicates that the model can achieve secure communication. aditionally, in the case of a high signal to noise, as ps, pr → ∞, γd → ∞ and γd → ρ (cid:3)2 (ρ = ps/pr is a finite value); thus, cs → ∞. this result shows that the model can attain an instantaneous secrecy capacity that is arbitrarily large when the transmission power from alice is sufficiently large. d = σ2
+
+iii. relay selections
+
+when multiple relay nodes are present in the system, (6) reeals that the selection of the relay node to participate in the data transmission will affect the secrecy performance of the system; thus, relay selection is an important technique for the enhanceent of the system security. therefore, in this section we will study how the relay selection affects the enhancement in the secrecy performance of the system.
+
+a. relay selection based on instantaneous csi
+
+the channel of satellite communication is a slowly fading channel. the sop is an important indicator for the measurement of the secrecy performance of slowly fading channels. the lower the sop is, the better the secrecy performance of the system. therefore, the optimization of the relay selection based on the minimization of the sop is meaningful.
+
+the sop is the probability that the instantaneous secrecy caacity is less than a certain threshold. the secret communication should be interrupted once the instantaneous secrecy capacity is below this threshold; otherwise, the communication will not be safe. assume that the minimum rate of secure system transmision is rs when the relay is relay k; then, the sop at bob's end can be expressed as
+
+where p r[·] represents solving for the probability.
+
+the selected relay should be the relay that minimizes the sop of the system among the m relays. therefore, the optimal relay k∗ can be expressed as 3
+
+(7) equation (9) reveals that the optimal relay k∗ obtained based on the minimization of the sop is equivalent to the optimal relay k∗ determined based on the maximization of the instantaneous secrecy capacity. substituting (4) (6) into (9), the optimal relay k∗ can be expressed as (cid:4)
+
+according to (11), it is evident that the optimal relay k∗ is 1 and 1 . the optimal relay k∗ must be continuously updated 1 and {hrd.k}m 1
+
+determined by the instantaneous csi of channels {hre.k}m {hrd.k}m as the instantaneous csi of channels {hre.k}m changes.
+
+in section iii a, the optimal relay k∗ is determined based on 1 and {hrd.k}m the instantaneous csi of the channels {hre.k}m 1 from {relayk}m 1 to bob and eve. however, errors are present in the channel estimation, and it is difficult for satellite communicaion systems to obtain accurate csi for {hre.k}m 1 and {hrd.k}m 1 ; thus, satellite communication systems may not have the ability to attain instantaneous csi. in addition, the instantaneous csi for {hre.k}m 1 continuously changes ; therefore, relay selection must be performed continuously by the satellite comunication system. this will increase the signaling overhead, and moreover, continuously performing the relay handover acess will increase the delay of data transmission. to remedy the drawbacks of the relay selection method based on the known instantaneous csi presented in section iii a while improving the actual realizability, the relay selection should be based on statistical csi. according to the optimal statistical csi based relay selection standard, when the instantaneous csi cannot be attained, the optimization function can be modified to (cid:9)
+
+the meaning of (12) is to select the relay with the highest proba (cid:3)2(k = 1, 2, , m ) is bility whose random variable (cid:3)hh greater than that of any other relay for the same threshold value. assume that the channels of relay {relayk}m 1
+
+to eavesropping and legitimate receivers are independent rayleigh channels with the same distribution. then, the random variables (cid:3)hre.k(cid:3)2 and (cid:3)hrd.k(cid:3)2 both obey χ2 distributions that have the same number of degrees of freedom, 2nr. additionally, since ghrd,k is the normalized orthogonal basis matrix of the null ∈ cnr×nr−1, the random varipace for channel hrd,k, ghrd,k able (cid:3)hh (cid:3)2 obeys the χ2 distribution that has 2nr − 2 degrees of freedom. because the number of degrees of freedom, 2nr − 2, is an even number, the cumulative distribution function (cdf) of the random variable (cid:3)hh re.kghrd.k (cid:3)2(r) (cid:3)hh (cid:10) re.kghrd.k
+
+differentiating the cdf of (cid:3)hh σ2 re,k gives the first derivative of f to σ2
+
+re,k, which can be expressed as re.kghrd.k (cid:3)2(r) dσ2 df
+
+re,k re.kghrd.k (cid:3)hh re.kghrd.k (cid:3)2 with respect to (cid:3)2 (r) with respect
+
+(14) where r > 0. equation (14) reveals that the first derivative of f always less than 0. thus, f re.kghrd.k decreasing function with respect to σ2 value of σ2 therefore, (12) can be converted into df
+
+re,k is, the smaller the value of f
+
+substituting σ2 csi based relay selection criterion as into (15) gives the statistical
+
+using (16), the relay that has the maximum statistical csi for
+
+the eavesdropper channel can be selected.
+
+iv. power allocation
+
+after determining the relay to be involved in the secure data transmission, the entire secure transmission path of the satelite communication system includes a satellite, a cofrequency co time cooperative interference relay, an eavesdropper, and a legitimate receiver. then, the transmission powers of the satelite and relay contribute to the power consumption of the satelite communication system. therefore, to minimize the energy consumption of the entire system, the total transmission power of the satellite and relay must be constrained. when the total transmission power of the satellite and relay is determined, the transmission power allocation between the satellite and relay may affect the secrecy performance of the system. for this reaon, in this section we will further study transmission power allocation between satellites and relays to enhance the secrecy performance of the system.
+
+assume that the selected secure transmission participating relay is relay k, the total transmission power constraint of the satellite and relay k is p , the transmission power ps of alice is αp , and the transmission power pr of relay k is (1 − α)p . α is defined by the power allocation factor, which represents the ratio of the transmission power from alice to the total transmission power of alice and the relay, α ∈ (0, 1). then, substituting ps = αp and pr = (1 − α)p into (6) gives the instantaneous secrecy capacity of the system, which is expressed as
+
+the simplest power distribution method is uniform power alocation. the physical layer security model of the satellite comunication system with uniform power allocation between alice and relay k is studied. this means that the transmission powers of alice and relay k are equal; the power allocation factor is then α = 0.5.
+
+the advantages of uniform power allocation between alice and relay k are no relevant channel information being needed for the power allocation, fewer requirements for the satellite comunication system, and reduced signaling overhead for alice and relay k. however, when applying uniform power allocaion, the power allocation factor does not depend on the csi of the satellite communication system. therefore, optimal reults in terms of the secrecy performance of the system cannot be achieved. for the satellite communication system to attain better secrecy performance, the power allocation between alice and relay k must be optimized.
+
+the optimization of the power allocation in this section is still based on the minimization of the sop. therefore, the optial power allocation factor α∗ should minimize the sop. the optimization problem can be expressed as
+
+where pout,k(α) =p r [cs,k(α) < rs]. following the same logic as in section iii, the maximization of the instantaneous secrecy capacity yields the minimum sop. thus, the optimal 5
+
+power allocation factor α∗ is expressed as
+
+; substituting (17) into (19), the optimal power
+
+allocation factor can be rewritten as
+
+(20) is equivalent to
+
+(γsd −γre )α+γre+1 according to (21), solving for the optimal power allocation factor α∗ corresponds to determining the maximum value of function f (α). thus, the maximization and minimization of f (α) must be analyzed. therefore, a differentiation analysis of f (α) is conducted. the first derivative of f (α) can be expressed as (22), shown at the bottom of this page.
+
+the second derivative of f (α) can be expressed as
+
+(24) α∗ < 1, which corresponds to the constraints of the power allocation factor. hence, (24) is the final solution for the optimal power allocation factor. substituting γsd = p (cid:3)hsd(cid:3)2 /σ2 e into (24), the final equaion of the optimal power allocation factor α∗ can be obtained and is expressed as (25), shown at the bottom of this page.
+
+equation (25) reveals that the optimal power allocation facor α∗ is related to the total transmission power constraints p, (cid:3)hsd(cid:3)2 and (cid:3)hh (cid:3)2. therefore, to conduct such an optimal power allocation for the satellite communication sysem, the instantaneous csi of channels hsd, hrd,k, and hre,k must be known.
+
+therefore, when the satellite communication system performs power allocation according to the transmission power of alice, α∗p , and that of the relay, (1 − α∗)p , the minimum sop of the system is obtained.
+
+c. power allocation based on statistical csi
+
+when the system performs optimal power allocation, the intantaneous csi is required. however, accurate channel estimaion is required for the satellite communication system to obtain the instantaneous csi hsd, hrd,k, and hre,k. this makes imlementation of this method difficult in actual practice, as there may be circumstances in which the system is unable to attain the instantaneous csi. moreover, the instantaneous csi hsd, hrd,k, and hre,k are constantly changing; thus, the system must update the power allocation factor continuously according to changes in the instantaneous csi. however, updating the power allocation factor increases the signaling overhead and the complexity for the system to perform power allocation.
+
+to compensate for the inadequacy of the optimal power allocation and ensure the realizability of the method in actual practice, statistical csi power allocation is invesigated. the power allocation is performed based on the statistical csi of the channels to determine the value of the power allocation factor. therefore, when the statistial csi of the channels is constant, the power allocation factor remains unchanged. then, the sop of the system only deends on the distribution of the channels hsd, hrd,k, and hre,k. the statistical csi based power allocation still aims to attain the optimal performance in terms of the sop as much as possible; therefore, the sop is first derived.
+
+substituting (17) into (7), the equation for the sop can be
+
+expressing the above in integral form and simplifying, the
+
+sop can be rewritten as
+
+equation (27) shows that the expression for the sop is related to the pdfs and cdfs of the random variables γrd and γre. thus, the pdfs and cdfs of γrd and γre are next derived.
+
+satellite ground channel hsd is a rician fading channel with a very large rician factor. therefore, the random variable (cid:3)hsd(cid:3)2 obeys the noncentral chi square distribution that has a number of degrees of freedom equal to 2nr . additionally, because γsd = p (cid:3)hsd(cid:3)2/σ2 d, through derivation, the pdf and cdf of γsd are determined by (28) and (29), shown at the bottom of this page, e[(cid:3)hsd(cid:3)2] in which s2 and σ2 2nr(ksd+1) . ksd is the rician factor of channel hsd; since the channel is a rician fading channel with a very large rician factor, the value of ksd is relatively large. two scenarios are presented as follows: ksde[(cid:3)hsd(cid:3)2] (ksd+1) sd = sd =
+
+1) when hrd,k and hre,k are independent rayleigh channels (cid:3)2 obeys the χ2 with the same distribution, (cid:3)hh distribution that has 2nr − 2 degrees of freedom. addiionally, because γre = p (cid:3)hh e , the cdf (cid:25) (cid:12)
+
+2) when hrd,k and hre,k are independent rician channels with same distribution, (cid:3)hh (cid:3)2 obeys the nonentral χ2 distribution with 2nr − 2 degrees of freeom. additionally, because γre = p (cid:3)hh (cid:3)2/σ2 e , the cdf of γre is the expression for the sop: (cid:13) where p (cid:9)
+
+the sop under the aforementioned conditions is
+
+it can be observed from (31) and (33) that regardless of whether the channel between the relay and the ground receivng end, hrd,k and hre,k , is a rayleigh channel or a rician channel, the sop expression is not of closed form, which makes solving for the optimal power distribution factor difficult. howver, because the channel between the satellite and the ground receiving end is a rician fading channel with a very large riian factor in practice, the rician distribution approximates the gaussian distribution when the rician factor is very large; i.e., a rician channel is approximately a gaussian channel. therefore, to obtain a closed form sop expression for calculation conveience, we directly assume gaussian channels to approximate rician fading channels hsd and hse in the process of the sop expression derivation.
+
+assume that the gains of the hsd and hse channels are equal to a, a = e[(cid:3)hsd(cid:3)2 ]. then, the following expression for the instantaneous secrecy capacity can be obtained by substituting (cid:3)hsd(cid:3)2
+
+= a into (17) and simplifying:
+
+substituting (34) into (7) and simplifying, the expression for
+
+substituting (30) into (35), an approximate closed form exression for the sop of hrd,k and hre,k, when they are indeendent and identically distributed rayleigh channels, can be obtained as shown in (36), shown at the bottom of this page.
+
+by substituting (32) into (35), an approximate closed form expression for the sop of hrd,k and hre,k, when they are inependent and identically distributed rician channels, can be obtained as shown in (37), shown at the bottom of the next page. based on (36) and (37), by directly approximating the riian fading channels with very large rician factors hsd and hse as gaussian channels in the derivation, a closed form exression for the sop can be obtained. thus, as long as the statistical csi of channels hsd and hre,k is known, the sop at the location of bob can be directly and rapidly calculated. moreover, because the range of the power allocation factor α, α ∈ (0, 1), is quite small, the traversal search method can be employed. it is thus possible to traverse the power allocation factor α according to a specified step size, calculate the sop, and select the α value resulting in the minimum sop as the fial power allocation factor; the specific algorithm is detailed in algorithm 1.
+
+(36) algorithm 1: csi based power allocation factor optiization algorithm flow. input: traversal step size of α: δα total emission power: p bob and eve receiving end noise power: σ2 hsd and hre statistical csi: e[(cid:3)hsd(cid:3)2 rician factor of hre (this parameter does not exist when hre is a rayleigh channel): kre output: power allocation factor α 1: calculate all traversal values of power allocation
+
+factor α. quantify the possible values of α in the interval (0,1), and store them as one dimensional vector b.
+
+2: traverse the power allocation factor to calculate the
+
+sop. according to the closed form expression of the power allocation factor, calculate the sop for the power allocation factor set to each element in b, and store these values as one dimensional vector pout.
+
+a. performance analysis of sop for relay selection
+
+in this section, we present some results to verify the sop performance of our relay selection algorithms. we assume that ns = nr, the noise power at the receiving end is normalized to 1, p = p/σ2, and p is 5 15 db. to conform to the actual situation of the satellite ground channel, the channels between the satellite emitting end and ground receiving end, hsd and hse, are rician fading channels with a rician factor ksd = 10. the channels between the relay and ground receiving ends, bf hre and bf hrd, are rayleigh channels.
+
+an analysis of the relay antenna number nr is shown in fig. 2, which shows the variation of the sop for the two types of relay fig. 2. nr = 2, 4, 8. sop variation with the total power p in each relay plan when
+
+selection with the satellite and relay sum transmission power constraint p when nr = 2, 4, 8, the minimum rate of secure transmission of the system rs is 2 b/s/hz.
+
+fig. 2 shows that when all other conditions are fixed, the sop performance of the selected relay in the condition of known intantaneous csi is far better than that in the condition of known statistical csi. this result indicates that the former relay seection achieved enhancement of the sop performance. in adition, when all other conditions are fixed, the higher nr is, the better the sop performance of the two types of relay selecion. for example, for the relay selection under the condition of known instantaneous csi in fig. 2, when p = 12 db, the order of magnitude of the sop is greater than 10−1 when nr = 2, 10−1 when nr = 8, and 10−2 when nr = 8. additionally, in fig. 2, the sop of the relay selection based on the instantaneous csi when nr = 2 is far less than that based on the statistical csi when nr = 8. this result once again indicates that the sop performance of the selected relay under the condition of known instantaneous csi is far better than that under the condition of known statistical csi.
+
+fig. 3 shows the impact of the minimum rate of secure transission of the system rs on the sop performance of the relay selection; the figure shows the variation of the sop for each relay selection with the total power constraint p when rs = 1, 1.5, 2. the condition of ns = nr = 4 is assumed here, and the other simulation conditions are the same as in fig. 2.
+
+fig. 3 shows that the sop performance of the selected reay with known instantaneous csi is far better than that with known statistical csi. in addition, as rs decreases, the sop performances of both types of relay selection improve, but the improvement in the relay selection with known instantaneous csi is superior to that with known statistical csi. for instance,
+
+(37) fig. 3. variation of the sop for each relay selection with the total power constraint p when rs = 1, 1.5, 2.
+
+fig. 4. variation of the sop for the power allocation method with the rician factor ksd of channel hsd.
+
+in fig. 3, when p = 11 db and rs decreases from 2 to 1.5 b/s/hz, the order of magnitude of the sop of the relay selection with known instantaneous csi decreases from 10−1 to 10−3, whereas that of the relay selection with known statistical csi does not change.
+
+b. relevant statistical analysis based on power allocation using statistical csi
+
+the sop of the statistical csi based power allocation is afected by the traversal step size used to determine the power allocation factor and the value of the rician factor of the actual satellite to ground receiving end channel. therefore, the impact of these two factors on the sop of the statistical csi based power allocation is analyzed via a simulation.
+
+assume that the system's minimum secure transmission rate rs is 1 b/s/hz, nd = nr = 4, the receiving end noise power is normalized to 1, p = p/σ2, and when the channel between the relay and the ground receiving end is a rician channel, the rician factor kre is 1. then, e[||hsd||2 fig. 5. variation of the statistical csi based power allocation sop with the total power constraint p .
+
+performance of the statistical csi based power allocation, with p set to 10 db. it shows the variation of the sop for each power allocation method with the rician factor ksd of the channel hsd. it can be observed that regardless of whether the channel between the relay and the ground receiving end is a rician or rayleigh channel, for a higher ksd, the sop performance of the statistical csi based method is closer to the optimal sop performance. when ksd is relatively small, the sop of the statistical csi based power allocation method is quite different from the optimal one and even worse than the sop performance of the uniform allocation method. for example, when the channel between the relay and ground receiving end is a rayleigh channel and ksd ≤ 2, the sop of the statistical csi based power allocation method is greater than the sop of the uniform allocation method, whereas when ksd ≥ 12, the sop of the statistical csi based power allocation method is almost equal to that of optimal power allocation. this result occurs because we treated channel hsd as a gaussian channel rather than the actual rician fading channel with a large rician factor for approximate optimization in the statistical csi based power allocation approach. therefore, the closer the actual chanel hsd is to a gaussian channel, the closer the statistical csi based power allocation is to the optimal solution, and the larger the rician factor of a rician channel is, the closer the channel is to a gaussian channel. in reality, the rician factor of the channel between the satellite and ground receiving end is quite large; therefore, the statistical csi based power allocation method is feasible.
+
+in addition, when the rician factor ksd of the satellite ground channel hsd is relatively small, the sop of the statistical csiased power allocation method is closer to the sop of the optial power allocation when the channel between the relay and the ground receiving end is a rician channel compared to when the channel is a rayleigh channel. additionally, when the other conitions are fixed, the sop performance of the relay to ground receiving end channel is better when it is a rician channel than when it is a rayleigh channel. 9
+
+fig. 6. variation of the sop for each power allocation method with the total power constraint p when nr = 2, 4, 8. (a) situation of relay to the ground when the receiving end channel is a rayleigh channel. (b) situation of relay to the ground when the receiving end channel is a rician channel.
+
+fig. 5 analyzes the effect of the traversal step size on the sop performance of the statistical csi based power allocation method; it shows the variation of the sop for the statistical csi based power allocation scheme with the total power constraint p in the cases in which the relay ground reeiving end channel is a rician channel and a rayleigh chanel (δa = 0.001, 0.005, 0.01, 0.05, 0.1). p is in the range of 5 15 db, and the satellite legitimate user channel and satellite ground receiving end channel are both rician channels with rician factors ksd of 10. when the relay ground receiving end channel is rician, its rician factor kre,k is 1.
+
+fig. 5 reveals that regardless of whether the relay ground for δa = receiving end channel 0.001, 0.005, 0.01, 0.05, 0.1, the performance gap in terms of the sop is small for the statistical csi based power allocation method. for δa = 0.1, i.e., a high signal to noise ratio, the sop is slightly greater than that for the other four values, and the other four curves almost coincide. from this result, it can be noted that a traversal step length for the precision of power allocation facor 0.05 can approximately obtain the optimal sop. since the value range of the power allocation factor α is α ∈ (0, 1), with a traversal step size of 0.05, only 19 traversals must be conducted. meanwhile, the sop has a closed form expression that can be directly calculated. therefore, the computational complexity of the statistical csi based power allocation method can be hanled by the system.
+
+c. comparison and analysis of each power allocation scheme in terms of the sop performance
+
+to perform a better comparison of the secrecy performance for each power allocation, the sop of each power allocation is simulated and analyzed. at the same time, the influences of the number of relay antennas nr and the minimum rate of system secure transmission rs on the performance of the sop are anlyzed via simulations. assume that ns = nr, the noise power of the receiving end is normalized to 1, p = p/σ2, and the total transmission power constraint p is in the range of 5 20 db. fig. 6 analyzes the effect of the number of relay antenas nr on the sop for each power allocation; it shows the variation of the sop for each power allocation method with the total power constraint p when nr = 2, 4, 8. to correspond with the actual situation of the satellite ground channel, the channel of the satellite transmitting end to the ground receiving end is a rician fading channel with a rician factor ksd = 5. fig. 6(a) shows the situation in which the relay to ground receiving end channel is a rician channel, whereas fig. 6(b) shows the situaion in which the channel is a rayleigh channel with a rayleigh factor kre,k = 1.
+
+fig. 6 shows that regardless of whether the relay to ground receiving end channel is a rician or rayleigh channel, when the other conditions are fixed, the performance of the optimal power allocation sop is the best. the performance of the staistical csi based sop is second, but it is very close to that of the optimal power allocation sop. in addition, the sop perforances of these two types of power allocation are far superior to that of the uniform power allocation, which indicates that the two proposed power allocation methods enhanced the perforance in terms of the system sop. when the other conditions are fixed, a greater nr corresponds to a smaller sop value for each power allocation method and thus better performance. for example, in fig. 6(a), when p = 15 db and nr = 2, the order of magnitude of the sop is 10−1. when nr = 4, the order of magnitude is 10−2, and when nr = 8, the order of magnitude is less than or equal to 10−5.
+
+fig. 7 analyzes the effect of the minimum security transmision rate rs on the performance of the power allocation sop and shows the variation of the power allocation for each method with the total power constraint p . it is assumed that ns = nr = 4, and the other conditions are the same as those in fig. 6.
+
+fig. 7 shows that regardless of whether the relay to ground reeiving end channel is a rician or rayleigh channel, the smaller the value of rs is, the smaller the sop. for example, in fig. 7(b), when p = 15 db and rs = 1, the order of magnitude for the sop is 10−2. when rs = 1.5, the sop order of magnitude is 10−1, and when rs = 2, the sop order of magnitude is greater than 10−1. taking the derivative of (7) yields
+
+the above equation yields the same result as the simulation.
+
+a satellite ground physical layer security communication model based on a cooperative interference relay is proposed, and its feasibility is theoretically analyzed. optimization of the relay selection standard is conducted on the basis of the model for the purpose of improving the performance of the system sop. this approach specifically includes the relay selection criteria for conditions of known instantaneous csi and known statistial csi. based on the model, when the total transmission power of the satellite and relay is fixed, the power allocation between the satellite and the relay is optimized, which gives the optimal power allocation that minimizes the sop. additionally, a statisical csi based power allocation that considers the realizability was proposed. the results indicate that the performance of the sop obtained with the known instantaneous csi relay selection method exceeds that based on the known statistical csi. neverheless, power allocation based on the statistical csi is achievble despite its complexity. in addition, the performance of the optimal power allocation sop is superior to that of statistical csi based power allocation, and the performance of statistical csi based power allocation is better than that of uniform power allocation. y. lu, k. xiong, p. fan, and z. zhong, "optimal coordinated beamorming with artificial noise for secure transmission in multi cell multiser networks," in proc. ieee int. conf. commun., france, paris, may 2017, pp. 1 6.
+
+v. bankey, p. k. upadhyay, and d. b. da costa, "physical layer security of interference limited land mobile satellite communication systems," in proc. int. conf. adv. commun. technol. netw., marrakech, morroco, apr. 2018, pp. 1 5. 11

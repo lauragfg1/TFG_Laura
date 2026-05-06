@@ -1,0 +1,121 @@
+combined precoding for multiuser multiple input multiple output satellite communications
+
+institute of telecommunications and multimedia applications, universitat politècnica de valència, camino de vera s/n, valencia 46022, spain
+
+the potential of multiple input multiple output (mimo) techniques in terrestrial wireless networks has been demonstrated during the last several decades . mimo systems can achieve higher data rates compared to single input single output (siso) systems because the channel capacity can be increased linearly with the number of transmit and receive antennas. consequently, mimo has generated considerable interest due to its possible application to satellite networks to reach higher data rates . nevertheless, there are elementary differences between terrestrial and satellite channels, which prevent the direct application of mimo techniques to satellite communications. therefore, this can be considered to be a popular research topic. these differences are mainly related to the channel, especially with the line of sight (los) operation of satellite links and to the absence of scattering effects in the proximity of the satellite, which eliminates multipath fading profiles over the space segment and leads to an inherent rank deficiency of the mimo channel matrix .
+
+many techniques can reduce or almost eliminate the impact of the unavoidable inter user interference, which have mainly been developed for terrestrial systems and applied at either the receiver or the transmitter or both, . precoding techniques are also attractive for mobile satellite transmission schemes to mitigate interference, and allow cost and complexity reductions of the user terminal. recent research has explored the use of precoding techniques in single beam systems and in multi beam systems [5,6]. however, the high number of transmit antenna elements and users limit the precoding designs due to optimization complexity.
+
+a number of linear and non linear techniques have recently been proposed to effectively manage interference among users. between them, dirty paper coding (dpc) is an optimum precoding technique that allows the cancellation of the interference without power penalty. however, its high complexity restricts its implementation in practical systems, thus suboptimal techniques
+
+reviews processed and recommended for publication to the editor in chief by associate editor dr. m. h. rehmani. corresponding author. e mail addresses: mdesiha@iteam.upv.es (m. ángeles simarro), beapuila@teleco.upv.es (b. puig), computers and electrical engineering
+
+journal homepage: www.elsevier.com/locate/compeleceng
+
+⁎ , beatriz puig, f.j. martínez zaldívar, alberto gonzalez t have to be used instead. in the literature of satellite communications, most of the recent work focuses on the conventional scenario where polarization or partial frequency reuse is employed to mitigate inter beam interference [6,8].
+
+an analysis of some of the most commonly used precoding techniques in wireless communications has been conducted in previous works [9,10]. nevertheless, the performance of each precoding scheme in multiuser downlink satellite communications has not yet been considered. consequently, the present work deals with the performance of these precoders for multiuser downlink satellite communications, paying special attention to their performance in terms of bit error rate (ber) and computational complexity.
+
+previous works have shown that the performance of mimo detectors is highly influenced by the mimo channel matrix condition number . this behavior has been analyzed for the precoding methods under a multiuser downlink satellite communications. consequently, a hybrid precoding scheme is proposed to improve the precoding efficiency. this scheme aims to reduce the comutational cost at the transmitter without incurring a high penalty in the quality of the received signal.
+
+thus, a combining scheme based on the channel matrix condition number is proposed. this scheme selects the precoding alorithm applied to the transmitted signal based on the condition number of the channel matrix following a similar strategy to the combined decoder proposed in . the main idea of this method is to minimize the impact of the quality of channel on the detector's performance. the proposed hybrid scheme reduces the computational cost with minimum ber performance degradation. in summary, the main contributions of this paper are as follows: an evaluation of the performance of several precoders schemes under a multiuser downlink satellite communication system, a study of the influence of the channel matrix condition number in the performance of this precoder, and the proposal of a new precoding scheme.
+
+the rest of the paper is organized as follows. in section 2, the system and satellite channel model are described. section 3 illustrates mimo precoding algorithm functioning. the ber and complexity performances of the previous detectors are exposed in section 4. the novel hybrid scheme is introduced in section 5 and its performance is analyzed. finally, several conclusions are drawn in section 6.
+
+we consider the downlink of a land mobile receiving diversity satellite system consisting of a p dual polarized satellites (and, antennas) and m mobile receiving users with a single non polarized antenna . the system model can be
+
+where yc denotes the complex received m × 1 vector. the channel matrix hc is formed by m × n complex elements and each c represents the channel between the j th transmit antenna and the i th user. vector xc represents the transmitted signal component hij that depends on the precoding algorithm and is built from the vector sc, which is the m × 1 vector of data symbols. in this paper, sc vector contains the complex symbols chosen from a β qam constellation. vector nc is a gaussian noise vector with zero mean and certain variance.
+
+the loo distribution is often used for the modeling of land mobile satellite (lms) channels, for instance in dvb sh (digital video broadcasting satellite services to handhelds). in this model, the complex fading gain from the j th transmit antenna to the i th user can be represented by a summation of two parts as [12 15]:
+
+) models the shadowing effect of the channel and its entries are generated using the log normal distribution with where hij parameters α (mean) and ψ (standard deviation), hij ) is the multipath component of the channel with rayleigh distributed entries with parameter mp (the average power of the rayleigh distributed envelope of the small scale fading components) and k is the rician k factor (alternatively described by the multipath power mp corresponding to the coefficient of hij )). when the value of k is large, a los path is considered. nevertheless, if k value is small, a scattered path is taken into account. typical values of these parameters can be found in . the equivalent real valued representation of (1) is denoted as = c nlos (
+
+y hx + n, by settingenlrg (1)
+
+(4) in a broadcast mimo system with multiple users, such as the one studied in this paper, the physical distance between users prevents joint processing at reception. therefore, since multiuser mimo downlink interference is known at the transmitter, a preoder can be used to annihilate this effect.
+
+precoding techniques can mitigate the multiuser interference in mimo systems , even when the users are equipped with a single antenna, so the complexity of the receiver can be significantly simplified. the most frequently employed precoding techniques are briefly described throughout this section. it is important to note that precoding is carried out assuming perfect knowledge of channel state information (csit) at the transmitter.
+
+the precoders evaluated in this paper are based on the vector perturbation (vp) technique. thus, the precoded signal can be
+
+† where s is the equivalent real vector containing the original data symbols for each user, p is the perturbation vector and h is the pseudoinverse channel matrix. the optimal perturbation vector p minimizes the power of the transmitted signal. to allow the users to remove the perturbation, p is set as
+
+† and the precoding method. the value of τ is where τ is a positive real number and λ is a 2m dimensional vector which depends on h chosen such that the point from the symbol constellation can be uniquely recovered. a possible value of τ for a β qam constellation is . detailed discussion about the value of τ can be found in . at the receivers, the users remove the perturbation given by =τ by applying
+
+, 2 . ym denotes the received signal at each user and ⌊ · ⌋ operator maps a real number to the lower integer.
+
+zero forcing (zf) precoding consists in applying the channel inversion at the transmitter. it can be considered as a particular 0, so the modulus operation is not required at the receiver. the inversion matrix can be computed as the
+
+case of vp where =p moore penrose pseudoinverse of the channel matrix, thus the precoded signal can be expressed as:
+
+the tomlinson harashima precoder (thp) is equivalent to vp where the perturbation vector p is obtained sequentially and efficiently through feedback filtering and modulus τ operation. the modulus operator reduces the power of the transmitted signal compared to a linear precoding scheme . in the thp scheme, the channel matrix is decomposed as a =h l q0 0 and the matrices that take part in the precoding algorithm are computed by
+
+, 2 . modulus operation is applied to restrict the symbols to the original constellation boundaries. finally, the
+
+lattice reduction aided precoding (lrap) makes use of lattice reduction (lr) techniques [19,20] to obtain an efficient aproximation of the optimal perturbation given by (6). the lr techniques consist of finding another base with better orthogonality properties than the original. although several different reduction techniques have been proposed, the lattice reduction method proposed by lenstra, lenstra and lovász (lll algorithm) is the most commonly employed because it offers a good trade off the precoded symbols can be initially expressed as
+
+with transmitted signal over the channel is computed as = ͠ (5)
+
+(11) between performance and complexity. the transformation is performed on a b matrix, so that = transformation matrix with integer elements, b depends on the precoding technique and
+
+two different lrap techniques were presented in : the lrap linear and the lrap vb (v blast, vertical bell laboratories layered space time). moreover, xu et al. proposes a new scheme, the lrap thp, where thp is applied after performing a lr technique over the channel matrix. (cid:129) lrap linear.
+
+the lrap vb is another variant of this algorithm that is based on successive interference cancellation (sic), where the vblast ∼ † h
+
+algorithm is applied . in this precoder, the matrices q and l matrix can be simply calculated from a qr type decomposition of such that
+
+a new scheme is presented in , where thp is applied after performing an lr technique over the channel matrix. in this 1 and the ql decomposition given by (9) is performed over the lattice
+
+in this section, the performance and complexity comparisons among the precoding algorithms explained in the previous section will be carried out. a −4 qam constellation has been used in all the simulations, regarding the number of transmit antennas and the number of users, a 4 × 4 system scenario has been considered, which consists of two dual polarized satellites and four mobile users equipped with a non polarized antenna. where ⌈ · ⌋ operator maps a real number to the nearest integer. (cid:129) lrap vb.
+
+finally, the perturbation vector p in fig. 1 can be expressed as
+
+scheme, the vector s is replaced by the new vector = − reduced channel matrix. ∼ bt, where t is the unimodular b
+
+∼ b is the lattice reduced matrix.
+
+in this section, a performance comparison is given among the precoded communications over the satellite channel. several parameters of the loo distribution have been modified to analyze their influence in the performance in terms of ber. the rician factor k in (2) represents the power distribution for each part of the channel, high values mean that the los path predominates; however, when the rician factor gets lower the channel becomes more scattered. it has been proven, by fixing the others channel parameters, that variations on the rician factor only produce a displacement on the ber performance graph. therefore, for simlicity, this parameter has been set to 0 db in all the simulations.
+
+the distribution's parameters chosen for comparison have been extracted from for urban area and different levels of shadow and elevation angles. two levels of shadow and two different elevation angles have been selected to compare the precoder's perormance under extreme conditions.
+
+first, an elevation angle of 40° has been chosen for two levels of shadow. fig. 2a represents the ber performance for a line ofight case and fig. 2b for a deep shadow case. we can see how as the level of shadow increases, the ber performance worsens. furthermore, it is important to note that the lr based algorithms achieve better performance than the zf and thp algorithms for both cases. 0 db. the same analysis has been carried out for an angle elevation of 10° and the two different states of shadowing. fig. 2c illustrates how the lrap precoders continue showing the best performance. however, fig. 2d shows that the lrap thp is the only precoder that gets a practical performance for the worst channel, angle elevation of 10° and deep shadow. in conclusion, the lrap thp outperforms all of the other methods for all satellite channel conditions.
+
+it is interesting to compare the arithmetic complexity of the algorithms. in , the computational cost among the precoding techniques considered in this paper was carried out. it was proven that the overall cost depends on the duration of the interval where the channel remains unchanged (lch represents the number of vector symbols transmitted through the same channel, being unecessary to renew the knowledge of the channel). as detailed in , tables 1 3 have to be taken into account to compute the total number of arithmetic operations.
+
+there are some differences between the complexity presented in and the complexity evaluated here. for the zf imlementation, the thp scheme without the modulus operation has been considered because the qr decomposition has less comutation complexity than the pseudoinverse operation.
+
+it can also be noted that in table 2 the q† operation has not been considered for thp and lrap thp schemes since this pseu
+
+it is important to note that the complexity cost depends only on the dimension of the system and not on the modulation order, as tables 1 3 show. the total number of arithmetic operations for the different precoding algorithms has been evaluated for a system of . as can be seen in these figures, =n 4 and the number of users range from 1 to 4. fig. 3a and b show the cost for the lrap linear and lrap vb precoders are the most complex. however, the lrap thp, which exhibits the best performance, requires less computation than the other lrap algorithms. meanwhile, the zf and thp are computationally less expensive.
+
+it is important to analyze the different precoding schemes from a computational and performance point of view. the complexity
+
+or efficiency restrictions can help us to decide the most suitable precoder for a practical situation.
+
+as we have seen in previous sections, the algorithms that exhibit better performance against the interference between users are the most complex. there is interest in improving the quality of the received signal keeping a moderate computational cost and, thus, lightening the burden on the satellite on board processors. therefore, this scheme takes advantage of the impact of the channel matrix condition number in data precoding to decrease the complexity of already proposed precoding schemes.
+
+the matrix condition number is the ratio of the largest to the smallest singular values. the sensitivity of the solution of a noningular system of linear equations ax = b with respect to perturbations of the matrix a is directly related to this parameter [11,24], 1 . this means the condition number is a measure of the effect of errors when inverting a. which can be computed as (cid:2) − a a all precoders calculate a pseudoinverse at some point, so the condition number will give us a hint about the conditioning of the table 1 per symbol vector arithmetic cost of precoding algorithms.
+
+table 2 main preprocessing stages of precoding algorithms. products
+
+no no yes yes yes no no yes yes no a channel matrix with a low condition number is said to be well conditioned, which means that its inverse could be computed with reasonable accuracy. however, a matrix with a high condition number is said to be ill conditioned and its inverse is prone to large numerical errors.
+
+mimo channel matrix condition number affects precoders performance. an empirical study of the condition number for the typical satellite channels parameter extracted from has been done. fig. 4 shows for the case with =k 0 db, deep shadow and elevation angle 10° ( = −α 23.9 db) how ber performance increases as the condition number does. this = − figure represents the results for the thp algorithm; however, the other precoders give very similar results. furthermore, it has been observed that the condition number worsens with increasing shadow and lower elevation angle. in this way, when the satellite works under these circumstances, the matrix condition number generally increases and the communication system exhibits lower perforance. table 3 additional preprocessing arithmetic cost of precoding algorithms.
+
+this section exposes the operation of the proposed hybrid scheme based on the election of the algorithm used, which depends on the condition number of the channel realization. as previously explained, higher channel condition numbers mean that the channel is ill conditioned and, consequently, the ber increases. thus, bad channel condition numbers require the use of a precoder with better performance at the expense of higher computational cost. however, when the condition number is lower than the threshold (wellonditioned channel), a simpler precoder is selected. (see fig. 5).
+
+the best algorithms in terms of ber are the lrap vb and the lrap thp, which exhibit almost the same performance in all cases. since the complexity of the lrap thp is lower than the complexity of the lrap vb, the chosen costly algorithm is the lrap thp. the scheme that we have proposed carries out a precoding algorithm that changes depending on the channel condition number. therefore, when a poor condition number is detected, which is above a selected threshold, the precoder lrap thp with better performance and more complexity is chosen. when the condition number is lower than the threshold (well conditioned channel), it switches to a simpler precoder. in our simulations, the threshold was empirically selected, taking into account the usual values of the condition number. furthermore, a low complexity method to estimate the condition number can be used .
+
+table 4 illustrates the percentage of computational cost reduction depending on the use of the simpler zf and thp methods versus lrap thp precoders for a 4 × 4 mimo system. it can be seen that as the usage of the simpler precoder increases, the reduction of the =l 20 computational cost is higher. table 4 shows the reduction for . ch the combination with a simple precoder (two cases: zf and thp) was done to obtain the maximum reduction of cost. the performance for the two combinations and the different channel parameters and percentage of use has been evaluated. figs. 6a to 7b represent the performance results in terms of ber for different cases.
+
+it is important to note the following results. in fig. 6a, the performance of the worst channel (deep shadow and elevation angle of 10°) has been evaluated for zf, lrap thp and the hybrid scheme with the combination of zf (40%) and lrap thp (60%). in this case, the hybrid's performance is almost identical to the lrap thp performance. thus, a cost reduction of 24.75% is reached. fig. 6b represents the results for the same channel and the combination of thp (40%) and lrap thp (60%). in this case, the hybrid scheme achieves the same ber performance than the lrap thp with a 23.29% of cost reduction.
+
+fig. 7a and 7b represent the results for a channel with line of sight and elevation angle of 40°. the simplest precoder is used during 70% of time, achieving a cost reduction of 43.31% and 40.76% for the zf and thp, respectively. in these cases, the perormance degradation is not significant and the hybrid scheme performance is close to the lrap thp performance. it is proven that the combined method can achieve the lrap thp performance with much less complexity. 5,
+
+although similar results are obtained for a value of
+
+fig. 7. ber performance for a 4 × 4 mimo satellite channel with line of sight and elevation angle 40° ( = −α =k
+
+an analysis of the precoding performance for the mimo satellite channel performance has been carried out. the satellite channels exhibit a better behavior under los conditions. as the shadow increases, communication performance gets worse. nonetheless, the use of precoders can mitigate this issue and good values of ber can be obtained by using lrap.
+
+a computational cost study of the different precoding algorithms was carried out. it was shown that the lrap is more expensive than zf and thp. this limits the use of these precoders because, even though they exhibit the best performance, their costs can be potentially too high when the system's size increases. for this reason, it is important to reach a compromise between the desired ber and the computational cost. a hybrid scheme is a good solution to achieve the required performance at low computational cost. this scheme is able to adapt to a bad environment based on the condition number of the channel matrix to successfully reach the desired requirements. 24.4 db, =ψ 9.4 db, mp = −23.9 db

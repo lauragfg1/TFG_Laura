@@ -1,0 +1,157 @@
+the rapid development of the fifth generation (5g) of wireless systems also permeates satellite communications. the integration of satellite and terrestrial networks is probably the key factor in enabling many new services and providing true full coverage. to this end, very high throughput satellites (vhts) will be deployed, creating new opportunities in the space market . this family of vhts can offer high capacity (e.g., 1 terabit/s per satellite) to a larger number of users, thus allowing for a lower cost per gigabits per second. they also increase the network flexibility and operability, since the satellite service can be allocated when and where it is needed . applications like multimedia distribution, machine to machine communications, critical telecomunication missions, aero and maritime connectivity, network control signaling, back hauling, and service continuity are well positioned to be the main contributions of satellites to the 5g ecosystem . future vhts will make use of q/v gateways, where the forward payload link will operate in the k band (i.e., 17.3 20.2 ghz), usually referred to as the ka band satellite downink . the required radio frequency (rf) power capability in such a bandwidth is about 110 w at saturation, while the number of equipment integrated into the payload is ∼150 units. radio frequency (rf) power amplifiers (pas) are one of the key components of a communications satellite's payload, consuming ∼80% of the spacecraft available power. therefore, its efficiency is of the utmost importance. traditionally, the demand for such a high power level at high freuencies, has resulted in the adoption of traveling wave tube amplifiers (twtas) as the preferred choice for transmitter modules. however, technological advances in linearization techniques, miniaturization, and the use of different materials such as gallium nitride (gan), have leveled the playing field towards the use of solid state pas (sspas). the latter could be an attractive soluion to replace k band twtas, although the efficiency of sspas is still lower than that of the tube amplifiers. indeed, aspects such as lower cost, graceful degradation, form factor, etc., can introduce significant benefits at satellite level. in this context, several monolithic microwave integrated circuits (mmics) pas have been recently demonstrated up to k/q band [5 23].
+
+the mmic is planned to be integrated in the sspa rf tray, by combining 16 of them into a radial combiner , with the aim of achieving a total output power of 125 w under fig. 1. schematic architecture of the sspa. (a) simplified scheme of the sspa rf tray. (b) radial combiner solution integrating 16 packaged mmics.
+
+continuous wave (cw) operating conditions, while a single mmic will be used as a driver, as schematically depicted in fig. 1. the complete rf tray includes a gain control unit, embeding linear amplifiers, analog variable attenuators, and an analog linearizer, to assure an overall rf gain >70 db with proper theral/aging compensation features.
+
+the mmic is implemented in the commercially available 100 nm gate length gan si process available in ommic foundry (d01gh process) .
+
+considering the lower thermal conductivity of si as compared to that of the standard silicon carbide (sic) typically adopted in gan processes , a careful technology assessment and power budget analysis was initially carried out. in addition, an accurate thermal evaluation of the technology was performed by using raman measurement .
+
+technology assessment a load pull analysis was carried out on different devices' periphry, assuming a drain bias voltage vdd = 11.25 v and a preliminry quiescent drain current of 75 ma/mm (class ab bias condition, as tradeoff for power and pae). the aim was to idenify the most suitable mmic architecture, together with the size of the devices and their loading impedances, taking into account space constraints. clearly, the device's channel temperature (tj) was carefully monitored assuring that its value did not exceed the upper limit of 160°c, in the worst case condition. in particuar, since the mmic has to operate in cw conditions over a temerature range from 10 to 65°c at the sspa level, which implies a temperature tbs up to 85°c at the t = tj − tbs in the mmic has to be kept < 75 °c.
+
+the load pulls were performed at the fundamental frequencies fc in the frequency range from 17.3 to 20.2 ghz. an example is reported in fig. 2 for the 8 × 100 μm device. notably, together with the standard contours of output power (blue curves), effiiency (red curves), and gain (green curves), it is also reported the curve corresponding to tj = 160 °c (i.e., brown curves, safe area inside). the optimum load of gopt = 0.69 · ej153◦ was selected as a tradeoff among output power, efficiency and gain, provided that the limit on tj was respected.
+
+the effect of the impedance at the second harmonic (2fc) was also investigated. in particular, the second harmonic load pull reveals a critical region (close to the short circuit condition) fig. 2. load pull for the 8 × 100 μm device for the carrier frequencies of 17.3, 19.3, and 20.2 ghz. the input power is 24.7 dbm. the blue contours refer to the output power, green to the gain, red and brown to the drain efficiency and junction temperaure, respectively.
+
+where is experienced a severe drop in the device performances. fig. 3 shows the obtained behaviors for the 8 × 100 μm device, but a similar one was registered for all devices. as a countermeasre, this region was carefully prevented for all devices in the design of their matching networks.
+
+the main features of each analyzed device were evaluated at 2 db of gain compression, together with the corresponding tj in the worst case conditions (i.e., tbs = +85°c). the results are summarzed in fig. 4. as it can be noted, a power gain of about 9 db can be obtained from the active devices, with an almost similar pae of ∼60%, with a power capacity that increases with the device active periphery, as expected.
+
+relying upon the outcomes of the preliminary analysis and accounting for thermal, electrical, and physical constraints of the technology, a three stage corporate architecture was chosen. its block diagram is shown in fig. 5. the final stage is based on fig. 3. load pull results performed with the fundamental frequency 18.75 ghz and pin = 24.7 dbm and varying the phase of the second harmonic (37.5 ghz) for the 8 × 100 μm device: (a) reports the simulated output power (blue curve, left axis) and power gain (red curve, right axis); (b) the corresponding estimated channel temperature (red curve, left axis) and power added efficiency (green curve, right axis); (c) the loading condition assumed at 37.5 ghz, are represented by the black points, while the critical region to be avoided is represent by the red circles. (a) output power and gain, (b) efficiency and junction temperature, and (c) critical area.
+
+fig. 4. output power, associated gain, and pae at 2 db of gain compression together with the correspondent channel temperature tj, simulated at center frequency 18.75 ghz for different device geometries.
+
+the parallel combination of eight 8 × 100 μm devices, each providng ∼33 dbm and 8.0 db of output power and gain, respectively (see fig. 4). the driver stage includes four 6 × 100 μm devices (thus, one device 6 × 100 μm in the driver stage driving two devices 8 × 100 μm in the final stage), whereas a pre driver fig. 5. architecture of the hpa mmic. for the networks, it has been preliminary estiated a power loss of 1 db for the output combiner and 1.5 db for both the intertage matching networks.
+
+stage realized by two 4 × 100 μm devices (i.e., still 1:2 splitting) was also adopted in order to fulfill the overall gain requirement. to simplify the mmic interconnections, the same dc biasing voltage, i.e., vdd = 11.25 v, vgg = −1.65 v, was adopted for all the stages. it corresponds to a quiescent current of 35, 27, and 18 ma for each device in the final, driver, and pre driver stages, respectively. this choice is the result of a tradeoff between elecrical performances and maximum allowed temperature at the device level. in particular, the imposed condition was that the fig. 6. designed output combiner (a) and synthesized load (b). the power losses result in ∼0.8 db (c). (a) output combiner. (b) synthesized loads. (c) combiner loss.
+
+fig. 7. simulated performance of the final stage alone, when each device is driven with 24 dbm of input power at its gate.
+
+quiescent bias point was below the curve of maximum allowed power dissipation.
+
+preliminary, all the devices used in the amplifier were made unconitionally stable from dc up to 90 ghz, by adding a standard resistnce capacitance (r c) stabilization network on the gate path and a resistor in a series on the dc gate biasing access point, if required. subsequently, the actual implementation of the mmic started. as the first step, the output combiner was designed accounting for the optimum loads inferred by load pull simulations on the 8 × 100 μm device, which are reported in fig. 2. this network was synthesized using a three section structure, as shown in fig. 6(a). the load presented across each device is reported in fig. 6(b) together with the trajectory plotted for both the fundamental frequency and the second harmonic, in a larger carrier frequency range from 17 to 21 ghz. the structure was tailored to allow the possibility to bias the mmic on both sides (i.e., top and bottom). moreover, the size of the transmission lines was properly optimized to reduce losses, while simultaneously assuring the capability to withstand the amount of dc current required by all devices under large signal conditions. losses, as reported in fig. 6(c). the resulting performance obtainable from the final stage alone, assuming a tbs = 85°c, is reported in fig. 7 together with the tj behavior of the device. the latter was evaluated relying upon the electrothermal model provided by the foundry, as discussed in . the designed combiner exhibited ∼0.8 db of
+
+hence, a similar approach was adopted to design the remainng interstage matching networks represented in fig. 5. the results of the load pull simulation of the involved devices, i.e., 6 × 100μm and 4 × 100 μm for the driver and pre driver stages, respectively, are shown in fig. 8(b).
+
+also in these cases, the matching networks were designed assuring the possibility to bias the devices from both sides. for the interstage between driver and final devices, a load transformation from the input impedance (zin) shown by the 8 × 100μm in the final stage to the optimum impedance (zl) required by the 6 × 100μm device in the driver stage was performed, as shown in fig. 9, for the bias conition vdd = 11.25 v, id = 27 ma and id = 18 ma for the 6 × 100 μm and 4 × 100 μm devices, respectively. the load pulls are computed at 1 db of gain compression (i.e., correspondingly to pin = 24.5 dbm for device 6 × 100 μm and pin = 20.1 dbm for device 4 × 100 μm).
+
+similarly, the impedance transformation as well as the syntheized matching network between the pre driver and the driver devices are reported in fig. 10. in this case, the losses were between 1 and 1.5 db in the bandwidth.
+
+the mmic was completed by designing the input matching network to transform the input impedance of the two devices used in the pre driver into the standard termination of 50 ω. the structure was fine re tuned by means of electromagnetic simulations of the entire passive structures. finally, the odd mode and parametric oscillations were analyzed by referring to ohtomo test and by using the stan tool (pole zero analysis package described in ). the former, based on the evaluation of loop gains, requires avoiding the encirclement of the point (1,0), as reported in fig. 11. the latter, is based on the analysis of pole zero loci of the transfer function obtained by perturbing each gate/ fig. 8. simulated load pull for the devices used in the driver (a) and pre driver (b) stages. the former is 6 × 100 μm, the latter 4 × 100 μm, both biased with vdd=11.25 v and quiescent current id=27 ma and id=18 ma, respectively. the contour plots refer to 1 db of gain compression.
+
+fig. 9. designed interstage matching network between driver and final stages (a) and synthesized load (b). the insertion loss is within 1 and 1.5 db (c). (a) interstage matching network between one driver and two final devices. (b) synthesized loads. (c) combiner loss.
+
+fig. 10. designed interstage matching network from one pre driver to two driver devices (a) and synthesized load (b). the power losses result within 0.8 1.3db (c). (a) interstage matching network between one pre driver and two driver devices. (b) synthesized loads. (c) combiner loss. fig. 11. loop gain simulated by using the ohtomo test , for the frequency from 100 mhz up to 80 ghz. the condition for stable loop is fulfilled if none of the loop gain encircles the point (1, 0) shown in the figure.
+
+drain of the 14 devices in different power conditions, verifying that there are no real half plane poles for all power levels.
+
+the photo of the realized amplifier is shown in fig. 12 (size fig. 13. simulated small signal s parameter.
+
+the simulated small signal performances of the designed mmic are shown in fig. 13. the gain (s21) is around 19 db with an input/output matching better than 15/10 db.
+
+the large signal performances as a function of the input power, for the frequency range from 17.3 to 20.2 ghz, are reported in fig. 14(a). in the same figure are also reported the fig. 14. simulated performance: (a) as a function of the input power for the carrier frequencies from 17.3 to 20.2 ghz; (b) over frequency for a fixed input power level pin = 20 dbm. (a) power sweep. (b) frequency sweep.
+
+fig. 15. load lines for the devices in the pre driver (a), driver (b), and final stages (c), respectively, simulated for pin=20 dbm.
+
+fig. 16. simulated thermal map of the designed mmic, assuming tbp = 85°c and for the overall stack (below mmic) a thermal resistance rth,stack = 0.28°c/w. (a) two dimensional view at mmic level; (b) three dimensional view to see the temperature spread in the vertical section.
+
+output power delivered by the devices in the driver (po_d) and pre driver (po_pd) stages, respectively, which operate in almost linear conditions. this is also confirmed by the dynamic load lines of the devices, simulated across the intrinsic current source, reported in fig. 15. for a fixed input power of 20 dbm, i.e., idenhe tified as the nominal operating point of reported in corresponding simulated frequency behavior fig. 14(b). as it can be noted, a pae higher of 35% is achieved with an output power of 40 dbm (10 w) and a gain of 20 db in the target bandwidth (highlighted in the same figure). is
+
+fig. 16 shows the thermal map of the chip obtained by running an electro thermal simulation (by using heatwave simulation fig. 17. comparison between simulated (dash) and measured scattering parameters of 10 samples. (a) s11, (b) s21, and (c) s22.
+
+fig. 18. comparison between simulated (dashed lines) and meaured (continuous lines) power performances. the latter refers to the same mmic version located in different wafer positions, to test the reproducibility of the results on the wafer.
+
+fig. 19. (a) mmic mounted in the package. (b) zoom on the mmic area.
+
+tool from keisight) assuming a base plate temperature of 85°c and also taking into account for the rth of the mounting stack. as expected, the hottest devices are those in the final stage, and the highest temperature is reached at the center of the devices. nevertheless, the maximum temperature does not exceed the limit of 160°c.
+
+the chip was initially characterized on wafer in pulsed condition (pulse repetition time 10 μs with 1% duty cycle) and in both smallnd large signal conditions. the small signal performances measured from several mmics at the nominal bias conditions are reported in fig. 17 together with the simulations. a frequency shift of about 500 mhz towards lower frequencies was registered. nevertheless, a small signal gain (s21) close to 25 db was registered, than 7 and 5 db, with an input/output fig. 20. small signal measured results in cw condition. the reference ports are the test jig input/output rf ports (i.e., sma connectors) and trl calibration was considered.
+
+fig. 21. measured cw performance of the packaged mmic (black lines are the simulation at mmic level). the bias point is vdd=11.25 v and total current absorption of 1 a, with pin=15 dbm.
+
+respectively, and with a negligible variation among all the measured chips. the difference between the measured and simulated gains is essentially related to the pulsed condition and the inaccuracy of the active device model in predicting small signal behavior as comared to non linear situations (as highlighted later).
+
+the mmics were then characterized on wafer under largeignal conditions, in the same pulsed condition and at the nomnal bias point, i.e., vdd=11.25 v with total bias currents of 30, 110, and 300 ma for the three stages, respectively. the measured fig. 22. measured cw performance of the packaged mmic at the nomnal bias point and for different temperatures.
+
+output power, gain, and pae (continuous lines) are reported in fig. 18, compared with the simulated counterparts (dashed lines). notably, in this case, the model prediction is closer to the measured results, even if a slightly higher pout was obtained under pulsed condition. specifically, an output power in excess of 40 dbm (10 w) together with a pae above 34% (peak of 39% in the middle of the bandwidth) and a gain larger than pout pae gain mmic size pow. ddensity
+
+22 db were recorded in the frequency range from 17.3 to 20.2 ghz.
+
+the mmic was then tested under cw operations. however, at this stage, the chosen assembly was not optimized and is intended to provide only a quick information concerning electrical perormance. in particular, the die was mounted using epoxy glue and, as shown in fig. 19, the test jig was made of copper, while all the mmic gate pads were collapsed on a single external access point, available on both sides. the same for the drain pads.
+
+the amplifier was characterized under cw conditions by
+
+using a peltier cell to control the base plate temperature.
+
+the small signal behavior measured at the nominal bias point, with a tbp = 25°c is shown in fig. 20. in the same figures are also reported the performances obtained with a lower voltage vdd = 9 v, showing almost the same behavior.
+
+the large signal performance measured at the nominal bias point in cw and at 4 db of gain compression, i.e., with a fixed input power of ∼15 dbm, are reported in fig. 21, without applying any compensation for the bond wires and lines used to connect the mmic to the package. an output power >39 dbm was obtained between 18 and 20 ghz, with a power added efficiency close to 30%, which is the highest value reported in this frequency range for gan si devices.
+
+the packaged mmic was also characterized over temperature, by controlling the latter at the bottom of the test jig with a peltier cell, and changing the reference temperature from 20 to 40°c and 60°c. taking into account the thermal resistance of the material stack (i.e., package and epoxy glue), which implies approximately a 25°c of the temperature increase, at the backside of the mmic the estimated temperature results to be about 45, 65, and 85°c, respectively. the measured results are reported in fig. 22, where the input power level is kept constant in all cases. as it can be noted, the variation of the performances is limited.
+
+finally, the performances of the realized mmic are compared with state of the art results in the same frequency range given in table 1 and graphically in fig. 23. notably, the results achieved with the gan/si technology used in this design and, above all, accounting for de rating and temperature constraints, which pose severe challenges during the design phases, compared pretty well with using gan/sic technologies. consequently, the reported results demonstrate the ability of gan/si technology to be a valid alternative to gan/sic technolgy also for spacecraft applications.
+
+in this paper, the design and experimental results of an mmic pa developed on the 100 nm gate length gan si commercial fig. 23. state of the art comparison.
+
+process (d01gh from ommic) have been discussed. the pa has been designed to operate in the frequency range from 17.3 to 20.2 ghz for space applications, and in particular for the next generation k band vhts spacecraft. accounting for space de rating rules and severe temperature constraints, an output power larger than 40 dbm with a power added efficiency above 30% (with a peak higher than 40%) and 22 db of power gain have been demonstrated with pulsed measurement at on wafer level. the mmic has been then assembled in a preiminary carrier (not fully optimized) for the cw characterizaion. the latter demonstrates quite stable performances over a large temperature range, showing an output power and pae larer than 39 dbm and 28%, respectively, at 85°c of the backside temperature.
+
+acknowledgments. this project was received funding from the european union's horizon 2020 space research and innovation program under grant agreement no. 821830.
+
+the authors are grateful to ommic for performing the on wafer
+
+1. di b, zhang h, song l, li y and li gy (2019) ultra dense leo: interating terrestrial satellite networks into 5g and beyond for data offloadng. ieee transactions on wireless communications 18, 47 62.
+
+2. giambene g, kota s and pillai p (2018) satellite 5g integration: a netork perspective. ieee network 32, 25 31.
+
+3. fenech h, amos s, tomatis a and soumpholphakdy v (2015) high throughput satellite systems: an analytical approach. ieee transactions on aerospace and electronic systems 51, 192 202.
+
+4. emrick r, cruz p, carvalho nb, gao s, quay r and waltereit p (2014) the sky's the limit: key technology and market trends in satellite commuications. ieee microwave magazine 15, 65 78.
+
+5. fong a, srisathapat j, chin c, telvin f, grebliunas j and wu g (2019) kund k band high efficiency gan mmic hpa chipset for satellite communications. electronics letters 55, 393 395.
+
+6. marechal l, dinari m, huet t, richard e, serru v, camiade m, chang c, brunel l, mouchon g, gerfault b and rhun gl (2019) 10w k band gan mmic amplifier embedded in waveguide based metal ceramic packge. 2019 14th european microwave integrated circuits conference (eumic), pp. 184 187. 7. sowers jj and tabatabaei s (2019) k band doherty and class ab gallium nitride mmic power amplifiers for space applications. 2019 ieee asia pacific microwave conference (apmc), pp. 1047 1049.
+
+8. han c and tao h (2019) a 18 40 ghz 10w gan power amplifier mmic utilizing combination of the distributed and reactive matching toplogy. 2019 14th european microwave integrated circuits conference (eumic), pp. 228 231.
+
+10. friesicke c, feuerschütz p, quay r, ambacher o and jacob af (2016) a 40 dbm algan/gan hemt power amplifier mmic for satcom appliations at k band. 2016 ieee mtt s international microwave symposium (ims), pp. 1 4.
+
+11. noh ys and yom ib (2016) a linear gan high power amplifier mmic for ka band satellite communications. ieee microwave and wireless components letters 26, 619 621.
+
+12. din s, morishita am, yamamoto n, brown c, wojtowicz m and siddiqui m (2017) high power k band gan pa mmics and module for npr and pae. 2017 ieee mtt s international microwave symposium (ims), pp. 1838 1841.
+
+13. campbell cf, tran k, kao m and nayak s (2012) a k band 5w doherty amplifier mmic utilizing 0.15 μm gan on sic hemt technolgy. 2012 ieee compound semiconductor integrated circuit symposium (csics), pp. 1 4.
+
+14. friesicke c, kühn j, brückner p, quay r and jacob af (2012) amplifier mmic at an k band. 2012 7th european microwave integrated circuit conference, pp. 131 134. efficient algan/gan hemt power
+
+15. friesicke c, quay r, rohrdantz b and jacob af (2013) a linear 4w power amplifier at k band using 250nm algan/gan hemts. 2013 european microwave integrated circuit conference, pp. 157 160.
+
+16. cengiz o, sen o and ozbay e (2014) high power k band gan on sic cpw monolithic power amplifier. 2014 9th european microwave integrated circuit conference, pp. 548 551.
+
+17. friesicke c, jacob af and quay r (2014) k band power amplifiers in a 100 nm gan hemt microstrip line mmic technology. 2014 20th international conference and wireless communications (mikon), pp. 1 4. on microwaves, radar
+
+19. ramella c, florian c, cipriani e, pirola m, giannini f and colantonio p (2021) ka band 4 w gan/si mmic power amplifier for cw radar applications. integrated circuits 15th european microwave 2020 conference (eumic), pp. 33 36.
+
+20. moron j, leblanc r, lecourt f and frijlink p (2018) 12w, 30% pae, 40 ghz power amplifier mmic using a commercially available gan/si proess. 2018 ieee/mtt s international microwave symposium ims, pp. 1457 1460.
+
+21. giofrè r, costanzo f and limiti e (2019) q band mmic high power amplifiers in gan on si technology. 2019 ieee asia pacific microwave conference (apmc), pp. 1044 1046. for high throughput satellites
+
+22. costanzo f, giofrè r, salvucci a, polli g and limiti e (2018) a 4w 37.5 42.5 ghz power amplifier mmic in gan on si technology. 2018 14th conference on ph.d. research in microelectronics and electronics (prime), pp. 137 140.
+
+23. colantonio p and giofré r (2021) a gan on si mmic power amplifier with 10w output power and 35% efficiency for ka band satellite downink. 2020 15th european microwave integrated circuits conference (eumic), pp. 29 32.
+
+24. giofré r, colantonio p, di paolo f, l cabria, lopez m (2020) power combining techniques for space borne gan sspa in ka band. 2020 international workshop on integrated nonlinear microwave and millimetre wave circuits (inmmic), pp. 1 3. 25. available at https://www.ommic.com/iii v processes/. 26. boles t (2017) gan on silicon present challenges and future opportunties. 2017 12th european microwave integrated circuits conference (eumic), october, pp. 21 24.
+
+27. ramella c, pirola m, reale a, ramundo m, colantonio p, maur mad, camarchia v, piacibello a and giofrè r (2019) thermal aware gan/si mmic design for space applications. 2019 ieee international conference on microwaves, antennas, communications and electronic systems (comcas), pp. 1 6.
+
+28. ohtomo m (1993) stability analysis and numerical simulation of multideice amplifiers. ieee transactions on microwave theory and techniques 41, 983 991.
+
+29. dellier s, mori l, collantes jm, anakabe a and campbell c (2016) analysis of odd mode parametric instabilities at fundamental frequency in an x band mmic power ieee compound semiconductor integrated circuit symposium (csics), october, pp. 1 4. 2016
+
+paolo colantonio (sm'18) received the m.s. degree in electronics engineering from the university of roma tor vergata in 1994 and the ph.d. degree and telecommunications in 2000. he is a full profesor of microwave electronics at the university of roma tor vergata. his research activities are mainly focused on the field of microwave and millimiter wave electronic, and in particular on the design criteria for non linear microwave subsystems and high efficiency power amplifiers. he has published over 270 scientific papers, is an author of a book on solid state power amplifiers (high efficiency rf and microwave solid state power amplifiers, wiley, 2009), three book chapters, four contribuions on encyclopedia of rf and microwave engineering (wiley), and two patents. he is an author or a coauthor of more than 250 scientific papers. he authored the book high efficiency rf and microwave solid state power amplifiers (wiley, 2009), three book chapters, four contributions to wiley encyclopaedia on microwave electronics and one international patent. in microelectronics
+
+rocco giofrè (sm'14) received the m.s. degree in electronic engineering (summa cum laude) from the university of roma tor vergata, rome, italy, in 2004, and the ph.d. degree in space systems and technologies from the university of roma tor vergata in 2008. he is currently an associate professor with the university of roma tor vergata. he has authored or coauthored more than 150 scientific papers and two contributions to wiley encyclopaedia on microwave electronics and one international patent. his research interests include rf power amplifier theory, design and test, linearization techniques, and effiiency improving techniques. dr. giofrè was the recipient of the 2005 young graduated research fellowship presented by the gaas and of the best paper award at the second eumic conference in 2007.
+
+fabio vitobello received the power electronics engineering degree from the university of padova, padova, italy, and a doule degree institute of technology (iit), chicago, il, usa, with a major in microelectronics engineering. he perormed research activities on gan hemt devices at the iit until 2007. in 2008, he joined the european space agency (esa), paris, france, where he was involved in the development of european space compatble gan rf hemts processes and monolithic microwave integrated circuits (mmics). he was responsible until 2015 for the esa rf and microwave laboratory where he performed many activities, in terms of performance and reliability assessments, related to the space missions and technology develpments. he is currently working in the space unit of the research executive agency, part of the european commission as a program officer. his research cum laude
+
+from the illinois

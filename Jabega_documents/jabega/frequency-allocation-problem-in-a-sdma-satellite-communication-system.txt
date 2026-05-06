@@ -1,0 +1,145 @@
+frequency allocation problem in a sdma satellite communication system computers & industrial engineering
+
+laurent houssin a,b,*, christian artigues a,b, erwan corbel c
+
+satellite communication systems move towards greater capacty, higher flexibility (with respect to the position of the users) and better service to the end user. spatial division multiple access (sdma) appears to be one way to achieve these requirements at the same time (liberti & rappaport, 1999). sdma is a principle of radio resource sharing that relies on the division of the space dimension into separated communication channels. it can be used with common frequency division multiple access (fdma), time division multiple access (tdma) or code division multiple access (cdma) techniques. main future terrestrial communication stanards (such that wimax, 3gpp, lte) implement sdma.
+
+today sdma is currently used by iridium system in l band, a constellation of 66 low earth orbit satellites, thanks to time beam switching. sdma is also foreseen as a key enabling techique to increase the capacity of future two way satellite commuications systems in low frequency bands (typically lower than 5 6 ghz) through the interference mitigation and high frequency reuse (corbel, buret, gayrard, corazza, & bolea alamanac, 2008). it is also expected to play an important role in future systems
+
+corresponding author at: cnrs, laas, 7 avenue du colonel roche, f 31077
+
+e mail addresses: houssin@laas.fr (l. houssin), artigues@laas.fr (c. artigues), (cid:2) 2010 elsevier ltd. all rights reserved.
+
+devoted to public protection and disaster relief (ppdr) and global monitoring for environment and security (gmes) missions which require on demand beam forming (gayrard, buret, & bolea alamaac, 2007).
+
+sdma basically relies on adaptive and dynamic beam forming associated to a clever algorithm in charge of resource allocation. the satellite beam former optimizes the antenna diagram with repect to the positions of the users in order to maximize the gain while mitigating interferences. the resource allocation algorithm carefully designs a frequency plan that:
+
+(cid:2) prevents or limits interferences between users, (cid:2) tailors the allocated bandwidth to the user need in order to save
+
+the spatial filtering capability of adaptive antenna can be used to implement sdma in communication systems where users share the same channels. moreover, the resource management by spatial filtering of users give the opportunity to massively reuse radio channels. it makes the channel allocation strategy play an imporant role in the system performance. this class of problem is well known as frequency assignment problem (fap).
+
+the satellite telecommunication system that we study in this paer aims at establishing bi directional communications involving a gateway connected to a terrestrial network and some user terminals located in a service area. this paper studies static frequency alloca tion problems in this system and two scenarios are considered: one based on sdma and the other based on ''traditional" spot coverage. we propose original integer linear programming (ilp) formulations and greedy allocation algorithms for these problems. the difficulty for solving the fap is increased by considering cumulative interfernce constraints. we then compare the performance of the two scenarios.
+
+the remainder of the paper is organized as follow: section 2 is dedicated to the telecommunication system and the description of the scenarios. in section 3, we present a cumulative formulation of the fap interference constraints. in section 4, ilp formulations and greedy algorithms proposed for both scenarios are described. secion 5 presents the results obtained by the different algorithms on the scenarios. concluding remarks are drawn in section 6.
+
+2. telecommunication system and scenarios for frequency allocation
+
+the service area is a rectangular grid where users position is uniformly distributed and where beams are directed. the grid size is u = [(cid:3)0.043980,0.048870] and v = [(cid:3)0.021152,0.012702] (carteian coordinates are considered although the same study can be done with spherical coordinates) with a step of 5 (cid:4) 10(cid:3)4. the satelite orthogonal projection onto the service area defines point (0, 0) of the grid.
+
+beams have two particular characteristics which are the direcion that we consider through the position of the beam center in the service area, and the radiation pattern. an analytic representaion of the radiation pattern enables to compute the directive gain of the antennas for a considered direction. this description is such that gsatðu; v; u0; v 0þ ¼ g1 (cid:4) g2ðu; v; u0; v 0þ (cid:4) g3ðu; v; u0; v 0þ
+
+the eq. (1) was provided by the satellite company thales alenia space. to the best of our knowledge, this equation has a particular shape and is not known in the literature. the term g1 corresponds to the maximum gain antenna whereas g2 depends on the distance between the user and the beam center, i.e. and g3 depends on user position related to product g2(u,v, u0,v0) (cid:4) g3(u,v, u0,v0) is illustrated by a 3d representation in fig. 1 and by a 2d representation in fig. 2 where the left pattern is the pattern of beam centered in (0.03, (cid:3)0.03) and the right one is centered in (0, 0), i.e directly under the satellite. it emphasizes that the more the beam center is closed to the satellite, the more the gain is high. we can also remark in fig. 2 that closed to the sharp summit, small waves exist and will disturb users that share the same frequency.
+
+a minimum quality for a communication between a user and the gateway is required. it corresponds to ðc n þrsmodcod that depends on the modulation scheme and the code scheme (the digital comunication scheme considered here is a phase key shifting). more precisely, a user will be served if
+
+where c which determines quantitatively the signal quality. the link budget enables to compute the sinr : nþi is the user signal to interference plus noise ratio (sinr)
+
+gsatðuser beam ! userþ k2
+
+gsatðuser beam ! userþ j2interf ðgsatðuser beam ! userðjþþ p :
+
+terms k1 and k2 involve technical parameters, such as the atmopheric loss, the antenna temperature and the equivalent isotropially radiated power (eirp) which are considered as constant. consequently, user only depends on user position and indeed, gsat(user_beam ? user) describes beam center position. the gain for a user terminal and its beam (see eq. (1)). the set interf (cid:5) (cid:6) c is the set of users sharing the same channel. moreover, feeder and n (cid:5) (cid:6) that is a satellite (cid:5) (cid:6) c i (cid:5) (cid:6) c n
+
+feeder which are gateway characteristics, and c im
+
+characteristic are also constant.
+
+remark 1. for simplification reasons, considerations on signal processing are not tackled. however, for the different ratios c i ; c n and c nþi, the variables c, i and n mean respectively ''carrier", ''interferences" and ''noise".
+
+(cid:2) beams are only adaptive in direction and not in shaping
+
+(although it is technically feasible).
+
+(cid:2) for the first scenario (involving sdma), each user has a beam directly centered on him. it leads to consider as many beams as users in the system.
+
+(cid:2) we only focus on the case of users to feeder (gateway) link.
+
+in the users to feeder link, interferences can occur in the link budget when several users share the same frequency. we illustrate this phenomena in fig. 3 where black diamonds are users sharing the same frequency. it shows that users u3 and u2 are interferers for user u1. to sdma). the number of available channels is 8. in this case, g2(u,v, u0,v0) is always equal to the maximum value (that is g2(u,v, u0,v0) = 1) since (u,v) = (u0,v0). the service area is composed of 40 fixed beams which form a spot based coverage. we also have eight available channels. conseuently, (since no channel can be used more than once in a spot) we can not serve more than eight users in a spot.
+
+for both scenario, the fap considered in this paper consists in finding and interference free frequency allocation to the users maximizing the number of served users. this problem is static: the set of users is known in advance and we do not take dynamic arrivals and departures of users into account.
+
+3. a cumulative interference representation
+
+in a fap where channels are limited, results depend on the abil
+
+ity of the system to allocate the same channel to several users.
+
+in this section, we show that it is possible to obtain a cumula
+
+tive representation of interferences from eqs. (2) and (3).
+
+involving the link budget, constraint (2) for a user i, becomes
+
+j2inter f ðiþ gsat ðuser beamðiþ!userðjþþ p d
+
+k 2 k 1 (cid:4) gsatðuser beamðiþ ! userðiþþ
+
+d ¼ ðc=nþrsmodcod:
+
+previous equation leads to
+
+j2inter f ðiþdgsatðuser beamðiþ ! userðjþþ gsatðuser beamðiþ ! userðiþþ
+
+and finally, the cumulative representation follows:
+
+dgsatðuser beamðiþ ! userðjþþ 6 gsatðuser beamðiþ ai ¼ gsatðuser beamðiþ ! userðiþþð1 (cid:3) ad (cid:3) bidþ
+
+let the system with n users, a is a n row vector and d is a n (cid:4) n matrix.
+
+we can deduce that ai represents the maximum level of intererences that the user i can support. in this way, dij describes the interference level of user j if users j and i share the same frequency. the cumulative representation is motivated by a linear representaion (although constraint (2) was not linear) that enable the use of integer linear programming (see section 4.2).
+
+concerning scenario 2, we denote the interference inequality by
+
+it is worth emphasizing that ai and bi are different since the center of the beam related to user i does not correspond to user i coordiates in scenario 2 whereas in scenario 1, it does. the same remark can be done for dij and cij.
+
+4. modeling and solving scenarios 1 and 2 fap
+
+most approaches dealing with interference minimization fap consider binary interference constraints, i.e. involving only two users. because of the strong links between graph coloring and freuency allocation with binary interference constraints, most methds found in the literature are inspired by coloring algorithms. we also know unfortunately the graph coloring problems, and conseuently the fap, are np hard. among the proposed methods, the constructive (greedy) algorithms are widely used since they are simple, fast and also able to solve dynamic fap. in this category, we find the generalization of dsatur procedure (brélaz, 1979). other more sophisticated algorithms, such as local search, metaeuristics, ilp and constraint programming approaches, are freuently encountered, see resende and pardalos (2006), murphey, pardalos, and resende (1999) aardal, van hoesel, koster, mannino, and sassano (2003) for a comprehensive review of the state of thert methods for the fap with binary interference constraints.
+
+one of the difficulties appearing in the telecommunication sysem considered in this study (for both scenarios 1 and 2) lies in the explicit consideration of non binary interference constraints. in terms of graph coloring, deciding whether a given coloring is feasile or not cannot be made anymore by checking pairwise user colr assignments. the cumulative interferences of the users assigned to the same color has to be comuted. then, the coloring is feasible if this cumulative interference remains under a user dependent threshold (see section 3). in the literature, only a few approaches take account explicitly of such interferences for frequency assignment (dunkin, bater, jeavons, & cohen, 1998, mannino & sassano, 2003, palpant, oliva, artigues, michelon, & biha, 2008). this study is partly based on integer linear programming formulations proposed in palpant et al. (2008).
+
+4.2. integer linear programming formulations (ilp) sponding combinatorial optimization problems. each user has to be assigned a color, representing the allocated carrier. however there are some significant differences. there cumulative interfernces and the number of color is fixed while the number of asigned users must be maximized. this correspond to the maxfap problem in the classification described in aardal et al. (2003).
+
+for the sdma fap, (scenario 1), the following data are considred. n denotes the number of users. u = {1,. . .,n} is the set of users. c is the number of colors (channels). ai denotes the interference threshold for user i. dij is the interference component from user j on user i, if i and j are assigned the same color.
+
+binary decision variables xic are defined for i 2 {1,. . .,n} and c 2 {1,. . ., c} with n, the number of users and c the number of availble colors. xic = 1 if color c is allocated to user i and xic = 0 otherise. the problem can be represented by the following ilp:
+
+objective (6) consists in maximizing the number of accepted users. constraints (7) state that at most one color has to be selected for each user. constraints (8) are the cumulative interference contraints. they represent, in case color c is allocated to user i, the repect of the threshold for user i taking account of users that are assigned color c, i.e. possible interferers. constant mi has to be large enough to withdraw the constraint if i is not assigned color c (xic = 0). more precisely, we set mi ¼ pn
+
+for the fixed beam fap (scenario 2), the data are similar with additional features concerning the spots (a spot designing the area covered by a given beam): m denotes the number of spots. s = {1,. . .,m} is the set of spots. us is set of users covered by spot s 2 s. a user i belong to the set us corresponding to his closest beam. bi denotes the interference threshold for user i. cij is the interference component from user j on user i if i and j are assigned the same color.
+
+we define the fixed beam fap as a combinatorial optimization problem resembling the sdma fap preventing two users covered by the same spot from being assigned the same non zero color. we obtain the following ilp:
+
+ð13þ ð14þ than once in a given spot. hence a maximum number of c users may be served in the same spot. in constraints (13), values bi and cij differ from ai and dij since beams are not centered on the users (see section 3). as for scenario 1, ni has to be large enough to ensure the constraint is verified when color c is not allocated to user i. for this purpose, we set ni ¼ pn j¼1cij (cid:3) bi. both above defined ilp can be solved by an inteer linear programming solver, via branch and bound.
+
+solving the ilp formulations provides optimal solutions only for small problems. for large sized problems it is necessary to use a heuistic. we propose greedy algorithms to solve scenarios 1 and 2 fap. for both scenarios, the principle of the greedy algorithms is, first, to consider the users sequentially according to a given criterion named the user priority rule. second, either the selected user is assigned a frequency or rejected according to a second criterion, the frequency priority rule. let q denote the set of users that have not been assigned a color yet. initially, we have q = u. at each step of the greedy algoithm, a user i is removed from q and is either rejected or assigned a color. in the following sections we described the variants proposed for each scenarios.
+
+for scenario 1, the principle of the greedy algorithm is summaized in algorithm 1, where fj denote the frequency (color) alloated to user j if 1 6 fj 6 c and fj = 0 indicates user j is rejected.
+
+for both the user and priority rules, we may use the frequency margin, where the margin m(i, c) of a user i 2 q for a color c is given by mði; cþ ¼ ai (cid:3) p j2unq [fig;fj¼cdij. namely, this margin corresponds to the positive or negative slack of the cumulative interference constraint for user i terminal if it is assigned color c.
+
+as a preliminary result, we observed that the user priority rule aiming at selecting first the most constrained users in terms of available colors, as for the well known dsatur algorithm for stanard graph coloring problems gives bad results for this problem. in fact we were brought to consider a kind of hybrid reverse dsatur rule, aiming a assigning users with a large number of available colrs, alternating this rule with the selection of the user having maxmum interferences with the previously assigned user. more precisely, we tested the two following user priority rules:
+
+(cid:2) lexicographic. the user with the smallest number is selected. (cid:2) hybrid. the proposed rule selects the user having the largest number of available colors, a color c being available for user i 2 q if m(i, c) p 0 and if for all users j 2 unq having already been assigned color c, m(j, c) p 0. in case of a tie, we select the user having the largest total margin for all its available colors. let i denote the user selected with this rule. for the next iteration, we select the user having maximum interference with i, i.e. the user j maximizing di,j + dj,i and we alternate the two rules. lexicographic (user+frequency) lexicographic (user)+most used (frequency) hybrid (user)+most used (frequency) scenario 1
+
+(cid:2) lexicographic. the smallest available frequency is selected. (cid:2) most used. the most used available frequency is selected. in case of tie we select the color c that maximizes the sum of margins m(j, c) for all users j 2 q.
+
+the proposed greedy algorithms run in o(n2c) time.
+
+for scenario 2, the above described user and frequency priority
+
+rules can be applied with the notable difference that:
+
+(cid:2) values bi and ci,j are used instead of ai and di,j, respectively (cid:2) color availability for a user i 2 q in a spot s has to consider the other users in us. as soon as a user in s has been assigned a color c, then c becomes unavailable for the other users in us.
+
+5. computational experiments and simulations
+
+the ilp formulations have been solved using ibm/ilog cplex 12.1 (cplex, 2009) and the greedy algorithms have been coded in c++. we tested the proposed algorithms with c = 8, increasing stepwise the numbers of users by 20 from 20 to 200 users (which corresponds to reuse rates from 20/8 = 2.5 to 200/8 = 25), yielding 1000 instances. with regard to scenario 2, we consider 40 fixed beams (m = 40). for each number of users, a set of 100 fap data intances was obtained by randomly generating the user positions on the service area (uniform distribution). the results were obtained on a intel core 2 duo processor with 2.93 ghz and 1.9 gb ram. the cpu time for the ilp resolution has been limited to 60 s after which the best obtained integer solution is returned. the cpu times for the greedy algorithms were negligible.
+
+we first present a comparison of the greedy algorithms. we seected only the algorithms performing better than the simple lexiographic rule (for user and frequency). table 1 reports the average number of accepted users over the 1000 instances for the three best algorithms.
+
+fig. 4 displays, for each scenario/algorithm/number of users, the average number of accepted users in the computed frequency alloation plans. for the greedy algorithms we selected for each intance the best value obtained by the three best algorithms displayed in table 1.
+
+last, to have a better insight on algorithm performance, we give in fig. 5, for each scenario/algorithm/number of users, the average gap from the upper bound obtained by ilp (as the best open node in the branch and bound tree).
+
+table 1 shows that the results of the greedy algorithm is very close. the hybrid method we propose for the user selection rule gives the best results with the most used frequency rule. however it was difficult to give better results than the simple lexicographic rules.

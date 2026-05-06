@@ -1,0 +1,659 @@
+a survey on technologies, standards and open challenges in satellite iot
+
+marco centenaro, member, ieee, cristina e. costa, senior member, ieee, fabrizio granelli, senior member, ieee, claudio sacchi, senior member, ieee, and lorenzo vangelista, senior member, ieee
+
+abstract—the internet of things (iot) is expected to bring new opportunities for improving several services for the society, from transportation to agriculture, from smart cities to fleet management. in this framework, massive connectivity represents one of the key issues. this is especially relevant when iot systems are expected to cover a large geographical area or a region not reached by terrestrial network connections. in such scenarios, the usage of satellites might represent a viable solution for providing wide area coverage and connectivity in a flexible and affordable manner. our paper presents a survey on current solutions for the deployment of iot services in remote/rural areas by exploiting satellites. several architectures and technical solutions are analyzed, underlining their features and limitations, and real test cases are presented. it has been highlighted that low orbit satellites offer an efficient solution to support long range iot services, with a good trade off in terms of coverage and latency. moreover, open issues, new challenges, and innovative technologies have been focused, carefully considering the perimeter that current iot standardization framework will impose to the practical implementation of future satellite based iot systems.
+
+index terms—internet of things; satellite communication; protocols; standardization; 5g and beyond; ntn; lpwan; lpgan; cubesat; industrial research.
+
+t he impact of iot on many aspects of life, being they
+
+industry, logistic or everyday use, is growing quickly. new promising use cases are constantly added, supported by new and smarter technologies, better energy efficient devices and communication technologies. as a matter of fact, iot looks set for becoming one of the key technologies in our future. smart and connected objects are able to massively collect valuable data for supporting informed decisions, reducing operational costs through automation (in industry and home), tracking
+
+manuscript received month xy, 2020; revised month xy, 202*; accepted
+
+this work was partially funded by nato science for peace and security (sps) programme, in the framework of the project sps g5428 "dynamic architecture based on uavs monitoring for border security and safety." the research activities presented in this paper fall within the field of interest of the ieee aess technical panel on glue technologies for space systems.
+
+m. centenaro is with athonet s.r.l., 35060 bolzano vicentino, italy. e mail:
+
+c. costa is with the center for information and communication technology,
+
+fondazione bruno kessler, 38123 trento, italy. e mail: ccosta@fbk.eu
+
+f. granelli and c. sacchi are with the university of trento, dept. of informaion engineering and computer science (disi), 38150 trento, italy, and with the consorzio nazionale interuniversitario per le telecomunicazioni (cnit), 43124 parma, italy. e mail: {fabrizio.granelli, claudio.sacchi}@unitn.it
+
+l. vangelista is with the department of information engineering (dei), university of padova, 35131 padova, italy, and with cnit, 43124 parma, italy. e mail: lorenzo.vangelista@unipd.it objects and materials, monitoring assets and environmental parameters, enabling more effective and innovative healthcare solutions. besides data collection, interconnecting things creates an ecosystem where cooperation and federation are key for optimizing processes and improving reliability. the advances of other emerging technologies such as federated machine learning or edge computing promise to well integrate in this scenario, and bring added value benefits.
+
+recent market studies envision that the total number of connected iot devices will reach 83 billion by 2024, rising from 35 billion connections in 2020. the industrial iot (iiot) sector by itself, that includes manufacturing, retail and agriculture, is forecast to account for over 70% of all iot connections by 2024, with a grow of the number of iiot units of 180% over the next four years .
+
+in the perspective of expanding the benefits brought by iot to include geographical areas where it is not usually viable, for technical and/or economic reasons, to provide ubiquitous coverage, telecommunication providers and enterprises are looking for integrated iot based global coverage solutions. indeed, iot operation can become critical in remote areas with low/no cellular connectivity for many different industries such as transportation (maritime, road, rail, air), fleet management, logistics, solar, oil and gas extraction, offshore monitoring, utilities smart metering, farming, environment monitoring, mining, and many others. with this perspective, satellite based technologies that can be integrated with existing iot terrestrial networks seem to be the way to go. satellites are therefore conquering the special and important role of including in this ecosystem remote geographical areas where terrestrial networks are unavailable or out of reach, such as on remote land (think at the case of areas such as, e.g., forests) as well as offshore (e.g., in the oceans).
+
+analyst firm omdia forecast that the global satellite iot connectivity business will more than double its revenues, going from $233 million in 2019 to $544 million in 2025. cumulative satellite connections are expected to rise fourfold to more than 10 million by 2025 . the installed base of satellite iot connections is expected to increase by a nearly a factor of four in the coming years, growing at a 25 percent compound annual growth rate (cagr) from 2.7 million units in 2019 to 10.3 million units in 2025.
+
+in this perspective, satellite operators are exploring new opportunities to enter or strengthen their presence in the iot market. on the other hand, traditional communication service providers and vendors, but also new and dynamic start ups, are exploring new opportunities, e.g., by exploiting 1
+
+the existing terrestrial wireless long range technologies as ground to satellite link enablers. their success will greatly depend on the capacity of industry, standardization bodies, and space agencies in converging their interests and views into viable (complementary) solutions. the work to be done starts from existing iot technologies, with the aim of enabling seamless integration with incumbent terrestrial infrastructures. this issue represents a key aspect in order for iot to be quickly accepted and integrated in the current and future communications ecosystem. indeed, such a scenario evolves very quickly, and it includes both mature technologies as well as new advances.
+
+existing long range wireless iot technologies mainly derive from two different strands: mobile cellular networks and lowower wide area network (lpwan) emergent technologies. as for mobile networks, which are currently managed by nationide mobile network operators (mnos), various radio access technologies (rats) are available, spanning from the secondeneration (2g) general packet radio service (gprs) , the third generation (3g) universal mobile telecommunications service (umts) , and the fourth generation (4g) long term evolution (lte) standard . despite mobile networks were historically designed to satisfy human originated traffic and human centered applications, in recent years the standardization efforts of third generation partnership project (3gpp) proressively introduced support for iot traffic . in particular, massive machine type communication (mmtc) is expected to support latency/reliability tolerant iot traffic with a very high number of service requests per base station (bs), but it was demonstrated that current 4g technologies are not capable to support such iot traffic due to limitations of the controllane signaling. the model presented in shows that a bs can accommodate at most few thousand devices to guarantee access latency below 100 ms with high transmission success probability. a lower access latency, in the order of 10 ms, can be achieved only with bss serving an unrealistically small numbers of devices. however, in the context of the upcoming fifth generation (5g) of cellular networks, the 3gpp is working on enhancing mmtc traffic support and, relying on the new radio (nr) air interface , relevant attention has been devoted to ultra reliable low latency communication (urllc), that is, latency/reliability constrained iot traffic with fairly limited amount of service requests per bs.
+
+an alternative way of supporting mmtc with long range wireless links is to leverage on ad hoc rats solutions, commonly referred to as lpwans , . those solution mainly comprise unlicensed spectrum technologies, which are subject to restrictions on the medium access control (mac) policies (e.g., frequency hopping, duty cycle, listen beforealk) and transmission policies (e.g., transmission power limits) depending on the region of the world in which they operate. examples of such networks are lorawan™ and sigfox™ . on the other hand, lpwan technologies operating on licensed spectrum such as narrowband iot (nb iot) , which are managed by the traditional mnos, are also available. our contribution
+
+in this survey, we aim at giving an comprehensive overview of the technologies involved in making the satellite iot paradigm real for mmtc use cases. the survey comes from ongoing discussion among the authors around the different technological approaches to support massive iot services in extremely wide areas. indeed, all authors addressed iot service design issues in their research activities by different perspecives (industry vs academia, but also physical communications vs networking, and terrestrial vs satellite solutions), and the survey represents an effort to provide a holistic view about the problem, including the current scenario, existing industrial efforts and future perspectives. to the best knowledge of the authors, no similar surveys are available in the literature providing such view, useful both for researchers as well as practitioners and innovators in the area of massive iot. our contribution can be summarized as follows:
+
+we review the current long range iot solutions and
+
+identify their main features and limitations;
+
+we introduce the concept of satellite iot, and conextualize it against the recent scientific literature and industrial/commercial initiatives;
+
+we overcome the limitations of the scientific literature , by focusing our paper on the analysis of the pros and cons of satellite access as far as iot traffic is concerned; • we clarify the distinction between internet of remote things and space information networks in the context of satellite iot;
+
+we identify and describe the main challenges to be faced in the coming years to fully support the satellite iot vision;
+
+we discuss the latest and future developments of satelliteot communications and networking technologies, outlinng potential opportunities of further research contributions and taking in due consideration the "5g and beyond" scenarios.
+
+it is worth remarking that, as also stated in the title, the authors want to deal with all the above mentioned items in a holistic and standardization/regulation oriented fashion. in fact, we will consider not only contributions in the scientific literature, but we complement them with technical papers, reports, and specifications in the standardization community, which are often left aside in this kind of surveys. we also provide a survey of the emerging industrial initiatives in this regards, thus linking the identified innovation fields to the practical activities that are trying to cover the gap between the research world and the real implementation of communication systems for iot based on satellite links.
+
+in this framework, the closest related work in the recent literature are , the emerging trends of satellite communications thanks to dense deployments of miniaturized satellites , and 3gpp technologies . moreover, deserve to be mentioned as relevant related work since they provide the background of the definition we will give to satellite iot. finally, provides useful information regarding regulations of satellite communications [20, §2.5] and license exempt spectrum for that are three surveys about 2
+
+short range devices [20, chapter 3]. our work differs from the mentioned papers because i) we define a more general concept of satellite iot networks, considering a wide range of alternative implementation modes and technological enablers, and ii) our focus is more comprehensive insofar it includes international regulations, standards, and emerging technologies. a comparison table between the present contribution and the related work in terms of covered topics and methodologies is provided in tab. i.
+
+the rest of the paper is organized in three parts. the first
+
+in section ii, we introduce the current technological enablers of terrestrial long range iot, highlighting their limitations in supporting certain iot use cases;
+
+in section iii, we introduce the paradigm of satellite iot, describing architecture variants, envisioned key performance indicators (kpis), utilized constellations, and spectrum matters;
+
+in section iv, we focus on 5g and lpwan enablers of satellite iot in two separate subsections, respectively. the second part, which coincides with section v, features a survey of the most interesting commercial initiatives in the field of satellite iot, categorizing them according to the technological enabler.
+
+finally, in the third part we provide an extensive section vi containing our observations regarding the open challenges and future directions of the research and standardization in this context, and the conclusions of our work in section vii.
+
+appendix a deals, eventually, with the authorization proedures for satellite communication systems. for the readers' convenience, the list of used acronyms is also provided at the end of the paper.
+
+ii. taxonomy of long range iot solutions and their limits
+
+existing terrestrial long range iot wireless solutions and standards are considered the most appropriate at driving satellite iot market expansion for their scalability, reduced costs, greater supplier diversity and easier integration for the customers.
+
+all state of the art long range iot wireless solutions share
+
+common features that can be summarized as follows:
+
+a radio access network (ran) based on a star topology each iot node, hereafter referred to as machine type device (mtd), is connected directly over the air (with a single hop) to an iot gateway providing connectivity towards an application server, reachable through the internet;
+
+bi directional communication both uplink (from the mtd towards the serving gateway) and downlink (from gateway towards the served mtds) is supported; while the data plane traffic is mostly carried in uplink, the downlink is required to carry mainly control plane traffic;
+
+a core network infrastructure, which performs radio resource management (rrm) via control plane signaling, and user plane traffic routing. the various solutions differ in several aspects, i.e., • how they address and prioritize constrained devices in terms of energy efficiency, processing and memory requirements;
+
+constraints in terms of airtime usage and bandwidth limitation (lpwans can only send small blocks of data at a low rate, and therefore are better suited for use cases that do not require high bandwidth and are not time sensitive); • operation in licensed or unlicensed spectrum (with varying degrees of performance in key network factors);
+
+a. cellular networks (gsm and lte) for iot
+
+in the context of cellular networks, the mtds and the iot gateway are typically referred to as user equipments (ues) and the bs, respectively. the management of the network is performed by the mobile core network, comprising the necessary network functions to perform.
+
+at the time of writing, the 4g evolved packet system (eps) is the most popular cellular technology and it leverages the lte air interface. 5g is currently being deployed and already available only in the major cities. nonetheless, the 2g global system for mobile communications (gsm) is still operational on precious portions of spectrum below 1 ghz , which have favorable propagation properties. the umts, which is based on the wideband code division multiple access (wdma) technology, is also up and running, but, especially in europe, it will be dismissed even before 2g networks,1 thus it can be neglected as a long term wireless technology for mmtc support.
+
+despite both gsm and lte were not designed to support mmtc traffic, they were identified as good candidates to support long range iot: while the former exploits frequency bands which offer very good coverage areas to ues, the latter represents the most widespread cellular technology. clearly, appropriate changes to the original standards had to be made, yielding to extended coverage gsm for iot (ec gsm iot) and category m lte specifications. ec gsm iot systems are based on the gprs subsystem of gsm , and operate on traditional 200 khz wide gsm carriers mainly allocated within the frequency band around 900 mhz (extended gsm 900 band) . this evolution of the gsm is effectively capable of reducing the ue complexity while supporting energy efficient operation with extended coverage in both uplink and downlink; the coverage improvement is up to 20 db, depending on the supported coverage class [3, §3.3.9]. a similar recipe was adopted for lte, where a new ue category for bandwidthimited low complexity devices targeting mmtc applications was introduced [5, §23.7]. these devices, referred to as cat m1 or cat m2 ues, can operate in any lte system bandwidth provided that they exploit a minimum channel bandwidth of 6 physical resource blocks (prbs) (corresponding to the channel bandwidth of a 1.4 mhz lte system) in both downlink and uplink. the difference between a cat m2 ue and a cat m1
+
+1see https://1ot.mobi/resources/blog/a complete overview of 2g 3g sunsets. 3
+
+table i comparison between the present survey and the closest related work.
+
+ue is that the former can supports larger maximum transport block sizes for unicast transmission compared to the latter. it is worth mentioning that cat m lte can be provided also in the unlicensed spectrum according to the multefire specifications .
+
+remarks — both ec gsm iot and lte cat m are amendents of preceding standards to provide long range wireless connectivity to mtds. they intrinsically represent temporary solutions, bridging existing technology generations (2g and 4g) towards the next one, i.e., the 5g . in fact, a large body of research has been carried out about the new 5g air interface design, called nr, in order to provide native support to mmtc . the main challenge consists in designing efficient radio access protocols, which are capable of supporting a massive number of devices contending for network access, while allowing for dynamic bandwidth sharing and different approaches at the physical layer (phy) and mac layers to ensure multi service integration under the same network infrastructure (i.e., the so called network slicing). by fully integrating mmtc in the 5g system (5gs), the 3gpp would enable an extended terrestrial coverage for iot use cases especially in populated areas, where the mobile networks are widespread. for further considerations about the potential of 5g in supporting iot, we refer the reader to section iv a.
+
+nevertheless, in the standardization road map, the priority has been given to the design of urllc, which deals with the more profitable iiot field, thus at the time of writing the specification of 5g enabled mmtc is still ongoing see studies on nr small data transmissions in inactive state and on reduced capability nr devices serving iot use cases, but whose requirements are stricter than ec gsm iot and lte cat m but lower than urllc .
+
+other than revising the default 2g and 4g systems, as seen in the previous subsection, the 3gpp decided to design a brand new standard for supporting long range iot, following the lpwan paradigm instead of the legacy cellular network methodologies
+
+one. this initiative gave birth to nb iot, that is, a lpwan standard operating on licensed based frequency bands.
+
+nb iot is derived from the lte standard, and it provides access to network services using an optimized phy for very low power consumption (e.g., full carrier bandwidth is 180 khz for both downlink and uplink) . as indicated in the relevant subclauses of the specification , a number of typical lte protocol functions (e.g., handover, measurement reports, carrier aggregation, dual connectivity) are not supported for nb iot. the nb iot carrier can substitute a gsm one (whose width is 200 khz), or can be integrated into a lte carrier as a prb (whose width is exactly 180 khz) that can be either allocated in band or in the guard band; multi carrier operation (i.e., utilization of multiple prbs) is supported, as well. in the downlink, each physical channel occupies the whole nbot carrier, with only one channel per subframe (equal to 1 ms). in the uplink, instead, both single tone and multi tone resource units can be scheduled. single tone transmissions may exploit a subcarrier spacing of either 3.75 khz or 15 khz with a slot duration of 2 ms or 0.5 ms, respectively. multi tone transmissions, instead, operate only at 15 khz and can group 3, 6, or 12 subcarriers for 4 ms, 2 ms, or 1 ms, respectively. it is worth noticing that the multefire alliance specified a custom version of the nb iot standard (mf nb iot) to operate on sub ghz license free frequency bands, in particular the 90228 mhz band in the united states of america (usa), where frequency hopping is adopted, and 863 870 mhz band in the european union (eu), where duty cycle is adopted , . the major changes of mf nb iot versus 3gpp nb iot are in the physical layer, more specifically in the synchronization signals and broadcast channel, for a better performance and compliance to unlicensed band regulations. on the other hand, the remaining physical channels and procedures of mf nb iot as well as the high layer protocols are the same as 3gpp nb iot.
+
+remarks — according to recent
+
+insights from mobile industry veterans , the main problem on nb iot does not reside in the standard or technical appropriateness, rather is 4
+
+a matter of business case. the mnos are becoming increasingly aware that each nb iot connection delivers very little revenue with respect to a flat subscription of a lte smartphone (0.10$ per month vs 20$ per month). thus, they prefer to invest in fully fledged 5g solutions, which are envisioned to provide a solution to the effective support of mmtc. however, as said in the previous subsection, this creates a gap, since such 5g solutions will not be ready to market still for some time.
+
+as far as native unlicensed spectrum technologies are concerned, one of the major players is sigfox, which aims to be a global service provider of iot for customers ranging from big manufacturers to start up companies and mostly single users.2 in sigfox, mtds are referred to as end points, while the iot gateways are defined as radio hub . in conjunction with the sigfox cloud, which performs network management functions, the radio hubs create a sigfox network (snw) that connects the end points to an application server. the sigfox communication is referred to as "3d unb," and it implements a ultra narrowband differential binary phase shift keying (bpsk) modulation scheme in uplink and a gaussian frequency shift keying (gfsk) modulation scheme in downlink. in fact, various radio configurations are defined to comply with the local regulations, nevertheless all of them contain one uplink macro channel and one downlink macro channel which are only 192 khz wide. when frequency hopping is required by local regulations (e.g., in the usa), 6 contiguous micro channels of 25 khz can be implemented in each uplink macro channel.
+
+four classes of end points are defined based on the transmission power profile (from "class 0" to "class 3"), where class 0 refers to the maximum transmission power allowed by the local regulations, while increasing class index entails a more aggressive power backoff scheme. the uplink procedure is initiated by an end point wishing to send an uplink message to the sigfox network; to increase the resiliency of the uplink communication, repeated (up to 3) frame transmissions are possible. on the other hand, the bidirectional procedure is initiated by an end point wishing to send an uplink message and receive an onward downlink message; if a downlink message is sent by the network and received successfully by the end point, a confirmation message is sent by the end point. we finally remark that the reception capability is optional for end points, and that the periodicity of uplink and downlink procedures are pre defined by sigfox (up to 140 12 byte uplink messages and 4 8 byte downlink messages per day).
+
+remarks — sigfox is both a proprietary technology and a (french) operator. as an operator, sigfox is using the franchising business model: networks in countries different from france are run by other companies, i.e., the franchisees. the name of the franchisee is not know to the end user, which see the same logo and the same interfaces. of course, a revenue sharing model is pre agreed between sigfox itself and the operating companies in the various countries. given the particular business model, the service subscribers see a single fig. 1. graphical description of the three lorawan classes.
+
+global worldwide network and no provisions for roaming are technically needed. on the downside, sigfox is a rather "closed" technology, being it managed by a single company and not by a standardization body or a wide alliance of companies.
+
+d. lora and lorawan
+
+another prominent lpwan technology in the unlicensed spectrum is lorawan . as far as the phy is concerned, this rat relies on both a proprietary modulation called longange™ (lora), which is derived from chirp spread spectrum (css) , and on frequency shift keying (fsk); the available bandwidth is either 125 khz, 250 khz, or 500 khz for uplink channels and 500 khz for downlink channels. from mac layer upwards, on the contrary to sigfox, the protocol stack is open and maintained by the lora alliance®.3 the ran comprises radio gateways and end devices (eds), with the latter ones divided into three operational classes: all (class a), beacon (class b), and continuously listening (class c). as shown in fig. 1, each class corresponds to a given energy saving operating mode based on the up time of the ed receiver: in class a the up time is minimized because the ed is in listening mode only after an asynchronous uplink transmission, while in class b the radio gateways send periodic beacons to synchronize the eds and make them open receive windows at specific time instants within the radio frame. finally, in class c the ed is always listening to the downlink channel when it is not transmitting in uplink.
+
+regarding the core network of lorawan, it is commonly referred to as back end and comprises three servers: a network server, which is the mastermind behind the rrm, a join server, which manages the security keys, and an application server, which is the interface towards external applications. in particular, the lorawan back end design enables worldwide roaming of mtds by i) exploiting the join server as a trusted third party owner of secret keys, (thus, smoothing the transition between different network operators), and ii) decoupling the security of the control plane information (e.g., mac commands, for which the end point is the network server) and the datalane information (for which the end point is the application server) .
+
+remarks — despite lorawan provides native roaming support to mtds, some issues are yet unresolved. for example, it has not yet been clarified how a lorawan device can become aware of its location, that is, e.g., realizing that it is out of ue coverage and under usa coverage, where the operating frequency bands and the restrictions are different. this could be possible exploiting an integrated global navigation satellite system (gnss) or by means of class b beacons signaling such information, but clearly both options are not part of the default configuration of a lorawan network class a eds without a gnss module.
+
+table ii summarizes the features and the limitations of the previously described terrestrial, long range iot technologies.
+
+the introduction of terrestrial long range iot has helped overcoming the limitations of short range, wireless sensor network technologies , broadening the number of aplication scenarios where iot can be successfully deployed. in parallel, the relevance of scenarios where the mtd are dispersed over vast and remote areas started to rise in the last few years. the prominent market sectors to which these scenarios belong include transportation, oil and gas, agriculture, and mining . these sectors are growing in relevance since iot solutions promise to automatize remote maintenance and control operations, reduce their cost, and improve the whole system's responsiveness and resilience. however, in such scenarios, the terrestrial network infrastructures are often not fully reachable and not even profitable to be deployed. therefore, connectivity alternatives must be found.
+
+in this context, satellite network support is seen as a viable alternative to overcome the missing terrestrial infrastructure. satellite service providers have proposed to exploit legacy solutions, providing backhaul network capabilities to sensors gateways . the paradigm of internet of remote things , otherwise called also internet of everything everywhere , has been introduced to describe the concept of leveraging satellite communication as a cost effective solution for iot systems, able to connect remote sites and sensors with the rest of the world. pushing this concept further, other types of non terrestrial networks (ntns) can be considered, opening the scene to a heterogeneous set of technological enablers other than traditional satellites, which can be included in the picture. these include unmanned aerial vehicles (uavs), drones, high altitude platforms, and airships. the derived networks, the so called of space information networks entails the complex management of the interworking among network segments to deliver messages to the intended destination .
+
+other than for communications, satellites are typically employed for remote sensing of earth and space physical parameters,4 and equipped with various sensors (e.g. for atmospheric monitoring), thus becoming themselves "special" mtds. as such, in the authors' opinion, a comprehensive view of the iot should also embrace the case in which satellites are
+
+4https://science.nasa.gov/earth science/oceanography/living ocean/remote considered things themselves, thus pushing further the previous concepts . the joint scenario of terrestrial and space mtd gives rise to a satellite iot paradigm, capable of serving a variety of applications.
+
+fig. 2 outlines a sample deployment scenario of an heteroeneous satellite iot system. on the earth side, the figure shows a harbor area, in which transport ships and logistic companies exchange pallets and containers of goods, each of which is associated with a mtds. on the space side, we can notice the presence of a satellite mtd gathering data from the surrounding environment.
+
+in the next subsections, we will introduce the envisioned architectural variants to implement satellite iot networks, the spectrum matters, the comparison metrics against the above mentioned terrestrial rats, and the kinds of orbits that are available for satellite communication, focusing on their impact on the end to end (e2e) connectivity. we remark that we will primarily focus on the internet of remote things/internet of everything everywhere paradigms, while the space information network as an iot component of the overall satellite iot system will be left aside as it deserves a dedicated treatment.
+
+a. architecture matters
+
+we can identify the following infrastructure components of
+
+a satellite iot system:
+
+the mtds, which are located in terrestrial offshore/isolated locations (e.g., a ship in the middle of the sea), but also, as shown in fig. 2, in the space;
+
+the iot supporting satellites, forming a constellation that covers even the most remote areas on earth;
+
+the iot gateways, which, when needed and available, are located in the proximity of a large (yet isolated) cluster of mtds (e.g., on a ship). their aim is that of gathering uplink messages generated by the mtds and send them to the satellite constellation, as well as forwarding downlink messages received from the satellites to the mtds;
+
+ground stations, which are deployed in various earth spots to collect the aggregate messages gathered by iotupporting satellites and providing them with downlink messages to be forwarded to the mtds;
+
+iot services, comprising core network functionalities to perform rrm as well as external cloud applications for user plane data management.
+
+the e2e connectivity between mtds and the iot services is made up of different stretches. first of all, we have the wireless link between the (terrestrial) mtds and the serving iot supporting satellite. two configurations are envisioned , , namely:
+
+indirect to satellite communication (also called iot backauling), where the mtd communicates with a (terrestrial) iot gateway, which in turn has a bidirectional link towards an iot supporting satellite. in indirect mode, the existing protocols can be leveraged, but the area of a deployment is limited by the coverage range of the terrestrial iot gateway. this configuration is supported by and shown in fig. 2 as the naval cargo scenario; 6
+
+fig. 2. reference architecture of a satellite iot systems. the infrastructure components are labeled in yellow, while the communication architecture components are labeled in black.
+
+direct to satellite communication (also called direct acess), where the serving iot gateway is deployed on the satellite. a direct access from the mtd to the satellite is a more appealing solution in scenarios which are lacking infrastructure deployments or with a low density of mtds. this variant is supported by , and shown in fig. 2 as the remote logistics scenario. this option is preferred also by various industrial initiatives see sec. v.
+
+among the satellites of the constellation, inter satellite links (isls), typically based on free space optics (fso) (including laser and visible light communication), may be exploited to perform "switching in the sky," i.e., inter satellite routing of messages. once a suitable satellite is reached, a wireless satellite to ground link is then used to deliver uplink messages/collect downlink messages from a ground station. it is also possible that uplink (downlink) messages are stored and carried by the serving satellite until a suitable ground station (the target mtd) is in sight . finally, the iot services are connected to ground stations thanks to a terrestrial link, e.g., in optical fiber. main limitation
+
+temporary solution, bridging 2g towards 5g temporary solution, bridging 4g towards 5g lack of a strong business case standardization phase not ended
+
+mmtc mmtc mmtc lack of a strong business case closed technology, no alliance of companies behind practical constraints to international roaming
+
+it is worth mentioning, finally, the role of edge computing and its impact on the network architecture in the satellite iot paradigm. indeed, if user plane traffic needs to be processed loally while still allowing an iot island to be remotely connected to remote iot services then the indirect to satellite architecture is necessary, with the presence of an edge computing server co located with the gateway to treat data. the core network infrastructure must also be tailored to such scenarios, moving the needed network functionalities to the network edge to ensure the e2e system operation.
+
+b. spectrum matters
+
+the common naming of frequency bands for satellite comunications follows the institute of electrical and electronics engineers (ieee) nomenclature: a list of them is reported in table iii. in particular, let us remark that, when considering constellations of small satellites, the spectrum below 5 ghz is technically advantageous because of the low rain fade and reduced antenna design complexity requirements . 7
+
+table iii common naming of satellites frequency bands in the ieee nomenclature
+
+among the existing systems and spectrum resources, freuency bands below 3 ghz for both geosynchronous equatorial orbit (geo) and non geo satellite networks appear as the more common solutions to address the majority of iot services belonging to the mmtc category . in table iv, we provide a simplified spectrum allocation as per .
+
+c. comparison metrics against terrestrial iot rats
+
+based on the previous considerations, we shall consider the following kpis in order to position the new paradigm of satellite iot in the arena of long range iot technologies:
+
+coverage area the major benefit of satellite iot resides in outperforming the availability of mobile networks and lpwans thanks to its ubiquitous coverage;
+
+uplink capacity in terms of supported terminals for uplink communication, we may safely state that satellite iot systems will outperform terrestrial rat since it provides more flexibility in allocating capacity in areas where it would otherwise be not available;
+
+downlink capacity on the contrary to the previous item, the downlink communication may be challenging due to the extremely long distance between transmitter (the satellite) and the receiver (the terminal) with certain archiectural variants (mainly the direct to satellite architecture) and because of spectrum allocation issues;
+
+spectrum availability the presence of dedicated freuency bands for satellite communications minimizes the impact of interference typical of lpwans, thus making this paradigm more similar to licensed spectrum based mobile networks;
+
+minimum latency given the complexity of the involved architectures, the e2e latency of a satellite iot system is expected to be larger than that provided by mobile networks or lpwans;
+
+terminal complexity especially for the direct to satellite architecture, the terminal engineering may be challenging in order to cope with the distance towards the serving satellite;
+
+infrastructure complexity as shown in fig. 2, various network elements are needed to provide e2e connectivity, thus the complexity of the network infrastructure is expected to be equal/greater than that of mobile networks; • roaming support depending on the international availbility of spectrum portions, the roaming capability of fig. 3. radar chart to compare the envisioned kpis across different long range iot technologies (lpwans, mobile networks, and satellite iot).
+
+satellite iot systems should outperform that of mobile networks and lpwans;
+
+energy efficiency apart from the longer distance to be covered, the energy efficiency of satellite iot in terms of power spent per transmitted bit over surface unit is likely to be somewhat similar to that of mobile networks. we captured the above mentioned considerations in the radar
+
+chart in fig. 3.
+
+d. orbits and constellations for iot supporting satellites
+
+the satellite's path and what view it will have of earth are determined by two features: i) the satellite's height (altitude) and ii) the orbit's shape (eccentricity and inclination) . based on the actual values taken by these parameters (altitude, eccentricity, and inclination), we can classify a satellite into three categories , :
+
+high earth orbit satellites, reaching about 36, 000 km of altitude. in this spot, the satellite travels moves at the same angular velocity as the earth, thus following a geosynchronous orbit (gso). if a gso satellite circles earth above the equator (zero inclination), it is referred to as a geo satellite, and it appears in a fixed position (geostationary), thus being suitable to provide coverage to a specific ground area (e.g., telecommunication satellites); • low earth orbit (leo) satellites revolve at an altitude between 160 and 1000 km from the earth surface. unlike gso satellites, leo satellites fly at a much faster pace because of their proximity to earth (e.g., 7.8 km/s versus 3 km/s);
+
+medium earth orbit (meo) satellites travel a wide range of orbits anywhere between leo and geo.
+
+as far as the orbit's eccentricity is concerned, usually the satellite orbit is circular (zero eccentricity) or has a slight eccentricity. however, in some case, it is useful to set a highly elliptical orbit (heo), having a perigee below the altitude of 1, 000 km and an apogee that can be above 35, 000 km. a prominent example of heo is the molniya orbit, which is exploited by the homonym russian satellite series to monitor polar regions that could be difficult to reach with a geo. 8
+
+at the time of writing, we identified five major mobile satellite service providers which are active in supporting iot use cases:
+
+1) inmarsat5 it features 13 geo satellites that deliver mobile safety and broadband voice and data services around the world by leveraging a nexus of ground stations, which act as traffic gateways directing the satellite signal to terrestrial networks, and data centers located at strategic points around the world. inmarsat is an investor in actility,6 that is, the major supplier of network server solutions for lorawan. together with actility, inmarsat deployed the first global iot network,7 with lorawan based connectivity on the ground and satellite connectivity at the network backbone. the integrated hybrid network has been tested in three application scenarios: i) asset tracking, ii) agribusiness, and iii) oil and gas, deployed in remote regions of australia and malaysia ;
+
+2) iridium8 it consists of a leo constellation of 66 cross linked satellites. the global coverage is ensured by a dynamic satellite network that leverages isls (each iridium satellite is linked to up to four others) to route traffic among satellites. as for iot traffic support, iridium provides i) a simple and efficient network transport capability for transmitting short data messages between equipment and centralized host computer systems called short burst data®, and ii) a cloud based solution that fosters the inter working with industry standard iot protocols. experimental prototypes of heterogeneous iridium lorawan systems have also been proposed in literature ;
+
+3) eutelsat9 with a global fleet of geo satellites and associated ground infrastructure, eutelsat is one of the world's leading satellite operators. it is worth noticing that the so called "eutelsat leo for objects (elo)" constellation is expected to be operational and integrated with the sigfox terrestrial connectivity services by 2022, in order to support the upcoming iot market boom in sectors as diverse as transport, oil and gas, and
+
+fixed satellite television, & data services (including broadcasting)
+
+4) globalstar11 it features a constellation of leo satellites and 24 ground stations that constitute an internet protocol (ip) based terrestrial infrastructure to bridge satellites and traditional communications infrastructure on six continents. on the contrary to iridium, the globalstar technology does not leverage isls, allowing customers to connect to a different satellite or gateway and automatcally hand off to another available satellite upon need. globalstar supports tracking and messaging applications for various industrial iot use cases without strict latency requirements [16, §2a].
+
+5) thuraya12 with its two satellites, it contributes to the fleet of five geo satellites of the yahsat satellite operator in providing a broad range of fixed and mobile services spanning voice and data communications to both commercial and government sectors. iot services, both for land and maritime sectors, are supported.
+
+e. recent trend: independent leo satellites for iot
+
+besides the above mentioned initiatives, a new, interesting one has been gaining momentum, that is, independent leo satellite constellations. they consists of independent, small (typically, cubic shaped) satellites, which are expected to give a new impulse to the initiatives surrounding iot because of their low deployment cost, shorter deployment time, and flexibility. these advantages come at the cost of lower payload capabilities and shorter lifespan, with the latter not being actually a disadvantage, as it gives room to a rapid adaptation to new technology developments. moreover, being leo based, lower propagation delay and smaller propagation loss are experienced as compared to geo solutions , . these unique characteristics have drawn to attention of players such as google, space x, oneweb, and facebook. since the weight influences many aspects of a space mission, the common classification of small satellites is based upon it, thus distinguishing among femto (less than 0.1 kg), pico (0.1 1 kg), nano (1 10 kg), micro (10 100 kg), and mini (100 1000 kg) satellites.
+
+among pico satellites, cubesat have emerged for their modlar architecture that has become a standard . becoming cheaper, closer and smaller, they have quickly become enablers
+
+10https://news.eutelsat.com/pressreleases/eutelsat kicks off elo itsonstellation of nanosatellites dedicated to the internet of things 2923247
+
+11https://www.globalstar.com/en us/corporate/about/our technology 12https://thuraya.com/who we are 9
+
+fig. 4. classification of satellite orbits. recently, the typical orbit range considered for iot supporting satellites is represented by the shaded area. the displayed orbit inclination is only for graphical purposes and does not necessarily correspond to a real inclination.
+
+of new applications in various fields. current cubesat research is mostly focused on remote sensing applications but they are gaining momentum also in communications and iot. indeed, small satellites take advantage of being deployed ad leo orbit thus providing lower latency with respect to other solutions. in the cubesat architecture, a "basic unit," also called 1u, is defined, and all cubesat satellites are designed as multiples of 1u, up to 16u. a 1u has a cubic shape with side dimension of 10 cm. this shape is not just a convenient form factor but also provides sufficient surface area for solar power generation and space thermal stability. its mass is also limited, equaling 1.33 kg per 1u. the power that a cubesat can allocate to the communication system is limited by its weight and size constraints: the maximum transmission power is restricted to 1 w (or 30 dbm) in downlink and 100 w (or 50 dbm) in uplink. in the past 20 year, thousands of different cubesat missions have been launched, being part of the related to telecommunications and iot. choices like orbital altitude, in satellite antenna type and constellation are limited by cubesat specific characteristics. design choices affect aspects such as the bean coverage and should be taken according to expected application .
+
+these recent trends make leo satellites the preferential solutions for the deployment of satellite iot systems, as shown in fig. 4. we remark that this trend is sometimes referred to as "internet of space things" in recent scientific literature , . this terminology should not create confusion in the reader, because, in our view, the internet of space things is just a subset of the satellite iot paradigm defined at the beginning of sec. iii.
+
+in the following, we survey the alternative approaches to implement satellite iot networks over leo constellations in terms of link type and isl configuration.
+
+1) rf satellites for iot (with and without isl): in , some criteria for the design of rf leo satellite constellations for iot have been discussed. in particular two main application scenarios have been introduced, namely: delay tolerant and delay sensitive applications. leo constellations without isls are advisable for delay tolerant applications thanks to low cost and reduced complexity, as they avoid complicated operations of inter orbital switching. in this type of constellation, the orbit eccentricity plays a key role in determining the coverage area. the use of recursive orbits ensures constant overhead pass times and power level needed for communication. rosette constellations are recommended in to extend the coverage of leo constellations without isl. the 3d coverage diagram of a rosette constellation with inclination orbit 42 degrees is shown in fig. 5.
+
+on the other hand, the isl solution can improve coverage and reduce latency at the price of an increasing complexity. polar orbital planes are preferred to inclining orbit planes in the design of leo constellations with isl . in order to reduce cost and complexity, a minimum number of satellites and isls is considered in order to realize the global coverage. in particular, isls between orbital planes are ignored by leo constellations for iot. the 3d coverage diagram of a leo constellation of iot with isl in shown in fig. 6. the constellation consists of 40 satellites in five orbit planes. each satellite has two bidirectional isls with its two vertically adjacent satellites in the same plane.
+
+the satellite constellation design should satisfy some specific requirements of throughput and latency. this is what has been addressed in , where a satellite system based on an elliptic orbit satellite and a phase array ground station is proposed for iot connectivity and consumer internet access. the system uses five molniya satellites and one dimension electronic scanning phased array terminal. the authors of demonstrated that the elliptic orbit of molniya well fulfill the requirements of both iot users and consumer internet.
+
+another remarkable work in the field of rf satellites for iot is , where the authors attempted to transplant iot lorawan technology to space, by treating the satellite constellation like a set of "things" operating in the sky. such a configuration may fit very well applications where small satellites (e.g., cubesats) are by themselves sensors that collect, for instance, earth observation data. the evaluation and test trials performed in evidenced the known disadvantages of lora technologies in terms of reduced data rates. organizing the satellites into clusters of tenths of nodes, the farthest nodes will achieve a data rate of 293 bps that is unsuitable to support future broadband iot connections.
+
+2) optical isl solutions for satellite iot: a practical solutions for optical isl in satellite based iot has been proposed in a recent work that is based on the use of laser communication terminals. such a solution is very effective as it combines very high data rates and resilient performance. indeed, the use of laser communication terminals guarantees high opertional security and immunity to interference source, jamming and eavesdropping. the configuration of considers four isl link terminals per satellite, providing interconnections to satellites in front, behind, to the right and to the left of the host satellite. typical requirements are in the 6,000 km distance range, asking for 10 gbps and more. such requirements can be fulfilled by an laser communication terminal with mass of 10
+
+fig. 5. example of 3d coverage diagram of leo constellation for iot, without inter satellite link (courtesy of ).
+
+remarks — the utilization of leo satellite constellations for iot support is a recent trend, which does not preclude the exploitation of legacy systems based on meo and geo constellations. of course, in such a last case, the issues related to latency should be carefully taken into account. moreover, the configuration of a direct connection from nodes to satellite has recently gained momentum with respect to the indirect configuration in many recent papers , as well as recent commercial initiatives, which will be surveyed in the next pages. finally, the implementation of satellite backhauling via isls (i.e., the so called switching in the sky) is rather challenging , thus it should be carefully exploited, mainly for wide area iot network deployments where the message delivery delay is bounded and the serving satellite is not in the line of sight with any ground stations before the delivery deadline has expired. iv. satellite iot enablers
+
+this section describes which contributions might be brought by 5g systems and lpwans as enablers for satellite iot. for purpose of clarity, such enablers are first discussed separately in the following two subsections and then the main remarks are drawn in a conclusive final subsection.
+
+a. satellite iot enablers in 5g systems
+
+satellites are expected to cover a relevant role in iot support in 5g systems. indeed, while terrestrial communications will probably cover the majority of application scenarios, satellite will most likely play a role in the framework of mmtc, for their wide area coverage and relatively short service deployment time. tab. iv a, which contains data from , summarizes the key satellite mmtc ue requirements in two distinct time frames: 2018 (i.e., today) and 2023, when 5g is expected to be deployed worldwide. the table clearly outlines two major specific requirements of iot application scenarios: i) the sparseness of data communication and relaxed latency constraints, and ii) the mean time between maintenance operations. the latter represents an extremely long time, that is measured in years, which is expected to further increase as we look into the future scenarios.
+
+various 5g enabled satellite network architectures are enviioned , , mainly depending on how the connectivity between ue and bs is implemented (with/without regenerative satellites, with/without isl). in all cases, two main differences can be identified between 5g ntns and the traditional terrestrial ones, being i) the long distance between mmtc ues and the ran infrastructure, which introduces long delays in the communication, and ii) the potential amount of devices to be supported in the iot scenario. the delay component is particularly relevant in the case of geo satellites, which at an altitude of 36,000 km introduce a minimum one way latency between mmtc ues and ran of 238 ms. for this reason, the so called 5g ntns envision the usage of alternative (lower) orbits and even high altitude platforms (uav enabled/airborne bss) operating at an altitude of few tens of km to mitigate the latency (down to 2 ms) and doppler shift issues .
+
+a distinctive feature of 5g will be the softwarized and virtualized architecture that, starting from the mobile core network in the form of the revolutionary 5g service based architecture (sba), will extend up to the ran. indeed, 5g is expected to bring three major advancements that might enable massive iot connectivity through satellites.
+
+o ran the concept of open radio access network (o ran) is to enable detachment of some functionalities from the bs of the mobile network to move them into another location.13 this enables to implement different strategies to balance complexity and power consumption of the bs. as an example, demonstrates the potential to employ cubesats as remote processing units to support lightweight bss that can be mounted on uavs. this architectural solution is based on the exploitation of
+
+13the o ran paradigm is being standardized by the o ran alliance
+
+see https://www.o ran.org/. 11
+
+the so called remote radio head (rrh) baseband unit (bbu) splitting functionality, which allows to separate the protocol stack of the bs in different positions with corresponding different performance constraints related to the corresponding connection between the two detached components.
+
+peps performance enhancing proxies (peps) are netork agents designed to improve the end to end perforance of some communication protocols. pep standards are widely known and used solutions, and they are defined in rfc 3135 (peps intended to mitigate linkelated degradation) and rfc 3449 (tcp performance implications of network path asymmetry). pep can be considered as a general approach to improve data transfer performance over satellite connections but also as a potential solution to improve iot flows performance on satellite connections, e.g. by merging several small flows to reduce the granularity of data connections.
+
+network slicing as far as 5g standardization is concerned, the upcoming standard will focus the core network innovation into supporting the concept of network slicing. network slicing allows to generate virtual selfontained networks that can be adapted in terms of topology, performance and services to fit the constraints of different services. indeed, the emerging paradigm in 5g seems to point towards configuring and allocating different network slices for different kinds of applications (e.g., mobile broadband, mmtc, urllc). the mmtc slice will be of specific interest for supporting iot traffic, as also mentioned in the open challenges later on in the paper.
+
+on a more general level, the direct use of unmodified internet protocols, such as hypertext transfer protocol (http)/1 and /2 and transmission control protocol (tcp), is challenging in resource limited iot devices (e.g., cpu, memory, power) and resource constrained networks (e.g., high latency, lowower, lossy). the internet engineering task force (ietf) is addressing this issues, and it has developed lightweight application transport protocols that are better suited for the transmission of small messages with low duty cycle in contrained environments, called constrained application protocol (coap) , to be used in lpwans for iot services. coap endpoints exchange messages according to a request/response mode, and the resources are accessed through a uniform resource identifier (uri) similar to http. coap packets are much smaller (10 20 bytes) than http/tcp flows and run traffic future
+
+telemetry/tracking alarm traffic
+
+over user datagram protocol (udp).
+
+remarks the integration of satellite connections for iot support in 5g, and in general with ip native networks, provides specific challenges, including:
+
+compensation of long transmission delay, with the support of performance enhancement proxies, a widely used technique (see discussion above) to split tcp connections in order to better adapt the congestion control strategy to the satellite link while maintaining the terrestrial section un modified;
+
+the need to overcome some of the limitations of http/1 and http/2. the ietf is currently standardizing http/2 support over quic, a new udp based, streamultiplexing, always encrypted transport protocol focused on minimizing application latency. this transition could lead to the standardization of an http/3 supported by quic, with the advantage that quic provides reliable data transfer and pluggable congestion control, which can be optimized for iot scenarios. nevertheless, other solutions supported by ietf and being standardized offer more drastic solutions, such as the development of iot specific protocols capable of efficiently compressing and adapting data to the needs and requirements of iot devices. additional details and directions of research are described in sec. vi related to open challenges. with the introduction of satellite links, lpwan technologies start to be called low power global area networks (lpgans). in particular, the recent literature studies have shown the feasibility of using two lpwan technologies, namely lorawan and nb iot, over satellite links.
+
+with respect to the former, the eds are allowed to employ the frequency under the regulations of their country, including the actual frequency band and maximum transmitting power. in , the regional parameters of lorawan, e.g., effective irradiated power (eirp), carrier frequencies, data rates, are reported for the different regions the earth globe. the regulatory adopted for spectrum usage in satellite m2m/iot applications have been recently detailed in for the different operational scenarios. we recall that the radiofrequency (rf) modulation format of lorawan is proprietary (patented by semtech) and based on a derivative of css modulation ; it uses variable orthogonal spreading factors, which allow to trade data rate for range or power to optimize system performance for a constant bandwidth. the applicability of 12
+
+the lora modulation to satellite links was investigated by the authors of , who investigated the doppler effect over links lengths of approximately 550 km. their experiments were carried out in the laboratory and outdoors, using similar velocities and reproducing the doppler effect over the link with software defined radios (sdrs) . the experimental results showed that the data rate at such long distances is low, enabling messages of a few bits. in order to improve the performance of the traditional lora modulation in this context, semtech has recently announced a new modulation format called lora e to be used only in uplink, while the current lora modulation is still exploited for downlink, thanks to the fact that the radios can switch between the two modulations .
+
+these studies confirm that the direct to satellite architecture is the preferred one for lora based lpgans. such insights are confirmed also in , which investigates the technical challenges to be faced for interconnecting satellite and loawan networks, with a particular focus on: synchronization, gateway selection and replicas cancellation and, finally, crossayer optimization of network protocol. related to is the paper authored by wu, qu, and zhang , where the lora adaptability in leo satellite iot are reviewed. in particular, network architecture, bandwidth usage, activation mode, and access protocols are redefined considering the satellite scenario and its peculiar constraints.
+
+as for nb iot, similar considerations as in sec. iv a, especially regarding the network architecture , apply. neverheless, in literature various studies regarding enhancements of the nb iot air interface to support satellite communications can be found. in , a detection algorithm for nb iot is designed to minimize the impact of the satellite channel, specifically of the doppler drift, in the demodulation performance. an uplink scheduling technique for leo satellite based nb iot systems that mitigates the level of the differential doppler down to a value tolerable by the iot devices without increasing their complexity is proposed in . finally, in the configuration of the nb iot air interface parameters is investigated in order to optimize the route of a uav that has to collect data from scattered terrestrial terminals.
+
+remarks — the path to bring lpwans to lpgans entails
+
+spectrum regulation harmonization, which may lead to harmful interference between satellite links and terresrial links, especially for lpwans based on unlicensed spectrum like lora;
+
+modulation format, demodulation approaches, doppler effect compensation enhancements;
+
+additional details and directions of research are described in sec. vi related to open challenges.
+
+it is evident that both 5g and lpwan technologies are still under development and future solution are expected to ease the support for iot services. in this framework, it is possible to identify some specific aspects of both technologies that z
+
+fig. 7. lacuna space ed disc shaped antenna pointing to the sky (z direction).
+
+could be considered as enablers for implementing satellite iot solutions.
+
+for 5g mobile networks, iot clearly represents a relevant use case. several technologies are being developed and standardized in such framework, including:
+
+1) network slicing, which represents the biggest advanceent at system level, enabling to define and isolate overlay networks capable of adapting to different use cases (including, of course, iot);
+
+2) o ran solutions, to better balance bs complexity and support interoperability;
+
+3) offloading solutions, capable of exploiting edge caches and computational capabilities;
+
+4) peps, to compensate high transmission delay; 5) iot dedicated applicationnd transport level protocols support, such as coap for reduced overhead communiation;
+
+6) control plane optimization, to optimize signaling overead in case of massive connections.
+
+on the other hand, the typical lpwan architecture is already evolving towards supporting longer transmission ranges, with the following features:
+
+1) potential extension of lora or nb iot modulations on the satellite link (requiring further adaptations of the standards, e.g., lora e);
+
+2) flexibility at the physical layer seems to be moving in the direction of introducing sdr technologies, especially at the gateway level to promote interoperability.
+
+v. industrial focus
+
+after the presentation of the technological enablers, let us now survey the most interesting industrial players in the satellite iot arena. we will categorize these initiatives by technological enabler, following the presentation order of such enablers we adopted in the previous sections and keeping in mind that, at the time of writing, the standardization of 5g is still ongoing thus no initiatives can be ascribed under the 5g umbrella. therefore, we will describe independent initiatives leveraging leo satellites (see sec. iii e) and lpwans (see sec. iv b), distinguishing between lora based initiatives and nb iotased initiatives. 13
+
+a number of new iot initiatives are emerging in the satellite industry, also thanks to the push from the european space agency (esa) and the national aeronautics and space administration (nasa) for small satellite technologies (e.g., cubesat). this new wave of start ups is proposing iot solutions relying on the newer low cost, low power satellite technologies to achieve truly global connectivity coverage. it is worth remarking that initiatives are typically opposed to incumbent (and expensive) satellite connectivity providers, which have already a well established constellation of satellites on space and are able to provide iot connectivity mainly targeting mobile and maritime environments or backhaul connectivity services for local area iot networks relying on terrestrial standards. most of the new space start ups, instead, need to bring down their service costs for being able to enter in the market, and have therefore been quick in taking advantage of the new small satellite technologies. these, are intended for operating in the leo thus allowing the use of low power modems to connect the ground sensors. by being able to provide low cost, low power, low bit rate connection services, small satellites enable direct to satellite architectures, that allow to bypass local area iot networks and ground iot gateways.
+
+1) astrocast nanosatellite network : with a constelation of 80 leo satellites using proprietary low power land, this swiss company provides low latency (< 15 min) transmission optimized for direct to satellite iot applications, and supports bidirectional communications enabling acknowldgments, asset commands, and deployment of security patches and software updates (over the air software updates). the land allows smaller antenna, lower cost rf components, better propagation (no rain fade, lower power requirements), fewer interference risks than other bands. to the best of the authors' knowledge, astrocast is the only initiative with access to land spectrum.
+
+2) myriota : this australian company provides low cost, low power, secure direct to orbit satellite connectivity for the iot thanks to a constellation of nanosatellites over uhf or vhf frequency bands. on average, four satellite passes per day are granted, with the mtd having approximately 9 minutes to send messages to the satellite in line of sight.
+
+it is a french company which uses a proprietary technology and chipset. a constellation of 25 nanosatellites is planned for 2022, with 6 satellites already on orbit for prototypes testing.
+
+4) kepler communications : this canadian company is developing 140 satellites to provide affordable, low power, direct to satellite iot connectivity within 2023. they feature bi directional communications to ensure data acknowledgement and over the air firmware updates.
+
+5) swarm technologies : this silicon valley startup currently has 9 satellites in orbit, but aims to deploy 150 satelites supporting direct to satellite iot connectivity. swarm's hardware can be integrated with third party devices and supports a variety of communications protocols. b. lora based satellite iot: lacuna space
+
+lacuna space proposes a new ecosystem that allows other operators to co exist, thus implementing a sort of "satellite roaming." their technology can be made available also to other partners. in the following, we will focus on the major aspects of the lacuna space system.
+
+1) the physical layer: the lacuna space system is a unidirectional system, where the ed can transmit a packet in uplink (to the satellites) but there is not a downlink from the satellites to the ed. a new lora modulation format is used by lacuna space, different from the usual one based on css. as pointed out in , this new modulation format "[. . . ] allows up to 1000 simultaneous transmisions/mhz [and it is] resilient to other industrial, scintific, and medical (ism) signals using intra packet fast frequency hopping over a wide bandwidth." such new modulation format is likely lora e, which we mentioned in sec. iv b.
+
+furthermore, the lacuna space ed antennas are not simple dipoles as for usual lora devices, rather they are right hand circular polarized antennas that irradiate toward the sky see fig. 7 . it must be pointed out also that the lacuna space eds are using for the uplink exactly the same frequency bands as the "terrestrial ed" (i.e., in europe the 868 mhz band). in other words, the lacuna space eds pretend to be terrestrial eds and as such they are subject to the same regulations of terrestrial devices (i.e., short range device according to ). 2) the protocol stack: the lacuna space system leverages the usual lorawan protocol stack; in fact, the identifier of the lacuna space network (lorawan netid) is c00028. since the downlink is not available, the lacuna space ed exploits the activation by personalization approach during the join phase see for the different methods of joining a lorawan network. all of the roaming characteristics are unchanged, enabling lacuna space eds to interact with other networks as usual. a particular important scenario is the one when an ed associated with a "normal" terrestrial operator is roaming into the lacuna space network.
+
+3) architecture and system considerations: from the arhitectural point of view, the satellites of the lacuna space constellations can be considered as "flying gateways," thus a direct to satellite communication is exploited in the uplink. as shown in fig. 8, a lacuna space ed is sending a packet, at a certain time t0, toward the sky and the packet is collected by a satellite. on the other hand, the lacuna space system exploits a certain number of earth stations which act as "terrestrial gateways." the earth stations are exploited to receive, at time t1, all the messages a given satellite has collected from the last pass over an earth station. each earth station is the connected to a normal lorawan back end for further processing of the packets as usual. space architecture.
+
+1) the delay t1 − t0 is likely to be in the order of minutes, thus there may be severe implications in terms of additional latency for the protocol stack (e.g., timeout timers), even in case downlink transmission was possible. 14
+
+fig. 9. envisioned cubesat coverage capability for northern/central italy.
+
+2) there is no isl: all the packets collected by a satellite are delivered by the same satellite to an earth station. a final consideration should be done regarding the inerference management. as shown in fig. 9, a beam of a satellite con cover a large geographical area where a huge number of terrestrial eds can be active. as a consequence, a lot of interference can be collected from the terrestrial ed. furthermore, a significant number of satellite server eds could be present in the area covered by the beam. hence, it is apparent that the lacuna space system needs a specific modulation which is resilient to the interference on one side and able to sustain a high capacity on the other. regarding the capacity, of course, selecting a suitable modulation cannot be the only enabler: we guess some specific other modifications to the receiver must be made and some other techniques such as, quoting , on these techniques, unfortunately, no public material is available at the time of writing, to the authors' best knowledge.
+
+even if the current 3gpp technologies do not fully support non terrestrial iot, various companies have been starting working around those limitations. in particular, companies like, e.g., sateliot and mediatek, actively support nb iot standardization process with the formalization of its nonerrestrial component expected in release 17 of the 3gpp standard. the esa has demonstrated interest as well, supporting initiatives like sateliot and oq, and collaborating with the danish satellite communications waveform and test equipment specialist gatehouse telecom a/s 14 to enable a space based nb iot network.
+
+1) sateliot : this spanish satellite operator has recently signed a partnership agreement with gatehouse telecom for delivering nb iot connectivity technology for a satellite iot network. the solution is based on a constellation of small leo satellites which will act as base stations. sateliot programmed to extend their constellation to 16 satellites in orbit by the end of 2021, and services are expected to start operating in the third quarter of 2022. to this aim, sateliot activity is also focused in designing and developing of the necessary adaptations to comply with the enhancements of nb iot in 5g.
+
+sateliot's idea consists of adapting the nb iot protocol stack in order to allow mtds to connect to sateliot's leo satellite network whenever terrestrial coverage is not available or in areas where classic mobile communication infrastructure is not available due to communication challenges. sateliot is also investigating the interworking of its leo satellite constellation with mobile core network functionalities.
+
+2) mediatek : it is a satellite modem provider and has successfully completed a field trial that transfers nb iot data through an inmarsat alphasat l band satellite, which is currently in a geo. a bi directional link was set from a mediatek's satellite enabled standard nb iot device, to a commercial geo satellite. mediatek is an active contributor of 3gpp see .
+
+3) oq technology : luxembourg based oq technology is building a global leo cubesat satellite constellation dedicated for 5g iot. oq technology addresses the satellite iot solutions deployment on three steps:
+
+1) uploading oq software on third party satellite operator providing sdr as a service connectivity;
+
+2) getting oq payload hosted onto other provider's satellites (through services offered by companies such as spire global and nanoavionics);
+
+3) building and launching oq own satellites. oq software is designed to be cross layer compatible with different sdrs, so that it can be uploaded to third partners satellites that offer sdr as a service, standing that they operate in the same frequency and power range.
+
+at the time of writing, oq has just successfully tested nbot waveforms and synchronization procedures using a thirdarty small satellite (i.e., the gomx 4a and gomx 4b from danish gomspace), trials on leo satellites, working through the doppler and range issues unique to non stationary satellites (nb iot in leo satellites is challenging, due to high doppler and delay environments). the experimentation demonstrated that nb iot technology can be used on flying sdr payloads by uploading the waveforms to test the performance.
+
+4) ligado networks : this usa based company is also working towards adapting standard iot protocols of lte cat m and nb iot for satellite use. ligado networks has 40 mhz of spectrum licenses in the usa, nationwide portion of 1500 1700 mhz spectrum (l band). in april 2020, the company received federal communications commission (fcc)'s approval for use of spectrum near the l bands used by global positioning system signals for 5g network deployment. currently, they operates the skyterra one geo satellite, covering all north america, to provide robust connectivity to small, low power devices that are also served by terrestrial mobile networks, but their plan is to build a satellite terrestrial network to support the emerging 5g market and iot applications. in the previous sections, we identified the technological enablers of the satellite iot paradigm provided by lpwans and 5g, as well as the most prominent initiatives which are leveraging them to support a broader adoption of iot services, thus creating new business opportunities and models. those represent the current state of the art in terms of standardization and ongoing initiatives. nevertheless, research is looking more in the future, towards technologies capable of providing further advances and revolutionary solutions. in this section, we focus on the analysis of the gaps that remain both from the technological point of view and standardization/regulation point of view, starting from the remarks provided in sec. iv c, in order to fully unleash the potential of satellite iot. indeed, the next subsection provides an overview of potential novel approaches at the different layers of the protocol stack.
+
+a. innovative approaches to tackle technical challenges
+
+in the following, we categorize the innovative approaches into phy design, antenna design, medium access, network and higher layer protocols, and edge computing.
+
+1) physical layer design: in the recent literature, some remarkable papers have been published about waveform and transmission formats for satellite aided iot. standard lora css waveform is not suitable for leo satellite iot commuication due to the high time domain cross correlation values between the chirps with different starting frequencies. in order to overcome this issue, introduces a low cross correlation symmetry chirp signal (scs) that noticeably improves phyayer performance. the acquisition of a scs is then discussed in . the paper of qian, ma and liang partially revised the approach of , by proposing another typology of chirp signal for satellite iot transmission, namely: the asymmetry chirp signal (acs), which is obtained by a modification of scs. acs effectively solves the issue noticed for scs and related to high peaks of spectral cross correlation in presence of high satellite doppler shift. another paper dealing with css modulation for satellite iot is . in particular a new methodology of unipolar coding is proposed in to allow efficient random multiple access to a large number of transmitting devices. a relevant issue in css modulation is the vulnerability to the doppler effect. leo satellites are characterized by large doppler shift and this could impair link performance. for this reason, the authors of proposed a folded chirp rate shift keying modulation, characterized by high resilience to doppler and other unexpected frequency drifts. as anticipated in sec. iv b, it is worth mentioning that a new modulation format called lora e has been recently announced to overcome the limitation of the default lora . it relies on two bit rates (162 and 325 bps), and consists of a frequency hopping spread spectrum (fhss) modulation. in each transmission, several replicas of the packet header are transmitted over a selected channel, in distinct sub channels according to the ed's channel hopping sequence. after the header, the payload is split into fragments which are sent consecutively in each sub channel as per the hopping sequence, without repetition. this approach increases the complexity at the receiver side, but allows multiple eds to transmit at the same time without colliding. we recall that lora e will be used only in uplink, while traditional lora will be exploited in downlink thanks to the compatibility between these two modulations.
+
+a different transmission waveform has been considered by dor´e and berg in , where turbo coded frequency shift keying (namely, turbo fsk) is employed for narrowband satellite iot. turbo fsk has the main advantage of being a constant envelope modulation. this fact definitely increases the amplifier efficiency that is a must in power constrained satellite iot connection. in the recent paper of clazzer and munari , two methodologies of random multiple access for iot via satellite have been analyzed, namely: the spread spectrum transmission with aloha and the replication of transmitted packets in order to obtain time diversity. in both cases, the receiver employs successive interference cancellation to resolve the collisions. the comparison revealed the tradeoff between spectral efficiency provided by the repetition based scheme and the interference reduction of spread spectrum techniques. the final conclusion of is to consider repetition based scheme as a valuable solution for higher data rates iot applications, while spread spectrum confirmed its robustness in lora like narrowband use cases. another solution for spectrally efficient multiple access in satellite iot systems has been very recently proposed by su, ren and zhang in , based on random interleaving multiplexing. substantially, the bit and symbol level interleavers are randomly selected by active users from 16
+
+sets of interleavers. such a choice allows to differentiate signals of different users sharing a subframe. map detectors can be emloyed to decode multiple superimposed packets. results shown in evidenced a throughput of 2 bits/symbol, which largely outperforms conventional random access protocols. in the same framework of spectrally efficient multiplexing methodologies for satellite iot, it is worth citing the paper of hu, he and wu , where different users can be simultaneously transmit their messages over the same bandwidth using constellation coding/decoding. substantially, the user data are transmitted by means of specific symbols occupying precise positions in higher order modulation constellations (constellation coding). at the receiver side, constellation decoding should demap the correct symbol to the correct user. the capacity improvement of such a methodology is greatly noticeable, with a price to be paid in terms of non trivial receiver complexity.
+
+furthermore, it is worth mentioning the work of cluzel et. al , where a physical layer abstraction is used to evaluate the bit error rate (ber) and the packet error rate (per) of a leo satellite system for iot, using a time frequency aloha scheme for multiple access management. the phyayer abstraction relies on the calculation of an equivalent signal to noise ratio, based of mutual information, which allows at analytically computing both ber and per in any collided scenarios.
+
+finally, we remark that phy security, exploiting the randomess of the wireless channel to perform authentication, is also an actual research topic in the context of space information networks. for the sake of space constraints, we invite the interested reader to the recent survey about this topic .
+
+2) antenna design: the antenna design is a challenging aspect. clearly, the utilized frequency band and the form factor of the satellite constitute contrasting objectives for the size of the antenna. on the one hand, the lower spectrum requires larger antennas and higher spectrum requires more power and directivity . on the other hand, the antenna has to fit a form factor given by the satellite. in the authors' opinion, the discussion related to the antenna design deserve a wider scope, not limited to the satellites for iot only. nevertheless, some papers published in the literature explicitly address the target of the efficient antenna design for satellite iot systems. in , sanil et al. propose a multi band circularly polarized microstrip antenna operating at 5.8 ghz, 6.76 ghz, and 8.4 ghz with a fractional bandwidth of 170 mhz, 335 mhz, and 560 mhz respectively. another recent paper focuses the attention on design and implementation of an x band phased antenna array. another work deserving a citation is . here, the latency involved by mechanical and electronic scanning for ground station antennas, transmitting from satellite to satellite, is assessed. results achieved in are clearly in favor of the electronic solution.
+
+3) sdr phy layer implementation: it is also worth rearking that future terrestrial and space networks will be characterized by flexibility and dynamic reconfigurability. in such a framework, sdr will play a key role, e.g., by allowing satellites to reconfigure their mission and allocate part of their available frequency bands to new applications [32, §4.1.2]. some examples of this have been already shown in the recent literature. in , the sdr implementation of a gateway for satellite based iot applications was described in detail. gnu radio open source platform allowed the effective testing of the overall gateway functionalities at a "proof of concept" level. more precisely, the software layer implements the iot protocols that coordinate the e2e device to device or device to user communication between the satellite and terrestrial interface, and a multi band spectrum sensing procedure for detecting the wireless activity in the rf bands specific for each considered short range terrestrial communication standard.
+
+in order to compete with existing solutions, a bidirectional communication must be ensured by satellite iot systems. 4) medium access:
+
+as far as uplink is concerned, the direct to satellite archiecture seems to be the preferred one, with various studies investigating novel spectrum access approaches for mtdo satellite communication. typically, these approaches are variations of the aloha protocol. for example, proposes a distributed method to tune the transmission probability of each mtd according to current traffic load at the serving satellite. the suitability of direct sequence spread spectrum aloha to leo based satellite iot system is analyzed in . an irregular repetition slotted aloha protocol for random access in a power limited scenario is proposed in . nevertheless, indirect to satellite compliant solutions are also proposed to optimize the energy consumption of the data collection process .
+
+on the other hand, we observe that an effective downlink communication (from satellites towards mtds) may be hard to achieve as well, because of synchronization and interference issues between the transmitter and the receiver. for example, in nb iot bidirectional communication is needed for rrm purposes, but the delay introduced by the satellite links will possibly require to modify time advance mechanisms. even lorawan eds not requiring acknowledgement for uplink transmissions need bidirectional communication for joining the network, thus it must be supported by satellite iot systems. in this regards, on the contrary of uplink transmissions, the indirect to satellite option seems more suitable, because it can rely on a traditional satellite link between the satellite and the gateway, which is seen as a "peer" of a ground station by the satellite, thus allowing to leverage well known satellite mac protocols [16, §iii a]. another possible solution could be based on grouping of mtds according to their location, channel characteristics, and traffic features to alleviate the signaling overhead, as envisioned in [16, §v].
+
+it is finally worth mentioning that some recent (at the time of writing) studies appeared in literature have been characterizing the medium access across satellite clusters communicating via isls. these studies have been addressing the connection establishment , the information aging against the number of hops , and the average delay .
+
+interested readers may find further references about the medium access techniques and future challenges for satellite systems in , .
+
+5) network and higher layer protocols: a relevant technoogical challenge is represented by the need for iot oriented 17
+
+protocol stacks capable of going beyond tcp/ip limitations. in particular:
+
+the direct use of unmodified mainstream protocols, such as http/1 and tcp, is challenging in resource limited iot devices (e.g., cpu, memory, power) and constrained networks (e.g., high latency, low power, lossy). as mentioned earlier in the paper, the coap can be used in lpwans for iot services. however, the protocol is still open to the implementation of a go back n arq to make more efficient use of the available resources and reduce the delivery delay in high latency networks such as satellite;
+
+to overcome some of the limitations of http/1, the ietf has standardized http/2. http/2 runs over tcp, but the ietf is currently standardizing http/2 support over quic, a new udp based, stream multiplexing, alwaysncrypted transport protocol focused on minimizing application latency. this transition could lead to the standardization of an http/3 supported by quic, with the advantage that quic provides reliable data transfer and pluggable congestion control, which can be optimized for iot scenarios.
+
+more advanced proposals, starting from the assumption that the ip stack is too greedy to be transported by iot resource limited networks, propose alternative backompatible solutions capable of efficiently compress and fragment data in order to better support the iot operating environment. a relevant example in this class of solutions is represented by static context header compression (schc), which promises a technology for compressing and fragmenting messages exchanged on lpwans to ensure full compatibility of these messages with internet protocols . schc allows the interoperability of the devices to the different lpwans, and more broadly to the applications deployed on the internet. in brief, schc is a compression mechanism to reduce coap/ipv6 headers to just a few bytes, which can then be transported over any lpwan networks. schc prevents synchronization between elements communicating on the network, and this is one of the operations that consumes most bandwidth. this can be achieved since in lpwans networks, the nature of data flows is highly predictable. schc is proposed as an open ietf standard.
+
+peps represent already a reality in satellite communicaions. however, their presence might increase the degrees of freedom in designing solutions for satellite iot, in order to tackle the complexity of managing the massive number of devices and connections to handle.
+
+a new frontier in wireless networking is represented by network coding . network coding demonstrated to be very helpful for multi hop networks. in particular, random linear network coding (rlnc) has the attractive and distinctive feature that is the only code that circumvent the need the encoding and decoding in each hop at transport layer . in the paper of marcano and jacobsen , the advantages of employing rlnc in small satellite constellations for iot are demonstrated in different application scenarios, namely: fig. 10. architecture of the sdn based self organization satellite terrestrial integrated system (sstis) of (courtesy by ).
+
+event detection/localization, asset tracking and data sensor aggregation. numerical simulations of show a 50 65% delay reduction for rlnc with respect to the state of the art reliable datagram protocol (rdp), used for comparison in all the considered scenarios. other papers considers the use of network coding for efficient hybrid automatic repeat request (harq) implementations in satellite based iot systems. for instance, in , zi et. al. proposed a novel network coded harq approach for a bidirectional relaying scenario, where the two terrestrial sensors cannot connect for geographical reason and the satellite works as relay node.
+
+complex systems like satellite based iot can profitably exloit software agility provided by software defined networking (sdn). in , kak et. al assessed the performance of an sdn based internet of space things network. the system architecture is based on swarms of cubesat units interconnected by isls. sdn orchestration and network function virtualization (nfv) are used to manage the aggregation of the information flows from ground to satellite and vice versa in efficient manner, with high throughput and minimized latency. the numerical simulations fully evidenced the potentials of such advanced networking techniques in satellite based iot. in another reent paper , the seamless integration of terrestrial and satellite networks for iot is investigated. in particular, a selfrganization satellite terrestrial integrated system (sstis) is discussed, composed by a perception layer, a cognition layer and an intelligent layer. such system, whose architecture is shown in fig. 10, integrates iot, sdn, and network functions virtualization technologies to achieve self monitoring, crisis forecasting, and optimal control.
+
+specific interest and related open challenges are related to the emerging concept of network slicing. network slicing 18
+
+represents a key technological advancement that will bring unprecedented levels of flexibility and adaptability in network architectures. by leveraging on the diffusion of sdn and nfv implementation, network slicing allows to build virtual self contained networks on shared pool of computing, storage and network resources. the ultimate goal of network slicing is to reduce the complexity in configuring and managing the networking infrastructure by associating different slices to different types of applications characterized by similar quality of service (qos) requirements. indeed, 5g will dedicate a specific slice to mmtc, which could be considered the reference slice to be adapted to satellite iot solutions described in this paper.
+
+however, while functionalities and interfaces are being standardized, e.g., by the 3gpp, the relevant open challenge is related to understanding the specific qos requirements of long range iot services and to define how to configure and provision a proper mmtc slice. those represent open challenges in this area and promising research topics for the future.
+
+6) edge computing: research is continuously bringing forward the benefits of edge computing when combined with iot, allowing local pre processing the collected data before transmission or at an intermediary stage, such as a gateway or an radio access point. advanced schemas allow to prerocess the data in conjunction with the data collected from other sensors, thus allowing to exploit existing correlations. advantages can be various, from diminishing the amount of data transmitted in the backhaul, to the enforcement of privacyreserving algorithms. moreover, new approaches to machine learning, such as federated approaches, go a step further in this direction. recent research works show that the interest of bringing the edge computing paradigm to space is growing. in space, satellites and iot nodes operate as a pipeline: data is collected from sensors in the ground, stored, and delivered to the ground station when it is on coverage. from satellite perspective, there are two options of integrating edge computing in this pipeline: at the iot nodes, or in orbit, at the satellite. for example, satellite constellations be thought operating as computational pipelines: studies in for camera equipped satellites sensing the earth show advantages both in terms of architecture infrasructure and in processing latency for this approach. but the edge computing paradigm does not only shift processing nearer to the location where the data is generated and/or consumed, but also introduce the application virtualization paradigm in, thus pushing the technology towards more standardized approaches. the work carried on by european telecommunications stanards institute (etsi) multi access edge computing (mec) and 3gpp leverages on virtualization for creating a standardized framework supporting edge computing. a body of standardized interfaces has been created for allowing dynamic deployment of applications and allocation of resources. additionally, an application framework has been defined for service application programming interfaces, envisaged to better support the apps and exploit the edge node characteristics .
+
+traditional satellites are designed and optimized for specific applications, and therefore are highly customized. embracing the mec paradigm presupposes therefore a paradigm shift. fig. 11. envisioned architecture for the application of edge computing to satellite iot networks.
+
+for the mec framework being adapted to satellites we have to rethink the role both the satellite node and the ground station, taking into account the limited on board resources and communications specific characteristics, specially when it comes to small satellites. in fig. 11, we draw an example on how the etsi mec elements can be mapped into the satellite scenario, envisaging a lighter set of functionalities on the satellite, and leaving the control and orchestration on the ground station. the possibility of dynamically loading software in orbit, and of providing services coordinated with the cloud is explored in where the authors propose to adopt a standardized hardware platform combined with a fault tolerant expandable satellite operation system in order evolve the satellite into space edge computing nodes. indeed the solution envisioned by the authors aims not only to allow the on boarding of apps on the satellite, but also the possibility of sharing the free on board resources with other satellites.
+
+discussion — a mapping between the envisioned approaches described in the previous sections and potential impact on the different remote iot approaches in provided by tab. vi. the table aims at summarizing the concepts described in the previous sections by tentatively associating the different technologies to different time scaled in the evolution of the internet of remote things. the table addresses three scenarios: independent leo, 5g enabled satellite iot, and lora based satellite iot solutions. the potential advances are classified between short term and long term, the former representing almost mature/emerging solutions (e.g., that might be deployed by industry), while the latter representing a vision for future research and development. here are the main points that emerge from such analysis.
+
+phy: in the short term, the different scenarios are expect to develop different approaches to improve spectrum utilization and agility, by either deploying multiple rf interfaces or deploying sdr technology. however, the 19
+
+long term seems to converge towards a more uniform setup consisting of a software defined rf interface caable of providing multi standard support and runtime reconfiguration.
+
+medium access: being tightly coupled with physical layer and typically adapted to the application profile, medium access control schemes are expected to maintain a certain level of heterogeneity both in the short as well as in the long term. relevant upgrades are expected in 5g and beyond mobile networks including in the short term iotriented optimization of the control plane functionalities, and in the long term most advanced mechanisms such as non orthogonal multiple access schemes for 5g and non pure aloha based approaches for lora.
+
+network and higher layer protocols: the impact of network softwarization and virtualization will most likely impact in the network layer and above that. on one side, emerging solutions targeted to improve network performance in iot scenarios (schc, performance enhancing proxies, network slicing) will become a reality in the short term, depending on the respective reference architectures. in the long term, most likely the internet of remote things will incorporate novel management paradigms such as self organization networks and sdn. in mobile networks, the 5g sba will enable higher degrees of freedom in controlling, configuring and optimizing the mmtc network slices.
+
+edge computing: this area is expected to impact and be affected by remote iot scenarios at different time scales. in the short term, solutions based on independent leo as well as 5g might integrate edge computing to facilitate computation offloading or enabling deployment of functionalities at the edge of the network (like in the case of 5g and etsi mec). this might reduce in the case of lora to support flexible placement of the gateway functionality. in the long term, the possibility to host remote containerized solutions will spread across all the scenarios, to enable better placements of key functionalities inside the network infrastructure itself as well as to optimize the allocation of task among network elements (e.g., bs splitting).
+
+as witnessed for the mobile network technology, the key for the success of the satellite iot systems passes through standardization and regulations. in fact, even if heterogenety has been well investigated in the context of traditional communication networks as far as architectures and protocols are concerned, the satellite iot pledges to be a particularly challenging communication paradigm, thus the integration and interoperability between the involved systems will be a crucial element to achieve coverage and capacity goals .
+
+in the following, we identify the main involved bodies and the envisioned challenges regarding spectrum harmonization across continents and the interworking with terrestrial iot networks. 1) involved bodies: several standardization and regulatory
+
+bodies are related to this field.
+
+as far as radio communications are concerned, the interational telecommunication union (itu) represents the framework for the international regulation of spectrum utilization . two kinds of organizations, that are, reional organizations and specialized international organizaions, are involved in spectrum management together with itu, at either regional or global level. at a regional level, these organizations gather administrations to establish common positions in preparation for itu decisions, with the aim facilitating the coordinated introduction of new services. this is the case in particular for the european conference of postal and telecommunications adminstrations (cept), and to a lesser extent for the intermerican telecommunication commission (citel), the asia pacific telecommunity (apt) and the arab council of ministers for telecommunication and information. at both global and regional levels, specialized international organizations also exist in sectors of activity that use radio communications and are therefore dependent on spectrum availability, e.g., civil aviation, the maritime sector, meteorology, broadcasting.
+
+of special interest is the international amateur radio union (iaru), the worldwide federation of national amateur radio organizations. iaru is recognized at itu level and some frequency bands have assigned to the amateur radio via satellite as primary service. we remember that a "primary service" in the itu terminology is a service which can claim protection fro other services. the allocation of frequency bands to the amateur radio as a primary service has been made in light of the importance of the amateur service in case of natural disasters; historically, the amateur radio services have demonstrated to be the only available telecommunication service surviving during some natural disasters. many small satellites missions have been launched and are planned as "amateur radio" and in particular, most of them use the "cubesat" satellites; for amateur radio cubesat satellites (usually very few satellites) the authorization procedures by itu are simplified.
+
+the international organization for standardization (iso) is working as well on the standardization of space systems; this standardization is carried out in iso/tc 20/sc 13 (technical committee 20, sub committee 13) dealing with "space data and information transfer systems."
+
+the consultative committee for space data systems (ccsds) is a forum aiming to promote "future data system interoperability." members of the ccsds are all major space agencies (italy, france, china, canada, germany, europe, russia, brazil, japan, usa, and uk) with many other agencies acting as "observers." the ccsds in its charter mentions that one it its major purposes is "to maintain cognizance of other international standardization activities that may have direct impact on the design or operation of space mission data systems." the ccsds is publishing "recommended standards" as well as many 20
+
+table vi mapping between the envisioned technical innovations and the industrial initiatives of applicability.
+
+other types of documents. it is worthwhile to note that ccsds established a liaison with the aforementioned iso/tc 20/sc 13.
+
+the etsi developed many standards regarding the satellite communications, the most important of which are those related to the digital video broadcasting (dvb). despite the reference to the "broadcasting," which is the original target application, those standards have evolved to support interactive services including internet access. in particular, the dvb rcs2 standard (digital video broadcastng; second generation dvb interactive satellite system) includes the so called "return link" via satellite, i.e., the link from earth to space. the dvb standards, however, do not have as a specific target the iot but are directed more towards generic internet access. the s mim standard by etsi is, quoting , the s mim etsi standards, however, is reusing the wdma 3g technology and did not achieved commercial success. anyway, etsi, via its technical committee satellite earth stations and systems (ses) is still working on the satellite related standards such as the one of the "family sl" . still, this family of standards does not address directly the iot.
+
+the 3gpp has been including significant contributions aimed at including satellite communications techniques to support seamless 5g connectivity , . the study item phase on the so called ntns have been focusing on integration of both satellites and airborne bss into the terrestrial 5g network for extending network coverage, improve service continuity, and implement robust multicasing . at the time of writing, the 3gpp is working on the release 17 of the specifications (which is expected to be rolled out by the end of 2021/beginning of 2022) in order to i) provide initial studies results for both nb iot and lte cat m for satellites to provide iot connectivity in remote areas with low or no cellular connectivity 5g enabled
+
+long term lora based
+
+short term long term
+
+multi standard sdr phy
+
+improved phy waveforms (scs, acs, lora e)
+
+non orthogonal multiple quantum access,
+
+satellite to earth radio access
+
+overcome pure aloha approach the
+
+automated mangement, perforance optimizaion through 5g sba integration with 5g self organization
+
+functional bs split, edge nfv deployment and flexible scalable gateway placement interoperability, universal support iot
+
+and ii) better support ntn services in terms of mobility management and qos impact . therefore, it is worth mentioning that we can expect that satellite links in 5g will first be used to support multimedia use cases and broadcasting services, while support for iot use cases may take a while (in terms of technology advancements and needed investments).
+
+2) spectrum harmonization: a prominent technical chalenge to enable a worldwide support of satellite iot system is related to spectrum. if fact, a device, without knowing its position, should be able to adapt its transceiver to the correct regional regulations (e.g., switching from cept to fcc).
+
+in the last itu world radiocommunication conference 2019 , the agenda for the next itu world radiocommunication conference 2023 has been set . in that agenda, item 1.18 refers to "[. . . ] studies relating to spectrum needs and potential new allocations to the mobile satellite service in the frequency bands 1695 1710 mhz, 2010 2025 mhz, 3300 3315 mhz and 3385 3400 mhz for future development of narrowband mobileatellite systems." we note that the band 2010 2025 mhz is specifically mentioned in for region 1. the cept report timely addresses the work to be done towards itu world radiocommunication conference 2023. within the uhf range, the 400.15 401 mhz band is available for downlink usage within the cept, according to harmonization conditions set out in erc decisions (99)05 and (99)06.
+
+in , a report on decisions taken at the last itu world radiocommunication conference 2019 is summarized. quoting ,
+
+"the required spectrum for tt&c was estimated to be less than 2.5 mhz for downlink and less than 1 mhz for uplink. consequently, the study groups conducted sharing studies in various bands which yield that no new allocations are suitable for small satellite tt&c [tracking, telemetry & control] on a co channel sharing basis."
+
+"the 148 149.9 mhz uplink band has been opened for short duration missions; however, it is disputable 21
+
+whether this band will be favored by small satellite developers. from a developer's perspective, the results of wrc 19 for new tt&c allocations are not satisfying. new allocations in uhf would have been favored."
+
+as a conclusion, the issue of the frequency allocation for small satellites like cubesat is still open. the 148 149.9 mhz uplink band implies that the antennas for the mtds would have a dimension too big for the iot devices.
+
+let us remark that the cept scope is the free market circulation of equipment into the countries that are members of cept. the big issue, however, is that non geostationary satellites (like the cubesat) fly all over the globe so achieving the "approval" from cept is a necessary step but not sufficient. the big step for companies that want to operate a cubesat network is to achieve the approval from itu. as explained in ,
+
+"[. . . ] small satellites generally follow the procedure for non geostationary satellite networks not subject to coordination, which starts with the submission of the advanced public information (api)."
+
+the whole procedure of authorization takes a minimum of 9 months and a maximum of 7 years, depending on the accuracy of submitted information, on the reactions (e.g., from national regulators) on the pre publication of the information about the new satellite networks, and so on.
+
+it is worth remarking that, rephrasing from : 1) there are many new perspective operators and many of them are not fully aware of the procedures for the authorizations;
+
+2) there is large number of perspective operators and this overwhelms the regulators, since procedure are cumbersome and lengthy;
+
+large constellations and complex systems; • regular replenishment/augmentation (the operational life of cubesat is lower compared to conventional satellites);
+
+global coverage (which then involve all national authorities and a large number of stakeholders that may raise concerns on the authorizations). all of these issues highlight the importance of spectrum coordination and allocation aspects, which are often neglected in the scientific literature. the need for a streamlined procedure to put in operation cubesat (or, more in general, leo small satellites) is evident, to support the market growth of this type of networks. the establishment of this new streamlined procedure, however, is not at all simple to achieve and in appendix a we provide a simplified flow for the current authorization procedure, in order to give the reader a feeling of how complicated this procedure is currently .
+
+3) interworking with terrestrial iot networks: a reasonable approach to address the integration/interoperability issues in satellite iot is to distinguish between lower layers (phy and mac) and higher layers, because the design of the former ones is strictly dependent on the rat, while the operation of the latter ones is quite technology independent . regarding lower layers, satellite and terrestrial iot networks may either be keep separate at the terminal side by utilizing two distinct chips operating on different frequency ranges, or they may be fully integrating thanks to a single chip [32, §4.2]. clearly, with the former solution, the satellite iot system would work on two parallel communication paths, while the latter approach allows a more efficient spectrum utilization at the cost of an increased implementation complexity of both the front end and the core network architecture.
+
+on the other hand, higher layers design should consider the limitations of mtd capabilities and the constraints of satellite links, thus approaches like the reduction of the levels of encapsulation for ipv6 packets performed by the dvb rcs2 standard are advised by , in the context of satellite iot.
+
+efforts to enable interoperability and full integration between the satellite side and the terrestrial side are also encouraged by , which refers to the outcomes provided by and regarding the system design of satellite iot solutions based on nb iot and lora, respectively. according to , hybrid terminals could benefit from further standardization work to ease the interoperability between new iot technologies.
+
+c. business development opportunities
+
+we started this survey by citing recent market studies that confirm the forecast of a fast growing of the iot market in the next few years . nevertheless, while the share of unlicensed spectrum rat has been constantly increasing, the diffusion of iot systems operating on licensed frequency bands has not met the original expectation (yet) , at least, waiting the (forecast) boost provided by the upcoming 5gs roll outs .
+
+in this context, the satellite iot paradigm is expected to guarantee a global terrestrial iot coverage, thus playing an important role in fulfilling the market demands of various services and vertical industries such as, e.g., smart grid, environmental monitoring, and emergency management , . according to , a recent market study by the united kingdom space agency estimates that the total amount of devices connected by satellite networks could grow from 3.16 million in 2015 to 5.97 million by 2025. moreover, from a spectrum utilization perspective, a large majority (i.e., 93%) of the devices will exploit frequency bands below 3 ghz due to the narrowband nature of most satellite iot applications.
+
+as far as capital expenditure and operational costs are concerned, small leo satellites will likely be more and more preferred instead of geo to minimize the costs of deploying iot supporting satellites . moreover, in order to reduce the complexity of a satellite back hauling based on isls, and thus its deployment cost which would curb the adoption of such paradigm, appropriate satellite trajectories and constellations should be designed to ensure line of sight between iotupporting satellites and the ground station network. finally, there is the option of eventually providing an incomplete coverage on the earth, rather concentrating it on localized areas on earth according to the specific iot use case , thus reducing the deployment costs. 22
+
+the iot is gaining momentum due to the market expectations and the rapid development of novel solutions in the field of comunications. this paper focused on long range iot scenarios, by surveying the potentially available technologies today and providing examples of research and development efforts that are building concrete solutions for satellite supported iot. indeed, this area represents a big challenge, both for industry as well as for research, since short term goals and long term visions are both required to steer the ongoing efforts towards interoperable and affordable solutions, capable of being deployed everywhere in the world. open challenges are, as well as hints and potential solutions that will affect the future of satellite iot systems have been discussed in the paper. the viability of satellite technologies for iot, mainly supported by low orbit constellations, has been assessed in the framework of the specific requirements imposed by standardization committees, taking the eyes open toward a renewed, future, vision of iot technologies, driven by emerging standards.
+
+a major milestone in the satellite radio regulation has been the "legal framework for spectrum access/use united nations outer space treaty" dating back to 1967. itu is recognized in this treaty as the specialized agency responsible for orbits and spectrum as well as for the procedures and the "book keeping" of which systems are allowed to operate. itu constitution articles 44 and 45 form the basis for the legal framework for spectrum access and use.
+
+article 44 use of the radio frequency spectrum and of the geostationary satellite and other satellite orbits 1. member states shall endeavor to limit the number of frequencies and the spectrum used to the minimum essential to provide in a satisfactory manner the necessary services. to that end, they shall endeavor to apply the latest technical advances as soon as possible. 2. in using frequency bands for radio services, member states shall bear in mind that radio freuencies and any associated orbits, including the geostationary satellite orbit, are limited natural resources and that they must be used rationally, efficiently and economically, in conformity with the provisions of the radio regulations, so that countries or groups of countries may have equitable access to those orbits and frequencies, taking into account the special needs of the developing countries and the geographical situation of particular countries.
+
+article 45 harmful interference 1. all stations, whatever their purpose, must be established and operated in such a manner as not to cause harmful interference to the radio services or communications of other member states or of recognized operating agencies, or of other duly fig. 12. graphical explanation of the itu authorization process of prospective satellite systems.
+
+authorized operating agencies which carry on a radio service, and which operate in accordance with the provisions of the radio regulations. 2. each member state undertakes to require the operating agencies which it recognizes and the other operating agencies duly authorized for this purpose to observe the provisions of no. 197 above. 3. further, the member states recognize the necessity of taking all practicable steps to prevent the operation of electrical apparatus and installations of all kinds from causing harmful interference to the radio services or communications mentioned in no. 197 above.
+
+to this end a quite lengthy and cumbersome procedure is in place to put in orbit and start services for a satellite network. with reference to fig. 12, the process for satellite networks not subject to coordination starts with the prospective satellite operator to disclose and get the approval from the local regulatory agencies (this part is not shown in the figure). after that phase, the prospective operator, through the regional agency, submits a substantial amount of information about the satellite system via a specific itu format (actually obtained through a software provided by itu) called api. the first part of the api, after itu revision for completeness, is then published by itu. after this publication, the local administrations can file to the itu possible complaints, observations, requests for clarifications about the prospective system. when the time to file these observation is complete and no roadblocks are found, itu publish a second part of the api and a new revision cycle starts. if everything goes well the perspective operator get the permission to operate the system. as one can see in fig. 12, the process does not always proceed smoothly, and it can take up to 7 years to be completed.
+
+in the context of itu regulations the world radiocomunication conference held in 2019 a key milestone was achieved. the resolution 248 related to "studies relating to spectrum needs and potential new allocations to the mobile satellite service in the frequency bands 1695 1710 mhz, 2010025 mhz, 3300 3315 mhz, and 3385 3400 mhz for future development of narrowband mobile satellite systems" was adopted. it is of particular importance that these studies "are to be limited to those systems with space stations that have a maximum eirp of 27 dbw or less, with a beam width of 23
+
+no more than 120 degrees, and earth stations that individually communicate no more than once every 15 minutes, for no more than 4 seconds at a time, with a maximum eirp of 7 dbw." the particular importance of this resolution is that it address the iot market since the type of communication is infrequent (no more than once every 15 minutes) and the packets are short (4 seconds).
+
+it is clear that further work is needed in order to streamline the procedure to not hinder the booming market of small satellites for iot.
+
+second generation third generation third generation partnership project fourth generation fifth generation 5g system asymmetry chirp signal advanced public information asia pacific telecommunity baseband unit binary phase shift keying base station compound annual growth rate consultative committee for space data systems european conference of postal and telecommunications adinistrations inter american telecommunication commission constrained application protocol chirp spread spectrum digital video broadcasting end to end mno mtd nasa nb iot nfv nr ntn o ran pep phy prb qos ran rat rf rlnc rrh rrm sba schc scs sdn sdr ses snw tcp uav udp ue uhf umts uri urllc usa vhf w cdma wideband code division multiple access mobile network operator machine type device national aeronautics and space administration narrowband iot network function virtualization new radio non terrestrial network open radio access network performance enhancing proxy physical layer physical resource block quality of service radio access network radio access technology radiofrequency random linear network coding remote radio head radio resource management service based architecture static context header compression symmetry chirp signal software defined networking software defined radio satellite earth stations and systems sigfox network transmission control protocol unmanned aerial vehicle user datagram protocol user equipment ultra high frequency universal mobile telecommunications service uniform resource identifier ultra reliable low latency communication united states of america very high frequency
+
+the authors would like to thank dr. doriana guiducci and dr. peter farris of the eco cept office in copenhagen, denmark, for the invaluable support in identifying the latest itu and cept regulations.
+
+e utra and e utran; overall description; stage 2, 3gpp tsg ran
+
+lorawan specification, lora alliance technical committee std., rev.
+
+sigfox connected objects: radio specifications, sigfox std. ep specs,
+
+m. r. palattella and n. accettura, "enabling internet of everything everywhere: lpwan with satellite backhaul," in proc. global inf. infrastr. and netw. symp. (giis), oct. 2018, pp. 1 5.
+
+h. mazar (madjar), radio spectrum management: policies, regulations
+
+gsm/edge radio transmission and reception (release 16), 3gpp
+
+r. sun et al., "enabling nb iot on unlicensed spectrum," in proc. ieee ann. int. symp. on personal, indoor and mobile radio commun. (pimrc), istanbul, turkey, sep. 2019, pp. 1 7.
+
+w. webb and m. hatton, the internet of things myth. self published,
+
+j. a. fraire, s. c´espedes, and n. accettura, "direct to satellite iot a survey of the state of the art and future research perspectives," in ad hoc, mobile, and wireless networks, m. r. palattella, s. scanzio, and s. coleri ergen, eds. cham: springer international publishing, 2019, pp. 241 258.
+
+(2020) catalog of earth satellite orbits. nasa. [online]. available:
+
+(2020) types of orbits. esa. [online]. available: https://www.esa.int/
+
+enabling support/space transportation/types of orbits
+
+i. i. lysogor, l. s. voskov, and s. g. efremov, "survey of data exchange formats for heterogeneous lpwan satellite iot networks," in proc. moscow workshop on electronic and netw. techn. (mwent), moscow, russia, mar. 2018, pp. 1 5.
+
+a. kak, e. guven, u. e. ergin, and i. f. akyildiz, "performance evaluation of sdn based internet of space things," in 2018 ieee globecom workshops (gc wkshps), 2018, pp. 1 6.
+
+i. f. akyildiz and a. kak, "the internet of space things/cubesats,"
+
+z. xuan, z. xiaojie, w. shuo, and z. ye, "an attempt to utilize lora for intersatellite communications," in 2018 10th int. conf. on commun., circuits and syst. (icccas), chengdu, china, dec. 2018, pp. 260 264. m. motzigemba, h. zech, and p. biller, "optical inter satellite links for broadband networks," in 2019 9th int. conf. on recent advances in space technol. (rast), 2019, pp. 509 512.
+
+the constrained application protocol (coap), ietf rfc 7252, jun.
+
+lorawan regional parameters, lora alliance technical committee
+
+g. boquet et al. (2020) lora e: overview and performance analysis.
+
+t. wu, d. qu, and g. zhang, "research on lora adaptability in the leo satellites internet of things," in proc. 15th int. wireless commun. mobile comp. conf. (iwcmc), 2019, pp. 131 135.
+
+m. gineste et al., "narrowband iot service provision to 5g user equipment via a satellite component," in proc. ieee globecom workshops (gc wkshps), singapore, dec. 2017, pp. 1 4.
+
+s. cluzel et al., "3gpp nb iot coverage extension using leo satellites," in proc. ieee veh. tech. conf. (vtc spring), porto, portugal, jun. 2018, pp. 1 5.
+
+s. mignardi et al., "unmanned aerial base stations for nb iot: trajectory design and performance analysis," in proc. ieee int. symp. on personal, indoor and mobile radio commun. (pimrc), london, uk, sep. 2020, pp. 1 6.
+
+astrocast corporation. [online]. available: https://www.astrocast.com/ myriota corporation. [online]. available: https://myriota.com/ kineis corporation. [online]. available: https://www.kineis.com/en/ kepler communications corporation. //www.keplercommunications.com/ [online]. available: https:
+
+swarm technologies. [online]. available: https://www.swarm.space/ lacuna space. [online]. available: https://lacuna.space/ t. telkamp. open satellite lorawan at scale;
+
+the things conference 2019. [online]. available: https://www.youtube.com/watch? v=vwkuqvjl1sg
+
+erc recommendation relating to the use of short range devices (srd), cept electronic communications committee erc recommendation 70 03, [online]. available: https://www.ecodocdb.dk/download/25c41779 cd6e/rec7003e.pdf jun. 2020.
+
+sateliot. [online]. available: https://sateliot.space/ 25
+
+f. clazzer and a. munari, "iot via satellite: asynchronous random access for the maritime channel," in 2020 ieee 91st veh. technol. conf. (vtc2020 spring), 2020, pp. 1 6.
+
+j. su, g. ren, and h. zhang, "random interleaving multiplexing based random access in iot oriented satellite networks," in 2020 ieee 91st vehicular technology conference (vtc2020 spring), 2020, pp. 1 5.
+
+n. sanil, p. a. n. venkat, and m. r. ahmed, "design and performance analysis of multiband microstrip antennas for iot applications via satellite communication," in proc. int. conf. on green computing and iot (icgciot), bangalore, india, aug. 2018, pp. 60 63.
+
+i. s. m. hashim, a. al hourani, s. t. wayne rowe, and j. r. scott, "adaptive x band satellite antenna for internet of things (iot) over satellite applications," in 2019 13th international conference on signal processing and communication systems (icspcs), 2019, pp. 1 7. r. sturdivantt and e. k. p. chong, "system latency performance of mechanical and electronic scanned antennas for leo ground stations for iot and internet access," in 2017 topical workshop on internet of space (twios), 2017, pp. 1 4.
+
+x. zhao, p. li, g. cui, and w. wang, "distributed probability random access scheme in satellite iot system," in proc. ieee int. conf. on computer and commun. (iccc), chengdu, china, dec. 2018, pp. 852 856.
+
+p. kim et al., "performance analysis of direct sequence spread spectrum aloha for leo satellite based iot service," in proc. ieee veh. tech. conf. (vtc fall), honolulu, hi, us, 2019, pp. 1 5. r. ahlswede, ning cai, s.
+
+n. j. h. marcano and r. hylsberg jacobsen, "on the delay advantages of a network coded transport layer in iot nanosatellite constellations," in icc 2019 2019 ieee international conference on communications (icc), 2019, pp. 1 6.
+
+z. ni et al., "energy efficient bidirectional relaying network coded harq transmission scheme for s iot," in 2020 ieee wireless communications and networking conference (wcnc), 2020, pp. 1 6.
+
+specifications," isg mec, whitepaper 36, jul. 2020.
+
+1: overview and system level specification
+
+a. anttonen, p. ruuska, and m. kiviranta, 3gpp nonterrestrial networks: a concise review and look ahead, ser. vtt research report. finland: vtt technical research centre of finland, 2019, no. vtt r0079 19, vtt r 00079 19.
+
+m. j. marcus, "itu wrc 19 spectrum policy results," ieee wireless
+
+international telecommunication union. itu r preparatory studies for wrc 23. [online]. available: https://www.itu.int/en/itu r/studyroups/rcpm/pages/wrc 23 studies.aspx
+
+m. von der ohe, "small satellite tt&c allocations below 1 ghz:
+
+outcome of itu wrc 19," ceas space journal, 2020.
+
+international telecommunication union.
+
+itu filing procedures for small satellites. [online]. available: https://www.itu.int/en/itu/space/pages/supportsmallsat.aspx
+
+international telecommunication union. [online]. available: https://www.itu.int/en/council/documents/basicexts/constitution e.pdf the 26

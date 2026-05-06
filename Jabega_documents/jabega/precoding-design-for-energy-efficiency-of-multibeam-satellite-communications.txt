@@ -1,0 +1,75 @@
+precoding design for energy efficiency of multibeam satellite communications
+
+abstract—instead of merely improving the spectral efficiency (se), improving the energy efficiency (ee) is another important concern for multibeam satellite systems, due to the power constraint of satellites. however, so far there has been no detailed work on the precoding design concerning the ee for multibeam satellite. in this work, the ee maximization problem is investigated for multibeam satellite systems under the total power constraint as well as the quality of service (qos) constraints. precoding design algorithms based on zero forcing (zf) and seuential convex approximation (sca) are presented respectively. in particular, these algorithms are verified by the real measured channel data of multibeam satellite systems. numerical results show that the precoding algorithm based on sca outperforms that based on zf. it is also implied that the ee cannot be always improved by solely increasing the power of the satellite, while reducing the satellite operation power is an effective way for the ee improvement.
+
+index terms—energy efficiency (ee), precoding design, satel
+
+with rapid development of satellite manufacturing, multieam satellite communication is a promising candidate for the next generation satellite communications due to its high spectral efficiency (se) . to support the terabit capacity, full frequency reuse among beams is attractive since larger bandwidth can be provided for each user , . as a consequence, precoding is required for multibeam satellite systems to mitigate inter beam interference so as to improve the se. in , a generic iterative algorithm for se maximizaion with linear power constraints is proposed to optimize the precoding and power allocation alternatively for unicast multibeam satellite systems. then in , multicast multibeam satellite systems is considered, where the precoding and power allocation are jointly optimized under the power constraints of each beam. more recently in , a robust precoding scheme for multicast multibeam satellite system is proposed based on a first perturbation model, considering that the channel state information will be corrupted at the satellite gateway.
+
+the aforementioned works only consider se of multibeam satellite systems, while the total power consumption is not taken into account. note that the satellite is usually powered by solar battery. the power consumption of the satellite is nonnegligible. energy efficiency (ee), defined as the ratio of
+
+this work is supported in part by national natural science foundation of china under grant 61302097 and natural science foundation of jiangsu province under grant bk20161428. (corresponding author: chenhao qi)
+
+chenhao qi and xin wang are with the school of information scince and engineering, southeast university, nanjing 210096, china (email: qch@seu.edu.cn). the system throughput over total power consumption, is an important factor for multibeam satellite systems. in fact, ee maximization has already been extensively studied in terresrial wireless communications , . inspired by these work, we consider the ee aspect for multibeam satellite system. improving ee can reduce the satellite size and extend the satellite lifetime. the power amplifier of the transponder can operate linearly, avoiding non linearity and intermodulation products. currently, the work on ee maximization for multieam satellite systems is only reported by . however, the detailed steps for precoding are not clear and the constraints of quality of service (qos) for different users are not considered. in this letter, we consider the ee maximization problem for multibeam satellite systems under the total power constraint and the qos constraints. we present two precoding algorithms based on zero forcing (zf) and sequential convex approximaion (sca). in the first algorithm, we use the dinkelbach's method to solve the fractional programming. in the second algorithm, we sequentially convert the original nonconvex problem by sca and finally approximate it as a convex optimization problem. the detailed steps for the precoding design are provided. in particular, the algorithms are verified by the measured channel data of multibeam satellite systems. the notations are defined as follows. u, cn , r and c represent the uniform distribution, complex gaussian distriution, set of real numbers and set of complex numbers. x(n) represents the value of x after the nth iteration.
+
+ii. system model
+
+we consider a broadband satellite system which provides service to fixed users via multiple beams. the array feed reflector transforms n feed signals into k transmitted signals. by using time division multiplexing (tdm), a single user per beam is scheduled at each time slot. to improve the spectral efficiency, full frequency reuse is considered.
+
+based on the above settings, the multibeam satellite channel h ∈ ck×n from the satellite to users can be modeled as
+
+where φ ∈ ck×k represents the phase variation effects due to different propagation paths among the satellite and the users, and a ∈ rk×n represents the multibeam antenna pattern.
+
+since the satellite antenna feed spacing is relatively small compared to the long propagation path, the phases among one user and all antenna feeds are commonly assumed to be identical in line of sight (los) environment . hence, φ is a diagonal matrix with the ith diagonal entry defined 1
+
+the entry at the kth row and nth column of a is given by
+
+4π dk λ where gr, gk,n and dk denote the receiving antenna gain of the users, the gain between the nth feed and the kth user, and the distance between the satellite and the kth user, respecively. λ, bw , κ and tr are the wavelength, the bandwidth, boltzmann constant, and the clear sky noise temperature of the receiver, respectively. the received signal is
+
+y = hw x + n, (3) where y ∈ ck×1 is a signal vector received by k users, w ∈ cn ×k is a precoding matrix to be designed, x ∈ ck×1 is the data to be transmitted to the users, and n ∈ ck×1 is an additive white gaussian noise (awgn) vector with each entry identically and independently distributed, i.e., n ∼ cn (0, σ2i k). we further define h (cid:44) [ht k]t and w (cid:44) [w1, w2, ..., wk], where hk ∈ c1×n is the channel row vector from the satellite to the kth user and wk ∈ cn ×1 is the kth column of w . therefore, the received signal of the kth user can be written as
+
+where xk is the kth entry of x representing the data intended for the kth user, nk is the kth entry of n, and k (cid:44) {1, 2, ..., k} is an user set. for simplicity, we assume the power of the data symbols is normalized, i.e., |xk| = 1, k ∈ k.
+
+the signal to interference and noise ratio (sinr) of the kth
+
+the total power consumed by the platform and the payloads of satellite is supplied by the solar wings and battery. the platorm power consumption is on the same order of magnitude as the payloads power consumption. generally, the payloads power consumption mainly includes the power consumed by the power amplifiers for the user link, the feeder link and the remote sensing and control link, as well as the on board signal units. since different satellite has different parameters, we denote the power consumption of satellite platform generally as p0. now we can formulate the problem of energy efficiency maximization as
+
+k∈k γk ≥ ¯γk, k ∈ k, where pt is the maximum transmission power defined by the power amplifier on the satellite, ¯γk is the threshold related to the qos constraint of the kth user. since bw is a constant, we drop it in the deviarion of the algorithms in order to ease the notations. 2
+
+iii. energy efficient precoding
+
+a. zf based precoding
+
+by using zf precoding, where the interference among the users can be entirely eliminated, we define b (cid:44) h h (hh h )−1 and denote bk as the kth column of b. we have
+
+using dinkelbachs method and introducing a lagrange muliplier λ, the new optimization problem can be expressed as (cid:17) (cid:16)
+
+where the constant λpt − µp0 in the objective function is ignored. note that (10a) can be divided into k independent subproblems with respect to αk, where the kth subproblem can be expressed as (cid:16)
+
+for given µ and λ. in fact, λ can be obtained via bisection search while µ can be determined by iterative algorithms.
+
+the proposed energy efficient precoding algorithm based on zf is presented in algorithm 1. first, we initialize µ to be zero, i.e., µ(0) = 0. the lower bound and upper bound for the bisection search are initialized to be λl = 0 and λu = 1000, respectively. (cid:15) and ξ are used to control the stop condition of the bisection search and algorithm 1, respectively. the bisection search is included in the steps from step 4 to step 12, where the finally obtained αk is denoted as α(i) k . then we obtain µ(i+1) by
+
+we repeat the above procedures until the stop condition is satisfied. finally we output α∗ k, which is the optimized result of αk through algorithm 1. considering that the phase rotation does not affect the power, we assume pk is real. therefore, the designed wk can be obtained via (7), where pk = (cid:112)α∗ k.
+
+by approximating the ee maximization problem in (6) as a convex optimization problem, we present a precoding algorithm based on sca in this section.
+
+we first introduce two variables t and z, so that we can
+
+k∈k γk ≥ ¯γk, k ∈ k, where t and z represent squared energy efficiency and squared total power consumption, respectively.
+
+considering the phase rotation does not affect the power, we rewrite (14e) equivalently as the following soc representation 3
+
+algorithm 2 sca based precoding algorithm
+
+(16) as initial value of w .
+
+since the constraint (14b) is still nonconvex, we rewrite (14b) as the following two constraints by introducing γ (cid:44) [γ1, γ2, ...γk]t as
+
+tz in it is observed that (20) is a convex constraint. but (19) is jointly concave with respect to t and z on the domain t ≥ 0, z ≥ 0. according to , the convex upper bound is (20)
+
+in fact, ξ(i) are the first order taylor series of of (cid:0)t(i), z(i)(cid:1). then (19) is converted to a linear constraint.
+
+it is observed that (23) is a convex constraint.
+
+similarly, the approximation of (19) can also be applied to (22) and the convex upper bound of (cid:112)(γk − 1)βk is denoted as υ(i)

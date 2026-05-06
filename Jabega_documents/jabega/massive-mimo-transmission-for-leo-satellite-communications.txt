@@ -1,0 +1,317 @@
+li you, member, ieee, ke xin li, student member, ieee, jiaheng wang, senior member, ieee, xiqi gao, fellow, ieee, xiang gen xia, fellow, ieee, and björn ottersten, fellow, ieee
+
+abstract—low earth orbit (leo) satellite communications are expected to be incorporated in future wireless networks, in particular 5g and beyond networks, to provide global wireless access with enhanced data rates. massive multiple input multipleutput (mimo) techniques, though widely used in terrestrial communication systems, have not been applied to leo satellite communication systems. in this paper, we propose a massive mimo transmission scheme with full frequency reuse (ffr) for leo satellite communication systems and exploit statistical chanel state information (scsi) to address the difficulty of obtaining instantaneous csi (icsi) at the transmitter. we first establish the massive mimo channel model for leo satellite communications and simplify the transmission designs via performing doppler and delay compensations at user terminals (uts). then, we develop the low complexity scsi based downlink (dl) precoder and uplink (ul) receiver in closed form, aiming to maximize the average signal to leakage plus noise ratio (aslnr) and the averge signal to interference plus noise ratio (asinr), respectively. it is shown that the dl aslnrs and ul asinrs of all uts reach their upper bounds under some channel condition. motivated by this, we propose a space angle based user grouping (saug) algorithm to schedule the served uts into different groups, where each group of uts use the same time and frequency resource. the proposed algorithm is asymptotically optimal in the sense that the lower and upper bounds of the achievable rate coincide when the number of satellite antennas or ut groups is sufficiently large. numerical results demonstrate that the proposed massive mimo transmission scheme with ffr significantly enhances the data rate of leo satellite communication systems. notably, the proposed scsi based precoder and receiver achieve the similar
+
+manuscript received september 10, 2019; revised january 16, 2020; accepted february 16, 2020. date of publication xxxx, 2020; date of current version xxxx, 2020. this work was supported by the national key r&d program of china under grant 2018yfb1801103, the jiangsu province basic research project under grant sbk2019050020, the national natural science foundation of china under grants 61801114, 61761136016, and 61631018, the natural science foundation of jiangsu province under grant bk20170688, and the huawei cooperation project. the work of jiaheng wang was supported by the national natural science foundation of china under grants 61971130 and 61720106003, and the natural science foundation of jiangsu province under grant bk20160069. this work will be presented in part at the ieee international conference on communications, dublin, ireland, jun. 2020 . (corresponding author: xiqi gao.)
+
+li you, ke xin li, jiaheng wang, and xiqi gao are with the naional mobile communications research laboratory, southeast university, nanjing 210096, china, and also with the purple mountain laboratories, nanjing 211100, china (e mail: liyou@seu.edu.cn; likexin3488@seu.edu.cn; jhwang@seu.edu.cn; xqgao@seu.edu.cn).
+
+xiang gen xia is with the department of electrical and computer enineering, university of delaware, newark, de 19716 usa (e mail: xxi@ee.udel.edu).
+
+björn ottersten is with the interdisciplinary centre for security, reliability and trust (snt), university of luxembourg, l 2721 luxembourg city, luxembourg (e mail: bjorn.ottersten@uni.lu).
+
+color versions of one or more of the figures in this paper are available performance with the icsi based ones that are often infeasible in practice.
+
+index terms—leo satellite, massive mimo, multibeam satel
+
+lite, full frequency reuse, statistical csi, user grouping.
+
+s atellite communication systems can provide seamless
+
+wireless coverage so as to complement and extend terresrial communication networks and, as in recent standardization endeavors , are expected to be incorporated in future wireless networks, in particular 5g and beyond networks. low earth orbit (leo) satellite communications, with orbits at altitudes of less than 2000 km, have recently gained broad research interests due to the potential in providing global wireless access with enhanced data rates. compared with the geostationary earth orbit (geo) counterpart, leo satellite communication systems impose much less stringent requirements on, e.g., power consumption and transmission signal delays. recently, several projects, e.g., oneweb and spacex, on leo satellite communication systems have been launched .
+
+in satellite communication systems, multibeam transmission techniques have been widely adopted to increase transmission data rates. as a well know multibeam solution, a four color frequency reuse (fr4) scheme where adjacent beams are alocated with non overlapping frequency spectrum (or different polarizations) is adopted to mitigate the co channel inter beam interference , . to further enhance the spectral efficiency of satellite communications, the more aggressive full frequeny reuse (ffr) schemes , where frequency resources are reused across neighboring beams, have been considered to increase the total available bandwidth in each beam as that has been done in terrestrial cellular systems. yet, in ffr the inter beam interference becomes a critical issue, which has to be properly handled. in general, inter beam interference management can be performed at either the transmitter via precoding or at the receiver via multi user detection, similar as in terrestrial cellular communication systems . compared with non linear dirty paper coding (dpc) precoding and multiser detection, in practice linear precoding and detection are more preferred in multibeam satellite communication systems due to their low computational complexity and near optimal performance .
+
+is worth noting that most of the existing works on downlink (dl) precoding in multibeam satellite communicaions, e.g., , , rely on precise instantaneous channel state it 1
+
+information (icsi). however, obtaining icsi at the transmitter sides of satellite communication systems is usually difficult and even infeasible due to a number of practical factors, espeially the long propagation delay between a satellite and user terminals (uts) as well as the mobility of uts and satellites. in particular, for time division duplex (tdd) systems, the coherence time of the channel is shorter than the transmission delay, which makes obtaining accurate icsi via the ull reciprocity a mission impossible. on the other hand, in more common frequency division duplex (fdd) systems, obtaining icsi at the satellite side requires ul feedback from uts, which inevitably introduces a great among of training and feedback overhead due to mobility of uts and more importantly could become outdated as a result of the long propagation delay.
+
+in recent years, massive multiple input multiple output (mio) transmission, where a large number of antennas are equipped at a base station to serve many uts, has been applied in terrestrial cellular wireless networks, e.g., 5g , , as an enabling technology. massive mimo can substantially increase available degrees of freedom, enhance spectral efciency, and achieve high data rates. motivated by this, we propose to exploit massive mimo along with ffr for leo satellite communication systems, where a large number of antennas are equipped at the leo satellite side. our focus is particularized on the physical layer transmission design for massive mimo leo satellite communication systems. we note that it is not necessary to perform predefined multiple beamforming in fully digital implemented ffr satellite comunication systems. exploiting massive mimo for satellite communications with ffr can be seen as a technique without predefined beamforming.
+
+albeit the existence of a large body of literature on massive mimo in terrestrial cellular communication systems , so far massive mimo has not been applied to satellite communication systems. the performance of massive mimo systems relies substantially on the available csi . as mentioned above, obtaining accurate dl icsi at the leo satellite side is generally difficult and even infeasible due to the long propagation delay and the mobility of satellites and uts, which makes inapplicable of the existing terrestrial massive mimo transmission approaches relying on icsi. meanwhile, the implementation complexity accompanied with massive mimo becomes a critical concern in satellite communicaion systems considering the payload limitation on satellites. consequently, incorporating massive mimo into leo satellite communication systems is still an open and challenging task. for massive mimo, obtaining icsi at the transmitter has been a difficult problem even in terrestrial communication systems, especially in high mobility scenarios. compared with icsi, statistical csi (scsi) varies much slower and thus can be relatively easily obtained at both the satellite and the uts with sufficiently high accuracy. hence, scsi based dl precoding has been proposed in terrestrial massive mimo systems . for massive mimo satellite communication systems, it is more practical to use scsi, which can overcome the difficulty of acquiring icsi and significantly reduce the computational overhead of satellite payloads via the much less frequent up date of transmission strategies including, e.g., dl precoding, ul receiving, and user grouping.
+
+in this paper, we investigate massive mimo transmission for leo satellite communication systems using ffr based on scsi. in particular, we focus on devising dl precoding, ul receiving, and user grouping utilizing scsi. while this paper focuses on the leo satellite communications, the proposed massive mimo transmission schemes can also be extended to other non terrestrial communication systems, e.g., geo satellite communication systems, and high altitude platform (hap) communication systems. the major contributions of the current work are summarized as follows:
+
+we introduce massive mimo into leo satellite comunication systems using ffr and investigate lowomplexity and low overhead transmission strategies based on scsi.
+
+we establish the massive mimo channel model for leo satellite communications by incorporating the leo satellite signal propagation properties, and simplify the ul/dl transmission designs via performing doppler and delay compensations at uts.
+
+we develop the scsi based dl precoder and ul receiver in closed form, aiming to maximize the average signalo leakage plus noise ratio (aslnr) and the average signal to interference plus noise ratio (asinr), respecively, and theoretically prove that the proposed scsi based scheme asymptotically approaches the icsi based one.
+
+we propose a space angle based user grouping (saug) algorithm using only the channel space angle information, and show that the proposed algorithm is asymptotically optimal in the sense that the lower and upper bounds of the achievable rate coincide when the number of satellite antennas or ut groups is sufficiently large.
+
+simulation results demonstrate that the proposed masive mimo transmission scheme with ffr significantly enhances the data rate of leo satellite communication systems. notably, the proposed scsi based precoder and receiver achieve the similar performance with the icsi based ones that are often infeasible in practice.
+
+the rest of the paper is organized as follows. in section ii, we investigate the channel model and the corresponding transmission signal model for leo satellite communication systems. based on the system model, we then investigate the optimal dl and ul transmission strategies for leo satellite communications in section iii. in section iv, we further investigate user grouping. we present the numerical results in section v and conclude the paper in section vi. the major variables adopted in the paper is listed in table i for ease of reference.
+
+ii. system model
+
+a. system setup
+
+consider a leo satellite communication system where a satellite provides services to a number of single antenna uts simultaneously. the satellite is equipped with a uniform planar array (upa) composed of m = mxmy antennas where (cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17) (cid:258) ,xkpq (cid:258)(cid:258)(cid:258) o/2l/2l (cid:17)(cid:17)(cid:17)(cid:17)(cid:17)(cid:17) xmym,ykpq upasatellitebeams(cid:258) zyxxyz you et al.: massive mimo transmission for leo satellite communications
+
+mx and my are the numbers of antennas on the xnd yxes, respectively. assume without loss of generality that the antennas are separated by one half wavelength in both the xnd y axes, and both mx and my are even. the system setup is illustrated in fig. 1.
+
+as different uts are usually spatially separated by a few wavelengths, the channel is reasonable to assume that realizations between the satellite and different uts are unorrelated . we focus on investigating the dl channel between the satellite and ut k. using a ray tracing based channel modeling approach, the complex baseband dl space domain channel response between the leo satellite and ut k at instant t and frequency f can be represented by
+
+vk,p ∈ cm ×1, (1) where cm ×n denotes the m × n dimensional complex −1, pk denotes the number of valued vector space, ¯ȷ = √ 3
+
+fig. 1. illustration of the leo satellite communication system setup.
+
+channel propagation paths of ut k, and gdl k,p, νk,p, τk,p, and vk,p ∈ cm ×1 are the complex valued gain, the doppler shift, the propagation delay, and the dl array response vector associated with path p of ut k, respectively. note that the channel model adopted in (1) is applicable over the time intervals of interest where the relative positions of the leo satellite and ut k do not change significantly, and thus the physical channel parameters, pk, gdl k,p, νk,p, τk,p, and vk,p, are assumed to be invariant. when the leo satellite and/or the ut move over large distances, the above channel parameters will vary and should be updated accordingly . it is worth mentioning that the ray tracing based channel model in (1) can be applied to different propagation scenarios, and further analysis of the channel model will depend on the parameter properties in the specific scenario. hereafter, we detail some propagation characteristics of the leo satellite channels and their impact on the modeling of the channel parameters in (1). 1) doppler: for leo satellite communications, assuming that the scatterers are stationary in the considered interval of interest, then the doppler shift νk,p associated with propagaion path p of ut k is mainly composed of two independent doppler shifts, νsat k,p, that are caused by the motions of the leo satellite and the ut, respectively , . k,p and νut
+
+it is worth noting that due to the relatively high altitude of the leo satellite, the doppler shifts νsat k,p caused by the motion of the leo satellite can be assumed to be identical for different propagation paths p of the same ut k , , and different for different uts. thus, for notation simplicity, we omit the path index of the doppler shift νsat k,p due to the motion of the leo satellite and rewrite the doppler shifts as νsat k . on the other hand, the doppler shifts νut k,p = νsat k,p due to the motion of the ut are typically different for different propgation paths, which contribute the doppler spread of the leo satellite channels , . as the scattering characteristics around the uts mainly determine the doppler shifts caused by the movement of the uts, the modeling of the doppler spread in leo satellite communications can be similar to that in the traditional terrestrial cellular communications . 2) delay: due to the relatively large distance between the leo satellite and the uts, the propagation delay τk,p associated with path p of ut k exhibits a much larger value than that in terrestrial wireless channels. denote by = maxp {τk,p} the minimum k = minp {τk,p} and τ max τ min and maximum values of the propagation delays of ut k, respectively. the delay spread of the leo satellite channels τ max k might be much smaller than that of the terrestrial k wireless channels as observed in measurement results . for notational brevity, we define τ ut . note k,p that due to, e.g., the long propagation delays in leo satellite communications, acquiring reliable icsi at the transmitter sides is usually infeasible, especially when the uts are in high mobility. thus, it is more practical to investigate transmission design with, e.g., scsi, in leo satellite communications. k
+
+3) angle: the upa response vector vk,p in (1) can be
+
+where ⊗ denotes the kronecker product, and vd k,p for d ∈ d , {x, y} is the array response vector of the angle with respect to the xr y axis given by ( 1√
+
+{ −¯ȷπ(md − 1)ϑd with the superscript (·)t denoting the transpose operation. in k,p and ϑy (3), the parameters ϑx k,p are related to the physical ) ( ) ( θy angles as ϑx cos k,p where θx k,p are the angles with respect to the xnd y axes associated with the pth propagation path of ut k, respectively. for satellite communication channels, the angles of all propagation paths associated with the same ut, can be assumed to be identical due to the relatively high altitude of the satellite compared with that of the scatterers located in the vicinity of the uts , i.e., ϑd k. note that the parameters ϑd k can reflect the propagation properties of the leo satellite channels in the space domain, and we refer to ϑd k as the space angle parameters. then, the array response vector can be rewritten as
+
+which will be referred to as the dl channel direction vector of ut k that is associated with the space angles ϑx k and ϑy k. note that when the number of antennas md for d ∈ d tends to infinity, we can know from (3) and (4) that the channel direction vectors of different uts are asymptotically orthogonal, i.e.,
+
+where (·)h denotes the conjugate transpose operation.
+
+based on the above modeling of the propagation properties of leo satellite communications, we can rewrite the channel response in (1) as follows
+
+k (t, f ) is the dl channel gain of ut k given by { pk−1∑
+
+which will be convenient for derivation of the transmission signal model later.
+
+4) gain: note that the statistical properties of the fluctuaions of the channel gain gdl k (t, f ) in leo satellite commuications mainly depend on the propagation environment in which the ut is located. note that leo satellite communiation systems are usually operated under line of sight (los) propagations and rician channel model is widely accepted in los satellite communication systems. in this work, we focus on the case where both non shadowed los and nonos paths of the leo satellite channels exist . then, the channel gain gdl k (t, f ) exhibits the rician fading distribution = γk. with the rician factor κk and power e k (t, f ) in other words, the real and imaginary parts of gdl k (t, f ) are independently and identically real valued gaussian distributed with mean using the dl channel modeling approach presented in the above subsections, we briefly investigate the ul channel model for leo satellite communications in this subsection. note that the ul channel response is the transpose of the dl channel response in tdd systems, and similar channel model can be obtained. meanwhile, for fdd systems where the relative carrier frequency difference is small, the physical channel parameters, pk, νu,p, τk,p, ϑx k are almost identical between the ul and dl . thus, the major difference between the ul and dl channels lies in the fast fading path gain terms. similarly as (6), the ul space domain channel response between ut k and the leo satellite at time t and frequency f can be modeled as k, and ϑy
+
+which exhibits the same statistical properties as the dl channel gain gdl k (t, f ), i.e., the real and imaginary parts of gul k (t, f ) are independently and identically real valued gausk sian distributed with mean 2(κk+1) , √
+
+(9) respectively, and uk is the ul channel direction vector given by
+
+k) ⊗ uy (ϑy which exhibits a similar structure as the dl channel direction vector vk in (4) but with a center frequency offset for fdd systems, and can be well approximated by vk when the frequency separation between the ul and the dl is not significant . similarly as the dl case, the leo satellite ul channel also exhibits the asymptotic orthogonality as )h
+
+note that the channel models in (6) and (8) are general in the sense that they take into account the leo satellite chanel propagation properties in the space, time, and frequency domains.
+
+consider a wideband massive mimo leo satellite comunication system employing orthogonal frequency division multiplexing (ofdm) modulation with the number of subcarriers, nus, and the cyclic prefix (cp), ncp samples. denote by ts the system sampling interval. then, the ofdm symbol length and the cp length are given by tus = nusts and tcp = ncpts, respectively. note that with the delay and doppler properties of the leo satellite channels taken into account, it is not difficult to select proper ofdm parameters such that the effects of the intersymbol and intercarrier intererence can be almost neglected .
+
+where −tcp ≤ t−ℓ (tcp + tus) < tus, and the corresponding received signal at ut k is given by (where the noise is omitted for brevity)
+
+k (t, τ ) is the inverse fourier transform of gdl
+
+utilizing the doppler and delay properties of the leo satelite propagation channels addressed previously, we proceed to perform time and frequency synchronization. in particular, with delay compensation τ syn and doppler compenation νsyn k,p applied to the received signal at ut k, the resultant signal can be represented by
+
+then, the corresponding signal dispersion in the delay and doppler domains can be significantly reduced, and it is not difficult to select proper ofdm parameters to mitigate the intersymbol and intercarrier interference . consequently, the demodulated dl received signal at ut k over subcarrier n of ofdm symbol ℓ can be represented by
+
+where gdl subcarrier n given by k,ℓ,n is the dl channel of ut k over symbol ℓ and
+
+besides, consider ul transmission employing ofdm modlation with similar parameters as dl transmission. then, with proper delay and doppler compensations performed at the ut side, the demodulated ul received signal at the satellite over symbol ℓ and subcarrier n can be represented as ∑ ∈ cm ×1, yul
+
+where xul ut k, and gul n of ofdm symbol ℓ given by k,ℓ,n = uk · gul gul k,ℓ,n is the complex valued symbols transmitted by k,ℓ,n is the ul channel of ut k over subcarrier
+
+where gul the transmission signal models in (15) and (17) are applicable provided that delay and doppler compensations are properly performed via exploiting the delay and doppler properties of the leo satellite channels described previously. k (ℓ (tus + tcp) , n/tus). note that
+
+iii. statistical csi based dl/ul transmissions in this section, we investigate dl precoder and ul receiver design for leo satellite communications based on the channel and signal models established in the above section. note that the conventional designs of dl precoding vectors and ul receiving vectors in mimo transmission usually require knowledge of icsi. however, it is in general infeasible to obtain precise icsi at the satellite sides for dl of leo satellite communications. in addition, frequent update of the dl precoding vectors and ul receiving vectors using icsi will be challenging for implementation on payload of practical satellite communications. hereafter, we focus on the design of dl precoder and ul receiver utilizing slowly varying scsi for satellite communications.
+
+we first consider dl transmission where k single anenna uts are simultaneously served in the same timerequency blocks, and the served ut set is denoted by k = {0, 1, . . . , k − 1}. for dl linear precoding performed at the satellite, the signal received by ut k ∈ k in (15) can be rewritten as
+
+i bisdl qdl i + zdl k ,
+
+where the subcarrier and symbol indices are omitted for brevi is the transmit power allocated to ut k, bk ∈ cm ×1 ty, qdl 5
+
+(19) is the normalized transmit precoding vector satisfying the ∥bk∥ = k bk = 1, sdl bh k is the signal for ut k with mean 0 and variance 1, and zdl k is the additive circular symmetric complex valued gaussian noise with mean 0 and variance σdl k , i.e., zdl k
+
+note that slnr is a convenient and efficient design metric widely adopted in dl multiuser mimo transmission, and we first review the slnr maximization criterion based precoding approach. in particular, the slnr of ut k in the dl is given by ,
+
+where ρdl k is the dl signal to noise ratio (snr) of k ut k. then the precoder of ut k that maximizes slnrk in (20) can be obtained as
+
+where (·)∗ denotes the conjugate operation and ηslnr is the (cid:13) (cid:13) = power normalization coefficient that is set to satisfy 1. we mention that the slnr maximization dl precoder in (21) requires knowledge of icsi gdl k for all k. however, it is in general difficult to obtain precise dl icsi for transmitter at the satellite side.
+
+in the following, we investigate dl precoding for satellite communications using long term scsi at the transmitter, inluding the channel direction vector vk and the statistics of the channel gain gdl k,ℓ,n. we consider the aslnr performance metric as follows
+
+where the numerator and the denominator account for the avrage power of the signal and leakage plus noise, respectively. the scsi based precoder that maximizes aslnrk is presented in the following proposition.
+
+is the power normalization coefficient that is set (cid:13) (cid:13) = 1, and the corresponding maximum aslnr value is given by
+
+proof: the proof is similar to the icsi case in , and
+
+is omitted for brevity.
+
+proposition 1 provides a scsi based dl precoder that maximizes the aslnr in closed form. note that the scsi required in the proposed approach are the channel direction vectors and the average power of all uts' channels, i.e., vk and γk, ∀k. in addition, from the definition of the channel direction vector in (4), only the space angles, ϑx k, are needed for estimating vk. thus, the number of parameters in statistical csi to estimate can be significantly reduced. as the proposed scsi based dl precoding design is independent of subcarriers and ofdm symbols in transmission interval where the channels statistics do not change significantly and thus is convenient for practical implementation of the satellite payloads. then, the computational overhead for dl precoding design can be reduced compared with the icsi based approach. k and ϑy
+
+in this subsection, we investigate ul receiver design. the ul received signal by the satellite in (17) can be rewritten as √ ∑
+
+where the subcarrier and symbol indices are omitted for brevity, qul is the transmit power of one ut, sul k is the signal sent by ut k with mean 0 and variance 1, and zul is the ) additive gaussian noise distributed as cn . with a linear receiver at the satellite, the recovered signal of ut k can be expressed by ( 0, σulim
+
+where wk is the linear receiving vector of ut k. then the sinr of ut k is given by
+
+note that the sinr maximization ul receiving vectors in (28) are in general difficult to be computed in practical satellite communications systems where the payload resource is limited, as they are needed to be updated more frequently in time and frequency. (25)
+
+(28) similarly as the dl case, we investigate ul receiver deign for leo satellite communications exploiting scsi and consider the asinr performance metric given by
+
+using a similar proof procedure as in proposition 1, we can obtain that the scsi based ul receiver that maximizes asinrk in (29) is given by
+
+with the corresponding maximum asinr of ut k being
+
+note that the scsi based ul receiver in (30) is presented in closed form, and is based on scsi, i.e., the channel direction vector uk and the statistics of the channel gain gdl k,ℓ,n, which can thus mitigate the payload complexity and cost in practical satellite communications.
+
+from (23) and (30), we can obtain the dl ul duality between the proposed scsi based dl precoder and ul receivr. specifically, in the considered transmission interval where the channel statistics do not change significantly, if the dl data transmission snr ρdl k equals the ul data transmission snr ρul, then the scsi based dl precoding vectors in (23) are equal to the scsi based ul receiving vectors in (30) with proper power normalization provided that the dl direction vector vk equals the ul direction vector uk, and the transmission complexity can be further reduced. note that different from the ul dl duality results based on the perfect icsi assumption in, e.g., and , our result is established using the scsi at the satellite side.
+
+in this subsection, we investigate the conditions under which the dl aslnr and ul asinr metrics considered above can be upper bounded.
+
+proposition 2: the maximum dl aslnr value aslnrmax
+
+and the upper bound can be achieved under the condition that 7
+
+besides, the maximum ul asinr value asinrmax is upper bounded by k in (31)
+
+proof: please refer to appendix a.
+
+proposition 2 shows that the dl aslnrs and ul asinrs of all served uts with the proposed scsi based precoder and receiver can reach their upper bounds provided that the corresponding channel direction vectors of different uts are mutually orthogonal. the result in proposition 2 is physically intuitive as the dl channel leakage power and the ul interser interference can be eliminated provided that the condiions in (33) and (35) are satisfied.
+
+from (5) and (11), we can observe that the optimal condiions obtained in proposition 2 can be asymptotically satisfied when the number of antennas m tends to infinity. this corroborates the rationality and potential of exploiting massive mimo in enhancing the transmission performance of satellite communications.
+
+remark 1: when the channel direction vectors of the uts scheduled over the same time frequency resource blocks satisfy the conditions in (33) and (35) or the number of antennas at the satellite side is sufficiently large, we can obtain from the matrix inversion lemma that the proposed scsi based precoder/receiver in (23) and (30) will reduce to = v∗
+
+notably, the scsi based dl precoder and ul receiver preented in (36) approach the ones using icsi as the number of antennas tends to infinity , which demonstrates the asympotic optimality of the proposed precoder/receiver exploiting scsi.
+
+remark 2: note that for the case with a sufficiently large number of antennas at the satellite side, the precoder/receiver in (36) will asymptotically tend to the discrete fourier transorm (dft) based fixed precoder/receiver as follows
+
+d k is the nearest point of ϑd where ϑ k in the dft grid satisfying d ∈ [0, md − 1] being integers k = −1 + 2nd ϑ (cid:12) (cid:12) d (cid:12)ϑ the and k precoding/receiving vectors for the simultaneously served uts in the same user group are orthogonal, and can be efficiently implemented with fast fourier transform (fft). k/md with nd k
+
+iv. user grouping
+
+from the results in the above section, we can observe that the performance of the proposed scsi based precoder and receiver in massive mimo leo satellite communications will largely depend on the channel statistics of the simultaneously served uts. as the number of the uts to be served is usually much larger than that of antennas equipped at the satellites, user grouping is of practical importance. compared with the terrestrial counterpart, user grouping is of greater interest as the satellite service provider generally aims at serving all uts in satellite communications. in this section, we investigate user grouping for massive mimo leo satellite communications.
+
+although the conditions in proposition 2 are desirable for optimizing the performance of dl aslnrs and ul asinrs in satellite communications, it is in general difficult to schedule the uts that rigorously satisfy this condition, and the optimal user grouping pattern can be found through exhaustive search. however, due to the large number of existing uts in satellite communications, it is usually infeasible to perform an exhausive search in practical systems.
+
+the optimal user grouping condition presented in propoition 2 indicates that the channel direction vectors of uts in the same group should be as orthogonal as possible. from the definitions in (4) and (10), the channel direction vectors are directly related to the channel propagation properties in the space domain, i.e., the channel space angles. then, the conditions for achieving the upper bounds of aslnr and asinr presented in (33) and (35) can be reduced to the condition that the channel space angles should satisfy
+
+where both nx k,i are non zero integers. motivated by the condition in (38), we propose a space angle based user grouping (saug) approach as follows. specifically, we uniformly divide the space angle range [−1, 1) into mxgx and mygy equal sectors in the xnd y axes, respectively, where gx and gy are both integers and their physical meaning will be clear later. then, the space angle intervals after division can be represented by
+
+a,b for d ∈ d is the center space angle of the interval
+
+with the above definition of the space angle interval diision, the uts can be grouped as follows. a given ut k is scheduled into the (g, r)th group if there exist 0 ≤ m ≤ mx−1 and 0 ≤ n ≤ my−1 such that the corresponding channel space angles satisfy
+
+k) ∈ a(m,n) denote by k(m,n) (g,r) whose space angles lie in the interval a(m,n) (g,r) . in the proposed (cid:12) (cid:12) (cid:12) ≤ 1 to avoid saug approach, we always require intra beam interference. note that other uts located in the same space angle interval can be scheduled over different time frequency resources in a round robin manner to preserve fairness. based on the above user grouping procedure, the uts are scheduled into at most gxgy groups, where the (g, r)th ut group is defined as (cid:12) (cid:12) (cid:12)k(m,n) (g,r)
+
+note that the uts scheduled in the same group will perform transmission over the same time frequency resources, while uts in different groups will be allocated with different timerequency transmission resources. (42)
+
+b. achievable rate performance
+
+in this subsection, we investigate the achievable rate perormance of the proposed saug approach. we focus on the dl transmission case, and the ul results can be similarly obtained.
+
+from the dl signal model in (19) and the proposed saug approach in the above subsection, the dl achievable ergodic sum rate is given by
+
+where baslnr is the scsi based precoder of ut k presented in (23), and k(g,r) is the ut group defined in (42). the ergodic rate expression in (43) is in general difficult to handle. therefore, we resort to investigate the bounds of the achievable ergodic rate for further analysis. in the following proposition, we first present an upper bound of the dl achievable ergodic sum rate. k
+
+proposition 3: with linear precoder utilizing only scsi, the dl achievable ergodic sum rate rdl in (43) is upper bounded by    ,
+
+where the corresponding upper bound can be achieved providd that the channel direction vectors of the uts served in the same group satisfy k)h vx i = 0 or (vy
+
+baslnr k = (vx k
+
+(45b) proposition 3 provides some insights for optimal dl preoding design with scsi at the transmitter. in particular, the channel direction vectors of the uts scheduled to be served over the same time frequency resources should be as orthogonal as possible. meanwhile, the beamforming vector of a given ut should be aligned with the corresponding channel direction vector. note that the previously proposed saug approach attempts to schedule the uts to satisfy the condition in (45a), and the proposed aslnr based precoding strives to reduce the inter user interference to approach the condition in (45b) as remarked in (36).
+
+in the following, we further investigate the asymptotic performance of the proposed approach. before proceeding, (cid:12) (cid:12) k vj we first provide an upper bound of the inner product for uts k, j(∀k ̸= j) that are scheduled over the same time frequency transmission resources via the proposed saug approach. from (3), we have (cid:12) (cid:12) (cid:12) (cid:12) (cid:12) (cid:12) (cid:12) (cid:12) (cid:12) (cid:12) (cid:12) (cid:12) (cid:12) (cid:12) (cid:12)
+
+(48) for k ̸= j. thus, with sufficiently large numbers of groups gx (cid:12) (cid:12) (cid:12) can be sufficiently small. (cid:12)vh and gy, the inner product k vj motivated by this, we present the asymptotic optimality of the proposed saug approach combined with scsi based dl precoder in each ut group in the following proposition.
+
+proposition 4: the dl achievable ergodic sum rate rdl with the proposed scsi based aslnr maximization dl precoder and the saug approach is lower bounded by 9
+
+max g,r max g,r the inner product of the channel direction vectors of the uts scheduled over the same time frequency resource blocks (cid:12) (cid:12) ≤ ϵ for ∀k ̸= j and k, j ∈ k(g,r). moreover, satisfies when ϵ → 0, the lowed bound of the dl achievable ergodic rate in (49) asymptotically tends to be equal to the upper bound of the dl achievable ergodic rate in (44), i.e., max k∈k(g;r) max k∈k(g;r)
+
+proposition 4 shows that the proposed approach with saug and scsi based aslnr maximization dl precoder perormed in each ut group is asymptotically optimal when (cid:12) (cid:12) (cid:12)vh (cid:12) → 0. note that this condition coincides with the upper bound achieving condition presented in proposition 2. therefore, when the number of satellite antennas m and/or the number of scheduled ut groups is sufficiently large, the proposed approach is asymptotically optimal, which indicates the potential of adopting massive mimo to serve a large number of uts in leo satellite communications. in addition, when the previously derived conditions are not rigorously satisfied (which is the usual case in practice), the proposed scsi based precoder and receiver can mitigate the inter user interference and further enhance the transmission performance for satellite communications. k vj
+
+v. simulation results
+
+in this section, we provide simulation results to evaluate the performance of the proposed massive mimo transmision approach for leo satellite communications. the major simulation setup parameters are listed as follows. the numers of antennas equipped at the satellite side are set to be mx = my = 16 with half wavelength antenna spacing in both the xnd y axes. the channel rician factor is set to be κk = κ = 10 db, and the channel power is normalized as γk = mxmy for all ut k. in addition, the channel space angles ϑx k,p are independently and uniformly distributed in the interval [−1, 1) for all uts. the numbers of ut groups in the proposed saug approach are set to be equal for both xnd y axes, i.e., gx = gy = g. the number of uts to be grouped is set as g2m .
+
+note that massive mimo has not been applied to leo satellite communications, and we consider and compare the following dl precoding and ul receiving approaches in the simulations:
+
+intf: an ideal interference free (intf) case where the interference from other scheduled uts over the same time and frequency resource is "genie aided" eliminated will be considered as the performance upper bound.
+
+icsi: relying on the icsi, the slnr maximization dl precoder in (21) and the sinr maximization ul receiver in (28) are adopted, with the assumption that the icsi can be "genie aided" obtained.
+
+scsi: the proposed scsi based aslnr maximization dl precoder and asinr maximization ul receiver in (23) and (30) are adopted, respectively.
+
+fixed: dft based fixed dl precoding and ul receiving vectors in (37) are adopted.
+
+in fig. 2, we evaluate the performance of the proposed scsi based precoding/receiving approaches, and compare them with the icsi based ones where uts are grouped using the proposed saug with g = 1. we consider both cases that utilize the true and estimated scsi that is obtained via averaging 50 samples. we can observe that in both ul and dl transmissions, the proposed scsi based precoder and receivers exhibit almost identical performance as the icsi based ones, while having significantly reduced computational overhead. in addition, the sum rate performance loss utilizing the estimated scsi can be almost neglected.
+
+in fig. 3, we evaluate the performance of the proposed saug approach with different precoding/receiving approaches versus the number of scheduled groups g when ffr is adopted across neighboring beams. we can observe that the performance of the proposed scsi based precoder/receiver can approach that of the interference free scenario, especially in the case with a large number of scheduled groups, which demonstrates the asymptotic optimality of the proposed transission approach. in addition, the performance gap between the approach with fixed precoding/receiving vectors and the proposed scsi based ones becomes smaller as the number of scheduled groups increases, especially in the low snr regime, which indicates the near optimality of the approach with fixed precoding/receiving vectors in the case where interference is not dominated.
+
+in fig. 4, the performance between the proposed transmision approach with ffr and the conventional fr4 approach is compared for different snrs and channel rician factors. similarly as ffr, only one ut is scheduled per beam over the same time and frequency resource in fr4. note that in the case of fr4, the uts with the same color are a group of uts performing transmission over the same time and frequency resource. for fr4, we consider two transission approaches where "fr4, conventional" denotes the fixed precoder/receiver in (37) and "fr4, scsi" denotes the proposed scsi based precoder/receiver in (23)/(30) applied to the group of uts over the same time and frequency resource for interference mitigation, respectively. we can observe that the proposed scsi based precoder/receiver applied to fr4 show sum rate performance gains over the conventional fr4 approach. moreover, with ffr across neighboring beams, the proposed scsi based precoder/receiver combined with saug can provide significant sum rate performance gains over the conventional fr4 approach, especially in the cases with high snrs and large rician factors. notably, for both ul and dl with an snr of 20 db and κ = 10 db, the proposed transmission approach with g = 4 can provide about eightolded sum rate performance gain over the conventional fr4 approach.
+
+in this paper, we have investigated massive mimo transission for leo satellite communications exploiting scsi with ffr. we first established the massive mimo chanel model for leo satellite communications by taking into account the leo satellite signal propagation properties and simplified the ul/dl transmission designs via performing doppler and delay compensations at uts. then, we developed the scsi based dl precoder and ul receiver in closedorm, under the criteria of maximizing the aslnr and the asinr, respectively, and revealed the duality between them. we further showed that the dl aslnrs and ul asinrs can reach their upper bounds provided that the channel direction vectors of the simultaneously served uts are orthogonal, and proposed a space angle based user grouping (saug) approach motivated by this condition. besides, we showed the asymptotic optimality of the proposed massive mimo transission approach exploiting scsi. simulation results showed that the proposed massive mimo transmission scheme with ffr significantly enhances the data rate of leo satellite communication systems. notably, the proposed scsi based precoder and receiver achieved the similar performance with the icsi based ones that are often infeasible in practice. future work includes detailed investigation on low complexity scsi estimation, transmission designs for the cases with uts using multiple antenna or directive antennas, low peak to average power ratio transmission signal design, and extension to the multiple leo satellite communication systems, etc.
+
+appendix a proof of proposition 2
+
+we focus on the proof of the dl case and the proof of the ul case can be similarly obtained. we first show the upper bound of aslnrmax in (32). from (24), we can obtain that aslnrmax with the proposed scsi based precoder can be k upper bounded by k
+
+we then show the achievability of the upper bound. from the definition of vk in (4), the condition given in (33) is k vi = 0 for ∀k ̸= i. thus, we can obtain equivalent to vh that ( )
+
+scsi fixed snr = 0 dbsnr = 5 dbsnr = 10 db 100200300400500600700800900sum rate (bps/hz) 12345678910number of groups g intf scsi fixed intf fig. 2. sum rate performance comparison between the proposed scsi (using the true and the estimated scsi that are obtained via averaging over 50 samples, respectively) and icsi based precoding/receiving approaches.
+
+fig. 3. sum rate performance of saug with different transmission approaches versus the number of scheduled ut groups for different snrs when ffr is adopted.
+
+taking the traces of both sides of (54), we can further obtain 11
+
+thus, the inequality in (a) of (52) can be obtained when the condition in (33) is satisfied. this concludes the proof.
+
+the achievable ergodic rate in (43) can be upper bounded
+
+fig. 4. sum rate performance comparison between the proposed approach with ffr and the conventional fr4 approach under different rician factors.
+
+where (a) follows from |·|2 ≥ 0, and (b) follows from the cauchy schwarz inequality.
+
+we then examine the condition under which the upper bound in (44) can be achieved. the inequality (a) in (56) becomes tight when baslnr for i ̸= k. in addition, as the equality in (b) can be achieved when baslnr , , we can obtain that for ∀k ̸= i ∈ k(g,r), the channel direction vectors should i (vy i ) = (vx satisfy (vx i = 0, k i.e., (vx i = 0. this concludes the proof.
+
+we first define some auxiliary variables for clarity of further proof. for notational brevity, we focus on a specific ut group, namely, the (g, r)th ut group k(g,r), and omit the group index as the uts in different groups are scheduled over diferent time frequency transmission resources. for a given ut k ∈ k(g,r), we define baslnr , from (23), we can have baslnr the dl sum rate in (43) can be rewritten as gy−1∑
+
+of respectively, in the following. ,
+
+a. upper bound of
+
+diag the (k, i)th element of the following matrix
+
+where (a) follows from the matrix inversion lemma. let b , k baslnr 1 ρdl k (cid:0)−1 + vh v. then, vh
+
+k baslnr vh i .
+
+[b−1]k,k [b−1]i,i = where ek is the kth column of identity matrix, (a) follows from wielandt's inequality [42, eq. (7.4.12.2)], (b) follows from (60), (c) follows from weyl's inequality [42, corollary 4.3.15], and (d) follows from rayleigh quotient theorem [42, theorem 4.2.2(c)]. from (59) and the inequality in (61), we can obtain
+
+where (a) follows from rayleigh quotient theorem [42, theoem 4.2.2(c)], (b) follows from weyl's inequality [42, corolary 4.3.15], and (c) holds by applying geršgorin disc theorem [42, theorem 6.1.1] to matrix v(cid:0)vh .
+
+before proceeding, we first present some preliminary result 13
+
+where (a) follows from the matrix inversion lemma, and (b) follows from the definition of (cid:0) and b. in addition, can be lower bounded by [ b−1
+
+where (a) follows from rayleigh quotient theorem [42, therem 4.2.2(c)], (b) follows from geršgorin disc theorem [42, theorem 6.1.1]. moreover, the following inequality can be obtained (cid:12) [ (cid:12) bb−1 (cid:12)
+
+where (a) follows from the triangle inequality, and (b) follows (cid:12) (cid:12) ≤ ϵ for ∀j ̸= k and the inequality in from |bk,j| = (61). then, we can obtain k vj
+
+k baslnr consequently, /
+
+can be lower bound
+
+the author would like to thank the anonymous reviewers
+
+for their constructive comments and suggestions.
+
+l. you, k. x. li, j. wang, x. q. gao, x. g. xia, and b. ottersten, "leo satellite communications with massive mimo," in proc. ieee icc, dublin, ireland, 2020, pp. 1 6.
+
+c. a. balanis, antenna theory: analysis and design, 4th ed. hoboken,
+
+j. joung and a. h. sayed, "relay selection for grouped relay networks using the average slnr measure," in proc. ieee camsap, aruba, dutch antilles, 2009, pp. 273 279. g. a. f. seber, a matrix handbook for statisticians. hoboken, nj,
+
+r. a. horn and c. r. johnson, matrix analysis, 2nd ed. new york,
+
+from 2014 to 2015, he conducted visiting reearch at the center for pervasive communication and computing, university of california irvine, irvine, ca, usa. since 2016, he has been with the faculty of the national mobile communications research laboratory, southeast university. his research interests lie in the general areas of communications, signal processing, and information theory with the current emphasis on massive mimo communications.
+
+jiaheng wang (m'10 sm'14) received the ph.d. degree in electronic and computer engineering from the hong kong university of science and technolgy, kowloon, hong kong, in 2010, and the b.e. and m.s. degrees from the southeast university, nanjing, china, in 2001 and 2006, respectively. he is currently a full professor at the national moile communications research laboratory (ncrl), southeast university, nanjing, china. from 2010 to 2011, he was with the signal processing laboratory, kth royal institute of technology, stockholm, sweden. he also held visiting positions at the friedrich alexander university erlangen nürnberg, nürnberg, germany, and the university of macau, macau. his research interests include optimization in signal processing and wireless communications. dr. wang has published more than 100 articles on internaional journals and conferences. from 2014 to 2018, he served as an associate editor for the ieee signal processing letters. from 2018, he serves as a senior area editor for the ieee signal processing letters. he is a recipient of the humboldt fellowship for experienced researchers and the best paper awards of ieee globecom 2019, adhocnets 2019, and wcsp 2014. xiqi gao (s'92 am'96 m'02 sm'07 f'15) reeived the ph.d. degree in electrical engineering from southeast university, nanjing, china, in 1997. he joined the department of radio engineering, southeast university, in april 1992. since may 2001, he has been a professor of information systems and communications. from september 1999 to auust 2000, he was a visiting scholar at massachusetts institute of technology, cambridge, ma, usa, and boston university, boston, ma. from august 2007 to july 2008, he visited the darmstadt university of technology, darmstadt, germany, as a humboldt scholar. his current research interests include broadband multicarrier communications, mimo wireless communications, channel estimation and turbo equalization, and multirate signal processing for wireless communications. from 2007 to 2012, he served as an editor for the ieee transactions on wireless communications. from 2009 to 2013, he served as an editor for the ieee transactions on signal processing. from 2015 to 2017, he served as an editor for the ieee transactions on communications.
+
+dr. gao received the science and technology awards of the state education ministry of china in 1998, 2006 and 2009, the national technological invention award of china in 2011, and the 2011 ieee communications society stephen o. rice prize paper award in the field of communications theory.
+
+xiang gen xia (m'97 sm'00 f'09) received the b.s. degree in mathematics from nanjing normal university, nanjing, china, the m.s. degree in mathmatics from nankai university, tianjin, china, and the ph.d. degree in electrical engineering from the university of southern california, los angeles, ca, usa, in 1983, 1986, and 1992, respectively.
+
+he was a senior/research staff member at hughs research laboratories, malibu, ca, during 1995996. in september 1996, he joined the department of electrical and computer engineering, university of delaware, newark, de, usa, where he is the charles black evans professor. his current research interests include space time coding, mimo and ofdm systems, digital signal processing, and sar and isar imaging. he is the author of the book modulated coding for intersymbol interference channels (new york, marcel dekker, 2000).
+
+dr. xia received the national science foundation (nsf) faculty early career development (career) program award in 1997, the office of naval research (onr) young investigator award in 1998, and the outstanding overseas young investigator award from the national nature science foundaion of china in 2001. he received the 2019 information theory outstanding overseas chinese scientist award, the information theory society of chinese institute of electronics.
+
+dr. xia is currently serving and has served as an associate editor for numerous international journals including ieee wireless communicaions letters, ieee transactions on signal processing, ieee transactions on wireless communications, ieee transaction on mobile computing, and ieee transactions on vehicular technology. he is technical program chair of the signal processing symposium, globecom 2007 in washington d.c., usa, and the general cohair of icassp 2005 in philadelphia, pa, usa. 15
