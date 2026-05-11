@@ -1,317 +1,418 @@
+"""
+TFG - Comparativa de Frameworks Multi-Agente para Debates Técnicos en SatCom
+Implementación con CrewAI (Process.sequential)
+
+Estructura del debate (equivalente a LangGraph y AutoGen):
+  - 4 agentes: Moderador, DLB Expert, PNM Expert, Juez
+  - 5 rondas de debate con moderador activo entre rondas
+  - 16 llamadas LLM totales: 1 intro + 4 mod_inter + 5 DLB + 5 PNM + 1 Juez
+  - Métricas de tokens exactas vía get_openai_callback() (endpoint OpenAI-compatible /v1)
+
+Modelos (modo 8B heterogéneo, igual que LangGraph y AutoGen):
+  - Moderador / Juez: llama3.1:8b
+  - DLB Expert:       qwen2.5:7b
+  - PNM Expert:       mistral:7b
+"""
+
 import os
 import sys
 import time
 import json
 import csv
 import re
+import argparse
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '03_Langgraph_Parallel')))
+# Acceso al módulo RAG compartido con LangGraph
+sys.path.append(os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..', '03_Langgraph_Parallel')
+))
 from qdrant_rag import recuperar_contexto
 
 from crewai import Agent, Task, Crew, Process
 from langchain_openai import ChatOpenAI
+# get_openai_callback captura prompt_tokens y completion_tokens de todas las
+# llamadas LLM realizadas dentro de su bloque, sin modificar el comportamiento del Crew
+from langchain_community.callbacks import get_openai_callback
 
-# ---------------------------------------------------------
-# 1. CONFIGURACIÓN DE MODELOS
-# ---------------------------------------------------------
-MODEL_MOD = "llama3.1:8b"
-MODEL_DLB = "qwen2.5:7b"
-MODEL_PNM = "mistral:7b"
+# Ollama expone un endpoint compatible con la API de OpenAI
 BASE_URL = "http://localhost:11434/v1"
 
-# Instanciamos los LLMs
-llm_mod = ChatOpenAI(model=MODEL_MOD, base_url=BASE_URL, api_key="NotRequired", temperature=0.7)
-llm_dlb = ChatOpenAI(model=MODEL_DLB, base_url=BASE_URL, api_key="NotRequired", temperature=0.7)
-llm_pnm = ChatOpenAI(model=MODEL_PNM, base_url=BASE_URL, api_key="NotRequired", temperature=0.7)
+# Número de rondas de debate DLB↔PNM, igual que en LangGraph (max_rounds=5) y AutoGen (N_ROUNDS=5)
+N_ROUNDS = 5
 
-# ---------------------------------------------------------
-# 2. DEFINICIÓN DE AGENTES
-# ---------------------------------------------------------
-def crear_agentes(topic, context):
+
+def make_llm(model: str) -> ChatOpenAI:
+    """Crea un cliente LLM apuntando al servidor Ollama local."""
+    return ChatOpenAI(
+        model=model,
+        base_url=BASE_URL,
+        api_key="NotRequired",
+        temperature=0.7
+    )
+
+
+def crear_agentes(topic: str, context: str):
+    """
+    Define los 4 agentes del debate. El contexto RAG se inyecta en el backstory
+    de cada agente para que esté disponible en todas sus tareas.
+    """
     moderador = Agent(
         role="Moderator",
-        goal="Drive the discussion forward, prevent repetition, push for deeper understanding.",
+        goal="Drive the debate forward with precision and neutrality.",
         backstory=(
-            f"You are a Moderator in a Technical debate for: {topic}.\n\n"
-            "YOUR ROLE:\n"
-            "- Drive the discussion forward.\n"
-            "- Prevent repetition.\n"
-            "- Push for deeper understanding.\n"
-            "- Maintain technical precision and neutral tone."
+            f"You moderate a technical debate on: {topic}.\n"
+            "Drive discussion, prevent repetition, push for deeper understanding. "
+            "Max 100 words per intervention."
         ),
-        verbose=True,
+        verbose=False,
         allow_delegation=False,
-        llm=llm_mod
+        llm=make_llm("llama3.1:8b")
     )
 
-    experto_dlb = Agent(
+    # Experto en presupuesto de enlace (DLB = Dynamic Link Budget)
+    dlb_expert = Agent(
         role="DLB_Expert",
-        goal="Explain the PHYSICAL mechanism and focus on the budget implications of the design choices.",
+        goal="Analyze physical mechanisms and link budget implications.",
         backstory=(
-            f"Your answers focuses on the **budget** aspect of the design and link. You do not care any other aspect.\n\n"
-            f"Topic: {topic}\n"
-            f"Context: {context}\n\n"
-            "RULES:\n"
-            "1. Explain the PHYSICAL mechanism (array factor, interference, spacing effects).\n"
-            "2. Do NOT repeat generic textbook statements. Provide detailed, specific analysis based on the Context.\n"
-            "3. Focus on the budget implications of the design and link. Not budget in terms of money, but in terms of \"what is the cost in terms of performance, capacity, interference, etc.\" of the design choices.\n"
-            "4. DO NOT invent or fabricate any metric, number, or system fact that is not stated in the Context. If the Context lacks data, explicitly state so, and rely strictly on universal physics principles to deduce the answer.\n"
-            "5. Don´t repeat what you said in previous rounds. Always provide a NEW technical insight or angle of the problem.\n\n"
-            "Be highly technical and concise. Max 100 words."
+            f"Topic: {topic}\nReference Context: {context}\n\n"
+            "Focus ONLY on physical mechanism and link budget implications. "
+            "Explain array factor, interference, spacing effects. "
+            "Do NOT repeat generic textbook statements — provide detailed, specific analysis based on the Context. "
+            "Focus on what is the cost in terms of performance, capacity, interference of design choices. "
+            "DO NOT invent metrics not in the Reference Context. If the Context lacks data, explicitly state so and rely strictly on universal physics principles. "
+            "Provide a NEW insight each round. Max 100 words."
         ),
-        verbose=True,
+        verbose=False,
         allow_delegation=False,
-        llm=llm_dlb
+        llm=make_llm("qwen2.5:7b")
     )
 
-    experto_pnm = Agent(
+    # Experto en gestión de red y payload (PNM = Payload & Network Management)
+    pnm_expert = Agent(
         role="PNM_Expert",
-        goal="Focus on the Payload and Network Management aspect and system/network implications.",
+        goal="Analyze payload and network management implications.",
         backstory=(
-            f"Your answers focuses on the Payload and Network Management aspect. You do not care any other aspect.\n\n"
-            f"Topic: {topic}\n"
-            f"Context: {context}\n\n"
-            "RULES:\n"
-            "1. Focus on system/network implications only.\n"
-            "2. Describe relationships (e.g., \"more interference → lower capacity\").\n"
-            "3. DO NOT use numbers, percentages, or metrics unless they are EXPLICITLY contained in the Reference Context.\n"
-            "4. Provide specific technical deductions. Avoid vague generalizations. If the Context lacks specifics, base your reasoning purely on universal networking/telecommunications principles without making up data.\n"
-            "5. Don´t repeat what you said in previous rounds. Always provide a NEW technical insight of the problem.\n\n"
-            "Be highly technical and concise. Max 100 words."
+            f"Topic: {topic}\nReference Context: {context}\n\n"
+            "Focus ONLY on payload and network implications. "
+            "Describe cause-effect relationships (e.g., more interference → lower capacity). "
+            "Provide specific technical deductions. Avoid vague generalizations. "
+            "DO NOT use numbers unless explicitly in the Reference Context. If the Context lacks specifics, base your reasoning purely on universal networking/telecommunications principles without making up data. "
+            "Provide a NEW insight each round. Max 100 words."
         ),
-        verbose=True,
+        verbose=False,
         allow_delegation=False,
-        llm=llm_pnm
+        llm=make_llm("mistral:7b")
     )
 
+    # El juez sintetiza el debate completo y determina el ganador
     juez = Agent(
         role="Judge",
-        goal="Produce the FINAL TECHNICAL DECISION based on the debate.",
+        goal="Produce the final technical synthesis as JSON.",
         backstory=(
-            f"You are the FINAL SYNTHESIS for a technical debate of this topic: \"{topic}\".\n\n"
-            "YOUR ROLE:\n"
-            "- Produce the FINAL TECHNICAL DECISION based ONLY on the debate.\n"
-            "- Merge DLB and PNM conclusions into ONE coherent explanation.\n"
-            f"REFERENCE CONTEXT:\n{context}\n\n"
-            "OUTPUT FORMAT:\n"
-            "Return a JSON object with EXACTLY these 4 keys:\n"
-            "1. \"topic\": the topic presented.\n"
-            "2. \"winner\": choose either \"DLB\" or \"PNM\" based on who had better arguments.\n"
-            "3. \"consensus_response\": WRITE A NEW PARAGRAPH (max 150 words) merging the insights from the debate into a final technical conclusion. DO NOT copy this instruction.\n"
-            "4. \"reference_context\": WRITE A NEW 60-WORD SUMMARY of the factual ground-truth extracted from the reference context. DO NOT copy this instruction.\n\n"
-            "Respond ONLY with the JSON dictionary. Do not include any formatting like ```json or introductory text."
+            f"You synthesize a technical debate on: {topic}\n"
+            f"Reference Context: {context}\n\n"
+            "Merge DLB (physical layer) and PNM (system impact) insights. "
+            "The first sentence of consensus_response MUST directly answer the topic question. "
+            "DO NOT fabricate data, numbers, or metrics not in the debate or context. "
+            "Return ONLY valid JSON:\n"
+            "{\n"
+            f'   "topic": "{topic}",\n'
+            '    "winner": "DLB or PNM",\n'
+            '    "consensus_response": "Write your deep, technical, cause-effect explanation here merging DLB and PNM insights. Max 150 words.",\n'
+            '    "reference_context": "60-word factual summary of the reference context. Do NOT copy expert chat history."\n'
+            "}"
         ),
-        verbose=True,
+        verbose=False,
         allow_delegation=False,
-        llm=llm_mod
+        llm=make_llm("llama3.1:8b")
     )
-    
-    return moderador, experto_dlb, experto_pnm, juez
 
-# ---------------------------------------------------------
-# 3. DEFINICIÓN DE TAREAS Y ORQUESTACIÓN (CREW)
-# ---------------------------------------------------------
-def lanzar_crewai_debate(topic: str, context: str, iteraciones: int = 5):
-    moderador, experto_dlb, experto_pnm, juez = crear_agentes(topic, context)
+    return moderador, dlb_expert, pnm_expert, juez
 
+
+def lanzar_debate(topic: str, context: str, n_rounds: int = N_ROUNDS):
+    """
+    Construye y ejecuta el debate como una cadena de tareas secuenciales (Process.sequential).
+
+    Estructura de tareas (16 llamadas LLM para n_rounds=5):
+      tarea_intro(mod) → dlb_1 → pnm_1 → mod_1 → dlb_2 → pnm_2 → mod_2
+                       → dlb_3 → pnm_3 → mod_3 → dlb_4 → pnm_4 → mod_4
+                       → dlb_5 → pnm_5 → tarea_sintesis(juez)
+
+    Cada tarea recibe el output de la anterior como contexto, formando una
+    cadena de argumentación progresiva equivalente al grafo de LangGraph.
+    """
+    moderador, dlb_expert, pnm_expert, juez = crear_agentes(topic, context)
+
+    # Tarea 1: el moderador introduce el problema técnico y abre el debate
     tarea_intro = Task(
-        description=f"Introduce the technical problem clearly based on the Topic: '{topic}' and Context: '{context}'. Invite discussion. Max 100 words.",
-        expected_output="Introduction of the debate.",
+        description=(
+            f"Introduce the technical problem clearly.\n"
+            f"Topic: {topic}\nContext: {context}\n"
+            "Invite both experts to discuss. Max 100 words."
+        ),
+        expected_output="Brief technical introduction of the debate topic.",
         agent=moderador
     )
-    
-    tareas = [tarea_intro]
-    tareas_dlb = []
-    tareas_pnm = []
 
-    for i in range(iteraciones):
-        # La tarea DLB recibe por contexto la tarea anterior (intro o el último PNM)
-        ctx_dlb = [tareas[-1]] if tareas else []
+    tareas = [tarea_intro]
+    tareas_dlb = []       # referencias para reconstruir el historial al final
+    tareas_pnm = []
+    tareas_mod_inter = []  # moderadores entre rondas (n_rounds - 1 tareas)
+
+    for i in range(n_rounds):
+        ronda = f"[Round {i+1}/{n_rounds}]"
+
+        # DLB recibe como contexto la tarea anterior (intro en ronda 1, moderador en rondas 2-5)
         t_dlb = Task(
-            description=f"[ROUND {i+1}/{iteraciones}] Topic: '{topic}'. Context: '{context}'. Provide your DLB analysis. Tell us something new.",
-            expected_output=f"DLB technical analysis round {i+1} (max 100 words).",
-            agent=experto_dlb,
-            context=ctx_dlb
+            description=(
+                f"{ronda} Topic: {topic}. Context: {context}.\n"
+                "Provide your DLB physical/budget analysis. "
+                "New insight only, no repetition."
+            ),
+            expected_output=f"DLB technical analysis round {i+1}. Max 100 words.",
+            agent=dlb_expert,
+            context=[tareas[-1]]
         )
-        
-        # La tarea PNM recibe por contexto el argumento que acaba de dar DLB
+
+        # PNM recibe el análisis de DLB de esta misma ronda y lo complementa o refuta
         t_pnm = Task(
-            description=f"[ROUND {i+1}/{iteraciones}] Topic: '{topic}'. Read DLB's latest input. Provide your PNM analysis countering or adding to it.",
-            expected_output=f"PNM technical analysis round {i+1} (max 100 words).",
-            agent=experto_pnm,
+            description=(
+                f"{ronda} Topic: {topic}. Context: {context}.\n"
+                "Read DLB's analysis and provide your PNM network/payload analysis. "
+                "Counter or complement. New insight only."
+            ),
+            expected_output=f"PNM technical analysis round {i+1}. Max 100 words.",
+            agent=pnm_expert,
             context=[t_dlb]
         )
+
         tareas.extend([t_dlb, t_pnm])
         tareas_dlb.append(t_dlb)
         tareas_pnm.append(t_pnm)
 
+        # El moderador guía la transición entre rondas (no se añade tras la última ronda)
+        # Equivale a las llamadas intermedias del moderador en LangGraph y AutoGen
+        if i < n_rounds - 1:
+            t_mod = Task(
+                description=(
+                    f"{ronda} Read DLB and PNM analyses and guide the next round.\n"
+                    f"Topic: {topic}.\n"
+                    "Summarize key points, prevent repetition, push for deeper understanding. "
+                    "Max 100 words."
+                ),
+                expected_output=f"Moderator guidance for round {i+2}. Max 100 words.",
+                agent=moderador,
+                context=[t_dlb, t_pnm]
+            )
+            tareas.append(t_mod)
+            tareas_mod_inter.append(t_mod)
+
+    # Tarea final: el juez lee todo el historial y produce la síntesis en JSON
     tarea_sintesis = Task(
-        description=f"Read the entire {iteraciones}-round debate and produce the final JSON decision. Use Context: '{context}'.",
-        expected_output="A strict JSON object with topic, winner, consensus_response, and reference_context.",
+        description=(
+            f"Read the complete {n_rounds}-round debate and produce the JSON decision.\n"
+            f"Topic: {topic}. Context: {context}."
+        ),
+        expected_output="Valid JSON with topic, winner, consensus_response, reference_context.",
         agent=juez,
-        context=tareas # Pasa explícitamente todo el historial al Juez
+        context=tareas  # recibe todas las tareas anteriores como contexto
     )
     tareas.append(tarea_sintesis)
 
     crew = Crew(
-        agents=[moderador, experto_dlb, experto_pnm, juez],
+        agents=[moderador, dlb_expert, pnm_expert, juez],
         tasks=tareas,
-        verbose=True,
-        process=Process.sequential 
+        verbose=False,
+        process=Process.sequential
     )
 
-    print(f"\n🚀 Lanzando CrewAI ({iteraciones} rondas) para el topic: {topic}")
-    resultado_final = crew.kickoff()
-    
-    # Reconstruimos el historial combinando todas las rondas
+    # get_openai_callback intercepta todas las llamadas al endpoint /v1 durante el kickoff
+    # y acumula prompt_tokens y completion_tokens reportados por Ollama (valores exactos,
+    # equivalentes a prompt_eval_count y eval_count de la API nativa usada por LangGraph)
+    t_start = time.perf_counter()
+    with get_openai_callback() as cb:
+        resultado = crew.kickoff()
+    t_total = time.perf_counter() - t_start
+
+    tokens_in = cb.prompt_tokens      # tokens de entrada acumulados en todas las llamadas
+    tokens_out = cb.completion_tokens  # tokens generados acumulados en todas las llamadas
+
+    # Reconstruir historial por rol para guardarlo en TXT
     historial = {
-        "Moderator": getattr(tarea_intro.output, 'raw', str(tarea_intro.output))
+        "Moderator_intro": get_task_output(tarea_intro),
+        "DLB_rounds": "\n\n".join(
+            f"[Round {i+1}] {get_task_output(t)}"
+            for i, t in enumerate(tareas_dlb)
+        ),
+        "PNM_rounds": "\n\n".join(
+            f"[Round {i+1}] {get_task_output(t)}"
+            for i, t in enumerate(tareas_pnm)
+        ),
+        "Moderator_rounds": "\n\n".join(
+            f"[Round {i+1}→{i+2}] {get_task_output(t)}"
+            for i, t in enumerate(tareas_mod_inter)
+        ),
+        "Judge": get_task_output(tarea_sintesis)
     }
-    
-    dlb_texts = []
-    pnm_texts = []
-    for i in range(iteraciones):
-        dlb_texts.append(f"[Round {i+1}] " + getattr(tareas_dlb[i].output, 'raw', str(tareas_dlb[i].output)))
-        pnm_texts.append(f"[Round {i+1}] " + getattr(tareas_pnm[i].output, 'raw', str(tareas_pnm[i].output)))
-        
-    historial["DLB_Expert"] = "\n\n".join(dlb_texts)
-    historial["PNM_Expert"] = "\n\n".join(pnm_texts)
-    historial["Judge"] = getattr(tarea_sintesis.output, 'raw', str(tarea_sintesis.output))
 
-    return resultado_final, historial
+    return resultado, historial, t_total, tokens_in, tokens_out
 
-# ---------------------------------------------------------
-# 4. GUARDADO DE RESULTADOS Y MAIN
-# ---------------------------------------------------------
-def extract_judge_json(text):
+
+def get_task_output(task) -> str:
+    """
+    Obtiene el texto de salida de una tarea CrewAI de forma robusta.
+    Según la versión de CrewAI, el output puede estar en .raw, .result,
+    o dentro del str() del objeto como campo result='...'.
+    """
+    output = task.output
+    if output is None:
+        return ""
+    raw = getattr(output, 'raw', None)
+    if raw:
+        return str(raw)
+    result_attr = getattr(output, 'result', None)
+    if result_attr:
+        return str(result_attr)
+    # Fallback: extraer el campo result= del str() y decodificar escapes
+    full = str(output)
+    match = re.search(r"result='(.*)'$", full, re.DOTALL)
+    if match:
+        return match.group(1).encode('raw_unicode_escape').decode('unicode_escape')
+    return full
+
+
+def extract_json(text: str):
+    """Extrae el primer bloque JSON válido del texto de respuesta del juez."""
     try:
         match = re.search(r'\{.*\}', text, re.DOTALL)
         if match:
             return json.loads(match.group())
-        start = text.find("{")
-        end = text.rfind("}")
-        if start != -1 and end != -1:
-            return json.loads(text[start:end+1])
-    except Exception as e:
-        print(f"⚠️ Error intentando reparar el JSON: {e}")
+    except Exception:
+        pass
     return None
 
-def guardar_resultado(q_id: str, topic: str, context: str, historial: dict, final_output: str, resultados_dir: str, duration_s: float):
-    # Crear subcarpeta
+
+def guardar_resultado(q_id, topic, context, historial,
+                      resultado_final, t_total, tokens_in, tokens_out, resultados_dir):
+    """
+    Persiste los resultados de un debate en tres formatos:
+      - TXT: historial completo del debate por rol
+      - JSON: decisión estructurada del juez (winner, consensus_response, reference_context)
+      - CSV: métricas de rendimiento (mismo esquema que LangGraph y AutoGen)
+
+    Esquema CSV (igual en los tres frameworks):
+      ID, Size, Mode, Winner, Total_S, Load_S, Prompt_S, Gen_S,
+      Tokens_In, Tokens_Out, Avg_TPS, Topic
+
+    Nota: Load_S, Prompt_S y Gen_S son 0.0 porque el endpoint OpenAI-compatible
+    de Ollama (/v1) no expone el desglose interno de tiempos. LangGraph los obtiene
+    porque usa la API nativa de Ollama (/api/chat) directamente.
+    """
     q_dir = os.path.join(resultados_dir, q_id)
     os.makedirs(q_dir, exist_ok=True)
-    
     base_name = f"{q_id}_debateC"
-    ruta_salida = os.path.join(q_dir, f"{base_name}.txt")
-    json_path = os.path.join(q_dir, f"{base_name}_decision.json")
-    
-    try:
-        with open(ruta_salida, 'w', encoding='utf-8') as f:
-            f.write(f"📝 TEMA DEBATIDO: {topic}\n")
-            f.write("="*80 + "\n\n")
-            f.write(f"📚 CONTEXTO:\n{context}\n\n")
-            f.write("="*80 + "\n")
-            f.write("🗣️ HISTORIAL DE TAREAS (CREWAI Process.sequential):\n")
-            f.write("="*80 + "\n\n")
-            for role, text in historial.items():
-                f.write(f"[{role}]:\n{text}\n")
-                f.write("-" * 50 + "\n")
-            f.write("⚖️ VEREDICTO FINAL (JUEZ):\n")
-            f.write("="*80 + "\n")
-            f.write(f"{final_output}\n")
-            
-        print(f"\n💾 Resultado CrewAI guardado en: {ruta_salida}")
-    except Exception as e:
-        print(f"❌ Error guardando fichero: {e}")
 
-    # JSON y Métricas
-    judge_data = extract_judge_json(final_output)
+    # --- TXT con el historial completo del debate ---
+    txt_path = os.path.join(q_dir, f"{base_name}.txt")
+    with open(txt_path, 'w', encoding='utf-8') as f:
+        f.write(f"TOPIC: {topic}\n{'='*60}\n")
+        f.write(f"CONTEXT:\n{context}\n{'='*60}\n")
+        for role, text in historial.items():
+            f.write(f"[{role}]:\n{text}\n{'-'*40}\n")
+
+    # --- JSON con la decisión estructurada del juez ---
+    judge_text = historial.get("Judge", str(resultado_final))
+    judge_data = extract_json(judge_text)
     winner = "Unknown"
     if judge_data:
-        try:
-            with open(json_path, 'w', encoding='utf-8') as f:
-                json.dump(judge_data, f, indent=4)
-            winner = judge_data.get("winner", "Unknown")
-        except Exception:
-            pass
+        json_path = os.path.join(q_dir, f"{base_name}_decision.json")
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(judge_data, f, indent=4)
+        winner = judge_data.get("winner", "Unknown")
 
-    # Aprox tokens (Contexto y topic enviado en cada turno)
-    base_input_tokens = max(1, int((len(context.split()) + len(topic.split())) / 0.75))
-    tokens_in = base_input_tokens * max(1, len(historial))
-    tokens_out = 0
-    
-    for role, text in historial.items():
-        if text:
-            tokens_out += max(1, int(len(text.split()) / 0.75))
-            
-    avg_tps = (tokens_out / duration_s) if duration_s > 0 else 0
+    # Avg_TPS: tokens generados por segundo (throughput global del debate)
+    avg_tps = tokens_out / t_total if t_total > 0 else 0
 
+    # --- CSV con métricas de rendimiento ---
     csv_path = os.path.join(resultados_dir, "metricas_crewai.csv")
     file_exists = os.path.exists(csv_path)
-
     with open(csv_path, "a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         if not file_exists:
             writer.writerow([
-                "ID", "Size", "Mode", "Winner", "Total_S", "Load_S", "Prompt_S", 
-                "Gen_S", "Tokens_In", "Tokens_Out", "Avg_TPS", "Topic"
+                "ID", "Size", "Mode", "Winner", "Total_S",
+                "Load_S", "Prompt_S", "Gen_S",
+                "Tokens_In", "Tokens_Out", "Avg_TPS", "Topic"
             ])
-            
         writer.writerow([
-            base_name, "8B", "heterogeneo", winner, 
-            round(duration_s, 2), 0.0, 0.0, 
-            round(duration_s, 2), tokens_in, tokens_out, 
+            base_name, "8B", "heterogeneo", winner,
+            round(t_total, 3),
+            0.0,   # Load_S: no disponible en endpoint /v1
+            0.0,   # Prompt_S: no disponible en endpoint /v1
+            0.0,   # Gen_S: no disponible en endpoint /v1
+            tokens_in, tokens_out,
             round(avg_tps, 2), topic
         ])
 
 
 def main():
-    resultados_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Resultados'))
-    dataset_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Dataset_Preguntas'))
+    """
+    Ejecuta los 50 debates del dataset en orden secuencial.
+
+    Las preguntas se leen de index.txt, que es la concatenación de todos los
+    archivos _salida.txt del dataset en orden alfabético — el mismo orden en
+    que LangGraph los lee al iterar el directorio con sorted(glob('*.txt')).
+    Los tres frameworks procesan las mismas 50 preguntas en el mismo orden.
+
+    Resultados guardados en: 05_CrewAI_Debate/Resultados/
+      - q001/ ... q050/  → TXT + JSON por debate
+      - metricas_crewai.csv → métricas agregadas
+    """
+    resultados_dir = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), 'Resultados')
+    )
+    dataset_dir = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), '..', 'Dataset_Preguntas')
+    )
     os.makedirs(resultados_dir, exist_ok=True)
-    
-    if not os.path.exists(dataset_dir):
-        print(f"❌ No se encuentra la carpeta: {dataset_dir}")
-        sys.exit(1)
-        
+
+    # index.txt contiene todas las preguntas del dataset, una por línea
     index_path = os.path.join(dataset_dir, 'index.txt')
-    if not os.path.exists(index_path):
-        print(f"❌ No se encuentra: {index_path}")
-        sys.exit(1)
-        
     with open(index_path, 'r', encoding='utf-8') as f:
-        preguntas = [line.strip() for line in f.readlines() if line.strip()]
-    
-    if not preguntas:
-        print("❌ index.txt está vacío.")
-        sys.exit(1)
-        
-    print(f"📁 Cargadas {len(preguntas)} preguntas de index.txt")
-    
-    # Procesar 50 primeros como en Autogen
-    for idx, topic in enumerate(preguntas[:50]):
-        q_id = f"q{idx + 1:03d}"
-        
-        print("\n" + "*"*60)
-        print(f"📖 [{q_id}] Procesando pregunta...")
-        print(f"🗣️ TOPIC: {topic}")
-        print("*"*60)
-        
-        print("🔍 Recuperando contexto de Qdrant...")
+        preguntas = [l.strip() for l in f if l.strip()]
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--start", type=int, default=1,
+                        help="Número de pregunta desde la que empezar (1-indexed, default=1)")
+    args = parser.parse_args()
+    start_idx = max(0, args.start - 1)  # convertir a 0-indexed
+
+    print(f"Cargadas {len(preguntas)} preguntas. Ejecutando desde q{args.start:03d} hasta q050...")
+
+    for idx, topic in enumerate(preguntas[start_idx:50], start=start_idx):
+        q_id = f"q{idx+1:03d}"
+        print(f"\n{'*'*50}\n[{q_id}] {topic}\n{'*'*50}")
+
+        # Recuperar contexto técnico relevante desde la base vectorial Qdrant
         try:
-            context = recuperar_contexto(topic, topic=topic)
-            context = context if context else "N/A"
-            if context != "N/A": 
-                print(f"✅ Contexto recuperado: {context[:100]}...\n")
+            context = recuperar_contexto(topic, topic=topic) or "N/A"
         except Exception as e:
-            print(f"❌ Error RAG: {e}")
-            context = "Error in retrieving context."
-            
-        start_t = time.time()
-        resultado_final, historial = lanzar_crewai_debate(topic, context)
-        end_t = time.time()
-        
-        guardar_resultado(q_id, topic, context, historial, str(resultado_final), resultados_dir, end_t - start_t)
+            print(f"Error RAG: {e}")
+            context = "Error retrieving context."
+
+        resultado, historial, t_total, tokens_in, tokens_out = lanzar_debate(
+            topic, context, n_rounds=N_ROUNDS
+        )
+
+        guardar_resultado(
+            q_id, topic, context, historial,
+            resultado, t_total, tokens_in, tokens_out, resultados_dir
+        )
+
+        # Pausa entre debates para no saturar la GPU
+        time.sleep(1)
+
 
 if __name__ == "__main__":
     main()
