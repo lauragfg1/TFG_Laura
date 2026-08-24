@@ -1,5 +1,6 @@
 import logging
 from qdrant_client import QdrantClient
+from qdrant_client.models import Filter, FieldCondition, MatchValue
 from sentence_transformers import SentenceTransformer, CrossEncoder
 import os
 
@@ -8,33 +9,56 @@ os.environ['NO_PROXY'] = 'localhost,127.0.0.1'
 os.environ['http_proxy'] = ''
 os.environ['https_proxy'] = ''
 
-QDRANT_URL = "http://localhost:6333" 
+QDRANT_URL = "http://localhost:6333"
 COLLECTION_NAME = "documents_satcom_uma"
 BI_ENCODER_MODEL = "all-MiniLM-L6-v2"
 CROSS_ENCODER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+
+# Plazas garantizadas por tipo de contenido en la recuperación inicial (antes
+# de rerankear). El contenido "structured" (cifras/tablas) es solo ~11% del
+# índice (1031 de 9352 puntos) y tiene un formato de texto muy distinto al
+# narrativo, así que en una única búsqueda mixta de k=15 vecinos perdía
+# sistemáticamente contra el narrativo y casi nunca aparecía en el contexto
+# — que es probablemente la razón de fondo de que el juez no pueda puntuar
+# alto respuestas que no citan cifras: el contexto rara vez las traía.
+K_STRUCTURED = 5
+K_NARRATIVE = 10
 
 qclient = QdrantClient(url=QDRANT_URL)
 bi_encoder = SentenceTransformer(BI_ENCODER_MODEL, device="cpu")
 reranker = CrossEncoder(CROSS_ENCODER_MODEL, device="cpu")
 
+
+def _query_by_type(query_vector, k, content_type):
+    response = qclient.query_points(
+        collection_name=COLLECTION_NAME,
+        query=query_vector,
+        query_filter=Filter(must=[FieldCondition(key="metadata.type", match=MatchValue(value=content_type))]),
+        limit=k,
+    )
+    return response.points
+
+
 def recuperar_contexto(query, topic="", k=15):
     try:
         enriched_query = f"Topic: {topic} | Question: {query} | metrics: Gain, SNR, Bandwidth, Loss, ms, Mbps"
         query_vector = bi_encoder.encode(enriched_query).tolist()
-        
-        response = qclient.query_points(
-            collection_name=COLLECTION_NAME,
-            query=query_vector,
-            limit=k
-        )
 
-        if not response.points: return "No context found."
+        # Dos búsquedas separadas (una por tipo) en vez de una mixta: garantiza
+        # que el contenido estructurado tenga sitio en el contexto si existe
+        # algún punto relevante, en vez de competir en desventaja por entrar
+        # en un único top-k dominado por el narrativo.
+        structured_points = _query_by_type(query_vector, K_STRUCTURED, "structured")
+        narrative_points = _query_by_type(query_vector, K_NARRATIVE, "narrative")
+        points = list(structured_points) + list(narrative_points)
 
-        # RE-RANKING
-        passages = [p.payload.get('content', '') for p in response.points]
+        if not points: return "No context found."
+
+        # RE-RANKING (sobre el conjunto combinado de ambos tipos)
+        passages = [p.payload.get('content', '') for p in points]
         scores = reranker.predict([(query, p) for p in passages])
-        
-        scored_points = sorted(zip(scores, response.points), key=lambda x: x[0], reverse=True)
+
+        scored_points = sorted(zip(scores, points), key=lambda x: x[0], reverse=True)
 
         structured = []
         narrative = []

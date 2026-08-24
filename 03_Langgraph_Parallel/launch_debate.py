@@ -10,7 +10,8 @@ import csv
 import re
 import unicodedata
 from pathlib import Path
-from graph import app 
+from graph import app
+from dataset_questions import iter_questions, source_files
 import argparse
 
 # --- Configuración del Logger ---
@@ -31,13 +32,6 @@ def slugify(value):
     value = re.sub(r'[^\w\s-]', '', value).strip().lower()
     return re.sub(r'[-\s]+', '_', value)[:60]
 
-def iter_questions(txt_path: Path):
-    with txt_path.open("r", encoding="utf-8", errors="ignore") as f:
-        for line in f:
-            q = line.strip()
-            if not q or q.startswith("#"): continue
-            yield q
-
 def extract_judge_json(text):
     try:
         # 1. Intentamos buscar el bloque tal cual
@@ -56,7 +50,7 @@ def extract_judge_json(text):
     return None
 
 # --- Función de Guardado (✅ Limpia sin decision_dir) ---
-def save_results(debate_id, question, state, out_file, csv_path):
+def save_results(debate_id, question, state, out_file, csv_path, rep=1):
     # 1. Guardar Log TXT completo 
     with out_file.open("w", encoding="utf-8") as f:
         f.write(f"DEBATE ID: {debate_id}\nTOPIC: {question}\n" + "="*50 + "\n")
@@ -75,43 +69,53 @@ def save_results(debate_id, question, state, out_file, csv_path):
     # 3. Procesamiento de las métricas
     metrics_list = state.get("metrics", [])
     valid_metrics = [m for m in metrics_list if m is not None and isinstance(m, dict)]
-    
+
+    # Detalle por llamada (modelo, tiempos, num_predict/temperatura reales usados):
+    # se guarda aparte para poder diagnosticar anomalías (huecos de overhead, mezcla
+    # de parámetros entre modelos) sin depender solo del agregado del CSV.
+    metrics_path = out_file.parent / f"metrics_{debate_id:03d}.json"
+    with metrics_path.open("w", encoding="utf-8") as f:
+        json.dump(valid_metrics, f, indent=2)
+
     if valid_metrics:
         total_s = sum(m.get("tiempo_total_s", 0) for m in valid_metrics)
         load_s = sum(m.get("tiempo_carga_s", 0) for m in valid_metrics)
         prompt_s = sum(m.get("tiempo_prompt_eval_s", 0) for m in valid_metrics)
         gen_s = sum(m.get("tiempo_generacion_s", 0) for m in valid_metrics)
-        
+        overhead_s = sum(m.get("tiempo_overhead_s", 0) for m in valid_metrics)
+
         t_in = sum(m.get("tokens_prompt", 0) for m in valid_metrics)
         t_out = sum(m.get("tokens_generacion", 0) for m in valid_metrics)
-        
+
         avg_tps = sum(m.get("tps", 0) for m in valid_metrics) / len(valid_metrics)
     else:
-        total_s = load_s = prompt_s = gen_s = t_in = t_out = avg_tps = 0
-    
+        total_s = load_s = prompt_s = gen_s = overhead_s = t_in = t_out = avg_tps = 0
+
     # 4. Actualizar CSV con las nuevas columnas
     file_exists = csv_path.exists()
     with open(csv_path, "a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        
+
         if not file_exists:
             writer.writerow([
-                "ID", "Size", "Mode", "Winner", "Total_S", "Load_S", "Prompt_S", 
-                "Gen_S", "Tokens_In", "Tokens_Out", "Avg_TPS", "Topic"
+                "ID", "Rep", "Size", "Mode", "Winner", "Total_S", "Load_S", "Prompt_S",
+                "Gen_S", "Overhead_S", "Tokens_In", "Tokens_Out", "Avg_TPS", "Topic"
             ])
-        
+
         writer.writerow([
-            debate_id, 
+            debate_id,
+            rep,
             os.environ.get("SIZE", "unknown"),
             os.environ.get("MODE", "unknown"),
             judge_data.get("winner", "Unknown") if judge_data else "Error",
-            f"{total_s:.3f}", 
-            f"{load_s:.3f}", 
-            f"{prompt_s:.3f}", 
+            f"{total_s:.3f}",
+            f"{load_s:.3f}",
+            f"{prompt_s:.3f}",
             f"{gen_s:.3f}",
+            f"{overhead_s:.3f}",
             t_in,
             t_out,
-            f"{avg_tps:.2f}", 
+            f"{avg_tps:.2f}",
             question[:100]
         ])
 
@@ -123,18 +127,19 @@ def main():
     parser.add_argument("--size", required=True, choices=["2B", "8B", "70B"], help="Tamaño de los modelos")
     parser.add_argument("--mode", required=True, choices=["heterogeneo", "homogeneo"], help="Modo de debate")
     parser.add_argument("--limit", type=int, default=None, help="Número máximo de preguntas a procesar en modo carpeta")
-    parser.add_argument("--start", type=int, default=1, help="Número de debate por el que empezar") 
+    parser.add_argument("--start", type=int, default=1, help="Número de debate por el que empezar")
+    parser.add_argument("--rep", type=int, default=1, help="Número de repetición del experimento (crea data/.../repN/)")
 
     args = parser.parse_args()
-    
+
     os.environ["SIZE"] = args.size
     os.environ["MODE"] = args.mode
 
     input_arg = args.input
-    
-    # CREACIÓN DINÁMICA DE CARPETAS
+
+    # CREACIÓN DINÁMICA DE CARPETAS (una por repetición, para no sobrescribir las anteriores)
     base_dir = Path(args.output).resolve()
-    out_dir = base_dir / args.size / args.mode
+    out_dir = base_dir / args.size / args.mode / f"rep{args.rep}"
     out_dir.mkdir(parents=True, exist_ok=True)
     
     csv_path = out_dir / "experiment_metrics.csv"
@@ -157,7 +162,7 @@ def main():
             print(f"\n{'='*30}\nINICIANDO DEBATE ÚNICO: {question[:50]}...\n{'='*30}")
             final_state = app.invoke(inputs)
             if final_state and len(final_state["messages"]) > 0:
-                save_results(1, question, final_state, out_file, csv_path) # ✅ Llamada limpia
+                save_results(1, question, final_state, out_file, csv_path, rep=args.rep) # ✅ Llamada limpia
                 logging.info(f"✅ Debate finalizado con éxito.")
         except Exception as e:
             logging.error(f"❌ Error en la ejecución: {str(e)}")
@@ -165,7 +170,7 @@ def main():
     # MODO DATASET 
     else:
         input_path = Path(input_arg)
-        txt_files = sorted(input_path.glob("*.txt"))
+        txt_files = source_files(input_path)
         total_q = 0
         
         for txt in txt_files:
@@ -176,7 +181,7 @@ def main():
                 if total_q < args.start:
                     continue
 
-                if args.limit and total_q >= args.limit:
+                if args.limit and total_q > args.limit:
                     logging.info(f"🛑 Límite de {args.limit} preguntas alcanzado. Deteniendo...")
                     return 
 
@@ -191,7 +196,7 @@ def main():
                     inputs = {"topic": question, "round": 0, "max_rounds": 5, "messages": [], "metrics": []}
                     final_state = app.invoke(inputs)
                     if final_state and len(final_state["messages"]) > 0:
-                        save_results(total_q, question, final_state, out_file, csv_path) # ✅ Llamada limpia
+                        save_results(total_q, question, final_state, out_file, csv_path, rep=args.rep) # ✅ Llamada limpia
                         logging.info(f"   ✅ Finalizado.")
                 except Exception as e:
                     logging.error(f"   ❌ Error en debate #{total_q}: {str(e)}")

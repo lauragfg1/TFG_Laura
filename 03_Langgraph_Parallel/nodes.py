@@ -1,9 +1,19 @@
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from state import DebateState
-from ollama_client import call_ollama  
-from qdrant_rag import recuperar_contexto 
+from ollama_client import call_ollama
+from qdrant_rag import recuperar_contexto
 import os
-import logging 
+import logging
+import random
+
+# Ventana de mensajes recientes que ven el moderador y los expertos en cada llamada.
+RECENT_WINDOW = 6
+# Cota explícita para la síntesis final: cubre debates de hasta 8 rondas (3 msgs/ronda)
+# sin dejar que el prompt crezca sin límite si max_rounds aumenta en el futuro.
+FINAL_SYNTHESIS_WINDOW = 24
+
+def _windowed_history(messages, window):
+    return messages[-window:] if messages else []
 
 def get_models():
     size = os.environ.get("SIZE", "70B")
@@ -28,7 +38,7 @@ def moderator_node(state: DebateState):
 
     current_round = state["round"]
     messages = state["messages"]
-    history = messages[-6:] if len(messages) > 0 else [] # Ventana deslizante para no saturar el contexto
+    history = _windowed_history(messages, RECENT_WINDOW) # Ventana deslizante para no saturar el contexto
 
     logging.info(f"🔄 INICIANDO RONDA: {current_round} | Moderador: {MODEL_MOD}")
 
@@ -88,8 +98,8 @@ def dlb_node(state: DebateState):
     logging.info(f"📊 [DLB] Generando análisis técnico con {MODEL_DLB}...")
     
     last_mod_msg = state["messages"][-1].content
-    history = state["messages"][-6:]
-    
+    history = _windowed_history(state["messages"], RECENT_WINDOW)
+
     # Reutilizamos el contexto del estado en lugar de llamar a recuperar_contexto
     context = state.get("rag_context", "No context available.")
 
@@ -124,11 +134,11 @@ def pnm_node(state: DebateState):
     logging.info(f"📡 [PNM] Calculando recursos de red con {MODEL_PNM}...")
     
     last_mod_msg = state["messages"][-1].content
-    history = state["messages"][-6:]
-    
+    history = _windowed_history(state["messages"], RECENT_WINDOW)
+
     # Reutilizamos el contexto del estado en lugar de llamar a recuperar_contexto
     context = state.get("rag_context", "No context available.")
-    
+
     prompt = f"""
         Your answers focuses on the Payload and Network Management aspect. You do not care any other aspect.
 
@@ -166,9 +176,19 @@ def final_answer_node(state: DebateState):
 
     logging.info(f"⚖️ [MODERADOR] Generando respuesta consenso con {MODEL_MOD}...")
     
-    # El juez analiza todo el historial para decidir
-    history = "\n".join([m.content for m in state["messages"]])
+    # El juez analiza el historial reciente para decidir (acotado, ver FINAL_SYNTHESIS_WINDOW)
+    history = "\n".join(
+        m.content for m in _windowed_history(state["messages"], FINAL_SYNTHESIS_WINDOW)
+    )
     context = state.get("rag_context", "No context available.")
+
+    # El orden en que se listan las opciones sesga al modelo hacia la primera
+    # (comprobado empíricamente: "DLB or PNM" -> gana DLB casi siempre, y
+    # viceversa). Se aleatoriza por llamada para que el sesgo de posición se
+    # reparta como ruido en vez de inclinar sistemáticamente el resultado.
+    winner_order = ["DLB", "PNM"]
+    random.shuffle(winner_order)
+    winner_field = f"{winner_order[0]} or {winner_order[1]}, choose whichever had the stronger technical argument"
 
     prompt = f"""You are the FINAL SYNTHESIS for a technical debate of this topic: "{state['topic']}".
 
@@ -189,7 +209,7 @@ def final_answer_node(state: DebateState):
 
     {{
         "topic": "{state['topic']}",
-        "winner": "PNM",
+        "winner": "{winner_field}",
         "consensus_response": "Write your deep, technical, cause-effect explanation here merging DLB and PNM insights. Max 150 words.",
         "reference_context": "Write a 60-word summary of the factual ground-truth extracted from the reference context provided above. Do NOT copy the expert's chat history."
     }}

@@ -11,18 +11,24 @@ sys.path.append(os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..', '03_Langgraph_Parallel')
 ))
 from qdrant_rag import recuperar_contexto
+from dataset_questions import load_all_questions
+from llm_config import NUM_PREDICT, TEMPERATURE, STOP_SEQUENCES
 
 BASE_URL = "http://localhost:11434/v1"
 N_ROUNDS = 5  # Ciclos argumentativos DLB+PNM equivalentes a LangGraph
 
 def make_llm_config(model: str) -> dict:
+    # Misma temperatura/num_predict/stop que LangGraph (llm_config.py), para que
+    # el mismo modelo no se compare bajo un muestreo distinto según el framework.
     return {
         "config_list": [{
             "model": model,
             "api_key": "NotRequired",
             "base_url": BASE_URL
         }],
-        "temperature": 0.7,
+        "temperature": TEMPERATURE,
+        "max_tokens": NUM_PREDICT,
+        "stop": STOP_SEQUENCES,
         "cache_seed": None
     }
 
@@ -237,25 +243,29 @@ def guardar_resultado(q_id, topic, context, chat_result,
         ])
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--start", type=int, default=1,
+                        help="Número de pregunta desde la que empezar (1-indexed, default=1)")
+    parser.add_argument("--rep", type=int, default=1,
+                        help="Número de repetición del experimento (crea Resultados/repN/)")
+    args = parser.parse_args()
+    start_idx = max(0, args.start - 1)
+
+    # Una carpeta por repetición, para no sobrescribir las anteriores
     resultados_dir = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), 'Resultados')
+        os.path.join(os.path.dirname(__file__), 'Resultados', f'rep{args.rep}')
     )
     dataset_dir = os.path.abspath(
         os.path.join(os.path.dirname(__file__), '..', 'Dataset_Preguntas')
     )
     os.makedirs(resultados_dir, exist_ok=True)
 
-    index_path = os.path.join(dataset_dir, 'index.txt')
-    with open(index_path, 'r', encoding='utf-8') as f:
-        preguntas = [l.strip() for l in f if l.strip()]
+    # Misma fuente que LangGraph (dataset_questions.py): recorre los .txt del
+    # dataset directamente en vez de depender de index.txt, para garantizar por
+    # código las mismas 50 preguntas en el mismo orden en los tres frameworks.
+    preguntas = load_all_questions(dataset_dir)
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--start", type=int, default=1,
-                        help="Número de pregunta desde la que empezar (1-indexed, default=1)")
-    args = parser.parse_args()
-    start_idx = max(0, args.start - 1)
-
-    print(f"Cargadas {len(preguntas)} preguntas. Ejecutando desde q{args.start:03d} hasta q050...")
+    print(f"Cargadas {len(preguntas)} preguntas. Repetición {args.rep}. Ejecutando desde q{args.start:03d} hasta q050...")
 
     for idx, topic in enumerate(preguntas[start_idx:50], start=start_idx):
         q_id = f"q{idx+1:03d}"
@@ -267,15 +277,19 @@ def main():
             print(f"Error RAG: {e}")
             context = "Error retrieving context."
 
-        chat_result, final_synthesis, t_total, t_debate, tokens_in, tokens_out = create_autogen_debate(
-            topic, context, n_rounds=N_ROUNDS
-        )
+        # Aislada por pregunta (igual que LangGraph): si un debate falla, se
+        # registra y se continúa con el resto en vez de abortar todo el run.
+        try:
+            chat_result, final_synthesis, t_total, t_debate, tokens_in, tokens_out = create_autogen_debate(
+                topic, context, n_rounds=N_ROUNDS
+            )
+            guardar_resultado(
+                q_id, topic, context, chat_result,
+                final_synthesis, t_total, tokens_in, tokens_out, resultados_dir
+            )
+        except Exception as e:
+            print(f"Error en debate {q_id}: {e}")
 
-        guardar_resultado(
-            q_id, topic, context, chat_result,
-            final_synthesis, t_total, tokens_in, tokens_out, resultados_dir
-        )
-        
         time.sleep(1)
 
 if __name__ == "__main__":

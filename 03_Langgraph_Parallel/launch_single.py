@@ -16,6 +16,7 @@ import argparse
 from langchain_core.messages import HumanMessage
 from ollama_client import call_ollama
 from qdrant_rag import recuperar_contexto
+from dataset_questions import iter_questions, source_files
 
 # --- Configuración del Logger ---
 logging.basicConfig(
@@ -42,15 +43,8 @@ def slugify(value):
     value = re.sub(r'[^\w\s-]', '', value).strip().lower()
     return re.sub(r'[-\s]+', '_', value)[:60]
 
-def iter_questions(txt_path: Path):
-    with txt_path.open("r", encoding="utf-8", errors="ignore") as f:
-        for line in f:
-            q = line.strip()
-            if not q or q.startswith("#"): continue
-            yield q
-
 # --- Función de Guardado ---
-def save_single_results(q_id, question, model_id, result, q_folder, csv_path, context):
+def save_single_results(q_id, question, model_id, result, q_folder, csv_path, context, rep=1):
     try:
         model_json = json.loads(result["content"])
         final_response = model_json.get("response", result["content"])
@@ -78,41 +72,50 @@ def save_single_results(q_id, question, model_id, result, q_folder, csv_path, co
 
     # 3. Procesamiento de las métricas (CSV)
     m = result.get("metrics")
-    
+
+    # Detalle de la llamada (tiempos, num_predict/temperatura reales usados) para
+    # diagnóstico posterior, igual que en el modo debate.
+    metrics_path = q_folder / f"metrics_{q_id:03d}.json"
+    with metrics_path.open("w", encoding="utf-8") as f:
+        json.dump([m] if isinstance(m, dict) else [], f, indent=2)
+
     if m and isinstance(m, dict):
         total_s = m.get("tiempo_total_s", 0)
         load_s = m.get("tiempo_carga_s", 0)
         prompt_s = m.get("tiempo_prompt_eval_s", 0)
         gen_s = m.get("tiempo_generacion_s", 0)
+        overhead_s = m.get("tiempo_overhead_s", 0)
         t_in = m.get("tokens_prompt", 0)
         t_out = m.get("tokens_generacion", 0)
         avg_tps = m.get("tps", 0)
     else:
-        total_s = load_s = prompt_s = gen_s = t_in = t_out = avg_tps = 0
+        total_s = load_s = prompt_s = gen_s = overhead_s = t_in = t_out = avg_tps = 0
 
     # 4. Escribir en el CSV
     file_exists = csv_path.exists()
     with open(csv_path, "a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        
+
         if not file_exists:
             writer.writerow([
-                "ID", "Size", "Mode", "Model", "Total_S", "Load_S", "Prompt_S", 
-                "Gen_S", "Tokens_In", "Tokens_Out", "TPS", "Topic"
+                "ID", "Rep", "Size", "Mode", "Model", "Total_S", "Load_S", "Prompt_S",
+                "Gen_S", "Overhead_S", "Tokens_In", "Tokens_Out", "TPS", "Topic"
             ])
-        
+
         writer.writerow([
-            q_id, 
+            q_id,
+            rep,
             os.environ.get("SIZE", "unknown"),
             "single",
             model_id,
-            f"{total_s:.3f}", 
-            f"{load_s:.3f}", 
-            f"{prompt_s:.3f}", 
+            f"{total_s:.3f}",
+            f"{load_s:.3f}",
+            f"{prompt_s:.3f}",
             f"{gen_s:.3f}",
+            f"{overhead_s:.3f}",
             t_in,
             t_out,
-            f"{avg_tps:.2f}", 
+            f"{avg_tps:.2f}",
             question[:100]
         ])
 
@@ -123,6 +126,7 @@ def main():
     parser.add_argument("--size", required=True, choices=["2B", "8B", "70B"], help="Tamaño del modelo a evaluar")
     parser.add_argument("--limit", type=int, default=None, help="Número máximo de preguntas a procesar")
     parser.add_argument("--start", type=int, default=1, help="Número de pregunta por la que empezar")
+    parser.add_argument("--rep", type=int, default=1, help="Número de repetición del experimento (crea data/.../repN/)")
 
     args = parser.parse_args()
 
@@ -131,16 +135,16 @@ def main():
     os.environ["MODE"] = "single"  # Fuerza modo single
 
     model_id = SINGLE_MODELS[args.size]
-    
-    # Creación de carpetas (Ej: data/70B/individual/)
+
+    # Creación de carpetas (Ej: data/70B/individual/rep1/), una por repetición
     base_dir = Path(args.output).resolve()
-    out_dir = base_dir / args.size / "individual"
+    out_dir = base_dir / args.size / "individual" / f"rep{args.rep}"
     out_dir.mkdir(parents=True, exist_ok=True)
     
     csv_path = out_dir / "experiment_metrics.csv"
     input_path = Path(args.input)
-    txt_files = sorted(input_path.glob("*.txt"))
-    
+    txt_files = source_files(input_path)
+
     total_q = 0
 
     for txt in txt_files:
@@ -151,7 +155,7 @@ def main():
             if total_q < args.start:
                 continue
 
-            if args.limit and total_q >= args.limit:
+            if args.limit and total_q > args.limit:
                 logging.info(f"🛑 Límite de {args.limit} preguntas alcanzado. Deteniendo...")
                 return
 
@@ -167,14 +171,15 @@ def main():
                 
                 # 2. Generar el Prompt
                 prompt = f"""You are a highly skilled Senior SATCOM Engineer. Answer the following technical question based on the provided context.
-                
+
                 Context: {context}
-                
+
                 Question: {question}
-                
+
                 Requirements:
                 - Be technically precise.
-                - Use metrics and specific standards if available.
+                - Use metrics and specific standards ONLY if they are explicitly present in the Context.
+                - DO NOT invent or fabricate any metric, number, or system fact that is not stated in the Context. If the Context lacks data, explicitly state so, and rely strictly on universal physics principles to deduce the answer.
                 - Provide a direct answer without conversational filler.
                 - Return ONLY VALID JSON. Do not write anything outside the JSON structure.
                 
@@ -190,7 +195,7 @@ def main():
                 
                 if result and result.get("content"):
                     # 4. Guardar resultados
-                    save_single_results(total_q, question, model_id, result, q_folder, csv_path, context)
+                    save_single_results(total_q, question, model_id, result, q_folder, csv_path, context, rep=args.rep)
                     logging.info("   ✅ Respuesta guardada con éxito.")
                 else:
                     logging.error(f"   ❌ Error: No se obtuvo respuesta del modelo para q{total_q}")

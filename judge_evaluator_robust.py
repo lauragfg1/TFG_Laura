@@ -17,7 +17,6 @@ JUDGE_MODEL = "gpt-oss:120b"
 TEMPERATURE = 0.1
 NUM_PREDICT = 1536
 NUM_CTX = 8192
-CONSISTENCY_THRESHOLD = 1.5
 
 
 CALIBRATION = """
@@ -41,17 +40,31 @@ def extract_json(text: str):
     return None
 
 
-def severity_rank(level: str) -> int:
-    levels = {"Low": 0, "Medium": 1, "High": 2}
-    return levels.get(str(level).strip().title(), 0)
+# Las 4 secciones de datos que ve el juez, en el orden que se le pida.
+# "question"/"context"/"response" son las únicas claves válidas en `order`.
+SECTION_TEMPLATES = {
+    "question": "# ORIGINAL QUESTION:\n{topic}",
+    "context": "# REFERENCE CONTEXT (extracted from technical SATCOM documentation):\n{reference_context}",
+    "response": "# CONSENSUS RESPONSE TO EVALUATE:\n{consensus_response}",
+}
+
+# Las 4 configuraciones de orden exploradas para responder al comentario del
+# tutor ("no tengo claro que el orden invertido sea adecuado, explora otras
+# posibilidades"). A y B son las que ya existían (normal/invertido); C y D son
+# nuevas. Ver judge_order_study.py para la comparación empírica entre las 4.
+ORDER_VARIANTS = {
+    "A_qcr": ("question", "context", "response"),   # normal (el que había antes)
+    "B_rcq": ("response", "context", "question"),   # invertido (el que había antes)
+    "C_cqr": ("context", "question", "response"),   # contexto primero, como referencia
+    "D_qrc": ("question", "response", "context"),   # contexto al final, como comprobación
+}
 
 
-def severity_label(rank: int) -> str:
-    labels = {0: "Low", 1: "Medium", 2: "High"}
-    return labels.get(rank, "Low")
+def build_prompt(topic: str, consensus_response: str, reference_context: str,
+                  order=ORDER_VARIANTS["A_qcr"]) -> str:
+    values = {"topic": topic, "reference_context": reference_context, "consensus_response": consensus_response}
+    sections = "\n\n".join(SECTION_TEMPLATES[key].format(**values) for key in order)
 
-
-def build_prompt(topic: str, consensus_response: str, reference_context: str, inverted: bool = False) -> str:
     rubric = """
 # EVALUATION RUBRIC:
 Score each criterion from 0.0 to 10.0. Be strict and precise.
@@ -87,37 +100,12 @@ RESPOND ONLY WITH THIS EXACT JSON, NO OTHER TEXT:
 }
 """.strip()
 
-    if inverted:
-        body = f"""
+    body = f"""
 You are a Senior SATCOM Systems Engineer acting as a Technical Auditor with 20 years of experience in Ka-band link budgets, antenna design and satellite orbital mechanics.
 
 {CALIBRATION}
 
-# CONSENSUS RESPONSE TO EVALUATE:
-{consensus_response}
-
-# REFERENCE CONTEXT (extracted from technical SATCOM documentation):
-{reference_context}
-
-# ORIGINAL QUESTION:
-{topic}
-
-{rubric}
-"""
-    else:
-        body = f"""
-You are a Senior SATCOM Systems Engineer acting as a Technical Auditor with 20 years of experience in Ka-band link budgets, antenna design and satellite orbital mechanics.
-
-{CALIBRATION}
-
-# ORIGINAL QUESTION:
-{topic}
-
-# REFERENCE CONTEXT (extracted from technical SATCOM documentation):
-{reference_context}
-
-# CONSENSUS RESPONSE TO EVALUATE:
-{consensus_response}
+{sections}
 
 {rubric}
 """
@@ -125,36 +113,14 @@ You are a Senior SATCOM Systems Engineer acting as a Technical Auditor with 20 y
     return body.strip()
 
 
-def build_fallback_prompt(topic: str, consensus_response: str, reference_context: str, inverted: bool = False) -> str:
-    if inverted:
-        return f"""
-You are a Senior SATCOM Systems Engineer.
-
-# CONSENSUS RESPONSE TO EVALUATE:
-{consensus_response}
-
-# REFERENCE CONTEXT:
-{reference_context}
-
-# ORIGINAL QUESTION:
-{topic}
-
-Return only valid JSON with these keys:
-technical_accuracy, context_adherence, decision_capability, hallucination_level, base_score, final_score, justification.
-Keep justification under 80 words.
-""".strip()
-
+def build_fallback_prompt(topic: str, consensus_response: str, reference_context: str,
+                           order=ORDER_VARIANTS["A_qcr"]) -> str:
+    values = {"topic": topic, "reference_context": reference_context, "consensus_response": consensus_response}
+    sections = "\n\n".join(SECTION_TEMPLATES[key].format(**values) for key in order)
     return f"""
 You are a Senior SATCOM Systems Engineer.
 
-# ORIGINAL QUESTION:
-{topic}
-
-# REFERENCE CONTEXT:
-{reference_context}
-
-# CONSENSUS RESPONSE TO EVALUATE:
-{consensus_response}
+{sections}
 
 Return only valid JSON with these keys:
 technical_accuracy, context_adherence, decision_capability, hallucination_level, base_score, final_score, justification.
@@ -207,8 +173,8 @@ def normalized_result(raw_data):
     return result
 
 
-def evaluate_once(topic: str, consensus_response: str, reference_context: str, inverted: bool = False):
-    prompt = build_prompt(topic, consensus_response, reference_context, inverted=inverted)
+def evaluate_once(topic: str, consensus_response: str, reference_context: str, order=ORDER_VARIANTS["A_qcr"]):
+    prompt = build_prompt(topic, consensus_response, reference_context, order=order)
 
     payload = {
         "model": JUDGE_MODEL,
@@ -238,10 +204,10 @@ def evaluate_once(topic: str, consensus_response: str, reference_context: str, i
             snippet = candidate_text.replace("\n", " ").strip()
             if len(snippet) > 500:
                 snippet = snippet[:500] + "..."
-            print(f"⚠️ Non-JSON judge output ({'inverted' if inverted else 'normal'}): {snippet}")
+            print(f"⚠️ Non-JSON judge output ({order}): {snippet}")
             fallback_payload = {
                 "model": JUDGE_MODEL,
-                "messages": [{"role": "user", "content": build_fallback_prompt(topic, consensus_response, reference_context, inverted=inverted)}],
+                "messages": [{"role": "user", "content": build_fallback_prompt(topic, consensus_response, reference_context, order=order)}],
                 "stream": False,
                 "options": {
                     "temperature": TEMPERATURE,
@@ -264,7 +230,7 @@ def evaluate_once(topic: str, consensus_response: str, reference_context: str, i
                 fallback_snippet = fallback_candidate_text.replace("\n", " ").strip()
                 if len(fallback_snippet) > 500:
                     fallback_snippet = fallback_snippet[:500] + "..."
-                print(f"⚠️ Fallback judge output ({'inverted' if inverted else 'normal'}): {fallback_snippet}")
+                print(f"⚠️ Fallback judge output ({order}): {fallback_snippet}")
             return normalized_result(fallback_parsed)
 
         return normalized_result(parsed)
@@ -273,36 +239,44 @@ def evaluate_once(topic: str, consensus_response: str, reference_context: str, i
         return None
 
 
-def merge_hallucination(level_a: str, level_b: str) -> str:
-    return severity_label(max(severity_rank(level_a), severity_rank(level_b)))
-
-
 def evaluate_with_consistency_check(topic: str, consensus_response: str, reference_context: str):
-    score1 = evaluate_once(topic, consensus_response, reference_context, inverted=False)
-    if not score1:
+    """Evalúa con una sola pasada usando C_cqr (Contexto→Pregunta→Respuesta).
+
+    Antes se promediaban 2 pasadas (A_qcr + B_rcq, "normal" e "invertida") y se
+    marcaba `reliable` si la diferencia entre ambas era pequeña. El estudio de
+    las 4 variantes de orden (judge_order_study.py) se hizo dos veces:
+
+    - n=45 (contexto pre-fix del RAG, casi puramente narrativo): C_cqr fue la
+      más estable de las 4 (desviación media 0.48 vs 0.65-0.73 del resto),
+      con diferencia significativa frente a B_rcq (t=2.47) y también frente a
+      A_qcr (t=1.89, al límite de significancia).
+    - n=90, repetido tras el fix del RAG (contexto ya representativo, con
+      datos estructurados garantizados): C_cqr sigue siendo significativamente
+      más estable que B_rcq (t=2.29), pero la diferencia frente a A_qcr ya no
+      es significativa (t=-0.45; A_qcr incluso queda ligeramente por delante
+      en el punto estimado, 0.528 vs 0.558).
+
+    Conclusión honesta con los datos disponibles: el orden invertido (B_rcq)
+    es sistemáticamente el peor y se descarta con confianza. Entre A_qcr y
+    C_cqr los datos no distinguen un ganador claro; se mantiene C_cqr por no
+    ser nunca peor que A_qcr y por consistencia con el criterio de diseño
+    (evitar enterrar el contexto de referencia en medio del prompt, ver
+    Liu et al. 2023 "Lost in the Middle"), no porque el estudio demuestre su
+    superioridad sobre el orden normal. Ver judge_order_study_results.csv.
+
+    Se evalúa con una sola pasada (no dos) porque promediar con B_rcq no
+    aportaba fiabilidad, solo el doble de coste — con 1.350 evaluaciones en
+    la campaña completa, eso son ~30h de diferencia. Se mantienen los campos
+    `consistency_delta`/`reliable` en la salida por compatibilidad con
+    generar_resumen_stats.py/stats_comparativa.py, aunque ya no hay una
+    segunda pasada con la que comparar.
+    """
+    result = evaluate_once(topic, consensus_response, reference_context, order=ORDER_VARIANTS["C_cqr"])
+    if not result:
         return None
-
-    time.sleep(2)
-
-    score2 = evaluate_once(topic, consensus_response, reference_context, inverted=True)
-    if not score2:
-        score1["consistency_delta"] = None
-        score1["reliable"] = False
-        return score1
-
-    diff = abs(float(score1["final_score"]) - float(score2["final_score"]))
-    avg_score = round((float(score1["final_score"]) + float(score2["final_score"])) / 2.0, 1)
-
-    merged = dict(score1)
-    merged["technical_accuracy"] = round((score1["technical_accuracy"] + score2["technical_accuracy"]) / 2.0, 1)
-    merged["context_adherence"] = round((score1["context_adherence"] + score2["context_adherence"]) / 2.0, 1)
-    merged["decision_capability"] = round((score1["decision_capability"] + score2["decision_capability"]) / 2.0, 1)
-    merged["base_score"] = round((score1["base_score"] + score2["base_score"]) / 2.0, 1)
-    merged["hallucination_level"] = merge_hallucination(score1.get("hallucination_level"), score2.get("hallucination_level"))
-    merged["final_score"] = avg_score
-    merged["consistency_delta"] = round(diff, 1)
-    merged["reliable"] = diff <= CONSISTENCY_THRESHOLD
-    return merged
+    result["consistency_delta"] = None
+    result["reliable"] = True
+    return result
 
 
 def find_decision_files(q_folder: Path):

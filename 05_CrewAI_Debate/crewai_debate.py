@@ -27,6 +27,8 @@ sys.path.append(os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..', '03_Langgraph_Parallel')
 ))
 from qdrant_rag import recuperar_contexto
+from dataset_questions import load_all_questions
+from llm_config import NUM_PREDICT, TEMPERATURE, STOP_SEQUENCES
 
 from crewai import Agent, Task, Crew, Process
 from langchain_openai import ChatOpenAI
@@ -42,12 +44,19 @@ N_ROUNDS = 5
 
 
 def make_llm(model: str) -> ChatOpenAI:
-    """Crea un cliente LLM apuntando al servidor Ollama local."""
+    """Crea un cliente LLM apuntando al servidor Ollama local.
+
+    Usa la misma temperatura/max_tokens/stop que LangGraph y AutoGen
+    (llm_config.py), para que el mismo modelo no se compare bajo un muestreo
+    distinto según el framework.
+    """
     return ChatOpenAI(
         model=model,
         base_url=BASE_URL,
         api_key="NotRequired",
-        temperature=0.7
+        temperature=TEMPERATURE,
+        max_tokens=NUM_PREDICT,
+        stop=STOP_SEQUENCES,
     )
 
 
@@ -62,6 +71,7 @@ def crear_agentes(topic: str, context: str):
         backstory=(
             f"You moderate a technical debate on: {topic}.\n"
             "Drive discussion, prevent repetition, push for deeper understanding. "
+            "Maintain technical precision and neutral tone. "
             "Max 100 words per intervention."
         ),
         verbose=False,
@@ -360,35 +370,37 @@ def main():
     """
     Ejecuta los 50 debates del dataset en orden secuencial.
 
-    Las preguntas se leen de index.txt, que es la concatenación de todos los
-    archivos _salida.txt del dataset en orden alfabético — el mismo orden en
-    que LangGraph los lee al iterar el directorio con sorted(glob('*.txt')).
-    Los tres frameworks procesan las mismas 50 preguntas en el mismo orden.
+    Las preguntas se cargan con dataset_questions.load_all_questions(), la misma
+    fuente que usan LangGraph y AutoGen, así que los tres frameworks procesan
+    exactamente las mismas 50 preguntas en el mismo orden.
 
-    Resultados guardados en: 05_CrewAI_Debate/Resultados/
+    Resultados guardados en: 05_CrewAI_Debate/Resultados/repN/ (--rep, default 1)
       - q001/ ... q050/  → TXT + JSON por debate
-      - metricas_crewai.csv → métricas agregadas
+      - metricas_crewai.csv → métricas agregadas de esa repetición
     """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--start", type=int, default=1,
+                        help="Número de pregunta desde la que empezar (1-indexed, default=1)")
+    parser.add_argument("--rep", type=int, default=1,
+                        help="Número de repetición del experimento (crea Resultados/repN/)")
+    args = parser.parse_args()
+    start_idx = max(0, args.start - 1)  # convertir a 0-indexed
+
+    # Una carpeta por repetición, para no sobrescribir las anteriores
     resultados_dir = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), 'Resultados')
+        os.path.join(os.path.dirname(__file__), 'Resultados', f'rep{args.rep}')
     )
     dataset_dir = os.path.abspath(
         os.path.join(os.path.dirname(__file__), '..', 'Dataset_Preguntas')
     )
     os.makedirs(resultados_dir, exist_ok=True)
 
-    # index.txt contiene todas las preguntas del dataset, una por línea
-    index_path = os.path.join(dataset_dir, 'index.txt')
-    with open(index_path, 'r', encoding='utf-8') as f:
-        preguntas = [l.strip() for l in f if l.strip()]
+    # Misma fuente que LangGraph (dataset_questions.py): recorre los .txt del
+    # dataset directamente en vez de depender de index.txt, para garantizar por
+    # código las mismas 50 preguntas en el mismo orden en los tres frameworks.
+    preguntas = load_all_questions(dataset_dir)
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--start", type=int, default=1,
-                        help="Número de pregunta desde la que empezar (1-indexed, default=1)")
-    args = parser.parse_args()
-    start_idx = max(0, args.start - 1)  # convertir a 0-indexed
-
-    print(f"Cargadas {len(preguntas)} preguntas. Ejecutando desde q{args.start:03d} hasta q050...")
+    print(f"Cargadas {len(preguntas)} preguntas. Repetición {args.rep}. Ejecutando desde q{args.start:03d} hasta q050...")
 
     for idx, topic in enumerate(preguntas[start_idx:50], start=start_idx):
         q_id = f"q{idx+1:03d}"
@@ -401,14 +413,18 @@ def main():
             print(f"Error RAG: {e}")
             context = "Error retrieving context."
 
-        resultado, historial, t_total, tokens_in, tokens_out = lanzar_debate(
-            topic, context, n_rounds=N_ROUNDS
-        )
-
-        guardar_resultado(
-            q_id, topic, context, historial,
-            resultado, t_total, tokens_in, tokens_out, resultados_dir
-        )
+        # Aislada por pregunta (igual que LangGraph): si un debate falla, se
+        # registra y se continúa con el resto en vez de abortar todo el run.
+        try:
+            resultado, historial, t_total, tokens_in, tokens_out = lanzar_debate(
+                topic, context, n_rounds=N_ROUNDS
+            )
+            guardar_resultado(
+                q_id, topic, context, historial,
+                resultado, t_total, tokens_in, tokens_out, resultados_dir
+            )
+        except Exception as e:
+            print(f"Error en debate {q_id}: {e}")
 
         # Pausa entre debates para no saturar la GPU
         time.sleep(1)
