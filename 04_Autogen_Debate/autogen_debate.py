@@ -17,18 +17,32 @@ from llm_config import NUM_PREDICT, TEMPERATURE, STOP_SEQUENCES
 BASE_URL = "http://localhost:11434/v1"
 N_ROUNDS = 5  # Ciclos argumentativos DLB+PNM equivalentes a LangGraph
 
+# Misma asignacion de modelos por tamaño que LangGraph (nodes.py::get_models,
+# modo heterogeneo) para que la comparacion entre frameworks sea comparable.
+MODELS = {
+    "8B": {"mod": "llama3.1:8b", "dlb": "qwen2.5:7b", "pnm": "mistral:7b"},
+    "2B": {"mod": "gemma2:2b", "dlb": "qwen2.5:1.5b", "pnm": "deepseek-r1:1.5b"},
+}
+SIZE = "8B"  # sobrescrito por --size en main()
+
 def make_llm_config(model: str) -> dict:
     # Misma temperatura/num_predict/stop que LangGraph (llm_config.py), para que
     # el mismo modelo no se compare bajo un muestreo distinto según el framework.
+    #
+    # "stop" no es un campo valido de nivel superior en la version instalada de
+    # pyautogen (0.9.7): _LLMConfig usa extra="forbid" y no lo modela, así que
+    # pasarlo ahí revienta con "Extra inputs are not permitted". Va dentro del
+    # config_list, como extra_body, que sí es un campo reconocido de
+    # OpenAILLMConfigEntry y se reenvía tal cual al cuerpo de la petición HTTP.
     return {
         "config_list": [{
             "model": model,
             "api_key": "NotRequired",
-            "base_url": BASE_URL
+            "base_url": BASE_URL,
+            "extra_body": {"stop": STOP_SEQUENCES},
         }],
         "temperature": TEMPERATURE,
         "max_tokens": NUM_PREDICT,
-        "stop": STOP_SEQUENCES,
         "cache_seed": None
     }
 
@@ -64,7 +78,7 @@ def create_autogen_debate(topic: str, context: str, n_rounds: int = N_ROUNDS):
             "- Maintain technical precision and neutral tone.\n"
             "Max 100 words per intervention."
         ),
-        llm_config=make_llm_config("llama3.1:8b"),
+        llm_config=make_llm_config(MODELS[SIZE]["mod"]),
     )
 
     dlb_expert = autogen.AssistantAgent(
@@ -81,7 +95,7 @@ def create_autogen_debate(topic: str, context: str, n_rounds: int = N_ROUNDS):
             "6. Provide a NEW insight each round. Never repeat yourself.\n"
             "Max 100 words."
         ),
-        llm_config=make_llm_config("qwen2.5:7b"),
+        llm_config=make_llm_config(MODELS[SIZE]["dlb"]),
     )
 
     pnm_expert = autogen.AssistantAgent(
@@ -97,7 +111,7 @@ def create_autogen_debate(topic: str, context: str, n_rounds: int = N_ROUNDS):
             "5. Provide a NEW insight each round. Never repeat yourself.\n"
             "Max 100 words."
         ),
-        llm_config=make_llm_config("mistral:7b"),
+        llm_config=make_llm_config(MODELS[SIZE]["pnm"]),
     )
 
     judge = autogen.AssistantAgent(
@@ -114,7 +128,7 @@ def create_autogen_debate(topic: str, context: str, n_rounds: int = N_ROUNDS):
             "4. \"reference_context\": WRITE A NEW 60-WORD SUMMARY of the factual ground-truth extracted from the reference context provided. Do NOT copy the expert's chat history.\n\n"
             "Respond ONLY with the JSON dictionary. Do not include any formatting like ```json or introductory text."
         ),
-        llm_config=make_llm_config("llama3.1:8b"),
+        llm_config=make_llm_config(MODELS[SIZE]["mod"]),
     )
 
     # Canal: Moderador + 2 expertos, sin juez
@@ -166,7 +180,26 @@ def create_autogen_debate(topic: str, context: str, n_rounds: int = N_ROUNDS):
     final_synthesis = judge.generate_reply(
         messages=[{"role": "user", "content": judge_msg}]
     )
-    
+
+    # El juez (llama3.1:8b) a veces ignora el esquema pedido en su system_message
+    # y devuelve JSON valido pero con otra forma (p.ej. una lista de preguntas/
+    # respuestas tipo FAQ en vez de topic/winner/consensus_response). Eso pasaba
+    # en silencio: extract_json() lo aceptaba igual, y esas ~39/150 respuestas
+    # quedaban inutilizables para el juez de evaluacion sin ningun aviso.
+    # Un reintento con un mensaje mas estricto (recordando el esquema exacto)
+    # es suficiente en la practica para corregir la mayoria de estos casos.
+    if not _is_valid_decision_json(extract_json(final_synthesis)):
+        retry_msg = (
+            f"{judge_msg}\n\n"
+            "Your previous answer did not follow the required format. "
+            "Respond ONLY with a JSON object with EXACTLY these 4 keys: "
+            "\"topic\", \"winner\" (\"DLB\" or \"PNM\"), \"consensus_response\", "
+            "\"reference_context\". No other keys, no nested lists, no extra text."
+        )
+        final_synthesis = judge.generate_reply(
+            messages=[{"role": "user", "content": retry_msg}]
+        )
+
     t_judge = time.perf_counter() - t_judge_start
     t_total = t_debate + t_judge
 
@@ -190,6 +223,16 @@ def extract_json(text: str):
     except Exception:
         pass
     return None
+
+
+def _is_valid_decision_json(data) -> bool:
+    """Comprueba que el JSON del juez tenga el esquema esperado (no solo que
+    sea JSON valido) -- ver el comentario en create_autogen_debate."""
+    if not isinstance(data, dict):
+        return False
+    topic = data.get("topic")
+    consensus = data.get("consensus_response") or data.get("response")
+    return bool(topic) and bool(consensus)
 
 def contar_tokens(text: str) -> int:
     """Aproximación: palabras / 0.75"""
@@ -236,25 +279,36 @@ def guardar_resultado(q_id, topic, context, chat_result,
                 "Tokens_In", "Tokens_Out", "Avg_TPS", "Topic"
             ])
         writer.writerow([
-            base_name, "8B", "heterogeneo", winner,
+            base_name, SIZE, "heterogeneo", winner,
             round(t_total, 3), 0.0, 0.0, 0.0,
             tokens_in, tokens_out,
             round(avg_tps, 2), topic
         ])
 
 def main():
+    global SIZE
     parser = argparse.ArgumentParser()
     parser.add_argument("--start", type=int, default=1,
                         help="Número de pregunta desde la que empezar (1-indexed, default=1)")
     parser.add_argument("--rep", type=int, default=1,
                         help="Número de repetición del experimento (crea Resultados/repN/)")
+    parser.add_argument("--size", choices=list(MODELS.keys()), default="8B",
+                        help="Tamaño de los modelos (misma asignación que LangGraph)")
     args = parser.parse_args()
     start_idx = max(0, args.start - 1)
+    SIZE = args.size
 
-    # Una carpeta por repetición, para no sobrescribir las anteriores
-    resultados_dir = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), 'Resultados', f'rep{args.rep}')
-    )
+    # Una carpeta por repetición, para no sobrescribir las anteriores.
+    # 8B mantiene la ruta original (Resultados/repN/) por compatibilidad con
+    # los datos ya evaluados; otros tamaños van en su propia subcarpeta.
+    if args.size == "8B":
+        resultados_dir = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), 'Resultados', f'rep{args.rep}')
+        )
+    else:
+        resultados_dir = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), 'Resultados', args.size, f'rep{args.rep}')
+        )
     dataset_dir = os.path.abspath(
         os.path.join(os.path.dirname(__file__), '..', 'Dataset_Preguntas')
     )

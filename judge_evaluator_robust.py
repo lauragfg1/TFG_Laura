@@ -19,10 +19,19 @@ NUM_PREDICT = 1536
 NUM_CTX = 8192
 
 
+# Responses being judged are capped at ~100-150 words (debate turn / single-answer
+# format), so a full formula derivation rarely fits regardless of how technically
+# sound the answer is. The 9-10 tier used to require literally citing the Friis
+# equation and exact dB margins, which was structurally almost unreachable given
+# that length limit -- it was measuring available space, not technical quality.
+# Recalibrated to require correct quantitative reasoning USING whatever figures
+# are available in the context/answer, and correct identification of the
+# underlying mechanism, without demanding full derivations. Applies identically
+# to every framework/model size -- not tuned toward any particular outcome.
 CALIBRATION = """
 # CALIBRATION EXAMPLES:
-- Score 9-10: Response correctly applies Friis equation, cites specific dB margins from context, explains grating lobe suppression mechanism with array factor formula.
-- Score 6-8: Correct general principles but missing specific quantitative analysis or partially ignores context.
+- Score 9-10: Technically precise and quantitatively grounded within the space available -- correctly reasons using specific figures from the context (dB values, gains, thresholds, etc.) when present, correctly identifies the underlying physical/engineering mechanism, and reaches a clear, technically justified conclusion. Full mathematical derivation is not required given the response length constraints.
+- Score 6-8: Correct general principles, mostly consistent with the reference context, with at most minor gaps in quantitative grounding or precision.
 - Score 3-5: Correct qualitative direction but significant gaps in technical depth or one unverified specific claim.
 - Score 0-2: Physically incorrect statements, fabricated metrics or contradicts the reference context directly.
 """.strip()
@@ -286,6 +295,11 @@ def find_decision_files(q_folder: Path):
 def main():
     parser = argparse.ArgumentParser(description="Robust LLM-as-a-Judge evaluator with explicit rubric and consistency check")
     parser.add_argument("target_directory", help="Target directory for evaluation (e.g., ./04_Autogen_Debate/Resultados)")
+    parser.add_argument("--limit", type=int, default=None,
+                         help="Evaluar solo las primeras N preguntas (orden q001, q002...) de este directorio. "
+                              "Util para pilotos/sanity checks antes de lanzar la campana completa: como las ya "
+                              "evaluadas se saltan, correr primero con --limit y despues sin el en el mismo "
+                              "directorio no repite trabajo.")
     args = parser.parse_args()
 
     base_dir = Path(args.target_directory).resolve()
@@ -313,6 +327,8 @@ def main():
             ])
 
         q_folders = sorted([d for d in base_dir.iterdir() if d.is_dir() and d.name.startswith("q")])
+        if args.limit is not None:
+            q_folders = q_folders[:args.limit]
 
         processed_count = 0
         skipped_already_evaluated = 0
