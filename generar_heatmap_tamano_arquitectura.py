@@ -8,7 +8,7 @@ Fuente de datos:
   (Final_Score_mean, filtro Framework=='LangGraph'), la misma fuente que
   usa generar_figuras_tfg.py para el resto de figuras de la memoria.
 - Test t pareado: recalculado aqui mismo directamente desde los CSV
-  originales por debate (03_Langgraph_Parallel/data/<size>/<arch>/repN/
+  originales por debate (01_Langgraph_Debate/data/<size>/<arch>/repN/
   judge_evaluation_results_consistent.csv), filtrando Reliable==True y
   emparejando por Q_ID+repeticion (misma metodologia que Seccion 5.1.3).
   Usa el estado ACTUAL de esos CSV (posterior a los commits 604c163d y
@@ -62,7 +62,7 @@ score_grid = np.array([[means[(s, a)] for a in ARCHS] for s in SIZES])
 def load(size, arch):
     frames = []
     for rep in [1, 2, 3]:
-        path = f'03_Langgraph_Parallel/data/{size}/{arch}/rep{rep}/judge_evaluation_results_consistent.csv'
+        path = f'01_Langgraph_Debate/data/{size}/{arch}/rep{rep}/judge_evaluation_results_consistent.csv'
         df = pd.read_csv(path)
         df = df[df['Reliable'] == True].copy()
         df['key'] = df['Q_ID'].astype(str) + '_rep' + str(rep)

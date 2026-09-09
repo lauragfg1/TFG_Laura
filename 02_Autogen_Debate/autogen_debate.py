@@ -8,7 +8,7 @@ import time
 import argparse
 
 sys.path.append(os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..', '03_Langgraph_Parallel')
+    os.path.join(os.path.dirname(__file__), '..', '01_Langgraph_Debate')
 ))
 from qdrant_rag import recuperar_contexto
 from dataset_questions import load_all_questions

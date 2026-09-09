@@ -24,7 +24,7 @@ import argparse
 
 # Acceso al módulo RAG compartido con LangGraph
 sys.path.append(os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..', '03_Langgraph_Parallel')
+    os.path.join(os.path.dirname(__file__), '..', '01_Langgraph_Debate')
 ))
 from qdrant_rag import recuperar_contexto
 from dataset_questions import load_all_questions
@@ -402,7 +402,7 @@ def main():
     fuente que usan LangGraph y AutoGen, así que los tres frameworks procesan
     exactamente las mismas 50 preguntas en el mismo orden.
 
-    Resultados guardados en: 05_CrewAI_Debate/Resultados/repN/ (--rep, default 1)
+    Resultados guardados en: 03_CrewAI_Debate/Resultados/repN/ (--rep, default 1)
       - q001/ ... q050/  → TXT + JSON por debate
       - metricas_crewai.csv → métricas agregadas de esa repetición
     """

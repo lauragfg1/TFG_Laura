@@ -4,7 +4,7 @@
 ## Ejemplo de pregunta y respuesta de consenso (calidad alta)
 
 **Condición:** LangGraph, modelo 70B, arquitectura heterogeneo — q039 (rep1)
-**Fuente:** `03_Langgraph_Parallel/data/70B/heterogeneo/rep1/q039/`
+**Fuente:** `01_Langgraph_Debate/data/70B/heterogeneo/rep1/q039/`
 
 **Pregunta (topic):**
 > How do MPLS and IPsec VPNs differ in mitigating congestion for real-time QoS in multi-telectric utility backbones?
@@ -27,7 +27,7 @@
 ## Ejemplo de alucinación "Alta" (para la nota de la Tabla 5.2)
 
 **Condición:** LangGraph, modelo 2B, arquitectura homogeneo — q002 (rep1)
-**Fuente:** `03_Langgraph_Parallel/data/2B/homogeneo/rep1/q002/`
+**Fuente:** `01_Langgraph_Debate/data/2B/homogeneo/rep1/q002/`
 
 **Pregunta (topic):**
 > How does the LPF's 25 GHz stopband impact interference mitigation in multi-beam satellite downlink frequency planning?

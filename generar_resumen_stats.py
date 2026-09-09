@@ -143,7 +143,7 @@ def process_condition(framework, modelo, arquitectura, base_dir: Path,
 conditions = []
 
 # LangGraph: 9 condiciones (3 tamanos x 3 arquitecturas), 3 reps cada una
-lg_base = BASE / "03_Langgraph_Parallel" / "data"
+lg_base = BASE / "01_Langgraph_Debate" / "data"
 for size in ["2B", "8B", "70B"]:
     for arch in ["individual", "homogeneo", "heterogeneo"]:
         conditions.append((
@@ -155,19 +155,19 @@ for size in ["2B", "8B", "70B"]:
 # AutoGen: condicion principal 8B heterogeneo, 3 reps
 conditions.append((
     "AutoGen", "8B", "heterogeneo",
-    BASE / "04_Autogen_Debate" / "Resultados",
+    BASE / "02_Autogen_Debate" / "Resultados",
     "metricas_autogen.csv",
 ))
 
 # CrewAI: condicion principal 8B heterogeneo, 3 reps
 conditions.append((
     "CrewAI", "8B", "heterogeneo",
-    BASE / "05_CrewAI_Debate" / "Resultados",
+    BASE / "03_CrewAI_Debate" / "Resultados",
     "metricas_crewai.csv",
 ))
 
 # NOTA: existe un experimento adicional en curso/incompleto
-# (05_CrewAI_Debate/Resultados/2B, 04_Autogen_Debate/Resultados/2B) que
+# (03_CrewAI_Debate/Resultados/2B, 02_Autogen_Debate/Resultados/2B) que
 # compararia AutoGen/CrewAI tambien a escala 2B. No se incluye aqui hasta
 # que este completo y decidido si entra en la memoria (ver run_2B_crewai_autogen.ps1).
 

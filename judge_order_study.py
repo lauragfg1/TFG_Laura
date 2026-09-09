@@ -13,7 +13,7 @@ campaña completa, porque su juicio depende menos de dónde se coloca cada
 bloque de texto y más del contenido real.
 
 No genera debates nuevos: reutiliza los decision_*.json/*_decision.json ya
-guardados bajo 03_Langgraph_Parallel/data/.
+guardados bajo 01_Langgraph_Debate/data/.
 
 Uso:
     python judge_order_study.py
@@ -30,7 +30,7 @@ from pathlib import Path
 from judge_evaluator_robust import ORDER_VARIANTS, evaluate_once
 
 BASE = Path(__file__).resolve().parent
-DATA_DIR = BASE / "03_Langgraph_Parallel" / "data"
+DATA_DIR = BASE / "01_Langgraph_Debate" / "data"
 OUTPUT = BASE / "judge_order_study_results.csv"
 
 # N casos por condición (tamaño x modo). 10 = todos los generados en el lote

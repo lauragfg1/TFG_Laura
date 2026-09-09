@@ -294,7 +294,7 @@ def find_decision_files(q_folder: Path):
 
 def main():
     parser = argparse.ArgumentParser(description="Robust LLM-as-a-Judge evaluator with explicit rubric and consistency check")
-    parser.add_argument("target_directory", help="Target directory for evaluation (e.g., ./04_Autogen_Debate/Resultados)")
+    parser.add_argument("target_directory", help="Target directory for evaluation (e.g., ./02_Autogen_Debate/Resultados)")
     parser.add_argument("--limit", type=int, default=None,
                          help="Evaluar solo las primeras N preguntas (orden q001, q002...) de este directorio. "
                               "Util para pilotos/sanity checks antes de lanzar la campana completa: como las ya "

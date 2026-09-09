@@ -7,7 +7,7 @@ Extrae del corpus de resultados ya generado:
      juez), para la nota que pide el tutor en la Tabla 5.2.
 
 No repite ninguna evaluacion: solo lee los decision_*.json y
-evaluation_consistent_*.json que ya existen en 03_Langgraph_Parallel/data/.
+evaluation_consistent_*.json que ya existen en 01_Langgraph_Debate/data/.
 
 Uso:
     python extraer_ejemplos_memoria.py
@@ -19,7 +19,7 @@ import json
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
-DATA_DIR = BASE / "03_Langgraph_Parallel" / "data"
+DATA_DIR = BASE / "01_Langgraph_Debate" / "data"
 OUTPUT = BASE / "ejemplos_memoria.md"
 
 REPS = (1, 2, 3)
@@ -96,7 +96,7 @@ def buscar_ejemplo_alucinacion_alta():
 
 def fmt_ejemplo_calidad(ej):
     d, e = ej["decision"], ej["evaluacion"]
-    ruta = f"03_Langgraph_Parallel/data/{ej['size']}/{ej['arch']}/rep{ej['rep']}/{ej['q_dir']}/"
+    ruta = f"01_Langgraph_Debate/data/{ej['size']}/{ej['arch']}/rep{ej['rep']}/{ej['q_dir']}/"
     return f"""## Ejemplo de pregunta y respuesta de consenso (calidad alta)
 
 **Condición:** LangGraph, modelo {ej['size']}, arquitectura {ej['arch']} — {ej['q_dir']} (rep{ej['rep']})
@@ -123,7 +123,7 @@ def fmt_ejemplo_calidad(ej):
 
 def fmt_ejemplo_alucinacion(ej):
     d, e = ej["decision"], ej["evaluacion"]
-    ruta = f"03_Langgraph_Parallel/data/{ej['size']}/{ej['arch']}/rep{ej['rep']}/{ej['q_dir']}/"
+    ruta = f"01_Langgraph_Debate/data/{ej['size']}/{ej['arch']}/rep{ej['rep']}/{ej['q_dir']}/"
     return f"""## Ejemplo de alucinación "Alta" (para la nota de la Tabla 5.2)
 
 **Condición:** LangGraph, modelo {ej['size']}, arquitectura {ej['arch']} — {ej['q_dir']} (rep{ej['rep']})

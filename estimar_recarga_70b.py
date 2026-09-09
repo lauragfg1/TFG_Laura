@@ -4,7 +4,7 @@ en VRAM, y que tiempo hipotetico se habria tenido si los 3 modelos (el
 moderador/sintetizador y los dos expertos, cada uno de una familia
 distinta) hubieran cabido a la vez en memoria.
 
-Contexto (ver 03_Langgraph_Parallel/ollama_client.py y nodes.py): en la
+Contexto (ver 01_Langgraph_Debate/ollama_client.py y nodes.py): en la
 condicion heterogenea el cliente usa keep_alive=0 porque los 3 modelos de
 70B no caben simultaneamente en los 72 GB de VRAM disponibles, asi que cada
 llamada expulsa el modelo anterior y recarga el que toca. Cada llamada deja
@@ -34,7 +34,7 @@ import statistics
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
-COND_DIR = BASE / "03_Langgraph_Parallel" / "data" / "70B" / "heterogeneo"
+COND_DIR = BASE / "01_Langgraph_Debate" / "data" / "70B" / "heterogeneo"
 RESUMEN_CSV = BASE / "resumen_metricas_todas_condiciones.csv"
 OUTPUT = BASE / "estimacion_recarga_70b_heterogeneo.csv"
 REPS = (1, 2, 3)
