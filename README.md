@@ -22,7 +22,9 @@ Este repositorio contiene el código completo usado para generar los resultados 
 Dataset_Preguntas/      50 preguntas técnicas SATCOM (una por documento fuente), usadas por
                         igual en los tres frameworks.
 Jabega_documents/       Corpus documental (artículos científicos SATCOM) que se indexa en Qdrant.
-qdrantDB/               Binario e instancia local de Qdrant (base de datos vectorial).
+qdrantDB/               Directorio de trabajo de la instancia local de Qdrant. El binario, el
+                        dashboard web y el estado de la base de datos NO se versionan (ver
+                        "Configurar Qdrant" más abajo); se generan/descargan en el primer arranque.
 figuras_tfg/            Figuras generadas para la memoria (PNG, 300 dpi).
 rag_indexer.py          Indexa Jabega_documents/ en Qdrant (colección documents_satcom_uma).
 generar_resumen_stats.py   Agrega las repeticiones de cada condición en un único CSV resumen.
@@ -39,7 +41,7 @@ estimar_recarga_70b.py    Estima el tiempo de recarga de modelos en VRAM para la
 
 - Python 3.10 (probado también con 3.9 en el venv de CrewAI).
 - [Ollama](https://ollama.com) corriendo en local (`http://localhost:11434`).
-- Un servidor Qdrant local en `http://localhost:6333` (el binario está en `qdrantDB/qdrant.exe`, o usar Docker).
+- Un servidor Qdrant 1.17.x local en `http://localhost:6333` — ver "Configurar Qdrant" abajo, no se distribuye en este repositorio.
 - GPU(s) con VRAM suficiente para los modelos que se quieran ejecutar. Los experimentos completos de la memoria se hicieron en un servidor con 3× GPU (72 GB VRAM total) — ver Sección 3.1 de la memoria.
 
 ### Modelos de Ollama necesarios
@@ -80,6 +82,55 @@ python -m venv 03_CrewAI_Debate/venv
 03_CrewAI_Debate/venv/Scripts/pip install -r 03_CrewAI_Debate/requirements.txt
 ```
 
+## Configurar Qdrant
+
+El binario de Qdrant, su dashboard web y el estado de la base de datos vectorial **no se
+distribuyen en este repositorio** (son binarios/artefactos de terceros y estado regenerable,
+no código del TFG — ver `.gitignore`). `qdrantDB/` es solo el directorio de trabajo donde se
+instala y persiste la instancia local; el contenido se reconstruye siguiendo estos pasos.
+
+Los experimentos de la memoria se hicieron con **Qdrant 1.17.0**. Se recomienda esa misma
+versión para reproducibilidad exacta, aunque cualquier `1.17.x` debería ser compatible con
+`qdrant-client>=1.16.1` del `requirements.txt`.
+
+### Opción A — Docker (recomendada, multiplataforma)
+
+```bash
+docker run -d --name qdrant-tfg \
+  -p 6333:6333 -p 6334:6334 \
+  -v "$(pwd)/qdrantDB/storage:/qdrant/storage" \
+  qdrant/qdrant:v1.17.0
+```
+
+- `-p 6333:6333` expone la API HTTP/REST que usan todos los scripts (`http://localhost:6333`).
+- `-v .../qdrantDB/storage:...` persiste la base de datos en el propio repo (ya excluido de git),
+  para no perder el índice al reiniciar el contenedor.
+- Para arrancarlo de nuevo en sesiones futuras: `docker start qdrant-tfg`.
+
+### Opción B — Binario nativo (Windows, sin Docker)
+
+1. Descargar el release `v1.17.0` para Windows desde las
+   [releases oficiales de Qdrant](https://github.com/qdrant/qdrant/releases/tag/v1.17.0)
+   (`qdrant-x86_64-pc-windows-msvc.zip`).
+2. Extraer `qdrant.exe` dentro de `qdrantDB/` (la carpeta ya existe en el repo — ver
+   `qdrantDB/README.md` — aunque ningún script depende de esa ruta directamente: Qdrant solo
+   se referencia por su URL de red).
+3. Arrancarlo desde la raíz del proyecto:
+   ```powershell
+   .\qdrantDB\qdrant.exe
+   ```
+   Por defecto persiste su estado en `./storage` relativo al directorio desde el que se lanza,
+   por eso se recomienda ejecutarlo siempre desde `qdrantDB/` o pasar `--storage-dir`.
+
+### Verificar que está levantado
+
+```bash
+curl http://localhost:6333/healthz
+```
+
+Debe responder `healthz check passed`. El dashboard web (si se usa Docker o el binario, ambos
+lo sirven igual) está disponible en `http://localhost:6333/dashboard`.
+
 ## Preparar el RAG
 
 Con Qdrant en marcha, indexar el corpus una vez:
@@ -88,7 +139,11 @@ Con Qdrant en marcha, indexar el corpus una vez:
 venv/Scripts/python rag_indexer.py
 ```
 
-Esto crea la colección `documents_satcom_uma` a partir de `Jabega_documents/jabega/`.
+Esto crea (o recrea desde cero, si ya existía) la colección `documents_satcom_uma` a partir de
+`Jabega_documents/jabega/` — ver `rag_indexer.py`, que borra la colección si existe antes de
+reindexar, así que es seguro volver a ejecutarlo. Al terminar debería reportar **9.352 puntos
+vectoriales** (1.031 de contenido estructurado, ver Sección 4.1.2 de la memoria); si el número
+difiere, revisa que `Jabega_documents/jabega/` esté completo.
 
 ## Ejecutar los experimentos
 
@@ -143,6 +198,7 @@ Todos leen directamente de los `data/`/`Resultados/` generados en el paso anteri
 - El test de significancia usado en toda la memoria (test *t* de Student pareado por pregunta) se recalcula directamente desde los CSV de evaluación del juez en `generar_heatmap_tamano_arquitectura.py` — no depende de ningún cálculo intermedio no versionado.
 - La comparativa completa de 9 condiciones (tamaño × arquitectura) se ejecutó únicamente sobre LangGraph; la comparativa entre frameworks se restringe a la condición 8B heterogénea en los tres (ver Sección 5.3 de la memoria y Líneas futuras).
 - `03_CrewAI_Debate/Resultados/2B/` y `02_Autogen_Debate/Resultados/2B/` contienen una campaña adicional (2B en ambos frameworks) generada pero no incluida en el análisis de la memoria — punto de partida para la línea futura de extender la comparativa de frameworks a más tamaños.
+- El binario de Qdrant, su dashboard y el estado de la base de datos vectorial no están versionados (ver "Configurar Qdrant"); todos los resultados de `data/`/`Resultados/` sí lo están, así que las figuras y tablas se pueden regenerar sin volver a levantar Qdrant ni a ejecutar los debates — solo hace falta Qdrant si se quiere repetir la generación desde cero.
 
 ## Autora
 
