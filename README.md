@@ -135,6 +135,15 @@ lo sirven igual) está disponible en `http://localhost:6333/dashboard`.
 
 Con Qdrant en marcha, indexar el corpus una vez:
 
+> **Nota sobre `Jabega_documents/`:** esta carpeta no se distribuye en el repositorio
+> público. Contiene el texto completo de 168 artículos científicos del dominio SATCOM
+> descargados a través del acceso institucional de la Biblioteca de la Universidad de
+> Málaga; al tratarse de material con derechos de autor de las editoriales originales, no
+> puede redistribuirse fuera del ámbito académico para el que se obtuvo. Para reproducir el
+> corpus, es necesario disponer de acceso propio a esos artículos (por ejemplo, a través de
+> la biblioteca de tu propia institución) y colocarlos en `Jabega_documents/jabega/` en
+> formato `.txt` antes de ejecutar `rag_indexer.py`.
+
 ```bash
 venv/Scripts/python rag_indexer.py
 ```
