@@ -103,8 +103,13 @@ def process_condition(framework, modelo, arquitectura, base_dir: Path,
     # AutoGen/CrewAI no exponen Load_S/Prompt_S/Gen_S reales (endpoint /v1,
     # ver ollama_client.py); esas columnas quedan a 0.0 y `stats()` ya las
     # filtra como si faltaran.
-    tps_col = "Avg_TPS" if "Avg_TPS" in m[0] else "TPS"
-    tps_m, tps_s = stats([r[tps_col] for r in m])
+    # Calculado directamente de Tokens_Out/Total_S en vez de confiar en la
+    # columna Avg_TPS/TPS ya guardada en el CSV crudo: para LangGraph esa
+    # columna es la media del tps por llamada (tokens/tiempo de generacion
+    # puro, sin carga ni prompt eval, ver ollama_client.py), lo que da
+    # valores no comparables con AutoGen/CrewAI (que ya usan Tokens_Out/Total_S).
+    tps_vals = [float(r["Tokens_Out"]) / float(r["Total_S"]) for r in m if float(r["Total_S"]) > 0]
+    tps_m, tps_s = (round(statistics.mean(tps_vals), 2), round(statistics.stdev(tps_vals), 2)) if len(tps_vals) > 1 else (0.0, 0.0)
     tot_m, tot_s = stats([r["Total_S"] for r in m])
     tout_m, tout_s = stats([r["Tokens_Out"] for r in m])
     tin_m, tin_s = stats([r["Tokens_In"] for r in m])
