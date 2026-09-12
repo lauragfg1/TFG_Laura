@@ -19,6 +19,13 @@ DATA_PATH = "./Jabega_documents/jabega"
 
 def rag_indexer():
     # 1. INICIALIZACIÓN
+    if not os.path.isdir(DATA_PATH) or not any(f.endswith('.txt') for f in os.listdir(DATA_PATH)):
+        raise FileNotFoundError(
+            f"No se encuentra el corpus en '{DATA_PATH}'. Esta carpeta no se distribuye "
+            "en el repositorio por derechos de autor editorial: ver la nota en README.md, "
+            "seccion 'Preparar el RAG', para saber como reproducirla."
+        )
+
     client = QdrantClient(url=QDRANT_URL)
     model = SentenceTransformer(EMBEDDING_MODEL)
 
